@@ -1,0 +1,634 @@
+---
+title: "Data visualization: quantitative data"
+author: "<br>SURE 2025<br><br>Department of Statistics & Data Science<br>Carnegie Mellon University"
+footer:  "[36-SURE.github.io/2025](https://36-sure.github.io/2025)"
+format:
+  revealjs:
+    theme: theme.scss
+    chalkboard: true
+    smaller: true
+    slide-number: c/t
+    code-line-numbers: false
+    linestretch: 1.25
+    html-math-method:
+      method: mathjax
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center"
+)
+```
+
+# Background
+
+## Quantitative data
+
+Two different versions of quantitative data:
+
+**Discrete**: countable and has clear space between values (i.e. whole number only)
+
+-   Examples: number of goals scored in a game, number of children in a family
+
+**Continuous**: can take any value within some interval
+
+-   Examples: price of houses in Pittsburgh, water temperature, wind speed
+
+## Data
+
+Taylor Swift songs via the [`taylor` package](https://taylor.wjakethompson.com/articles/taylor) (data dictionary [here](https://github.com/rfordatascience/tidytuesday/blob/master/data/2023/2023-10-17))
+
+```{r}
+library(tidyverse)
+theme_set(theme_light())
+library(taylor)
+names(taylor_all_songs)
+
+taylor_all_songs <- taylor_all_songs |> 
+  mutate(duration = duration_ms / 60000)
+```
+
+```{r}
+#| echo: false
+ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
+```
+
+# 1D quantitative data
+
+## Summarizing 1D quantitative data
+
+-   Center: mean, median, number and location of modes
+
+. . .
+
+-   Spread: range, variance, standard deviation, IQR, etc.
+
+. . .
+
+-   Shape: skew vs symmetry, outliers, heavy vs light tails, etc.
+
+. . .
+
+Compute various statistics in `R` with `summary()`, `mean()`, `median()`, `quantile()`, `range()`, `sd()`, `var()`, etc.
+
+. . .
+
+Example: Summarizing the duration of Taylor Swift songs
+
+```{r}
+summary(taylor_all_songs$duration)
+
+sd(taylor_all_songs$duration, na.rm = TRUE)
+```
+
+## Boxplots visualize summary statistics
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+Pros:
+
+-   Displays outliers, percentiles, spread, skew
+
+-   Useful for side-by-side comparison
+
+Cons:
+
+-   Does not display the full distribution shape
+
+-   Does not display modes
+
+[The expert weighed in...](https://twitter.com/CMUAnalytics/status/1111695744271114241)
+
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| fig-height: 4
+taylor_all_songs |> 
+  ggplot(aes(x = duration)) +
+  geom_boxplot() +
+  theme(axis.text.y = element_blank())
+```
+:::
+:::
+
+## Histograms display 1D continuous distributions
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+$\displaystyle \text{# total obs.} = \sum_{j=1}^k \text{# obs. in bin }j$
+
+Pros:
+
+-   Displays full shape of distribution
+
+-   Easy to interpret
+
+Cons:
+
+-   Have to choose number of bins and bin locations (will revisit later)
+
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| fig-height: 9
+taylor_all_songs |> 
+  ggplot(aes(x = duration)) +
+  geom_histogram()
+```
+
+:::
+:::
+
+## Display the data points directly with beeswarm plots
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+Pros:
+
+-   Displays each data point
+
+-   Easy to view full shape of distribution
+
+Cons:
+
+-   Can be overbearing with large datasets
+
+-   Which algorithm for arranging points?
+
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+library(ggbeeswarm)
+taylor_all_songs |> 
+  ggplot(aes(x = duration, y = "")) +
+  geom_beeswarm(cex = 2)
+```
+
+:::
+:::
+
+## Smooth summary with violin plots
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+Pros:
+
+-   Displays full shape of distribution
+
+-   Can easily layer...
+
+:::
+
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+taylor_all_songs |> 
+  ggplot(aes(x = duration, y = "")) +
+  geom_violin()
+```
+
+:::
+:::
+
+
+
+## Smooth summary with violin plots + box plots
+
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+Pros:
+
+-   Displays full shape of distribution
+
+-   Can easily layer... with box plots on top
+
+Cons:
+
+-   Summary of data via density estimate
+
+-   Mirror image is duplicate information
+
+
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+taylor_all_songs |> 
+  ggplot(aes(x = duration, y = "")) +
+  geom_violin() +
+  geom_boxplot(width = 0.4)
+```
+
+:::
+:::
+
+## What do visualizations of continuous distributions display?
+
+Probability that continuous variable $X$ takes a particular value is 0
+
+e.g. $P($ `duration` $= 3) = 0$ (why?)
+
+For continuous variables, the cumulative distribution function (CDF) is $$F(x) = P(X \leq x)$$
+
+For $n$ observations, the empirical CDF (ECDF) can be computed based on the observed data $$\hat{F}_n(x)  = \frac{\text{# obs. with variable} \leq x}{n} = \frac{1}{n} \sum_{i=1}^{n} I (x_i \leq x)$$
+
+where $I()$ is the indicator function, i.e. `ifelse(x_i <= x, 1, 0)`
+
+## Display full distribution with ECDF plot
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+
+
+Pros:
+
+-   Displays all of your data at once
+
+-   As $n \rightarrow \infty$, the ECDF $\hat F_n(x)$ converges to the true CDF $F(x)$
+
+Cons:
+
+-   What are the cons?
+
+
+:::
+
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| fig-height: 9
+taylor_all_songs |> 
+  ggplot(aes(x = duration)) +
+  stat_ecdf()
+```
+
+:::
+:::
+
+
+## Rug plots display raw data
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+Pros:
+
+-   Displays raw data points
+
+-   Useful supplement for summaries and 2D plots
+
+Cons:
+
+-   Can be overbearing for large datasets
+
+
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+
+```{r}
+#| fig-height: 9
+taylor_all_songs |> 
+  ggplot(aes(x = duration)) +
+  geom_rug(alpha = 0.5)
+```
+
+:::
+:::
+
+## Rug plots supplement other displays
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| fig-height: 9
+taylor_all_songs |> 
+  ggplot(aes(x = duration)) +
+  geom_histogram() +
+  geom_rug(alpha = 0.5)
+```
+
+:::
+
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| fig-height: 9
+taylor_all_songs |> 
+  ggplot(aes(x = duration)) +
+  stat_ecdf() +
+  geom_rug(alpha = 0.5)
+```
+
+:::
+:::
+
+
+# 2D quantitative data
+
+## Summarizing 2D quantitative data
+
+*   Direction/trend (positive, negative)
+
+*   Strength of the relationship (strong, moderate, weak)
+
+*   Linearity (linear, non-linear)
+
+. . .
+
+Big picture
+
+*   Scatterplots are by far the most common visual
+
+*   Regression analysis is by far the most popular analysis (we will have a class on this)
+
+*   Relationships may vary across other variables, e.g., categorical variables
+
+
+
+## Making scatterplots
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+-   Use `geom_point()`
+
+-   Displaying the joint (bivariate) distribution
+
+-   What is the obvious flaw with this plot?
+
+:::
+
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| fig-height: 9
+taylor_all_songs |> 
+  ggplot(aes(x = loudness, y = energy)) +
+  geom_point(color = "darkred", size = 4)
+```
+
+:::
+:::
+
+## Making scatterplots: always adjust the transparency (`alpha`)
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+-   Adjust the transparency of points via `alpha` to visualize overlap
+
+-   Provides better understanding of joint frequency
+
+-   Especially important with larger datasets
+
+-   See also: [`ggblend`](https://mjskay.github.io/ggblend/)
+
+:::
+
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| fig-height: 9
+taylor_all_songs |> 
+  ggplot(aes(x = loudness, y = energy)) +
+  geom_point(color = "darkred", size = 4, alpha = 0.5)
+```
+
+:::
+:::
+
+
+## Summarizing 2D quantitative data
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+-   Scatterplot
+
+```{r}
+#| fig-height: 9
+taylor_all_songs |> 
+  ggplot(aes(x = loudness, y = energy)) +
+  geom_point(color = "darkred", size = 4, alpha = 0.5)
+```
+
+:::
+
+
+::: {.column width="50%" style="text-align: left;"}
+
+-   Correlation coefficient
+
+```{r}
+cor(taylor_all_songs$loudness, 
+    taylor_all_songs$energy, 
+    use = "complete.obs")
+```
+
+Note: the default correlation you get from `cor()` is Pearson correlation coefficient
+
+Other correlations:
+
+*   [Spearman's correlation](https://en.wikipedia.org/wiki/Spearman's_rank_correlation_coefficient)
+
+*   [Kendall rank correlation coefficient](https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient)
+
+*   and more
+
+:::
+:::
+
+## When the correlation's high...
+
+{{< video https://youtu.be/D5hxMQNHyfc width="800" height="600" >}}
+
+## Displaying trend line: linear regression (a preview)
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+-   Display regression line for `energy ~ loudness`
+
+-   95% confidence intervals by default
+
+-   Estimating the conditional expectation of `energy` | `loudness`
+
+    -   i.e., $\mathbb{E}[$ `energy` $\mid$ `loudness` $]$
+
+:::
+
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| fig-height: 9
+taylor_all_songs |> 
+  ggplot(aes(x = loudness, y = energy)) +
+  geom_point(color = "darkred", size = 4, alpha = 0.5) +
+  geom_smooth(method = "lm", linewidth = 2)
+```
+
+:::
+:::
+
+
+## Summarizing 2D quantitative data
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+Add rug plots to supplement scatterplot
+
+```{r}
+#| eval: false
+taylor_all_songs |> 
+  ggplot(aes(x = loudness, y = energy)) +
+  geom_point(color = "darkred", size = 4, alpha = 0.5) +
+  geom_rug(alpha = 0.4)
+```
+
+:::
+
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| echo: false
+#| fig-height: 9
+taylor_all_songs |> 
+  ggplot(aes(x = loudness, y = energy)) +
+  geom_point(color = "darkred", size = 4, alpha = 0.5) +
+  geom_rug(alpha = 0.4)
+```
+
+:::
+:::
+
+
+
+
+## Pairs plot
+
+```{r}
+#| fig-height: 7.5
+library(GGally)
+taylor_all_songs |> 
+  select(danceability, energy, loudness, tempo) |> 
+  ggpairs()
+```
+
+# Continuous by categorical data
+
+## Continuous by categorical: side by side plots
+
+```{r}
+#| fig-height: 8
+taylor_all_songs |> 
+  filter(album_name %in% c("Lover", "folklore", "evermore", "Midnights")) |>
+  ggplot(aes(x = duration, y = album_name)) +
+  geom_violin() +
+  geom_boxplot(width = 0.4)
+```
+
+## Continuous by categorical: color
+
+```{r}
+#| fig-height: 8
+taylor_all_songs |> 
+  filter(album_name %in% c("Lover", "folklore", "evermore", "Midnights")) |>
+  ggplot(aes(x = duration, color = album_name)) +
+  stat_ecdf(linewidth = 1) +
+  scale_color_albums() + # from the taylor package 
+  theme(legend.position = "bottom")
+```
+
+## Continuous by categorical: ridgeline plot (joyplot)
+
+For more, see [this tutorial](https://cran.r-project.org/web/packages/ggridges/vignettes/introduction.html)
+
+```{r}
+#| fig-height: 8
+library(ggridges)
+taylor_all_songs |> 
+  filter(album_name %in% c("Lover", "folklore", "evermore", "Midnights")) |>
+  ggplot(aes(x = duration, y = album_name)) +
+  geom_density_ridges(scale = 1)
+```
+
+## What about for histograms?
+
+```{r}
+#| fig-height: 8
+taylor_all_songs |> 
+  filter(album_name %in% c("Lover", "folklore", "evermore", "Midnights")) |>
+  ggplot(aes(x = duration, fill = album_name)) +
+  geom_histogram(alpha = 0.6, bins = 15) +
+  scale_fill_albums()
+```
+
+## What about facets?
+
+[Difference between `facet_wrap` and `facet_grid`](https://ggplot2-book.org/facet)
+
+```{r}
+#| fig-height: 5
+#| fig-width: 15
+taylor_all_songs |> 
+  filter(album_name %in% c("Lover", "folklore", "evermore", "Midnights")) |>
+  ggplot(aes(x = duration)) +
+  geom_histogram(bins = 15) +
+  facet_wrap(~ album_name, nrow = 1)
+```
+
+## What about facets?
+
+```{r}
+#| fig-height: 8
+#| fig-width: 7
+taylor_all_songs |> 
+  filter(album_name %in% c("Lover", "folklore", "evermore", "Midnights")) |>
+  ggplot(aes(x = duration)) +
+  geom_histogram(bins = 15) +
+  facet_grid(album_name ~ ., margins = TRUE)
+```
+
+<!-- ::: columns -->
+
+<!-- ::: {.column width="50%" style="text-align: left;"} -->
+
+<!-- c1 -->
+
+<!-- ::: -->
+
+<!-- ::: {.column width="50%" style="text-align: left;"} -->
+
+<!-- c2 -->
+
+<!-- ::: -->
+
+<!-- ::: -->

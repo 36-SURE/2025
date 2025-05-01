@@ -1,0 +1,24 @@
+project:
+  type: website
+
+website:
+  title: "SURE 2025"
+  navbar:
+    background: "#C41230"
+    left:
+      - href: index.qmd
+        text: Home
+      - lectures.qmd
+      - health.qmd
+      - sports.qmd
+    right:
+      - r-setup.qmd
+      - git-setup.qmd
+      
+format:
+  html:
+    theme: united
+    css: styles.css
+    
+execute:
+  freeze: auto

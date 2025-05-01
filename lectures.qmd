@@ -1,0 +1,11 @@
+---
+title: "Lectures"
+---
+
+## Contents
+
+|            | Date    | Title                                                     | Materials                                |
+|------------|---------|-----------------------------------------------------------|------------------------------------------|
+| Lecture 0  | June 3  | Welcome to SURE 2024                                      |                                          |
+| Lecture 1  | June 4  | Exploring data: into the `tidyverse`                      | [slides](lectures/01-explore.qmd)        |
+| Lecture 2  | June 5  | Data visualization: the grammar of graphics and `ggplot2` | [slides](lectures/02-graphics.qmd)       |
