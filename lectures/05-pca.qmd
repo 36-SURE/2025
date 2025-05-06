@@ -1,0 +1,644 @@
+---
+title: "Unsupervised learning: principal component analysis"
+author: "<br>SURE 2025<br><br>Department of Statistics & Data Science<br>Carnegie Mellon University"
+footer:  "[36-SURE.github.io/2025](https://36-sure.github.io/2025)"
+format:
+  revealjs:
+    theme: theme.scss
+    chalkboard: true
+    smaller: true
+    slide-number: c/t
+    code-line-numbers: false
+    linestretch: 1.25
+    html-math-method:
+      method: mathjax
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  fig.height = 9
+)
+library(tidyverse)
+ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
+```
+
+
+# Background
+
+## Unsupervised learning
+
+* No response variable (i.e., data are not labeled)
+
+. . .
+
+* Only given a set of features measured on a set of observations
+
+. . .
+
+* Unsupervised learning is more subjective than supervised learning (difficult to tell how "good" you are doing)
+
+. . .
+
+* There is no simple goal for the analysis, such as prediction of a response in supervised learning
+
+. . .
+
+* Unsupervised learning can be useful as a pre-processing step for supervised learning
+
+. . .
+
+Think of unsupervised learning as **an extension of EDA---there’s no unique right answer!**
+
+## Fundamental problems in unsupervised learning
+
+1. **Dimension reduction:** reduce the original dimension of the data to something smaller so we can explore/visualize the data
+
+  * Methods: **PCA (this lecture)**, ICA, t-SNE, UMAP,...
+
+2. **Clustering**: group the observations in the data into different clusters
+
+  * Methods: hard clustering ($k$-means, hierachical clustering,...), soft clustering (mixture model)
+
+## Dimension reduction: the big picture
+
+**Key question: How do we visualize the structure of high-dimensional data?**
+
+. . .
+
+Example: What if you're given a dataset with 50 variables and are asked to make one visualization that best represents the data? What do you do?
+
+. . .
+
+Tedious task: Make a series of all $\displaystyle \binom{50}{2} = 1225$ pairs of plots? Or make a giant correlation heatmap?
+
+. . .
+
+**Intuition: Take high-dimensional data and represent it in 2-3 dimensions, then visualize those dimensions**
+
+## Motivating example: Starbucks drinks
+
+```{r}
+library(tidyverse)
+theme_set(theme_light())
+starbucks <- read_csv(
+  "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-12-21/starbucks.csv"
+) |>
+  # convert columns to numeric that were saved as character
+  mutate(trans_fat_g = as.numeric(trans_fat_g), fiber_g = as.numeric(fiber_g))
+glimpse(starbucks)
+```
+
+```{r}
+#| echo: false
+ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
+```
+
+
+
+## Dimension reduction: the big picture
+
+*   It's usually really hard to visualize many dimensions at the same time
+
+. . .
+
+*   Often, it makes a lot of sense to choose 2-3 of the "most important dimensions" and just plot those
+
+. . .
+
+*   PCA is a very common way to define "most important dimensions"
+
+. . .
+
+*   PCA provides the linear combinations of variables that capture the most variation in the data
+
+. . .
+
+*   It's common to plot the first two principal components in a scatterplot
+
+. . .
+
+*   It's very useful to plot principal components with a biplot
+
+    *   Adds interpretability to the principal components, and helps reveal relationships among the variables
+
+## What is the goal of dimension reduction?
+
+We have $p$ variables (columns) for $n$ observations (rows) __BUT__ which variables are __interesting__?
+
+. . .
+
+Can we find a smaller number of dimensions that captures the __interesting__ structure in the data?
+
+  - Could examine all pairwise scatterplots of each variable - tedious, manual process
+
+  - Clustering of variables based on correlation
+
+  - Can we find a combination of the original $p$ variables?
+
+. . .
+
+__Dimension reduction__: 
+
+- Focus on reducing the dimensionality of the feature space (i.e., number of columns) 
+
+- __Retain__ most of the information / __variability__ in a lower dimensional space (i.e., reducing the number of columns)
+
+- The process: (big) $n \times p$ matrix $\longrightarrow$ dimension reduction method $\longrightarrow$ (smaller) $n \times k$ matrix
+
+
+## [Principal components analysis (PCA)](https://en.wikipedia.org/wiki/Principal_component_analysis)
+
+**TL;DR** 
+
+PCA replaces the original $p$ explanatory variables by fewer linear combinations of them (the “principal components”) that are uncorrelated while also accounting for most of their variabillity
+
+. . .
+
+
+$$
+\begin{pmatrix}
+& & \text{really} & & \\
+& & \text{wide} & & \\
+& & \text{matrix} & &
+\end{pmatrix}
+\rightarrow \text{matrix algebra razzmatazz} \rightarrow 
+\begin{pmatrix}
+\text{much}  \\
+\text{thinner}  \\
+\text{matrix} 
+\end{pmatrix}
+$$
+
+- PCA explores the __covariance__ between variables, and combines variables into a smaller set of __uncorrelated__ variables called __principal components (PCs)__
+
+  - Turn a $n \times p$ matrix of __correlated__ variables into a $n \times k$ matrix of __uncorrelated__ variables
+
+## [Principal components analysis (PCA)](https://en.wikipedia.org/wiki/Principal_component_analysis)
+
+
+$$
+\begin{pmatrix}
+& & \text{really} & & \\
+& & \text{wide} & & \\
+& & \text{matrix} & &
+\end{pmatrix}
+\rightarrow \text{matrix algebra razzmatazz} \rightarrow 
+\begin{pmatrix}
+\text{much}  \\
+\text{thinner}  \\
+\text{matrix} 
+\end{pmatrix}
+$$
+
+- Each of the $k$ columns in the right-hand matrix are __principal components__ (PCs), all uncorrelated with each other
+
+  - PCs are __weighted__, linear combinations of the original variables
+
+  - Weights reveal how different variables are ___loaded___ into the PCs
+
+- First column accounts for most variation in the data, second column for second-most variation, and so on
+
+Intuition: we want a __small number of PCs__ (first few PCs) to account for most of the information/variance in the data
+
+## What are principal components?
+
+Assume $\boldsymbol{X}$ is a $n \times p$ matrix that is __centered__ and __stardardized__
+
+. . .
+
+_Total variation_ $= p$, since $\text{Var}(\boldsymbol{x}_j)$ = 1 for all $j = 1, \dots, p$ (due to stardardization)
+
+. . .
+
+PCA will give us $p$ principal components that are $n$-length columns, denoted by $Z_1, \dots, Z_p$
+
+. . .
+
+*   The first principal component is the linear combination that has the largest possible variance
+
+*   Each succeeding component has the largest possible variance under the constraint that it is uncorrelated with the preceding components
+
+*   A small number of principal components often explains a high percentage of the original variability
+
+## First principal component
+
+$$Z_1 = \phi_{11} X_1 + \phi_{21} X_2 + \dots + \phi_{p1} X_p$$
+
+. . .
+
+  - $\phi_{j1}$ are the weights indicating the contributions of each variable $j \in 1, \dots, p$
+  
+  - Weights are normalized $\displaystyle \sum_{j=1}^p \phi_{j1}^2 = 1$
+  
+  - $\phi_{1} = (\phi_{11}, \phi_{21}, \dots, \phi_{p1})$ is the __loading vector__ for $\text{PC}_1$
+
+. . .
+  
+  - $Z_1$ is a linear combination of the $p$ variables that has the __largest variance__
+
+
+## Second principal component
+
+$$Z_2 = \phi_{12} X_1 + \phi_{22} X_2 + \dots + \phi_{p2} X_p$$
+
+  - $\phi_{j2}$ are the weights indicating the contributions of each variable $j \in 1, \dots, p$
+  
+  - Weights are normalized $\displaystyle \sum_{j=1}^p \phi_{j1}^2 = 1$
+  
+  - $\phi_{2} = (\phi_{12}, \phi_{22}, \dots, \phi_{p2})$ is the __loading vector__ for $\text{PC}_2$
+  
+  - $Z_2$ is a linear combination of the $p$ variables that has the __largest variance__
+  
+    - __Subject to constraint it is uncorrelated with $Z_1$__ 
+    
+. . .
+
+Repeat this process to create $p$ principal components
+
+- __Uncorrelated__: Each ($Z_j, Z_{j'}$) is uncorrelated with each other
+
+- __Ordered Variance__: $\text{Var}(Z_1) > \text{Var}(Z_2) > \dots > \text{Var}(Z_p)$
+
+- __Total Variance__: $\displaystyle \sum_{j=1}^p \text{Var}(Z_j) = p$
+
+
+
+## [Visualizing PCA](https://www.stevejburr.com/post/scatter-plots-and-best-fit-lines/) in two dimensions
+
+```{r, echo = FALSE, fig.align='center', fig.height=7}
+set.seed(123) 
+plot_data <- tibble(x = rnorm(50, mean = 100, sd = 20)) |>
+  mutate(y =  0.8 * x + rnorm(50, mean = 0, sd = 10))
+basic_scatter <- ggplot(plot_data) +
+  geom_point(aes(x, y), color = "black")+
+  coord_equal()
+basic_scatter
+```
+
+
+
+## [Visualizing PCA](https://www.stevejburr.com/post/scatter-plots-and-best-fit-lines/) in two dimensions
+
+```{r, echo = FALSE, fig.align='center', fig.height=7}
+#fit the model
+line1 <- lm(y ~ x, plot_data)$coef
+#extract the slope from the fitted model
+line1.slope <- line1[2]
+#extract the intercept from the fitted model
+line1.intercept <- line1[1]
+basic_scatter_yfit <- basic_scatter +
+  geom_abline(aes(slope = line1.slope, intercept = line1.intercept),
+              colour = "darkred") +
+  annotate("text", x = 75, y = 120, label = "y ~ x", color = "darkred",
+           size = 9)
+basic_scatter_yfit
+```
+
+
+
+## [Visualizing PCA](https://www.stevejburr.com/post/scatter-plots-and-best-fit-lines/) in two dimensions
+
+```{r, echo = FALSE, fig.align='center', fig.height=7}
+#fit the model
+line2 <- lm(x ~ y, plot_data)$coef
+#extract the slope from the fitted model
+line2.slope <- 1 / line2[2]
+#extract the intercept from the fitted model
+line2.intercept <- -(line2[1] / line2[2])
+basic_scatter_xyfit <- basic_scatter_yfit +
+  geom_abline(aes(slope = line2.slope, intercept = line2.intercept),
+              colour = "blue") +
+  annotate("text", x = 125, y = 55, label = "x ~ y", color = "blue",
+           size = 9)
+basic_scatter_xyfit
+```
+
+
+
+## [Visualizing PCA](https://www.stevejburr.com/post/scatter-plots-and-best-fit-lines/) in two dimensions
+
+```{r, echo = FALSE, fig.align='center', fig.height=7}
+pca <- prcomp(cbind(plot_data$x, plot_data$y))$rotation
+pca.slope <- pca[2,1] / pca[1,1]
+pca.intercept <- mean(plot_data$y) - (pca.slope * mean(plot_data$x))
+
+basic_scatter_xy_pca_fit <- basic_scatter_xyfit +
+  geom_abline(aes(slope = pca.slope, intercept = pca.intercept),
+              colour = "darkorange") +
+  annotate("text", x = 75, y = 90, label = "PCA", color = "darkorange",
+           size = 9)
+basic_scatter_xy_pca_fit
+```
+
+## [Visualizing PCA](https://www.stevejburr.com/post/scatter-plots-and-best-fit-lines/) in two dimensions
+
+Key idea: provide low-dimensional linear surfaces that are closest to the observations
+
+```{r fig.width=14, fig.height=5, echo = FALSE, fig.align='center'}
+plot_data |>
+  #calculate the positions using the line equations:
+  mutate(yhat_line1=(x*line1.slope+line1.intercept),
+         xhat_line1=x,
+         yhat_line2=y,
+         xhat_line2=(y-line2.intercept)/line2.slope,
+         #https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
+         a=pca.slope,
+         b=-1,
+         c=pca.intercept,
+         xhat_line3=(b*(b*x-a*y)-(a*c))/((a*a)+(b*b)),
+         yhat_line3=(a*(-b*x+a*y)-(b*c))/((a*a)+(b*b)),
+         #add the slopes/intercepts to this data frame:
+         slope_line1=line1.slope,
+         slope_line2=line2.slope,
+         slope_line3=pca.slope,
+         intercept_line1=line1.intercept,
+         intercept_line2=line2.intercept,
+         intercept_line3=pca.intercept
+         )|> 
+  #drop intermediate variables
+  select(-c(a,b,c)) |>
+  pivot_longer(yhat_line1:intercept_line3, names_to = "key", values_to = "value") |>
+  #transpose to a long form
+  #gather(key="key",value="value",-c(x,y)) |> 
+  # have "yhat_line1", want two colums of "yhat" "line1"
+  separate(key,c("type", "line"), "_") |> 
+  #then transpose to be fatter, so we have cols for xhat, yhat etc
+  pivot_wider(names_from = "type", values_from = "value") |>
+  #spread(key="type",value="value") |>
+  #relable the lines with more description names, and order the factor for plotting:
+  mutate(line=case_when(
+           line=="line1" ~ "y ~ x",
+           line=="line2" ~ "x ~ y",
+           TRUE ~ "PCA"
+         ),
+         line = fct_relevel(line, "y ~ x", "x ~ y", "PCA")) |> 
+  ggplot() +
+  geom_point(aes(x = x, y = y, color = line)) +
+  geom_abline(aes(slope = slope, intercept = intercept, color = line)) +
+  geom_segment(aes(x = x, y = y, xend = xhat, yend = yhat, color = line)) +
+  facet_wrap(~ line, ncol = 3) +
+  scale_color_manual(values = c("darkred", "blue", "darkorange")) +
+  theme_bw() +
+  theme(strip.background = element_blank(),
+        legend.position = "none",
+        strip.text = element_text(size = 16))
+```
+
+. . .
+
+* The above is the **minimizing projection residuals** viewpoint of PCA
+
+. . .
+
+* There's another viewpoint: **maximizing variance**
+
+  *   if we project all points onto the solid orange line, we maximize the variance of the resulting projected points across all such orange lines
+
+# Examples
+
+## Data: nutritional information of Starbucks drinks
+
+```{r}
+library(tidyverse)
+theme_set(theme_light())
+starbucks <- read_csv(
+  "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-12-21/starbucks.csv"
+) |>
+  # convert columns to numeric that were saved as character
+  mutate(trans_fat_g = as.numeric(trans_fat_g), fiber_g = as.numeric(fiber_g))
+glimpse(starbucks)
+```
+
+```{r}
+#| echo: false
+ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
+```
+
+
+## Implementing PCA
+
+Use the `prcomp()` function (based on SVD) for PCA on centered and scaled data
+
+```{r}
+feat <- starbucks |> 
+  select(serv_size_m_l:caffeine_mg)
+starbucks_pca <- prcomp(feat, center = TRUE, scale. = TRUE)
+summary(starbucks_pca)
+```
+
+
+## Computing principal components
+
+Extract the matrix of principal components (dimension will match original data)
+
+```{r}
+starbucks_pc_matrix <- starbucks_pca$x
+head(starbucks_pc_matrix)
+```
+
+Columns are uncorrelated, such that $\text{Var}(Z_1) > \text{Var}(Z_2) > \dots > \text{Var}(Z_p)$ 
+
+## Visualizing first two principal components
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+```{r pca-plot, eval = FALSE}
+starbucks <- starbucks |> 
+  mutate(pc1 = starbucks_pc_matrix[,1], 
+         pc2 = starbucks_pc_matrix[,2])
+starbucks |> 
+  ggplot(aes(x = pc1, y = pc2)) +
+  geom_point(alpha = 0.5) +
+  labs(x = "PC 1", y = "PC 2")
+```
+
+- Principal components are not interpretable
+
+- Make a __biplot__ with arrows showing the linear relationship between one variable and other variables
+
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r ref.label="pca-plot", echo = FALSE, fig.height=9}
+```
+
+:::
+:::
+
+
+## Making PCs interpretable with biplots
+
+Biplot displays both the space of observations and the space of variables
+
+Check out the [`factoextra`](http://www.sthda.com/english/wiki/factoextra-r-package-easy-multivariate-data-analyses-and-elegant-visualization) package
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+```{r pca-biplot, eval = FALSE}
+library(factoextra)
+# fviz_pca_var(): projection of variables
+# fviz_pca_ind(): display observations with first two PCs
+starbucks_pca |> 
+  fviz_pca_biplot(label = "var",
+                  alpha.ind = 0.25,
+                  alpha.var = 0.75,
+                  col.var = "darkblue",
+                  repel = TRUE)
+```
+
+- Arrow direction: "as the variable increases..."
+
+- Arrow angles: correlation
+
+  - $90^{\circ}$: uncorrelated
+  - $< 90^{\circ}$: positively correlated
+  - $> 90^{\circ}$: negatively correlated
+  
+- Arrow length: strength of relationship with PCs
+
+:::
+
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r ref.label = "pca-biplot", echo = FALSE, fig.height=10}
+
+```
+
+:::
+:::
+
+
+## How many principal components to use?
+
+Intuition: Additional principal components will add smaller and smaller variance
+
+- Keep adding components until the added variance _drops off_
+
+```{r}
+summary(starbucks_pca)
+```
+
+## Create a scree plot (or elbow plot)
+
+```{r scree-plot, eval = TRUE, fig.align='center', out.width="80%"}
+starbucks_pca |> 
+  fviz_eig(addlabels = TRUE) +
+  geom_hline(yintercept = 100 * (1 / ncol(starbucks_pca$x)), linetype = "dashed", color = "darkred")
+```
+
+- _Rule of thumb_: horizontal line at $1/p$
+
+## PCA output
+
+```{r}
+# str(starbucks_pca)
+```
+
+Examine the output after running `prcomp()`
+
+* `starbucks_pca$sdev`: singular values ($\sqrt{\lambda_j}$)
+* `starbucks_pca$rotation`: loading matrix ($V$)
+*  `starbucks_pca$x`: principal component scores matrix ($Z=XV$)
+
+Can use the `broom` package for tidying `prcomp()`
+
+```{r, eval=FALSE}
+tidy(starbucks_pca, matrix = "eigenvalues") # equivalent to starbucks_pca$sdev
+tidy(starbucks_pca, matrix = "rotation") # equivalent to starbucks_pca$rotation
+tidy(starbucks_pca, matrix = "scores") # equivalent to starbucks_pca$x
+```
+
+## Proportion of variance explained
+
+```{r}
+library(broom)
+starbucks_pca |>
+  tidy(matrix = "eigenvalues") |>
+  ggplot(aes(x = PC, y = percent)) +
+  geom_line() + 
+  geom_point() +
+  geom_hline(yintercept = 1 / ncol(feat), color = "darkred", linetype = "dashed") +
+  scale_x_continuous(breaks = 1:ncol(starbucks_pca$x))
+```
+
+## Cumulative proportion of variance explained
+
+```{r}
+library(broom)
+starbucks_pca |>
+  tidy(matrix = "eigenvalues") |>
+  ggplot(aes(x = PC, y = cumulative)) +
+  geom_line() + 
+  geom_point() +
+  scale_x_continuous(breaks = 1:ncol(starbucks_pca$x))
+```
+
+
+## Remember the spelling...
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">folks. it&#39;s _principal_ (not principle) components analysis.</p>&mdash; Stephanie Hicks, PhD (@stephaniehicks) <a href="https://twitter.com/stephaniehicks/status/1626428875323367424?ref_src=twsrc%5Etfw">February 17, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+# Appendix
+
+## [__Singular value decomposition (SVD)__](https://en.wikipedia.org/wiki/Singular_value_decomposition)
+
+$$
+X = U D V^T
+$$
+
+- $U$ and $V$: matrices containing the left and right __singular vectors of scaled matrix $X$__
+
+- $D$: diagonal matrix of the __singular values__
+
+. . .
+
+- SVD simplifies matrix-vector multiplication as __rotate, scale, and rotate again__
+
+. . .
+
+$V$: __loading matrix__ for $X$ with $\phi_{j}$ as columns
+
+  - $Z = X  V$: PC matrix
+
+. . .
+
+Bonus: __Eigenvalue decomposition__ (or spectral decomposition)
+
+- $V$: __eigenvectors__ of $X^TX$ (covariance matrix, $^T$: _transpose_)
+
+- $U$: __eigenvectors__ of $XX^T$
+
+- The singular values (diagonal of $D$) are square roots of the __eigenvalues__ of $X^TX$ or $XX^T$
+
+- Meaning that $Z = UD$
+
+
+
+## Eigenvalues guide dimension reduction
+
+We want to choose $p^* < p$ such that we are explaining variation in the data
+
+. . .
+
+Eigenvalues $\lambda_j$ for $j \in 1, \dots, p$ indicate __the variance explained by each component__
+
+  - $\displaystyle \sum_j^p \lambda_j = p$, meaning $\lambda_j \geq 1$ indicates $\text{PC}j$ contains at least one variable's worth in variability
+  
+  - $\displaystyle \frac{\lambda_j}{p}$: proportion of variance explained by $\text{PC}j$
+  
+  - Arranged in descending order so that $\lambda_1$ is largest eigenvalue and corresponds to PC1
+  
+. . .
+  
+  - Compute the cumulative proportion of variance explained (CVE) with $p^*$ components $$\text{CVE}_{p^*} = \sum_j^{p*} \frac{\lambda_j}{p}$$
+Use [__scree plot__](https://en.wikipedia.org/wiki/Scree_plot) to plot eigenvalues and guide choice for $p^* <p$ by looking for "elbow" (rapid to slow change)

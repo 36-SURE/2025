@@ -1,0 +1,995 @@
+---
+title: "Unsupervised learning: $k$-means clustering"
+author: "<br>SURE 2025<br><br>Department of Statistics & Data Science<br>Carnegie Mellon University"
+footer:  "[36-SURE.github.io/2025](https://36-sure.github.io/2025)"
+format:
+  revealjs:
+    theme: theme.scss
+    chalkboard: true
+    smaller: true
+    slide-number: c/t
+    code-line-numbers: false
+    linestretch: 1.25
+    html-math-method:
+      method: mathjax
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center"
+)
+set.seed(100)
+```
+
+# Background
+
+## Recap: Unsupervised learning
+
+* In unsupervised learning, we are only given a (big) data matrix that are not labeled
+
+* Dimension reduction: Can we meaningfully reduce the dimension of the data either so we can visualize it, and potentially do better supervised learning with it?
+
+* PCA answers this questions by finding “interesting directions” and projecting the data on to those directions
+
+* Besides dimension reduction, clustering is another fundamental problem in unsupervised learning
+
+## Clustering (cluster analysis)
+
+. . .
+
+>  Clustering refers to a very broad set of techniques for finding subgroups, or clusters, in a data set --- ISLR
+
+. . .
+
+**Goals**: partition of the observations into distinct clusters so that
+
+-   observations **within** clusters are **more similar** to each other
+
+-   observations **in different** clusters are **more different** from each other
+
+. . .
+
+* This often involves domain-specific considerations based on knowledge of the data being studied
+
+
+## Distance between observations
+
+* What does it means for two or more observations to be similar or different?
+
+. . .
+
+* This require characterizing the __distance__ between observations
+
+  *   Clusters: groups of observations that are "close" together
+
+. . .
+
+*   This is easy to do for 2 quantitative variables: just make a scatterplot
+
+. . .
+
+**But how do we define "distance" beyond 2D data?**
+
+. . .
+
+Let $\boldsymbol{x}_i = (x_{i1}, \dots, x_{ip})$ be a vector of $p$ features for observation $i$
+
+Question of interest: How "far away" is $\boldsymbol{x}_i$ from $\boldsymbol{x}_j$?
+
+. . .
+
+When looking at a scatterplot, we're using __Euclidean distance__ $$d(\boldsymbol{x}_i, \boldsymbol{x}_j) = \sqrt{(x_{i1} - x_{j1})^2 + \dots + (x_{ip} - x_{jp})^2}$$
+
+---
+
+## Distances in general
+
+* There's a variety of different types of distance metrics: [Manhattan](https://en.wikipedia.org/wiki/Taxicab_geometry), [Mahalanobis](https://en.wikipedia.org/wiki/Mahalanobis_distance), [Cosine](https://en.wikipedia.org/wiki/Cosine_similarity), [Kullback-Leibler](https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence), [Hellinger](https://en.wikipedia.org/wiki/Hellinger_distance),
+[Wasserstein](https://en.wikipedia.org/wiki/Wasserstein_metric)
+
+* We're just going to focus on [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)
+
+. . .
+
+* Let $d(\boldsymbol{x}_i, \boldsymbol{x}_j)$ denote the pairwise distance between two observations $i$ and $j$
+
+1. __Identity__: $\boldsymbol{x}_i = \boldsymbol{x}_j \Leftrightarrow d(\boldsymbol{x}_i, \boldsymbol{x}_j) = 0$
+
+2. __Non-negativity__: $d(\boldsymbol{x}_i, \boldsymbol{x}_j) \geq 0$
+
+3. __Symmetry__: $d(\boldsymbol{x}_i, \boldsymbol{x}_j) = d(\boldsymbol{x}_j, \boldsymbol{x}_i)$
+
+4. __Triangle inequality__: $d(\boldsymbol{x}_i, \boldsymbol{x}_j) \leq d(\boldsymbol{x}_i, \boldsymbol{x}_k) + d(\boldsymbol{x}_k, \boldsymbol{x}_j)$
+
+. . .
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+__Distance Matrix__: matrix $D$ of all pairwise distances
+
+- $D_{ij} = d(\boldsymbol{x}_i, \boldsymbol{x}_j)$
+
+- where $D_{ii} = 0$ and $D_{ij} = D_{ji}$
+
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+$$D = \begin{pmatrix}
+                0 & D_{12} & \cdots & D_{1n} \\
+                D_{21} & 0 & \cdots & D_{2n} \\
+                \vdots & \vdots & \ddots & \vdots \\
+                D_{n1} & \cdots & \cdots & 0
+            \end{pmatrix}$$
+
+:::
+:::
+
+---
+
+## Units matter in clustering
+
+-   Variables are typically measured in different units
+
+-   One variable may *dominate* others when computing Euclidean distance because its range is much larger
+
+-   Scaling of the variables matters!
+
+-   Standardize each variable in the dataset to have mean 0 and standard deviation 1 with `scale()`
+
+<!-- ??? -->
+
+<!-- It is the partitioning of data into homogeneous subgroups -->
+
+<!-- Goal define clusters for which the within-cluster variation is relatively small, i.e. observations within clusters are similar to each other -->
+
+# $k$-means clustering
+
+## $k$-means clustering
+
+-   Goal: partition the observations into a pre-specified number of clusters
+
+. . .
+
+-   Let $C_1, \dots, C_K$ denote sets containing indices of observations in each of the $k$ clusters
+
+    -   if observation $i$ is in cluster $k$, then $i \in C_k$
+
+. . .
+
+-   We want to minimize the **within-cluster variation** $W(C_k)$ for each cluster $C_k$ (i.e. the amount by which the observations within a cluster differ from each other)
+
+-   This is equivalent to solving $$\underset{C_1, \dots, C_K}{\text{minimize }} \Big\{ \sum_{k=1}^K W(C_k) \Big\}$$
+
+-   In other words, we want to partition the observations into $K$ clusters such that the total within-cluster variation, summed over all K clusters, is as small as possible
+
+## $k$-means clustering
+
+How do we define within-cluster variation?
+
+-   Use the **(squared) Euclidean distance** $$W(C_k) = \frac{1}{|C_k|}\sum_{i,j \in C_k} d(x_i, x_j)^2 \,,$$ where $|C_k|$ denote the number of observations in cluster $k$
+
+-   Commonly referred to as the within-cluster sum of squares (WSS)
+
+. . .
+
+**So how do we solve this?**
+
+## [Lloyd's algorithm](https://en.wikipedia.org/wiki/K-means_clustering)
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+1)  Choose $k$ random centers, aka **centroids**
+
+2)  Assign each observation closest center (using Euclidean distance)
+
+3)  Repeat until cluster assignment stop changing:
+
+-   Compute new centroids as the averages of the updated groups
+
+-   Reassign each observations to closest center
+
+**Converges to a local optimum**, not the global
+
+**Results will change from run to run** (set the seed!)
+
+**Takes** $k$ as an input!
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| out-width: "80%"
+#| echo: false
+knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/e/ea/K-means_convergence.gif")
+```
+:::
+:::
+
+## Gapminder data
+
+Health and income outcomes for 184 countries from 1960 to 2016 from the famous [Gapminder project](https://www.gapminder.org/data)
+
+```{r}
+library(tidyverse)
+theme_set(theme_light())
+library(dslabs)
+glimpse(gapminder)
+```
+
+```{r}
+#| echo: false
+ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
+```
+
+## GDP is severely skewed right...
+
+```{r}
+#| fig-height: 9
+gapminder |> 
+  ggplot(aes(x = gdp)) + 
+  geom_histogram() 
+```
+
+## Some initial cleaning...
+
+-   Each row is at the `country`-`year` level
+
+-   Focus on data for 2011 where `gdp` is not missing
+
+-   Log-transform `gdp`
+
+```{r}
+clean_gapminder <- gapminder |>
+  filter(year == 2011, !is.na(gdp)) |>
+  mutate(log_gdp = log(gdp))
+```
+
+## $k$-means clustering example 
+
+**Note: only 2 features are used in this example (`gdp` and `life_expectancy`),<br>but in practice, you can (should) include more than two features**
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+-   Use the `kmeans()` function, **but must provide number of clusters** $k$
+
+```{r}
+#| label: first-kmeans
+#| eval: false
+init_kmeans <- clean_gapminder |> 
+  select(log_gdp, life_expectancy) |> 
+  kmeans(algorithm = "Lloyd", centers = 4, nstart = 1)
+
+clean_gapminder |>
+  mutate(
+    country_clusters = as.factor(init_kmeans$cluster)
+  ) |>
+  ggplot(aes(x = log_gdp, y = life_expectancy,
+             color = country_clusters)) +
+  geom_point(size = 4) + 
+  ggthemes::scale_color_colorblind() +
+  theme(legend.position = "bottom") 
+```
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| ref-label: first-kmeans
+#| echo: false
+#| fig-height: 9
+```
+:::
+:::
+
+## Careful with units...
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+-   Use `coord_fixed()` so that the axes match with unit scales
+
+```{r}
+#| label: coord-fixed
+#| eval: false
+clean_gapminder |>
+  mutate(
+    country_clusters = as.factor(init_kmeans$cluster)
+  ) |>
+  ggplot(aes(x = log_gdp, y = life_expectancy,
+             color = country_clusters)) +
+  geom_point(size = 4) + 
+  ggthemes::scale_color_colorblind() +
+  theme(legend.position = "bottom") +
+  coord_fixed()
+```
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| ref-label: coord-fixed
+#| echo: false
+#| fig-height: 10
+```
+:::
+:::
+
+## Standardize the variables!
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+-   Use the `scale()` function to first **standardize the variables**, $\frac{\text{value} - \text{mean}}{\text{sd}}$
+
+```{r}
+#| label: std-kmeans
+#| eval: false
+clean_gapminder <- clean_gapminder |>
+  mutate(
+    std_log_gdp = as.numeric(scale(log_gdp, center = TRUE, scale = TRUE)),
+    std_life_exp = as.numeric(scale(life_expectancy, center = TRUE, scale = TRUE))
+  )
+
+std_kmeans <- clean_gapminder |> 
+  select(std_log_gdp, std_life_exp) |> 
+  kmeans(algorithm = "Lloyd", centers = 4, nstart = 1)
+
+clean_gapminder |>
+  mutate(
+    country_clusters = as.factor(std_kmeans$cluster)
+  ) |>
+  ggplot(aes(x = log_gdp, y = life_expectancy,
+             color = country_clusters)) +
+  geom_point(size = 4) + 
+  ggthemes::scale_color_colorblind() +
+  theme(legend.position = "bottom") +
+  coord_fixed()
+```
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| ref-label: std-kmeans
+#| echo: false
+#| fig-height: 10
+```
+:::
+:::
+
+## Standardize the variables!
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| label: std-kmeans-view
+#| eval: false
+clean_gapminder |>
+  mutate(
+    country_clusters = as.factor(std_kmeans$cluster)
+  ) |>
+  ggplot(aes(x = std_log_gdp, y = std_life_exp,
+             color = country_clusters)) +
+  geom_point(size = 4) + 
+  ggthemes::scale_color_colorblind() +
+  theme(legend.position = "bottom") +
+  coord_fixed()
+```
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| ref-label: std-kmeans-view
+#| echo: false
+#| fig-height: 9
+```
+:::
+:::
+
+## And if we run it again?
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+We get different clustering results!
+
+```{r}
+#| label: second-kmeans
+#| eval: false
+another_kmeans <- clean_gapminder |> 
+  select(std_log_gdp, std_life_exp) |> 
+  kmeans(algorithm = "Lloyd", centers = 4, nstart = 1)
+
+clean_gapminder |>
+  mutate(
+    country_clusters = as.factor(another_kmeans$cluster)
+  ) |>
+  ggplot(aes(x = log_gdp, y = life_expectancy,
+             color = country_clusters)) +
+  geom_point(size = 4) + 
+  ggthemes::scale_color_colorblind() +
+  theme(legend.position = "bottom")
+```
+
+**Results depend on initialization**
+
+Keep in mind: **the labels / colors are arbitrary**
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| ref-label: second-kmeans
+#| echo: false
+#| fig-height: 9
+```
+:::
+:::
+
+## Fix randomness issue with `nstart`
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+Run the algorithm `nstart` times, then **pick the results with lowest total within-cluster variation** $$\text{total WSS} = \sum_{k=1}^K W(C_k)$$
+
+```{r}
+#| label: nstart-kmeans
+#| eval: false
+nstart_kmeans <- clean_gapminder |> 
+  select(std_log_gdp, std_life_exp) |> 
+  kmeans(algorithm = "Lloyd", centers = 4, nstart = 30)
+
+clean_gapminder |>
+  mutate(
+    country_clusters = as.factor(nstart_kmeans$cluster)
+  ) |> 
+  ggplot(aes(x = log_gdp, y = life_expectancy,
+             color = country_clusters)) +
+  geom_point(size = 4) + 
+  ggthemes::scale_color_colorblind() +
+  theme(legend.position = "bottom")
+```
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| ref-label: nstart-kmeans
+#| echo: false
+#| fig-height: 9
+```
+:::
+:::
+
+## By default `R` uses [Hartigan–Wong method](https://en.wikipedia.org/wiki/K-means_clustering#Hartigan%E2%80%93Wong_method)
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+Updates based on changing a single observation
+
+**Computational advantages over re-computing distances for every observation**
+
+```{r}
+#| label: default-kmeans
+#| eval: false
+default_kmeans <- clean_gapminder |> 
+  select(std_log_gdp, std_life_exp) |> 
+  kmeans(algorithm = "Hartigan-Wong",
+         centers = 4, nstart = 30) 
+
+clean_gapminder |>
+  mutate(
+    country_clusters = as.factor(default_kmeans$cluster)
+  ) |> 
+  ggplot(aes(x = log_gdp, y = life_expectancy,
+             color = country_clusters)) +
+  geom_point(size = 4) + 
+  ggthemes::scale_color_colorblind() +
+  theme(legend.position = "bottom")
+```
+
+Very little differences for our purposes...
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| ref-label: default-kmeans
+#| echo: false
+#| fig-height: 9
+```
+:::
+:::
+
+## What if we perform clustering with more than 2 variables?
+
+* First, get the variables
+
+```{r}
+gapminder_features <- gapminder |>
+  filter(year == 2011) |> 
+  mutate(log_gdp = log(gdp)) |> 
+  select(infant_mortality, life_expectancy, fertility, log_gdp) |> 
+  drop_na() 
+```
+
+* Next, standardize the variables (as always)
+
+```{r}
+std_gapminder_features <- gapminder_features |> 
+  scale(center = TRUE, scale = TRUE)
+```
+
+* Now, perform clustering
+
+```{r}
+kmeans_many_features <- std_gapminder_features |> 
+  kmeans(algorithm = "Hartigan-Wong", centers = 4, nstart = 30) 
+```
+
+## Visualizing clustering results with PCA
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+* If there are more than two dimensions (variables), we can perform PCA...
+
+* Then plot the observations (color coded by their cluster assignments) onto the first two principal components 
+
+  * Recall that the first two PCs explain the majority of the variance in the data
+
+```{r}
+#| eval: false
+library(factoextra)
+kmeans_many_features |> 
+   # need to pass in data used for clustering
+  fviz_cluster(data = std_gapminder_features,
+               geom = "point",
+               ellipse = FALSE) +
+  ggthemes::scale_color_colorblind() + 
+  theme_light()
+```
+
+:::
+
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| echo: false
+#| fig-height: 9
+library(factoextra)
+kmeans_many_features |> 
+  # need to pass in data used for clustering
+  fviz_cluster(data = std_gapminder_features,
+               geom = "point", pointsize = 4,
+               ellipse = FALSE) +
+  ggthemes::scale_color_colorblind() +
+  theme_light(base_size = 20)
+```
+
+:::
+:::
+
+## Beyond $k$-means: $k$-means++
+
+Objective: initialize the cluster centers before proceeding with the standard $k$-means clustering algorithm, provide a Better alternative to `nstart`
+
+. . .
+
+Intuition: 
+
+* randomly choose a data point the first cluster center
+
+* each subsequent cluster center is chosen from the remaining data points with probability proportional to its squared distance from the point's closest existing cluster center
+
+## The $k$-means++ algorithm
+
+Pick a random observation to be the center $c_1$ of the first cluster $C_1$
+
+-   This initializes a set of centers $\mathscr C = \{c_1 \}$
+
+. . .
+
+Then for each remaining cluster $c^* \in 2, \dots, K$:
+
+-   For each observation (that is not a center), compute $D(x_i) = \underset{c \in \mathscr C}{\text{min}} \ d(x_i, c)$
+
+    -   Distance between observation and its closest center $c \in \mathscr C$
+
+. . .
+
+-   Randomly pick a point $x_i$ with probability: $\displaystyle p_i = \frac{D^2(x_i)}{\sum_{j=1}^n D^2(x_j)}$
+
+. . .
+
+-   As distance to closest center increases, the probability of selection increases
+
+-   Call this randomly selected observation $c^*$, update $\mathscr C = \mathscr C \cup c^*$
+
+. . .
+
+Then run $k$-means using these $\mathscr C$ as the starting points
+
+## $k$-means++ in `R` using [`flexclust`](https://cran.r-project.org/web/packages/flexclust/flexclust.pdf)
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| label: kmeanspp
+#| eval: false
+library(flexclust)
+init_kmeanspp <- clean_gapminder |> 
+  select(std_log_gdp, std_life_exp) |> 
+  kcca(k = 4, control = list(initcent = "kmeanspp"))
+
+clean_gapminder |>
+  mutate(
+    country_clusters = as.factor(init_kmeanspp@cluster)
+  ) |>
+  ggplot(aes(x = log_gdp, y = life_expectancy,
+             color = country_clusters)) +
+  geom_point(size = 4) + 
+  ggthemes::scale_color_colorblind() +
+  theme(legend.position = "bottom")
+```
+
+**Note the use of `@` instead of `$`...**
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| ref-label: kmeanspp
+#| echo: false
+#| fig-height: 9
+```
+:::
+:::
+
+## So, how do we choose the number of clusters?
+
+. . .
+
+**There is no universally accepted way to conclude that a particular choice of $k$ is optimal!**
+
+From [Cosma Shalizi's notes](https://www.stat.cmu.edu/~cshalizi/350/lectures/08/lecture-08.pdf)
+
+> One reason you should be intensely skeptical of clustering results --- including your own! --- is that there is currently very little theory about how to find the right number of clusters. It’s not even completely clear what "the right number of clusters" means!
+
+Additional readings: [here](https://www.stat.cmu.edu/~larry/=sml/clustering.pdf) and [here](https://www.stat.cmu.edu/~larry/=sml/Clustering2.pdf)
+
+## Popular heuristic: elbow plot (use with caution)
+
+Look at the total within-cluster variation as a function of the number of clusters<br>(do this by hand first)
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+# function to perform clustering for each value of k
+gapminder_kmeans <- function(k) {
+  
+  kmeans_results <- clean_gapminder |>
+    select(std_log_gdp, std_life_exp) |>
+    kmeans(centers = k, nstart = 30)
+  
+  kmeans_out <- tibble(
+    clusters = k,
+    total_wss = kmeans_results$tot.withinss
+  )
+  return(kmeans_out)
+}
+```
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| eval: false
+# number of clusters to search over
+n_clusters_search <- 2:12
+
+# iterate over each k to compute total wss
+kmeans_search <- n_clusters_search |> 
+  map(gapminder_kmeans) |> 
+  bind_rows()
+
+kmeans_search |> 
+  ggplot(aes(x = clusters, y = total_wss)) +
+  geom_line() + 
+  geom_point(size = 4) +
+  scale_x_continuous(breaks = n_clusters_search)
+```
+:::
+:::
+
+## Popular heuristic: elbow plot (use with caution)
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+Choose $k$ where marginal improvements is low at the bend (hence the elbow)
+
+**This is just a guideline and should not dictate your choice of** $k$
+
+Other choices: [gap statistic](https://web.stanford.edu/~hastie/Papers/gap.pdf), [silhouette](https://en.wikipedia.org/wiki/Silhouette_(clustering))
+
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| echo: false
+#| fig-height: 9
+# number of clusters to search over
+n_clusters_search <- 2:12
+
+# iterate over each k to compute total wss
+kmeans_search <- n_clusters_search |> 
+  map(gapminder_kmeans) |> 
+  bind_rows()
+
+kmeans_search |> 
+  ggplot(aes(x = clusters, y = total_wss)) +
+  geom_line() + 
+  geom_point(size = 4) +
+  scale_x_continuous(breaks = n_clusters_search)
+```
+
+:::
+:::
+
+## Appendix: elbow method with `factoextra`
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+* Based on total WSS
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(factoextra)
+clean_gapminder |> 
+  select(std_log_gdp, std_life_exp) |> 
+  fviz_nbclust(kmeans, method = "wss")
+```
+
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| echo: false
+#| fig-height: 9
+library(factoextra)
+clean_gapminder |> 
+  select(std_log_gdp, std_life_exp) |> 
+  fviz_nbclust(kmeans, method = "wss")
+```
+
+:::
+
+:::
+
+## Appendix: silhouette method with `factoextra`
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| echo: true
+#| eval: false
+clean_gapminder |> 
+  select(std_log_gdp, std_life_exp) |> 
+  fviz_nbclust(kmeans, method = "silhouette")
+```
+
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| echo: false
+#| fig-height: 9
+clean_gapminder |> 
+  select(std_log_gdp, std_life_exp) |> 
+  fviz_nbclust(kmeans, method = "silhouette")
+```
+
+:::
+
+:::
+
+## Appendix: gap statistic
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| echo: true
+#| eval: true
+library(cluster)
+gapminder_kmeans_gap_stat <- clean_gapminder |> 
+  select(std_log_gdp, std_life_exp) |> 
+  clusGap(FUN = kmeans, nstart = 30, K.max = 10)
+# view the result 
+gapminder_kmeans_gap_stat |> 
+  print(method = "firstmax")
+```
+
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| echo: true
+#| fig-height: 9
+gapminder_kmeans_gap_stat |> 
+  fviz_gap_stat(maxSE = list(method = "firstmax"))
+```
+
+:::
+
+:::
+
+## Appendix: elbow plot for $k$-means++
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| label: kmeanspp-elbow
+#| eval: false
+gapminder_kmpp <- function(k) {
+  
+  kmeans_results <- clean_gapminder |>
+    select(std_log_gdp, std_life_exp) |>
+    kcca(k = k, control = list(initcent = "kmeanspp"))
+  
+  kmeans_out <- tibble(
+    clusters = k,
+    total_wss = sum(kmeans_results@clusinfo$size * 
+                      kmeans_results@clusinfo$av_dist)
+  )
+  return(kmeans_out)
+}
+
+n_clusters_search <- 2:12
+kmpp_search <- n_clusters_search |> 
+  map(gapminder_kmpp) |> 
+  bind_rows()
+kmpp_search |> 
+  ggplot(aes(x = clusters, y = total_wss)) +
+  geom_line() + 
+  geom_point(size = 4) +
+  scale_x_continuous(breaks = n_clusters_search)
+```
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| echo: false
+#| fig-height: 9
+gapminder_kmpp <- function(k) {
+  
+  kmeans_results <- clean_gapminder |>
+    select(std_log_gdp, std_life_exp) |>
+    kcca(k = k, control = list(initcent = "kmeanspp"))
+  
+  kmeans_out <- tibble(
+    clusters = k,
+    total_wss = sum(kmeans_results@clusinfo$size * 
+                      kmeans_results@clusinfo$av_dist)
+  )
+  return(kmeans_out)
+}
+n_clusters_search <- 2:12
+kmpp_search <- n_clusters_search |> 
+  map(gapminder_kmpp) |> 
+  bind_rows()
+kmpp_search |> 
+  ggplot(aes(x = clusters, y = total_wss)) +
+  geom_line() + 
+  geom_point(size = 4) +
+  scale_x_continuous(breaks = n_clusters_search)
+```
+
+:::
+:::
+
+<!-- ## Appendix: $k$-means for image segmentation and compression -->
+
+<!-- Goal: partition an image into multiple segments, where each segment typically represents an object in the image -->
+
+<!-- * Treat each pixel in the image as a point in 3-dimensional space comprising the intensities of the (red, blue, green) channels -->
+
+<!-- * Treat each pixel in the image as a separate data point -->
+
+<!-- *  Apply $k$-means clustering and identify the clusters -->
+
+<!-- *  All the pixels belonging to a cluster are treated as a segment in the image -->
+
+<!-- Then for any $k$, reconstruct the image by replacing each pixel vector with the (red, blue, green) triplet given by the center to which that pixel has been assigned -->
+
+<!-- ## Appendix: $k$-means for image segmentation and compression -->
+
+<!-- ```{r} -->
+<!-- # https://raw.githubusercontent.com/36-SURE/2024/main/data/spongebob.jpeg -->
+<!-- set.seed(2) -->
+<!-- library(jpeg) -->
+<!-- img_raw <- readJPEG("../data/spongebob.jpeg") -->
+<!-- img_width <- dim(img_raw)[1] -->
+<!-- img_height <- dim(img_raw)[2] -->
+<!-- img_tbl <- tibble(x = rep(1:img_height, each = img_width), -->
+<!--                   y = rep(img_width:1, img_height), -->
+<!--                   r = as.vector(img_raw[, , 1]), -->
+<!--                   g = as.vector(img_raw[, , 2]), -->
+<!--                   b = as.vector(img_raw[, , 3])) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- img_kmpp <- function(k) { -->
+<!--   km_fit <- img_tbl |> -->
+<!--     select(r, g, b) |> -->
+<!--     kcca(k = k, control = list(initcent = "kmeanspp")) -->
+<!--   km_col <- rgb(km_fit@centers[km_fit@cluster,]) -->
+<!--   return(km_col) -->
+<!-- } -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- img_tbl <- img_tbl |> -->
+<!--   mutate(original = rgb(r, g, b), -->
+<!--          k2 = img_kmpp(2), -->
+<!--          k4 = img_kmpp(4), -->
+<!--          k8 = img_kmpp(8), -->
+<!--          k11 = img_kmpp(11)) |> -->
+<!--   pivot_longer(original:k11, names_to = "k", values_to = "hex") |> -->
+<!--   mutate(k = factor(k, levels = c("original", "k2", "k4", "k8", "k11"))) -->
+<!-- ``` -->
+
+<!-- ## Appendix: $k$-means for image segmentation and compression -->
+
+
+
+
+<!-- ```{r} -->
+<!-- #| eval: false -->
+<!-- img_tbl |>  -->
+<!--   ggplot(aes(x, y, color = hex)) + -->
+<!--   geom_point() + -->
+<!--   scale_color_identity() + -->
+<!--   facet_wrap(~ k, nrow = 1) + -->
+<!--   coord_fixed() + -->
+<!--   theme_classic() -->
+<!-- ``` -->
+
+
+<!-- ```{r} -->
+<!-- #| echo: false -->
+<!-- img_tbl |>  -->
+<!--   ggplot(aes(x, y, color = hex)) + -->
+<!--   geom_point() + -->
+<!--   scale_color_identity() + -->
+<!--   facet_wrap(~ k, nrow = 1) + -->
+<!--   coord_fixed() + -->
+<!--   theme_void() + -->
+<!--   theme(strip.text = element_text(size = 14)) -->
+<!-- ``` -->
+
+
+<!-- ::: columns -->
+
+<!-- ::: {.column width="50%" style="text-align: left;"} -->
+
+<!-- c1 -->
+
+<!-- ::: -->
+
+<!-- ::: {.column width="50%" style="text-align: left;"} -->
+
+<!-- c2 -->
+
+<!-- ::: -->
+
+<!-- ::: -->

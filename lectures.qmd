@@ -8,4 +8,37 @@ title: "Lectures"
 |------------|---------|-----------------------------------------------------------|------------------------------------------|
 | Lecture 0  | June 2  | Welcome to SURE 2024                                      |                                          |
 | Lecture 1  | June 3  | Exploring data: into the `tidyverse`                      | [slides](lectures/01-explore.qmd)        |
+
+<!--
+
+PLAN, for now
+subject to change
+
+
 | Lecture 2  | June 4  | Data visualization: the grammar of graphics and `ggplot2` | [slides](lectures/02-graphics.qmd)       |
+| Lecture 3  | June 5  | Data visualization: categorical data                      | [slides](lectures/03-categorical.qmd)    |
+| Lecture 4  | June 6  | Data visualization: quantitative data                     | [slides](lectures/04-quantitative.qmd)   |
+| Lecture 5  | June 9  | Unsupervised learning: principal component analysis       | [slides](lectures/05-pca.qmd).           |
+| Lecture 6  | June 10 | Unsupervised learning: $k$-means clustering               | [slides](lectures/06-kmeans.qmd)         |
+| Lecture 7  | June 11 | Unsupervised learning: hierarchical clustering            | [slides](lectures/07-hierarchical.qmd)   |
+| Lecture 8  | June 12 | Data visualization: density estimation                    | [slides](lectures/08-density.qmd)        |
+| Lecture 9  | June 13 | Presentations                                             | [slides](lectures/09-presentation.qmd)   |
+| Lecture 10 | June 16 | Simulation                                                | [slides](lectures/10-simulation.qmd)     |
+| Lecture 11 | June 17 | Supervised learning: the tradeoffs                        | [slides](lectures/10-tradeoffs.qmd)      |
+| Lecture 12 | June 18 | Supervised learning: linear regression                    | [slides](lectures/11-linear.qmd)         |
+
+
+
+| Lecture 13 | XXXXXXX | Supervised learning: variable selection                   | [slides](lectures/12-selection.qmd)      |
+| Lecture 14 | XXXXXXX | Supervised learning: regularization                       | [slides](lectures/13-regularization.qmd) |
+| Lecture 15 | XXXXXXX | Supervised learning: logistic regression                  | [slides](lectures/14-logistic.qmd)       |
+| Lecture 16 | XXXXXXX | Supervised learning: generalized linear models            | [slides](lectures/15-glm.qmd)            |
+
+
+| Lecture 17 | XXXXXXX | Unsupervised learning: Gaussian mixture models            | [slides](lectures/17-mixture.qmd)        |
+| Lecture 18 | XXXXXXX | Supervised learning: nonparametric regression             | [slides](lectures/18-nonparametric.qmd)  |
+| Lecture 19 | XXXXXXX | Supervised learning: decision trees                       | [slides](lectures/19-trees.qmd)          |
+| Lecture 20 | XXXXXXX | Supervised learning: random forests and boosting          | [slides](lectures/20-forests.qmd)        |
+| Lecture 21 | XXXXXXX | Supervised learning: multinomial classification           | [slides](lectures/21-multinomial.qmd)    |
+
+-->

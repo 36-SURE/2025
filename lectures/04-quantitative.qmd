@@ -467,12 +467,12 @@ Other correlations:
 
 {{< video https://youtu.be/D5hxMQNHyfc width="800" height="600" >}}
 
-## Displaying trend line: linear regression (a preview)
+## Displaying trend line: linear regression<br>(a preview)
 
 ::: columns
 ::: {.column width="50%" style="text-align: left;"}
 
--   Display regression line for `energy ~ loudness`
+-   Display regression line for<br>`energy ~ loudness`
 
 -   95% confidence intervals by default
 
