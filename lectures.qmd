@@ -6,7 +6,7 @@ title: "Lectures"
 
 |            | Date    | Title                                                     | Materials                                |
 |------------|---------|-----------------------------------------------------------|------------------------------------------|
-| Lecture 0  | June 2  | Welcome to SURE 2024                                      |                                          |
+| Lecture 0  | June 2  | Welcome to SURE 2025                                      |                                          |
 | Lecture 1  | June 3  | Exploring data: into the `tidyverse`                      | [slides](lectures/01-explore.qmd)        |
 
 <!--

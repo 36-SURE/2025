@@ -17,7 +17,7 @@ website:
       
 format:
   html:
-    theme: united
+    theme: yeti
     css: styles.css
     
 execute:

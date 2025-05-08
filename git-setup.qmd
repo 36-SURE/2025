@@ -33,7 +33,8 @@ Register for a [GitHub](https://github.com/) account at [https://github.com](htt
 ```{r git-config, eval = FALSE}
 # uncomment and run the following line to install the usethis package
 # install.packages("usethis")
-usethis::use_git_config(user.name = "Your Name", user.email = "your-github@email.address")
+usethis::use_git_config(user.name = "Your Name", 
+                        user.email = "your-github@email.address")
 ```
 
 * Use your full name for the `user.name` field and the same email as your GitHub account for `user.email`
