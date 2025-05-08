@@ -1,5 +1,453 @@
 [
   {
+    "objectID": "r-setup.html#r-and-rstudio",
+    "href": "r-setup.html#r-and-rstudio",
+    "title": "R and RStudio Setup",
+    "section": "R and RStudio",
+    "text": "R and RStudio\nR is an open-source programming language for statistical computing. R is widely-used in both academia and industry, due to its capacity for statistical analysis and data science.\nIn order to use R effectively, you need a suitable editing environment, i.e. RStudio. For more context, RStudio is an integrated development environment (IDE) developed specifically for R programming. Although R can be run without RStudio, RStudio provides a more user-friendly experience with additional functionality.\nTo download R and RStudio, visit https://posit.co/download/rstudio-desktop.\nYou will see the following two tasks to be completed:\n\n1: Install R\n2: Install RStudio"
+  },
+  {
+    "objectID": "r-setup.html#step-1-install-r",
+    "href": "r-setup.html#step-1-install-r",
+    "title": "R and RStudio Setup",
+    "section": "Step 1: Install R",
+    "text": "Step 1: Install R\n(Note that the following instructions apply to the latest R version (4.5.0) as of May 1, 2025)\nClick on DOWNLOAD AND INSTALL R. This will direct you to the CRAN (Comprehensive R Archive Network) website.\nmacOS\n\nClick on Download R for macOS.\nChoose the .pkg file suitable for your Mac (Apple silicon (M1,2,..) Macs or older Intel Macs.)\nOpen the .pkg file after the download is complete.\nFollow the installation instructions.\n\nWindows\n\nClick on Download R for Windows.\nClick on install R for the first time (on the same line as the base subdirectory.)\nChoose Download R-4.5.0 for Windows.\nOpen the .exe file after the download is complete.\nFollow the installation instructions."
+  },
+  {
+    "objectID": "r-setup.html#step-2-install-rstudio",
+    "href": "r-setup.html#step-2-install-rstudio",
+    "title": "R and RStudio Setup",
+    "section": "Step 2: Install RStudio",
+    "text": "Step 2: Install RStudio\n\n\n\n\n\n\nImportant\n\n\n\nR must be installed before RStudio.\n\n\nClick on DOWNLOAD RSTUDIO DESKTOP… Your operating system is automatically detected. (If your OS is not correctly detected, scroll down and choose the right version for your system.)\nmacOS\n\nOpen the .dmg file after the download is complete.\nDrag and drop it to your Applications folder.\n\nWindows\n\nOpen the .exe file after the download is complete.\nFollow the installation instructions."
+  },
+  {
+    "objectID": "r-setup.html#step3",
+    "href": "r-setup.html#step3",
+    "title": "R and RStudio Setup",
+    "section": "Step 3: Check R and RStudio installations",
+    "text": "Step 3: Check R and RStudio installations\nOpen RStudio and type in the following command in the Console pane.\n\nversion\n\nThis will print out the current version of R on your machine. The output should look similar to what shown below (the first 4 lines might be different, depending on your operating system.)\n\n\n               _                           \nplatform       aarch64-apple-darwin20      \narch           aarch64                     \nos             darwin20                    \nsystem         aarch64, darwin20           \nstatus                                     \nmajor          4                           \nminor          5.0                         \nyear           2025                        \nmonth          04                          \nday            11                          \nsvn rev        88135                       \nlanguage       R                           \nversion.string R version 4.5.0 (2025-04-11)\nnickname       How About a Twenty-Six"
+  },
+  {
+    "objectID": "r-setup.html#step-4-install-an-r-package",
+    "href": "r-setup.html#step-4-install-an-r-package",
+    "title": "R and RStudio Setup",
+    "section": "Step 4: Install an R package",
+    "text": "Step 4: Install an R package\nIn R, a package is a collection of functions, data, and compiled code. In addition to a set of built-in base packages, there are numerous external R packages written by the community to add specific functionality.\nIn general, to install an R package, you can use the install.packages() function and pass in the package name.\nThe following example shows how to install the tidyverse package in R. The tidyverse is a suite of R packages we will be using throughout this program. It features popular packages such as ggplot2 for data visualization and dplyr for data manipulation.\nAfter installing R and RStudio, open RStudio and enter the following command in the Console pane.\n\ninstall.packages(\"tidyverse\")\n\nTo verify that tidyverse is successfully installed, run the following command:\n\nlibrary(tidyverse)\n\nYou should get a message similar to the output below.\n\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.2.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.0.4     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n\nAsk us for help if you encounter any issues or errors in any of the installation steps above."
+  },
+  {
+    "objectID": "r-setup.html#r-primers-on-posit-cloud",
+    "href": "r-setup.html#r-primers-on-posit-cloud",
+    "title": "R and RStudio Setup",
+    "section": "R Primers on Posit Cloud",
+    "text": "R Primers on Posit Cloud\nIn addition to following the steps above for installing R and RStudio on your computer, we recommend you make a free Posit Cloud (formerly RStudio Cloud) account at https://posit.cloud/. This is a free, browser-based version of R and RStudio that also provides access to a growing number of relevant R tutorials / primers.\nAfter you create a Posit Cloud account, navigate to the menu on the left and click on “Recipes”. This brings up a menu of tutorials, with code primers you can choose to work through. Please complete the tutorials listed under “R Basics” (you can skip the first three). Also, feel free to explore the other tutorials."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "SURE 2025",
+    "section": "",
+    "text": "Welcome to the Summer Undergraduate Research Experience in Statistics (SURE) 2025, hosted by the Department of Statistics & Data Science at Carnegie Mellon University. This program focuses on statistics and data science methodology with applications in healthcare and sports analytics.\nOn this site, the Lectures tab contains all lecture slides. The Health and Sports tabs contain materials for health and sports camps, respectively."
+  },
+  {
+    "objectID": "lectures.html",
+    "href": "lectures.html",
+    "title": "Lectures",
+    "section": "",
+    "text": "Date\nTitle\nMaterials\n\n\n\n\nLecture 0\nJune 2\nWelcome to SURE 2025\n\n\n\nLecture 1\nJune 3\nExploring data: into the tidyverse\nslides"
+  },
+  {
+    "objectID": "lectures.html#contents",
+    "href": "lectures.html#contents",
+    "title": "Lectures",
+    "section": "",
+    "text": "Date\nTitle\nMaterials\n\n\n\n\nLecture 0\nJune 2\nWelcome to SURE 2025\n\n\n\nLecture 1\nJune 3\nExploring data: into the tidyverse\nslides"
+  },
+  {
+    "objectID": "lectures/05-pca.html#unsupervised-learning",
+    "href": "lectures/05-pca.html#unsupervised-learning",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Unsupervised learning",
+    "text": "Unsupervised learning\n\nNo response variable (i.e., data are not labeled)\n\n\n\nOnly given a set of features measured on a set of observations\n\n\n\n\nUnsupervised learning is more subjective than supervised learning (difficult to tell how “good” you are doing)\n\n\n\n\nThere is no simple goal for the analysis, such as prediction of a response in supervised learning\n\n\n\n\nUnsupervised learning can be useful as a pre-processing step for supervised learning\n\n\n\nThink of unsupervised learning as an extension of EDA—there’s no unique right answer!"
+  },
+  {
+    "objectID": "lectures/05-pca.html#fundamental-problems-in-unsupervised-learning",
+    "href": "lectures/05-pca.html#fundamental-problems-in-unsupervised-learning",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Fundamental problems in unsupervised learning",
+    "text": "Fundamental problems in unsupervised learning\n\nDimension reduction: reduce the original dimension of the data to something smaller so we can explore/visualize the data\n\n\nMethods: PCA (this lecture), ICA, t-SNE, UMAP,…\n\n\nClustering: group the observations in the data into different clusters\n\n\nMethods: hard clustering (\\(k\\)-means, hierachical clustering,…), soft clustering (mixture model)"
+  },
+  {
+    "objectID": "lectures/05-pca.html#dimension-reduction-the-big-picture",
+    "href": "lectures/05-pca.html#dimension-reduction-the-big-picture",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Dimension reduction: the big picture",
+    "text": "Dimension reduction: the big picture\nKey question: How do we visualize the structure of high-dimensional data?\n\nExample: What if you’re given a dataset with 50 variables and are asked to make one visualization that best represents the data? What do you do?\n\n\nTedious task: Make a series of all \\(\\displaystyle \\binom{50}{2} = 1225\\) pairs of plots? Or make a giant correlation heatmap?\n\n\nIntuition: Take high-dimensional data and represent it in 2-3 dimensions, then visualize those dimensions"
+  },
+  {
+    "objectID": "lectures/05-pca.html#motivating-example-starbucks-drinks",
+    "href": "lectures/05-pca.html#motivating-example-starbucks-drinks",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Motivating example: Starbucks drinks",
+    "text": "Motivating example: Starbucks drinks\n\nlibrary(tidyverse)\ntheme_set(theme_light())\nstarbucks &lt;- read_csv(\n  \"https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-12-21/starbucks.csv\"\n) |&gt;\n  # convert columns to numeric that were saved as character\n  mutate(trans_fat_g = as.numeric(trans_fat_g), fiber_g = as.numeric(fiber_g))\nglimpse(starbucks)\n\nRows: 1,147\nColumns: 15\n$ product_name    &lt;chr&gt; \"brewed coffee - dark roast\", \"brewed coffee - dark ro…\n$ size            &lt;chr&gt; \"short\", \"tall\", \"grande\", \"venti\", \"short\", \"tall\", \"…\n$ milk            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, …\n$ whip            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ serv_size_m_l   &lt;dbl&gt; 236, 354, 473, 591, 236, 354, 473, 591, 236, 354, 473,…\n$ calories        &lt;dbl&gt; 3, 4, 5, 5, 3, 4, 5, 5, 3, 4, 5, 5, 3, 4, 5, 5, 35, 50…\n$ total_fat_g     &lt;dbl&gt; 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1,…\n$ saturated_fat_g &lt;dbl&gt; 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,…\n$ trans_fat_g     &lt;dbl&gt; 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,…\n$ cholesterol_mg  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10,…\n$ sodium_mg       &lt;dbl&gt; 5, 10, 10, 10, 5, 10, 10, 10, 5, 5, 5, 5, 5, 5, 5, 5, …\n$ total_carbs_g   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, …\n$ fiber_g         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ sugar_g         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, …\n$ caffeine_mg     &lt;dbl&gt; 130, 193, 260, 340, 15, 20, 25, 30, 155, 235, 310, 410…"
+  },
+  {
+    "objectID": "lectures/05-pca.html#dimension-reduction-the-big-picture-1",
+    "href": "lectures/05-pca.html#dimension-reduction-the-big-picture-1",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Dimension reduction: the big picture",
+    "text": "Dimension reduction: the big picture\n\nIt’s usually really hard to visualize many dimensions at the same time\n\n\n\nOften, it makes a lot of sense to choose 2-3 of the “most important dimensions” and just plot those\n\n\n\n\nPCA is a very common way to define “most important dimensions”\n\n\n\n\nPCA provides the linear combinations of variables that capture the most variation in the data\n\n\n\n\nIt’s common to plot the first two principal components in a scatterplot\n\n\n\n\nIt’s very useful to plot principal components with a biplot\n\nAdds interpretability to the principal components, and helps reveal relationships among the variables"
+  },
+  {
+    "objectID": "lectures/05-pca.html#what-is-the-goal-of-dimension-reduction",
+    "href": "lectures/05-pca.html#what-is-the-goal-of-dimension-reduction",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "What is the goal of dimension reduction?",
+    "text": "What is the goal of dimension reduction?\nWe have \\(p\\) variables (columns) for \\(n\\) observations (rows) BUT which variables are interesting?\n\nCan we find a smaller number of dimensions that captures the interesting structure in the data?\n\nCould examine all pairwise scatterplots of each variable - tedious, manual process\nClustering of variables based on correlation\nCan we find a combination of the original \\(p\\) variables?\n\n\n\nDimension reduction:\n\nFocus on reducing the dimensionality of the feature space (i.e., number of columns)\nRetain most of the information / variability in a lower dimensional space (i.e., reducing the number of columns)\nThe process: (big) \\(n \\times p\\) matrix \\(\\longrightarrow\\) dimension reduction method \\(\\longrightarrow\\) (smaller) \\(n \\times k\\) matrix"
+  },
+  {
+    "objectID": "lectures/05-pca.html#principal-components-analysis-pca",
+    "href": "lectures/05-pca.html#principal-components-analysis-pca",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Principal components analysis (PCA)",
+    "text": "Principal components analysis (PCA)\nTL;DR\nPCA replaces the original \\(p\\) explanatory variables by fewer linear combinations of them (the “principal components”) that are uncorrelated while also accounting for most of their variabillity\n\n\\[\n\\begin{pmatrix}\n& & \\text{really} & & \\\\\n& & \\text{wide} & & \\\\\n& & \\text{matrix} & &\n\\end{pmatrix}\n\\rightarrow \\text{matrix algebra razzmatazz} \\rightarrow\n\\begin{pmatrix}\n\\text{much}  \\\\\n\\text{thinner}  \\\\\n\\text{matrix}\n\\end{pmatrix}\n\\]\n\nPCA explores the covariance between variables, and combines variables into a smaller set of uncorrelated variables called principal components (PCs)\n\nTurn a \\(n \\times p\\) matrix of correlated variables into a \\(n \\times k\\) matrix of uncorrelated variables"
+  },
+  {
+    "objectID": "lectures/05-pca.html#principal-components-analysis-pca-1",
+    "href": "lectures/05-pca.html#principal-components-analysis-pca-1",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Principal components analysis (PCA)",
+    "text": "Principal components analysis (PCA)\n\\[\n\\begin{pmatrix}\n& & \\text{really} & & \\\\\n& & \\text{wide} & & \\\\\n& & \\text{matrix} & &\n\\end{pmatrix}\n\\rightarrow \\text{matrix algebra razzmatazz} \\rightarrow\n\\begin{pmatrix}\n\\text{much}  \\\\\n\\text{thinner}  \\\\\n\\text{matrix}\n\\end{pmatrix}\n\\]\n\nEach of the \\(k\\) columns in the right-hand matrix are principal components (PCs), all uncorrelated with each other\n\nPCs are weighted, linear combinations of the original variables\nWeights reveal how different variables are loaded into the PCs\n\nFirst column accounts for most variation in the data, second column for second-most variation, and so on\n\nIntuition: we want a small number of PCs (first few PCs) to account for most of the information/variance in the data"
+  },
+  {
+    "objectID": "lectures/05-pca.html#what-are-principal-components",
+    "href": "lectures/05-pca.html#what-are-principal-components",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "What are principal components?",
+    "text": "What are principal components?\nAssume \\(\\boldsymbol{X}\\) is a \\(n \\times p\\) matrix that is centered and stardardized\n\nTotal variation \\(= p\\), since \\(\\text{Var}(\\boldsymbol{x}_j)\\) = 1 for all \\(j = 1, \\dots, p\\) (due to stardardization)\n\n\nPCA will give us \\(p\\) principal components that are \\(n\\)-length columns, denoted by \\(Z_1, \\dots, Z_p\\)\n\n\n\nThe first principal component is the linear combination that has the largest possible variance\nEach succeeding component has the largest possible variance under the constraint that it is uncorrelated with the preceding components\nA small number of principal components often explains a high percentage of the original variability"
+  },
+  {
+    "objectID": "lectures/05-pca.html#first-principal-component",
+    "href": "lectures/05-pca.html#first-principal-component",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "First principal component",
+    "text": "First principal component\n\\[Z_1 = \\phi_{11} X_1 + \\phi_{21} X_2 + \\dots + \\phi_{p1} X_p\\]\n\n\n\\(\\phi_{j1}\\) are the weights indicating the contributions of each variable \\(j \\in 1, \\dots, p\\)\nWeights are normalized \\(\\displaystyle \\sum_{j=1}^p \\phi_{j1}^2 = 1\\)\n\\(\\phi_{1} = (\\phi_{11}, \\phi_{21}, \\dots, \\phi_{p1})\\) is the loading vector for \\(\\text{PC}_1\\)\n\n\n\n\n\\(Z_1\\) is a linear combination of the \\(p\\) variables that has the largest variance"
+  },
+  {
+    "objectID": "lectures/05-pca.html#second-principal-component",
+    "href": "lectures/05-pca.html#second-principal-component",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Second principal component",
+    "text": "Second principal component\n\\[Z_2 = \\phi_{12} X_1 + \\phi_{22} X_2 + \\dots + \\phi_{p2} X_p\\]\n\n\\(\\phi_{j2}\\) are the weights indicating the contributions of each variable \\(j \\in 1, \\dots, p\\)\nWeights are normalized \\(\\displaystyle \\sum_{j=1}^p \\phi_{j1}^2 = 1\\)\n\\(\\phi_{2} = (\\phi_{12}, \\phi_{22}, \\dots, \\phi_{p2})\\) is the loading vector for \\(\\text{PC}_2\\)\n\\(Z_2\\) is a linear combination of the \\(p\\) variables that has the largest variance\n\nSubject to constraint it is uncorrelated with \\(Z_1\\)\n\n\n\nRepeat this process to create \\(p\\) principal components\n\nUncorrelated: Each (\\(Z_j, Z_{j'}\\)) is uncorrelated with each other\nOrdered Variance: \\(\\text{Var}(Z_1) &gt; \\text{Var}(Z_2) &gt; \\dots &gt; \\text{Var}(Z_p)\\)\nTotal Variance: \\(\\displaystyle \\sum_{j=1}^p \\text{Var}(Z_j) = p\\)"
+  },
+  {
+    "objectID": "lectures/05-pca.html#visualizing-pca-in-two-dimensions",
+    "href": "lectures/05-pca.html#visualizing-pca-in-two-dimensions",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Visualizing PCA in two dimensions",
+    "text": "Visualizing PCA in two dimensions"
+  },
+  {
+    "objectID": "lectures/05-pca.html#visualizing-pca-in-two-dimensions-1",
+    "href": "lectures/05-pca.html#visualizing-pca-in-two-dimensions-1",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Visualizing PCA in two dimensions",
+    "text": "Visualizing PCA in two dimensions"
+  },
+  {
+    "objectID": "lectures/05-pca.html#visualizing-pca-in-two-dimensions-2",
+    "href": "lectures/05-pca.html#visualizing-pca-in-two-dimensions-2",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Visualizing PCA in two dimensions",
+    "text": "Visualizing PCA in two dimensions"
+  },
+  {
+    "objectID": "lectures/05-pca.html#visualizing-pca-in-two-dimensions-3",
+    "href": "lectures/05-pca.html#visualizing-pca-in-two-dimensions-3",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Visualizing PCA in two dimensions",
+    "text": "Visualizing PCA in two dimensions"
+  },
+  {
+    "objectID": "lectures/05-pca.html#visualizing-pca-in-two-dimensions-4",
+    "href": "lectures/05-pca.html#visualizing-pca-in-two-dimensions-4",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Visualizing PCA in two dimensions",
+    "text": "Visualizing PCA in two dimensions\nKey idea: provide low-dimensional linear surfaces that are closest to the observations\n\n\n\nThe above is the minimizing projection residuals viewpoint of PCA\n\n\n\n\nThere’s another viewpoint: maximizing variance\n\nif we project all points onto the solid orange line, we maximize the variance of the resulting projected points across all such orange lines"
+  },
+  {
+    "objectID": "lectures/05-pca.html#data-nutritional-information-of-starbucks-drinks",
+    "href": "lectures/05-pca.html#data-nutritional-information-of-starbucks-drinks",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Data: nutritional information of Starbucks drinks",
+    "text": "Data: nutritional information of Starbucks drinks\n\nlibrary(tidyverse)\ntheme_set(theme_light())\nstarbucks &lt;- read_csv(\n  \"https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-12-21/starbucks.csv\"\n) |&gt;\n  # convert columns to numeric that were saved as character\n  mutate(trans_fat_g = as.numeric(trans_fat_g), fiber_g = as.numeric(fiber_g))\nglimpse(starbucks)\n\nRows: 1,147\nColumns: 15\n$ product_name    &lt;chr&gt; \"brewed coffee - dark roast\", \"brewed coffee - dark ro…\n$ size            &lt;chr&gt; \"short\", \"tall\", \"grande\", \"venti\", \"short\", \"tall\", \"…\n$ milk            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, …\n$ whip            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ serv_size_m_l   &lt;dbl&gt; 236, 354, 473, 591, 236, 354, 473, 591, 236, 354, 473,…\n$ calories        &lt;dbl&gt; 3, 4, 5, 5, 3, 4, 5, 5, 3, 4, 5, 5, 3, 4, 5, 5, 35, 50…\n$ total_fat_g     &lt;dbl&gt; 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1,…\n$ saturated_fat_g &lt;dbl&gt; 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,…\n$ trans_fat_g     &lt;dbl&gt; 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,…\n$ cholesterol_mg  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10,…\n$ sodium_mg       &lt;dbl&gt; 5, 10, 10, 10, 5, 10, 10, 10, 5, 5, 5, 5, 5, 5, 5, 5, …\n$ total_carbs_g   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, …\n$ fiber_g         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ sugar_g         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, …\n$ caffeine_mg     &lt;dbl&gt; 130, 193, 260, 340, 15, 20, 25, 30, 155, 235, 310, 410…"
+  },
+  {
+    "objectID": "lectures/05-pca.html#implementing-pca",
+    "href": "lectures/05-pca.html#implementing-pca",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Implementing PCA",
+    "text": "Implementing PCA\nUse the prcomp() function (based on SVD) for PCA on centered and scaled data\n\nfeat &lt;- starbucks |&gt; \n  select(serv_size_m_l:caffeine_mg)\nstarbucks_pca &lt;- prcomp(feat, center = TRUE, scale. = TRUE)\nsummary(starbucks_pca)\n\nImportance of components:\n                          PC1    PC2    PC3     PC4     PC5     PC6    PC7\nStandard deviation     2.4748 1.3074 1.0571 0.97919 0.67836 0.56399 0.4413\nProportion of Variance 0.5568 0.1554 0.1016 0.08716 0.04183 0.02892 0.0177\nCumulative Proportion  0.5568 0.7122 0.8138 0.90093 0.94276 0.97168 0.9894\n                           PC8     PC9    PC10    PC11\nStandard deviation     0.28123 0.16874 0.08702 0.04048\nProportion of Variance 0.00719 0.00259 0.00069 0.00015\nCumulative Proportion  0.99657 0.99916 0.99985 1.00000"
+  },
+  {
+    "objectID": "lectures/05-pca.html#computing-principal-components",
+    "href": "lectures/05-pca.html#computing-principal-components",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Computing principal components",
+    "text": "Computing principal components\nExtract the matrix of principal components (dimension will match original data)\n\nstarbucks_pc_matrix &lt;- starbucks_pca$x\nhead(starbucks_pc_matrix)\n\n           PC1        PC2        PC3           PC4         PC5         PC6\n[1,] -3.766852 -1.0023657  0.2482698 -0.1521871448  0.24739830 -0.11365847\n[2,] -3.633234 -0.6946439  1.2059943 -0.3720566566  0.06052789 -0.06406410\n[3,] -3.518063 -0.3981399  2.2165170 -0.5967175941 -0.13122572 -0.01937237\n[4,] -3.412061 -0.1067045  3.3741594 -0.8490378243 -0.26095965 -0.00899485\n[5,] -3.721426 -0.9868147 -1.0705094  0.0949330091 -0.27181508  0.17491809\n[6,] -3.564899 -0.6712499 -0.7779083 -0.0003019903 -0.72054963  0.37005543\n             PC7         PC8        PC9       PC10        PC11\n[1,] -0.02812472 0.006489978 0.05145094 0.06678083 0.019741873\n[2,]  0.05460952 0.021148978 0.07094211 0.08080545 0.023480029\n[3,]  0.09050806 0.031575955 0.08901403 0.09389227 0.028669251\n[4,]  0.11585507 0.037521689 0.11287190 0.11582260 0.034691142\n[5,]  0.07009414 0.037736197 0.02892317 0.03631676 0.005775410\n[6,]  0.20236484 0.068154160 0.03705252 0.03497690 0.002469611\n\n\nColumns are uncorrelated, such that \\(\\text{Var}(Z_1) &gt; \\text{Var}(Z_2) &gt; \\dots &gt; \\text{Var}(Z_p)\\)"
+  },
+  {
+    "objectID": "lectures/05-pca.html#visualizing-first-two-principal-components",
+    "href": "lectures/05-pca.html#visualizing-first-two-principal-components",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Visualizing first two principal components",
+    "text": "Visualizing first two principal components\n\n\n\nstarbucks &lt;- starbucks |&gt; \n  mutate(pc1 = starbucks_pc_matrix[,1], \n         pc2 = starbucks_pc_matrix[,2])\nstarbucks |&gt; \n  ggplot(aes(x = pc1, y = pc2)) +\n  geom_point(alpha = 0.5) +\n  labs(x = \"PC 1\", y = \"PC 2\")\n\n\nPrincipal components are not interpretable\nMake a biplot with arrows showing the linear relationship between one variable and other variables"
+  },
+  {
+    "objectID": "lectures/05-pca.html#making-pcs-interpretable-with-biplots",
+    "href": "lectures/05-pca.html#making-pcs-interpretable-with-biplots",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Making PCs interpretable with biplots",
+    "text": "Making PCs interpretable with biplots\nBiplot displays both the space of observations and the space of variables\nCheck out the factoextra package\n\n\n\nlibrary(factoextra)\n# fviz_pca_var(): projection of variables\n# fviz_pca_ind(): display observations with first two PCs\nstarbucks_pca |&gt; \n  fviz_pca_biplot(label = \"var\",\n                  alpha.ind = 0.25,\n                  alpha.var = 0.75,\n                  col.var = \"darkblue\",\n                  repel = TRUE)\n\n\nArrow direction: “as the variable increases…”\nArrow angles: correlation\n\n\\(90^{\\circ}\\): uncorrelated\n\\(&lt; 90^{\\circ}\\): positively correlated\n\\(&gt; 90^{\\circ}\\): negatively correlated\n\nArrow length: strength of relationship with PCs"
+  },
+  {
+    "objectID": "lectures/05-pca.html#how-many-principal-components-to-use",
+    "href": "lectures/05-pca.html#how-many-principal-components-to-use",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "How many principal components to use?",
+    "text": "How many principal components to use?\nIntuition: Additional principal components will add smaller and smaller variance\n\nKeep adding components until the added variance drops off\n\n\nsummary(starbucks_pca)\n\nImportance of components:\n                          PC1    PC2    PC3     PC4     PC5     PC6    PC7\nStandard deviation     2.4748 1.3074 1.0571 0.97919 0.67836 0.56399 0.4413\nProportion of Variance 0.5568 0.1554 0.1016 0.08716 0.04183 0.02892 0.0177\nCumulative Proportion  0.5568 0.7122 0.8138 0.90093 0.94276 0.97168 0.9894\n                           PC8     PC9    PC10    PC11\nStandard deviation     0.28123 0.16874 0.08702 0.04048\nProportion of Variance 0.00719 0.00259 0.00069 0.00015\nCumulative Proportion  0.99657 0.99916 0.99985 1.00000"
+  },
+  {
+    "objectID": "lectures/05-pca.html#create-a-scree-plot-or-elbow-plot",
+    "href": "lectures/05-pca.html#create-a-scree-plot-or-elbow-plot",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Create a scree plot (or elbow plot)",
+    "text": "Create a scree plot (or elbow plot)\n\nstarbucks_pca |&gt; \n  fviz_eig(addlabels = TRUE) +\n  geom_hline(yintercept = 100 * (1 / ncol(starbucks_pca$x)), linetype = \"dashed\", color = \"darkred\")\n\n\n\nRule of thumb: horizontal line at \\(1/p\\)"
+  },
+  {
+    "objectID": "lectures/05-pca.html#pca-output",
+    "href": "lectures/05-pca.html#pca-output",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "PCA output",
+    "text": "PCA output\n\n# str(starbucks_pca)\n\nExamine the output after running prcomp()\n\nstarbucks_pca$sdev: singular values (\\(\\sqrt{\\lambda_j}\\))\nstarbucks_pca$rotation: loading matrix (\\(V\\))\nstarbucks_pca$x: principal component scores matrix (\\(Z=XV\\))\n\nCan use the broom package for tidying prcomp()\n\ntidy(starbucks_pca, matrix = \"eigenvalues\") # equivalent to starbucks_pca$sdev\ntidy(starbucks_pca, matrix = \"rotation\") # equivalent to starbucks_pca$rotation\ntidy(starbucks_pca, matrix = \"scores\") # equivalent to starbucks_pca$x"
+  },
+  {
+    "objectID": "lectures/05-pca.html#proportion-of-variance-explained",
+    "href": "lectures/05-pca.html#proportion-of-variance-explained",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Proportion of variance explained",
+    "text": "Proportion of variance explained\n\nlibrary(broom)\nstarbucks_pca |&gt;\n  tidy(matrix = \"eigenvalues\") |&gt;\n  ggplot(aes(x = PC, y = percent)) +\n  geom_line() + \n  geom_point() +\n  geom_hline(yintercept = 1 / ncol(feat), color = \"darkred\", linetype = \"dashed\") +\n  scale_x_continuous(breaks = 1:ncol(starbucks_pca$x))"
+  },
+  {
+    "objectID": "lectures/05-pca.html#cumulative-proportion-of-variance-explained",
+    "href": "lectures/05-pca.html#cumulative-proportion-of-variance-explained",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Cumulative proportion of variance explained",
+    "text": "Cumulative proportion of variance explained\n\nlibrary(broom)\nstarbucks_pca |&gt;\n  tidy(matrix = \"eigenvalues\") |&gt;\n  ggplot(aes(x = PC, y = cumulative)) +\n  geom_line() + \n  geom_point() +\n  scale_x_continuous(breaks = 1:ncol(starbucks_pca$x))"
+  },
+  {
+    "objectID": "lectures/05-pca.html#remember-the-spelling",
+    "href": "lectures/05-pca.html#remember-the-spelling",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Remember the spelling…",
+    "text": "Remember the spelling…\n\n\nfolks. it's principal (not principle) components analysis.\n\n— Stephanie Hicks, PhD (@stephaniehicks) February 17, 2023"
+  },
+  {
+    "objectID": "lectures/05-pca.html#singular-value-decomposition-svd",
+    "href": "lectures/05-pca.html#singular-value-decomposition-svd",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Singular value decomposition (SVD)",
+    "text": "Singular value decomposition (SVD)\n\\[\nX = U D V^T\n\\]\n\n\\(U\\) and \\(V\\): matrices containing the left and right singular vectors of scaled matrix \\(X\\)\n\\(D\\): diagonal matrix of the singular values\n\n\n\nSVD simplifies matrix-vector multiplication as rotate, scale, and rotate again\n\n\n\n\\(V\\): loading matrix for \\(X\\) with \\(\\phi_{j}\\) as columns\n\n\\(Z = X  V\\): PC matrix\n\n\n\nBonus: Eigenvalue decomposition (or spectral decomposition)\n\n\\(V\\): eigenvectors of \\(X^TX\\) (covariance matrix, \\(^T\\): transpose)\n\\(U\\): eigenvectors of \\(XX^T\\)\nThe singular values (diagonal of \\(D\\)) are square roots of the eigenvalues of \\(X^TX\\) or \\(XX^T\\)\nMeaning that \\(Z = UD\\)"
+  },
+  {
+    "objectID": "lectures/05-pca.html#eigenvalues-guide-dimension-reduction",
+    "href": "lectures/05-pca.html#eigenvalues-guide-dimension-reduction",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Eigenvalues guide dimension reduction",
+    "text": "Eigenvalues guide dimension reduction\nWe want to choose \\(p^* &lt; p\\) such that we are explaining variation in the data\n\nEigenvalues \\(\\lambda_j\\) for \\(j \\in 1, \\dots, p\\) indicate the variance explained by each component\n\n\\(\\displaystyle \\sum_j^p \\lambda_j = p\\), meaning \\(\\lambda_j \\geq 1\\) indicates \\(\\text{PC}j\\) contains at least one variable’s worth in variability\n\\(\\displaystyle \\frac{\\lambda_j}{p}\\): proportion of variance explained by \\(\\text{PC}j\\)\nArranged in descending order so that \\(\\lambda_1\\) is largest eigenvalue and corresponds to PC1\n\n\n\n\nCompute the cumulative proportion of variance explained (CVE) with \\(p^*\\) components \\[\\text{CVE}_{p^*} = \\sum_j^{p*} \\frac{\\lambda_j}{p}\\] Use scree plot to plot eigenvalues and guide choice for \\(p^* &lt;p\\) by looking for “elbow” (rapid to slow change)"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#quantitative-data",
+    "href": "lectures/04-quantitative.html#quantitative-data",
+    "title": "Data visualization: quantitative data",
+    "section": "Quantitative data",
+    "text": "Quantitative data\nTwo different versions of quantitative data:\nDiscrete: countable and has clear space between values (i.e. whole number only)\n\nExamples: number of goals scored in a game, number of children in a family\n\nContinuous: can take any value within some interval\n\nExamples: price of houses in Pittsburgh, water temperature, wind speed"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#data",
+    "href": "lectures/04-quantitative.html#data",
+    "title": "Data visualization: quantitative data",
+    "section": "Data",
+    "text": "Data\nTaylor Swift songs via the taylor package (data dictionary here)\n\nlibrary(tidyverse)\ntheme_set(theme_light())\nlibrary(taylor)\nnames(taylor_all_songs)\n\n [1] \"album_name\"          \"ep\"                  \"album_release\"      \n [4] \"track_number\"        \"track_name\"          \"artist\"             \n [7] \"featuring\"           \"bonus_track\"         \"promotional_release\"\n[10] \"single_release\"      \"track_release\"       \"danceability\"       \n[13] \"energy\"              \"key\"                 \"loudness\"           \n[16] \"mode\"                \"speechiness\"         \"acousticness\"       \n[19] \"instrumentalness\"    \"liveness\"            \"valence\"            \n[22] \"tempo\"               \"time_signature\"      \"duration_ms\"        \n[25] \"explicit\"            \"key_name\"            \"mode_name\"          \n[28] \"key_mode\"            \"lyrics\"             \n\ntaylor_all_songs &lt;- taylor_all_songs |&gt; \n  mutate(duration = duration_ms / 60000)"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#summarizing-1d-quantitative-data",
+    "href": "lectures/04-quantitative.html#summarizing-1d-quantitative-data",
+    "title": "Data visualization: quantitative data",
+    "section": "Summarizing 1D quantitative data",
+    "text": "Summarizing 1D quantitative data\n\nCenter: mean, median, number and location of modes\n\n\n\nSpread: range, variance, standard deviation, IQR, etc.\n\n\n\n\nShape: skew vs symmetry, outliers, heavy vs light tails, etc.\n\n\n\nCompute various statistics in R with summary(), mean(), median(), quantile(), range(), sd(), var(), etc.\n\n\nExample: Summarizing the duration of Taylor Swift songs\n\nsummary(taylor_all_songs$duration)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's \n  2.198   3.543   3.930   3.985   4.343  10.217      12 \n\nsd(taylor_all_songs$duration, na.rm = TRUE)\n\n[1] 0.7527544"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#boxplots-visualize-summary-statistics",
+    "href": "lectures/04-quantitative.html#boxplots-visualize-summary-statistics",
+    "title": "Data visualization: quantitative data",
+    "section": "Boxplots visualize summary statistics",
+    "text": "Boxplots visualize summary statistics\n\n\nPros:\n\nDisplays outliers, percentiles, spread, skew\nUseful for side-by-side comparison\n\nCons:\n\nDoes not display the full distribution shape\nDoes not display modes\n\nThe expert weighed in…\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  geom_boxplot() +\n  theme(axis.text.y = element_blank())"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#histograms-display-1d-continuous-distributions",
+    "href": "lectures/04-quantitative.html#histograms-display-1d-continuous-distributions",
+    "title": "Data visualization: quantitative data",
+    "section": "Histograms display 1D continuous distributions",
+    "text": "Histograms display 1D continuous distributions\n\n\n\\(\\displaystyle \\text{# total obs.} = \\sum_{j=1}^k \\text{# obs. in bin }j\\)\nPros:\n\nDisplays full shape of distribution\nEasy to interpret\n\nCons:\n\nHave to choose number of bins and bin locations (will revisit later)\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  geom_histogram()"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#display-the-data-points-directly-with-beeswarm-plots",
+    "href": "lectures/04-quantitative.html#display-the-data-points-directly-with-beeswarm-plots",
+    "title": "Data visualization: quantitative data",
+    "section": "Display the data points directly with beeswarm plots",
+    "text": "Display the data points directly with beeswarm plots\n\n\nPros:\n\nDisplays each data point\nEasy to view full shape of distribution\n\nCons:\n\nCan be overbearing with large datasets\nWhich algorithm for arranging points?\n\n\n\nlibrary(ggbeeswarm)\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration, y = \"\")) +\n  geom_beeswarm(cex = 2)"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#smooth-summary-with-violin-plots",
+    "href": "lectures/04-quantitative.html#smooth-summary-with-violin-plots",
+    "title": "Data visualization: quantitative data",
+    "section": "Smooth summary with violin plots",
+    "text": "Smooth summary with violin plots\n\n\nPros:\n\nDisplays full shape of distribution\nCan easily layer…\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration, y = \"\")) +\n  geom_violin()"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#smooth-summary-with-violin-plots-box-plots",
+    "href": "lectures/04-quantitative.html#smooth-summary-with-violin-plots-box-plots",
+    "title": "Data visualization: quantitative data",
+    "section": "Smooth summary with violin plots + box plots",
+    "text": "Smooth summary with violin plots + box plots\n\n\nPros:\n\nDisplays full shape of distribution\nCan easily layer… with box plots on top\n\nCons:\n\nSummary of data via density estimate\nMirror image is duplicate information\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration, y = \"\")) +\n  geom_violin() +\n  geom_boxplot(width = 0.4)"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#what-do-visualizations-of-continuous-distributions-display",
+    "href": "lectures/04-quantitative.html#what-do-visualizations-of-continuous-distributions-display",
+    "title": "Data visualization: quantitative data",
+    "section": "What do visualizations of continuous distributions display?",
+    "text": "What do visualizations of continuous distributions display?\nProbability that continuous variable \\(X\\) takes a particular value is 0\ne.g. \\(P(\\) duration \\(= 3) = 0\\) (why?)\nFor continuous variables, the cumulative distribution function (CDF) is \\[F(x) = P(X \\leq x)\\]\nFor \\(n\\) observations, the empirical CDF (ECDF) can be computed based on the observed data \\[\\hat{F}_n(x)  = \\frac{\\text{# obs. with variable} \\leq x}{n} = \\frac{1}{n} \\sum_{i=1}^{n} I (x_i \\leq x)\\]\nwhere \\(I()\\) is the indicator function, i.e. ifelse(x_i &lt;= x, 1, 0)"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#display-full-distribution-with-ecdf-plot",
+    "href": "lectures/04-quantitative.html#display-full-distribution-with-ecdf-plot",
+    "title": "Data visualization: quantitative data",
+    "section": "Display full distribution with ECDF plot",
+    "text": "Display full distribution with ECDF plot\n\n\nPros:\n\nDisplays all of your data at once\nAs \\(n \\rightarrow \\infty\\), the ECDF \\(\\hat F_n(x)\\) converges to the true CDF \\(F(x)\\)\n\nCons:\n\nWhat are the cons?\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  stat_ecdf()"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#rug-plots-display-raw-data",
+    "href": "lectures/04-quantitative.html#rug-plots-display-raw-data",
+    "title": "Data visualization: quantitative data",
+    "section": "Rug plots display raw data",
+    "text": "Rug plots display raw data\n\n\nPros:\n\nDisplays raw data points\nUseful supplement for summaries and 2D plots\n\nCons:\n\nCan be overbearing for large datasets\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  geom_rug(alpha = 0.5)"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#rug-plots-supplement-other-displays",
+    "href": "lectures/04-quantitative.html#rug-plots-supplement-other-displays",
+    "title": "Data visualization: quantitative data",
+    "section": "Rug plots supplement other displays",
+    "text": "Rug plots supplement other displays\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  geom_histogram() +\n  geom_rug(alpha = 0.5)\n\n\n\n\n\n\n\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  stat_ecdf() +\n  geom_rug(alpha = 0.5)"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#summarizing-2d-quantitative-data",
+    "href": "lectures/04-quantitative.html#summarizing-2d-quantitative-data",
+    "title": "Data visualization: quantitative data",
+    "section": "Summarizing 2D quantitative data",
+    "text": "Summarizing 2D quantitative data\n\nDirection/trend (positive, negative)\nStrength of the relationship (strong, moderate, weak)\nLinearity (linear, non-linear)\n\n\nBig picture\n\nScatterplots are by far the most common visual\nRegression analysis is by far the most popular analysis (we will have a class on this)\nRelationships may vary across other variables, e.g., categorical variables"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#making-scatterplots",
+    "href": "lectures/04-quantitative.html#making-scatterplots",
+    "title": "Data visualization: quantitative data",
+    "section": "Making scatterplots",
+    "text": "Making scatterplots\n\n\n\nUse geom_point()\nDisplaying the joint (bivariate) distribution\nWhat is the obvious flaw with this plot?\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = loudness, y = energy)) +\n  geom_point(color = \"darkred\", size = 4)"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#making-scatterplots-always-adjust-the-transparency-alpha",
+    "href": "lectures/04-quantitative.html#making-scatterplots-always-adjust-the-transparency-alpha",
+    "title": "Data visualization: quantitative data",
+    "section": "Making scatterplots: always adjust the transparency (alpha)",
+    "text": "Making scatterplots: always adjust the transparency (alpha)\n\n\n\nAdjust the transparency of points via alpha to visualize overlap\nProvides better understanding of joint frequency\nEspecially important with larger datasets\nSee also: ggblend\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = loudness, y = energy)) +\n  geom_point(color = \"darkred\", size = 4, alpha = 0.5)"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#summarizing-2d-quantitative-data-1",
+    "href": "lectures/04-quantitative.html#summarizing-2d-quantitative-data-1",
+    "title": "Data visualization: quantitative data",
+    "section": "Summarizing 2D quantitative data",
+    "text": "Summarizing 2D quantitative data\n\n\n\nScatterplot\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = loudness, y = energy)) +\n  geom_point(color = \"darkred\", size = 4, alpha = 0.5)\n\n\n\n\n\n\n\n\n\n\nCorrelation coefficient\n\n\ncor(taylor_all_songs$loudness, \n    taylor_all_songs$energy, \n    use = \"complete.obs\")\n\n[1] 0.7910765\n\n\nNote: the default correlation you get from cor() is Pearson correlation coefficient\nOther correlations:\n\nSpearman’s correlation\nKendall rank correlation coefficient\nand more"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#when-the-correlations-high",
+    "href": "lectures/04-quantitative.html#when-the-correlations-high",
+    "title": "Data visualization: quantitative data",
+    "section": "When the correlation’s high…",
+    "text": "When the correlation’s high…"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#displaying-trend-line-linear-regression-a-preview",
+    "href": "lectures/04-quantitative.html#displaying-trend-line-linear-regression-a-preview",
+    "title": "Data visualization: quantitative data",
+    "section": "Displaying trend line: linear regression(a preview)",
+    "text": "Displaying trend line: linear regression(a preview)\n\n\n\nDisplay regression line forenergy ~ loudness\n95% confidence intervals by default\nEstimating the conditional expectation of energy | loudness\n\ni.e., \\(\\mathbb{E}[\\) energy \\(\\mid\\) loudness \\(]\\)\n\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = loudness, y = energy)) +\n  geom_point(color = \"darkred\", size = 4, alpha = 0.5) +\n  geom_smooth(method = \"lm\", linewidth = 2)"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#summarizing-2d-quantitative-data-2",
+    "href": "lectures/04-quantitative.html#summarizing-2d-quantitative-data-2",
+    "title": "Data visualization: quantitative data",
+    "section": "Summarizing 2D quantitative data",
+    "text": "Summarizing 2D quantitative data\n\n\nAdd rug plots to supplement scatterplot\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = loudness, y = energy)) +\n  geom_point(color = \"darkred\", size = 4, alpha = 0.5) +\n  geom_rug(alpha = 0.4)"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#pairs-plot",
+    "href": "lectures/04-quantitative.html#pairs-plot",
+    "title": "Data visualization: quantitative data",
+    "section": "Pairs plot",
+    "text": "Pairs plot\n\nlibrary(GGally)\ntaylor_all_songs |&gt; \n  select(danceability, energy, loudness, tempo) |&gt; \n  ggpairs()"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#continuous-by-categorical-side-by-side-plots",
+    "href": "lectures/04-quantitative.html#continuous-by-categorical-side-by-side-plots",
+    "title": "Data visualization: quantitative data",
+    "section": "Continuous by categorical: side by side plots",
+    "text": "Continuous by categorical: side by side plots\n\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration, y = album_name)) +\n  geom_violin() +\n  geom_boxplot(width = 0.4)"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#continuous-by-categorical-color",
+    "href": "lectures/04-quantitative.html#continuous-by-categorical-color",
+    "title": "Data visualization: quantitative data",
+    "section": "Continuous by categorical: color",
+    "text": "Continuous by categorical: color\n\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration, color = album_name)) +\n  stat_ecdf(linewidth = 1) +\n  scale_color_albums() + # from the taylor package \n  theme(legend.position = \"bottom\")"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#continuous-by-categorical-ridgeline-plot-joyplot",
+    "href": "lectures/04-quantitative.html#continuous-by-categorical-ridgeline-plot-joyplot",
+    "title": "Data visualization: quantitative data",
+    "section": "Continuous by categorical: ridgeline plot (joyplot)",
+    "text": "Continuous by categorical: ridgeline plot (joyplot)\nFor more, see this tutorial\n\nlibrary(ggridges)\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration, y = album_name)) +\n  geom_density_ridges(scale = 1)"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#what-about-for-histograms",
+    "href": "lectures/04-quantitative.html#what-about-for-histograms",
+    "title": "Data visualization: quantitative data",
+    "section": "What about for histograms?",
+    "text": "What about for histograms?\n\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration, fill = album_name)) +\n  geom_histogram(alpha = 0.6, bins = 15) +\n  scale_fill_albums()"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#what-about-facets",
+    "href": "lectures/04-quantitative.html#what-about-facets",
+    "title": "Data visualization: quantitative data",
+    "section": "What about facets?",
+    "text": "What about facets?\nDifference between facet_wrap and facet_grid\n\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration)) +\n  geom_histogram(bins = 15) +\n  facet_wrap(~ album_name, nrow = 1)"
+  },
+  {
+    "objectID": "lectures/04-quantitative.html#what-about-facets-1",
+    "href": "lectures/04-quantitative.html#what-about-facets-1",
+    "title": "Data visualization: quantitative data",
+    "section": "What about facets?",
+    "text": "What about facets?\n\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration)) +\n  geom_histogram(bins = 15) +\n  facet_grid(album_name ~ ., margins = TRUE)"
+  },
+  {
     "objectID": "lectures/01-explore.html#workflow-diagram",
     "href": "lectures/01-explore.html#workflow-diagram",
     "title": "Exploring data: into the tidyverse",
@@ -238,6 +686,13 @@
     "text": "Check out this song"
   },
   {
+    "objectID": "sports.html",
+    "href": "sports.html",
+    "title": "Sports",
+    "section": "",
+    "text": "TBA"
+  },
+  {
     "objectID": "lectures/03-categorical.html#data",
     "href": "lectures/03-categorical.html#data",
     "title": "Data visualization: categorical data",
@@ -462,699 +917,6 @@
     "text": "Tabulation with the janitor package\nThe lesser-known stars of janitor: functions for tabulation of categorical data\n\n\ntabyl\n\nflying_etiquette |&gt; \n  tabyl(do_you_recline)\n\n      do_you_recline   n   percent\n               never 170 0.1990632\n     once in a while 256 0.2997658\n about half the time 117 0.1370023\n             usually 175 0.2049180\n              always 136 0.1592506\n\n\n\nadorn_*() functions\n\nflying_etiquette |&gt; \n  tabyl(do_you_recline, rude_to_recline) |&gt; \n  adorn_percentages(\"row\") |&gt; \n  adorn_pct_formatting(digits = 2) |&gt; \n  adorn_ns()\n\n      do_you_recline           no     somewhat         yes\n               never 20.59%  (35) 47.65%  (81) 31.76% (54)\n     once in a while 45.31% (116) 50.39% (129)  4.30% (11)\n about half the time 70.09%  (82) 29.91%  (35)  0.00%  (0)\n             usually 82.86% (145) 15.43%  (27)  1.71%  (3)\n              always 91.18% (124)  6.62%   (9)  2.21%  (3)\n\n\n\nFor more, see this overview and this tutorial"
   },
   {
-    "objectID": "lectures/04-quantitative.html#quantitative-data",
-    "href": "lectures/04-quantitative.html#quantitative-data",
-    "title": "Data visualization: quantitative data",
-    "section": "Quantitative data",
-    "text": "Quantitative data\nTwo different versions of quantitative data:\nDiscrete: countable and has clear space between values (i.e. whole number only)\n\nExamples: number of goals scored in a game, number of children in a family\n\nContinuous: can take any value within some interval\n\nExamples: price of houses in Pittsburgh, water temperature, wind speed"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#data",
-    "href": "lectures/04-quantitative.html#data",
-    "title": "Data visualization: quantitative data",
-    "section": "Data",
-    "text": "Data\nTaylor Swift songs via the taylor package (data dictionary here)\n\nlibrary(tidyverse)\ntheme_set(theme_light())\nlibrary(taylor)\nnames(taylor_all_songs)\n\n [1] \"album_name\"          \"ep\"                  \"album_release\"      \n [4] \"track_number\"        \"track_name\"          \"artist\"             \n [7] \"featuring\"           \"bonus_track\"         \"promotional_release\"\n[10] \"single_release\"      \"track_release\"       \"danceability\"       \n[13] \"energy\"              \"key\"                 \"loudness\"           \n[16] \"mode\"                \"speechiness\"         \"acousticness\"       \n[19] \"instrumentalness\"    \"liveness\"            \"valence\"            \n[22] \"tempo\"               \"time_signature\"      \"duration_ms\"        \n[25] \"explicit\"            \"key_name\"            \"mode_name\"          \n[28] \"key_mode\"            \"lyrics\"             \n\ntaylor_all_songs &lt;- taylor_all_songs |&gt; \n  mutate(duration = duration_ms / 60000)"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#summarizing-1d-quantitative-data",
-    "href": "lectures/04-quantitative.html#summarizing-1d-quantitative-data",
-    "title": "Data visualization: quantitative data",
-    "section": "Summarizing 1D quantitative data",
-    "text": "Summarizing 1D quantitative data\n\nCenter: mean, median, number and location of modes\n\n\n\nSpread: range, variance, standard deviation, IQR, etc.\n\n\n\n\nShape: skew vs symmetry, outliers, heavy vs light tails, etc.\n\n\n\nCompute various statistics in R with summary(), mean(), median(), quantile(), range(), sd(), var(), etc.\n\n\nExample: Summarizing the duration of Taylor Swift songs\n\nsummary(taylor_all_songs$duration)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's \n  2.198   3.543   3.930   3.985   4.343  10.217      12 \n\nsd(taylor_all_songs$duration, na.rm = TRUE)\n\n[1] 0.7527544"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#boxplots-visualize-summary-statistics",
-    "href": "lectures/04-quantitative.html#boxplots-visualize-summary-statistics",
-    "title": "Data visualization: quantitative data",
-    "section": "Boxplots visualize summary statistics",
-    "text": "Boxplots visualize summary statistics\n\n\nPros:\n\nDisplays outliers, percentiles, spread, skew\nUseful for side-by-side comparison\n\nCons:\n\nDoes not display the full distribution shape\nDoes not display modes\n\nThe expert weighed in…\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  geom_boxplot() +\n  theme(axis.text.y = element_blank())"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#histograms-display-1d-continuous-distributions",
-    "href": "lectures/04-quantitative.html#histograms-display-1d-continuous-distributions",
-    "title": "Data visualization: quantitative data",
-    "section": "Histograms display 1D continuous distributions",
-    "text": "Histograms display 1D continuous distributions\n\n\n\\(\\displaystyle \\text{# total obs.} = \\sum_{j=1}^k \\text{# obs. in bin }j\\)\nPros:\n\nDisplays full shape of distribution\nEasy to interpret\n\nCons:\n\nHave to choose number of bins and bin locations (will revisit later)\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  geom_histogram()"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#display-the-data-points-directly-with-beeswarm-plots",
-    "href": "lectures/04-quantitative.html#display-the-data-points-directly-with-beeswarm-plots",
-    "title": "Data visualization: quantitative data",
-    "section": "Display the data points directly with beeswarm plots",
-    "text": "Display the data points directly with beeswarm plots\n\n\nPros:\n\nDisplays each data point\nEasy to view full shape of distribution\n\nCons:\n\nCan be overbearing with large datasets\nWhich algorithm for arranging points?\n\n\n\nlibrary(ggbeeswarm)\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration, y = \"\")) +\n  geom_beeswarm(cex = 2)"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#smooth-summary-with-violin-plots",
-    "href": "lectures/04-quantitative.html#smooth-summary-with-violin-plots",
-    "title": "Data visualization: quantitative data",
-    "section": "Smooth summary with violin plots",
-    "text": "Smooth summary with violin plots\n\n\nPros:\n\nDisplays full shape of distribution\nCan easily layer…\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration, y = \"\")) +\n  geom_violin()"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#smooth-summary-with-violin-plots-box-plots",
-    "href": "lectures/04-quantitative.html#smooth-summary-with-violin-plots-box-plots",
-    "title": "Data visualization: quantitative data",
-    "section": "Smooth summary with violin plots + box plots",
-    "text": "Smooth summary with violin plots + box plots\n\n\nPros:\n\nDisplays full shape of distribution\nCan easily layer… with box plots on top\n\nCons:\n\nSummary of data via density estimate\nMirror image is duplicate information\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration, y = \"\")) +\n  geom_violin() +\n  geom_boxplot(width = 0.4)"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#what-do-visualizations-of-continuous-distributions-display",
-    "href": "lectures/04-quantitative.html#what-do-visualizations-of-continuous-distributions-display",
-    "title": "Data visualization: quantitative data",
-    "section": "What do visualizations of continuous distributions display?",
-    "text": "What do visualizations of continuous distributions display?\nProbability that continuous variable \\(X\\) takes a particular value is 0\ne.g. \\(P(\\) duration \\(= 3) = 0\\) (why?)\nFor continuous variables, the cumulative distribution function (CDF) is \\[F(x) = P(X \\leq x)\\]\nFor \\(n\\) observations, the empirical CDF (ECDF) can be computed based on the observed data \\[\\hat{F}_n(x)  = \\frac{\\text{# obs. with variable} \\leq x}{n} = \\frac{1}{n} \\sum_{i=1}^{n} I (x_i \\leq x)\\]\nwhere \\(I()\\) is the indicator function, i.e. ifelse(x_i &lt;= x, 1, 0)"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#display-full-distribution-with-ecdf-plot",
-    "href": "lectures/04-quantitative.html#display-full-distribution-with-ecdf-plot",
-    "title": "Data visualization: quantitative data",
-    "section": "Display full distribution with ECDF plot",
-    "text": "Display full distribution with ECDF plot\n\n\nPros:\n\nDisplays all of your data at once\nAs \\(n \\rightarrow \\infty\\), the ECDF \\(\\hat F_n(x)\\) converges to the true CDF \\(F(x)\\)\n\nCons:\n\nWhat are the cons?\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  stat_ecdf()"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#rug-plots-display-raw-data",
-    "href": "lectures/04-quantitative.html#rug-plots-display-raw-data",
-    "title": "Data visualization: quantitative data",
-    "section": "Rug plots display raw data",
-    "text": "Rug plots display raw data\n\n\nPros:\n\nDisplays raw data points\nUseful supplement for summaries and 2D plots\n\nCons:\n\nCan be overbearing for large datasets\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  geom_rug(alpha = 0.5)"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#rug-plots-supplement-other-displays",
-    "href": "lectures/04-quantitative.html#rug-plots-supplement-other-displays",
-    "title": "Data visualization: quantitative data",
-    "section": "Rug plots supplement other displays",
-    "text": "Rug plots supplement other displays\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  geom_histogram() +\n  geom_rug(alpha = 0.5)\n\n\n\n\n\n\n\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  stat_ecdf() +\n  geom_rug(alpha = 0.5)"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#summarizing-2d-quantitative-data",
-    "href": "lectures/04-quantitative.html#summarizing-2d-quantitative-data",
-    "title": "Data visualization: quantitative data",
-    "section": "Summarizing 2D quantitative data",
-    "text": "Summarizing 2D quantitative data\n\nDirection/trend (positive, negative)\nStrength of the relationship (strong, moderate, weak)\nLinearity (linear, non-linear)\n\n\nBig picture\n\nScatterplots are by far the most common visual\nRegression analysis is by far the most popular analysis (we will have a class on this)\nRelationships may vary across other variables, e.g., categorical variables"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#making-scatterplots",
-    "href": "lectures/04-quantitative.html#making-scatterplots",
-    "title": "Data visualization: quantitative data",
-    "section": "Making scatterplots",
-    "text": "Making scatterplots\n\n\n\nUse geom_point()\nDisplaying the joint (bivariate) distribution\nWhat is the obvious flaw with this plot?\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = loudness, y = energy)) +\n  geom_point(color = \"darkred\", size = 4)"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#making-scatterplots-always-adjust-the-transparency-alpha",
-    "href": "lectures/04-quantitative.html#making-scatterplots-always-adjust-the-transparency-alpha",
-    "title": "Data visualization: quantitative data",
-    "section": "Making scatterplots: always adjust the transparency (alpha)",
-    "text": "Making scatterplots: always adjust the transparency (alpha)\n\n\n\nAdjust the transparency of points via alpha to visualize overlap\nProvides better understanding of joint frequency\nEspecially important with larger datasets\nSee also: ggblend\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = loudness, y = energy)) +\n  geom_point(color = \"darkred\", size = 4, alpha = 0.5)"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#summarizing-2d-quantitative-data-1",
-    "href": "lectures/04-quantitative.html#summarizing-2d-quantitative-data-1",
-    "title": "Data visualization: quantitative data",
-    "section": "Summarizing 2D quantitative data",
-    "text": "Summarizing 2D quantitative data\n\n\n\nScatterplot\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = loudness, y = energy)) +\n  geom_point(color = \"darkred\", size = 4, alpha = 0.5)\n\n\n\n\n\n\n\n\n\n\nCorrelation coefficient\n\n\ncor(taylor_all_songs$loudness, \n    taylor_all_songs$energy, \n    use = \"complete.obs\")\n\n[1] 0.7910765\n\n\nNote: the default correlation you get from cor() is Pearson correlation coefficient\nOther correlations:\n\nSpearman’s correlation\nKendall rank correlation coefficient\nand more"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#when-the-correlations-high",
-    "href": "lectures/04-quantitative.html#when-the-correlations-high",
-    "title": "Data visualization: quantitative data",
-    "section": "When the correlation’s high…",
-    "text": "When the correlation’s high…"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#displaying-trend-line-linear-regression-a-preview",
-    "href": "lectures/04-quantitative.html#displaying-trend-line-linear-regression-a-preview",
-    "title": "Data visualization: quantitative data",
-    "section": "Displaying trend line: linear regression(a preview)",
-    "text": "Displaying trend line: linear regression(a preview)\n\n\n\nDisplay regression line forenergy ~ loudness\n95% confidence intervals by default\nEstimating the conditional expectation of energy | loudness\n\ni.e., \\(\\mathbb{E}[\\) energy \\(\\mid\\) loudness \\(]\\)\n\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = loudness, y = energy)) +\n  geom_point(color = \"darkred\", size = 4, alpha = 0.5) +\n  geom_smooth(method = \"lm\", linewidth = 2)"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#summarizing-2d-quantitative-data-2",
-    "href": "lectures/04-quantitative.html#summarizing-2d-quantitative-data-2",
-    "title": "Data visualization: quantitative data",
-    "section": "Summarizing 2D quantitative data",
-    "text": "Summarizing 2D quantitative data\n\n\nAdd rug plots to supplement scatterplot\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = loudness, y = energy)) +\n  geom_point(color = \"darkred\", size = 4, alpha = 0.5) +\n  geom_rug(alpha = 0.4)"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#pairs-plot",
-    "href": "lectures/04-quantitative.html#pairs-plot",
-    "title": "Data visualization: quantitative data",
-    "section": "Pairs plot",
-    "text": "Pairs plot\n\nlibrary(GGally)\ntaylor_all_songs |&gt; \n  select(danceability, energy, loudness, tempo) |&gt; \n  ggpairs()"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#continuous-by-categorical-side-by-side-plots",
-    "href": "lectures/04-quantitative.html#continuous-by-categorical-side-by-side-plots",
-    "title": "Data visualization: quantitative data",
-    "section": "Continuous by categorical: side by side plots",
-    "text": "Continuous by categorical: side by side plots\n\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration, y = album_name)) +\n  geom_violin() +\n  geom_boxplot(width = 0.4)"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#continuous-by-categorical-color",
-    "href": "lectures/04-quantitative.html#continuous-by-categorical-color",
-    "title": "Data visualization: quantitative data",
-    "section": "Continuous by categorical: color",
-    "text": "Continuous by categorical: color\n\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration, color = album_name)) +\n  stat_ecdf(linewidth = 1) +\n  scale_color_albums() + # from the taylor package \n  theme(legend.position = \"bottom\")"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#continuous-by-categorical-ridgeline-plot-joyplot",
-    "href": "lectures/04-quantitative.html#continuous-by-categorical-ridgeline-plot-joyplot",
-    "title": "Data visualization: quantitative data",
-    "section": "Continuous by categorical: ridgeline plot (joyplot)",
-    "text": "Continuous by categorical: ridgeline plot (joyplot)\nFor more, see this tutorial\n\nlibrary(ggridges)\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration, y = album_name)) +\n  geom_density_ridges(scale = 1)"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#what-about-for-histograms",
-    "href": "lectures/04-quantitative.html#what-about-for-histograms",
-    "title": "Data visualization: quantitative data",
-    "section": "What about for histograms?",
-    "text": "What about for histograms?\n\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration, fill = album_name)) +\n  geom_histogram(alpha = 0.6, bins = 15) +\n  scale_fill_albums()"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#what-about-facets",
-    "href": "lectures/04-quantitative.html#what-about-facets",
-    "title": "Data visualization: quantitative data",
-    "section": "What about facets?",
-    "text": "What about facets?\nDifference between facet_wrap and facet_grid\n\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration)) +\n  geom_histogram(bins = 15) +\n  facet_wrap(~ album_name, nrow = 1)"
-  },
-  {
-    "objectID": "lectures/04-quantitative.html#what-about-facets-1",
-    "href": "lectures/04-quantitative.html#what-about-facets-1",
-    "title": "Data visualization: quantitative data",
-    "section": "What about facets?",
-    "text": "What about facets?\n\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration)) +\n  geom_histogram(bins = 15) +\n  facet_grid(album_name ~ ., margins = TRUE)"
-  },
-  {
-    "objectID": "sports.html",
-    "href": "sports.html",
-    "title": "Sports",
-    "section": "",
-    "text": "TBA"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "SURE 2025",
-    "section": "",
-    "text": "Welcome to the Summer Undergraduate Research Experience in Statistics (SURE) 2025, hosted by the Department of Statistics & Data Science at Carnegie Mellon University. This program focuses on statistics and data science methodology with applications in healthcare and sports analytics.\nOn this site, the Lectures tab contains all lecture slides. The Health and Sports tabs contain materials for health and sports camps, respectively."
-  },
-  {
-    "objectID": "lectures.html",
-    "href": "lectures.html",
-    "title": "Lectures",
-    "section": "",
-    "text": "Date\nTitle\nMaterials\n\n\n\n\nLecture 0\nJune 2\nWelcome to SURE 2024\n\n\n\nLecture 1\nJune 3\nExploring data: into the tidyverse\nslides"
-  },
-  {
-    "objectID": "lectures.html#contents",
-    "href": "lectures.html#contents",
-    "title": "Lectures",
-    "section": "",
-    "text": "Date\nTitle\nMaterials\n\n\n\n\nLecture 0\nJune 2\nWelcome to SURE 2024\n\n\n\nLecture 1\nJune 3\nExploring data: into the tidyverse\nslides"
-  },
-  {
-    "objectID": "r-setup.html#r-and-rstudio",
-    "href": "r-setup.html#r-and-rstudio",
-    "title": "R and RStudio Setup",
-    "section": "R and RStudio",
-    "text": "R and RStudio\nR is an open-source programming language for statistical computing. R is widely-used in both academia and industry, due to its capacity for statistical analysis and data science.\nIn order to use R effectively, you need a suitable editing environment, i.e. RStudio. For more context, RStudio is an integrated development environment (IDE) developed specifically for R programming. Although R can be run without RStudio, RStudio provides a more user-friendly experience with additional functionality.\nTo download R and RStudio, visit https://posit.co/download/rstudio-desktop.\nYou will see the following two tasks to be completed:\n\n1: Install R\n2: Install RStudio"
-  },
-  {
-    "objectID": "r-setup.html#step-1-install-r",
-    "href": "r-setup.html#step-1-install-r",
-    "title": "R and RStudio Setup",
-    "section": "Step 1: Install R",
-    "text": "Step 1: Install R\n(Note that the following instructions apply to the latest R version (4.5.0) as of May 1, 2025)\nClick on DOWNLOAD AND INSTALL R. This will direct you to the CRAN (Comprehensive R Archive Network) website.\nmacOS\n\nClick on Download R for macOS.\nChoose the .pkg file suitable for your Mac (Apple silicon (M1,2,..) Macs or older Intel Macs.)\nOpen the .pkg file after the download is complete.\nFollow the installation instructions.\n\nWindows\n\nClick on Download R for Windows.\nClick on install R for the first time (on the same line as the base subdirectory.)\nChoose Download R-4.5.0 for Windows.\nOpen the .exe file after the download is complete.\nFollow the installation instructions."
-  },
-  {
-    "objectID": "r-setup.html#step-2-install-rstudio",
-    "href": "r-setup.html#step-2-install-rstudio",
-    "title": "R and RStudio Setup",
-    "section": "Step 2: Install RStudio",
-    "text": "Step 2: Install RStudio\n\n\n\n\n\n\nImportant\n\n\n\nR must be installed before RStudio.\n\n\nClick on DOWNLOAD RSTUDIO DESKTOP… Your operating system is automatically detected. (If your OS is not correctly detected, scroll down and choose the right version for your system.)\nmacOS\n\nOpen the .dmg file after the download is complete.\nDrag and drop it to your Applications folder.\n\nWindows\n\nOpen the .exe file after the download is complete.\nFollow the installation instructions."
-  },
-  {
-    "objectID": "r-setup.html#step3",
-    "href": "r-setup.html#step3",
-    "title": "R and RStudio Setup",
-    "section": "Step 3: Check R and RStudio installations",
-    "text": "Step 3: Check R and RStudio installations\nOpen RStudio and type in the following command in the Console pane.\n\nversion\n\nThis will print out the current version of R on your machine. The output should look similar to what shown below (the first 4 lines might be different, depending on your operating system.)\n\n\n               _                           \nplatform       aarch64-apple-darwin20      \narch           aarch64                     \nos             darwin20                    \nsystem         aarch64, darwin20           \nstatus                                     \nmajor          4                           \nminor          5.0                         \nyear           2025                        \nmonth          04                          \nday            11                          \nsvn rev        88135                       \nlanguage       R                           \nversion.string R version 4.5.0 (2025-04-11)\nnickname       How About a Twenty-Six"
-  },
-  {
-    "objectID": "r-setup.html#step-4-install-an-r-package",
-    "href": "r-setup.html#step-4-install-an-r-package",
-    "title": "R and RStudio Setup",
-    "section": "Step 4: Install an R package",
-    "text": "Step 4: Install an R package\nIn R, a package is a collection of functions, data, and compiled code. In addition to a set of built-in base packages, there are numerous external R packages written by the community to add specific functionality.\nIn general, to install an R package, you can use the install.packages() function and pass in the package name.\nThe following example shows how to install the tidyverse package in R. The tidyverse is a suite of R packages we will be using throughout this program. It features popular packages such as ggplot2 for data visualization and dplyr for data manipulation.\nAfter installing R and RStudio, open RStudio and enter the following command in the Console pane.\n\ninstall.packages(\"tidyverse\")\n\nTo verify that tidyverse is successfully installed, run the following command:\n\nlibrary(tidyverse)\n\nYou should get a message similar to the output below.\n\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.2.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.0.4     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n\nAsk us for help if you encounter any issues or errors in any of the installation steps above."
-  },
-  {
-    "objectID": "r-setup.html#r-primers-on-posit-cloud",
-    "href": "r-setup.html#r-primers-on-posit-cloud",
-    "title": "R and RStudio Setup",
-    "section": "R Primers on Posit Cloud",
-    "text": "R Primers on Posit Cloud\nIn addition to following the steps above for installing R and RStudio on your computer, we recommend you make a free Posit Cloud (formerly RStudio Cloud) account at https://posit.cloud/. This is a free, browser-based version of R and RStudio that also provides access to a growing number of relevant R tutorials / primers.\nAfter you create a Posit Cloud account, navigate to the menu on the left and click on “Recipes”. This brings up a menu of tutorials, with code primers you can choose to work through. Please complete the tutorials listed under “R Basics” (you can skip the first three). Also, feel free to explore the other tutorials."
-  },
-  {
-    "objectID": "git-setup.html#step-1-create-a-github-account",
-    "href": "git-setup.html#step-1-create-a-github-account",
-    "title": "Git and GitHub Setup",
-    "section": "Step 1: Create a GitHub account",
-    "text": "Step 1: Create a GitHub account\nRegister for a GitHub account at https://github.com if you do not have one. It is completely free to use. You may use any username you prefer; we will later ask for your username so we can keep track."
-  },
-  {
-    "objectID": "git-setup.html#step-2-install-git",
-    "href": "git-setup.html#step-2-install-git",
-    "title": "Git and GitHub Setup",
-    "section": "Step 2: Install Git",
-    "text": "Step 2: Install Git\n(Windows)\n\nGo to https://git-scm.com/download/win\nNavigate to “Click here to download” on the first line and click on it\nFollow the installation instructions\n\n(macOS)\n\nOpen the Terminal app on your computer (Finder \\(\\rightarrow\\) Applications \\(\\rightarrow\\) Terminal)\nGo to https://brew.sh and copy/paste the chunk under “Install Homebrew” to the Terminal\nOnce Homebrew is installed, type this into the Terminal: brew install git"
-  },
-  {
-    "objectID": "git-setup.html#step-3-configure-git",
-    "href": "git-setup.html#step-3-configure-git",
-    "title": "Git and GitHub Setup",
-    "section": "Step 3: Configure Git",
-    "text": "Step 3: Configure Git\n\nAfter installation, you need to configure Git. This can be done directly in R:\n\n\n# uncomment and run the following line to install the usethis package\n# install.packages(\"usethis\")\nusethis::use_git_config(user.name = \"Your Name\", user.email = \"your-github@email.address\")\n\n\nUse your full name for the user.name field and the same email as your GitHub account for user.email\nYou then need to create a personal access token for authentication as follows:\n\n\nusethis::create_github_token()\n\n\nThis will direct you to the GitHub site on your browser (you may have to log in). On this site:\n\nUnder “Note”, type in some description for this token (e.g., “SURE 2025 GitHub token”)\nFor “Expiration”, set an expiration date for this token (e.g., 90 days) or make it permanent (i.e. choose “No expiration” if you don’t want to deal with this again in the future)\nUnder “Select scopes”, recommended scopes will be pre-selected. Stick with these for now.\n\nNext, click on “Generate token”\nCopy the token to your clipboard (or leave the browser window open, so you can come back to copy the token later)\nIn RStudio, run the following to get a prompt where you can paste your token:\n\n\n# uncomment and run the following line to install the gitcreds package\n# install.packages(\"gitcreds\")\ngitcreds::gitcreds_set()\n\nYou should then be ready to use GitHub!"
-  },
-  {
-    "objectID": "git-setup.html#step-4-create-a-github-repository",
-    "href": "git-setup.html#step-4-create-a-github-repository",
-    "title": "Git and GitHub Setup",
-    "section": "Step 4: Create a GitHub repository",
-    "text": "Step 4: Create a GitHub repository\nWe will follow the paradigm of “GitHub first”. What this means is that when we create a repository, we will create it on GitHub first, then link a local repository to it from inside RStudio.\nAfter you’ve logged in, to create a GitHub repository\n\nGo to https://github.com/new\nName the repository (give it a meaningful name)\nGive the repository a description (don’t leave this blank although this is optional)\nDecide whether to keep the repository public or private (for now, let’s just keep it public)\nClick on “Initialize this repository with a README”. For now, there’s no need to “Add .gitignore” or “Choose a license”\nClick on “Create Repository”"
-  },
-  {
-    "objectID": "git-setup.html#step-5-connect-rstudio-to-the-github-repository",
-    "href": "git-setup.html#step-5-connect-rstudio-to-the-github-repository",
-    "title": "Git and GitHub Setup",
-    "section": "Step 5: Connect RStudio to the GitHub repository",
-    "text": "Step 5: Connect RStudio to the GitHub repository\n\nGo to the browser page for your GitHub repository\nClick on Code (in the same line as “Go to file”). Under HTTPS, copy the URL\nIn RStudio, click on File &gt; New Project.... Next, click on “Version Control” and then on “Git”. Paste the URL you just copied into “Repository URL”\nType the name for the folder on your computer associated with this repository into Project directory name\n\nYou can choose whatever name you want, but it is recommended to give a name similar to the repository name on GitHub\n\nMake sure “Create project as subdirectory of:” points to where you want to locate this new folder\nClick on “Create Project”\nAt this point, you should find that the “Files” pane (in the bottom right of RStudio) is listing the files in your local repository."
-  },
-  {
-    "objectID": "git-setup.html#step-6-modify-the-repository",
-    "href": "git-setup.html#step-6-modify-the-repository",
-    "title": "Git and GitHub Setup",
-    "section": "Step 6: Modify the repository",
-    "text": "Step 6: Modify the repository\nTo add a new file from your local repository to GitHub:\n\nIn RStudio, open a new file (could be anything - e.g. R Script, Quarto document, etc.).\nFill the file with some code/comments/etc. (This is just for illustration purpose, to show how you can add a file to GitHub from your computer)\nSave the file. At this point, this file should show up in the “Git” pane (in the top right of RStudio)\nCheck the box under “Staged” in the Git pane to stage the file for a commit\nClick on “Commit” in the Git pane\nIn the new window that opens, add a “Commit message”, then click on the “Commit” button\nClick on “Push” to push your changes from your local repository to the remote repository on GitHub\n\nIf you encountered no errors then you’re done! While working on a single project you will repeatedly perform the tasks in Step 6: make changes to files, commit changes, then push changes\nEvery time you want to create a new repository, you can just start with Step 4, use GitHub, copy the repository into RStudio, then repeatedly update, commit, and push.\nAsk us for help if you have any questions."
-  },
-  {
-    "objectID": "health.html",
-    "href": "health.html",
-    "title": "Health",
-    "section": "",
-    "text": "TBA"
-  },
-  {
-    "objectID": "lectures/05-pca.html#unsupervised-learning",
-    "href": "lectures/05-pca.html#unsupervised-learning",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Unsupervised learning",
-    "text": "Unsupervised learning\n\nNo response variable (i.e., data are not labeled)\n\n\n\nOnly given a set of features measured on a set of observations\n\n\n\n\nUnsupervised learning is more subjective than supervised learning (difficult to tell how “good” you are doing)\n\n\n\n\nThere is no simple goal for the analysis, such as prediction of a response in supervised learning\n\n\n\n\nUnsupervised learning can be useful as a pre-processing step for supervised learning\n\n\n\nThink of unsupervised learning as an extension of EDA—there’s no unique right answer!"
-  },
-  {
-    "objectID": "lectures/05-pca.html#fundamental-problems-in-unsupervised-learning",
-    "href": "lectures/05-pca.html#fundamental-problems-in-unsupervised-learning",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Fundamental problems in unsupervised learning",
-    "text": "Fundamental problems in unsupervised learning\n\nDimension reduction: reduce the original dimension of the data to something smaller so we can explore/visualize the data\n\n\nMethods: PCA (this lecture), ICA, t-SNE, UMAP,…\n\n\nClustering: group the observations in the data into different clusters\n\n\nMethods: hard clustering (\\(k\\)-means, hierachical clustering,…), soft clustering (mixture model)"
-  },
-  {
-    "objectID": "lectures/05-pca.html#dimension-reduction-the-big-picture",
-    "href": "lectures/05-pca.html#dimension-reduction-the-big-picture",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Dimension reduction: the big picture",
-    "text": "Dimension reduction: the big picture\nKey question: How do we visualize the structure of high-dimensional data?\n\nExample: What if you’re given a dataset with 50 variables and are asked to make one visualization that best represents the data? What do you do?\n\n\nTedious task: Make a series of all \\(\\displaystyle \\binom{50}{2} = 1225\\) pairs of plots? Or make a giant correlation heatmap?\n\n\nIntuition: Take high-dimensional data and represent it in 2-3 dimensions, then visualize those dimensions"
-  },
-  {
-    "objectID": "lectures/05-pca.html#motivating-example-starbucks-drinks",
-    "href": "lectures/05-pca.html#motivating-example-starbucks-drinks",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Motivating example: Starbucks drinks",
-    "text": "Motivating example: Starbucks drinks\n\nlibrary(tidyverse)\ntheme_set(theme_light())\nstarbucks &lt;- read_csv(\n  \"https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-12-21/starbucks.csv\"\n) |&gt;\n  # convert columns to numeric that were saved as character\n  mutate(trans_fat_g = as.numeric(trans_fat_g), fiber_g = as.numeric(fiber_g))\nglimpse(starbucks)\n\nRows: 1,147\nColumns: 15\n$ product_name    &lt;chr&gt; \"brewed coffee - dark roast\", \"brewed coffee - dark ro…\n$ size            &lt;chr&gt; \"short\", \"tall\", \"grande\", \"venti\", \"short\", \"tall\", \"…\n$ milk            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, …\n$ whip            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ serv_size_m_l   &lt;dbl&gt; 236, 354, 473, 591, 236, 354, 473, 591, 236, 354, 473,…\n$ calories        &lt;dbl&gt; 3, 4, 5, 5, 3, 4, 5, 5, 3, 4, 5, 5, 3, 4, 5, 5, 35, 50…\n$ total_fat_g     &lt;dbl&gt; 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1,…\n$ saturated_fat_g &lt;dbl&gt; 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,…\n$ trans_fat_g     &lt;dbl&gt; 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,…\n$ cholesterol_mg  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10,…\n$ sodium_mg       &lt;dbl&gt; 5, 10, 10, 10, 5, 10, 10, 10, 5, 5, 5, 5, 5, 5, 5, 5, …\n$ total_carbs_g   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, …\n$ fiber_g         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ sugar_g         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, …\n$ caffeine_mg     &lt;dbl&gt; 130, 193, 260, 340, 15, 20, 25, 30, 155, 235, 310, 410…"
-  },
-  {
-    "objectID": "lectures/05-pca.html#dimension-reduction-the-big-picture-1",
-    "href": "lectures/05-pca.html#dimension-reduction-the-big-picture-1",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Dimension reduction: the big picture",
-    "text": "Dimension reduction: the big picture\n\nIt’s usually really hard to visualize many dimensions at the same time\n\n\n\nOften, it makes a lot of sense to choose 2-3 of the “most important dimensions” and just plot those\n\n\n\n\nPCA is a very common way to define “most important dimensions”\n\n\n\n\nPCA provides the linear combinations of variables that capture the most variation in the data\n\n\n\n\nIt’s common to plot the first two principal components in a scatterplot\n\n\n\n\nIt’s very useful to plot principal components with a biplot\n\nAdds interpretability to the principal components, and helps reveal relationships among the variables"
-  },
-  {
-    "objectID": "lectures/05-pca.html#what-is-the-goal-of-dimension-reduction",
-    "href": "lectures/05-pca.html#what-is-the-goal-of-dimension-reduction",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "What is the goal of dimension reduction?",
-    "text": "What is the goal of dimension reduction?\nWe have \\(p\\) variables (columns) for \\(n\\) observations (rows) BUT which variables are interesting?\n\nCan we find a smaller number of dimensions that captures the interesting structure in the data?\n\nCould examine all pairwise scatterplots of each variable - tedious, manual process\nClustering of variables based on correlation\nCan we find a combination of the original \\(p\\) variables?\n\n\n\nDimension reduction:\n\nFocus on reducing the dimensionality of the feature space (i.e., number of columns)\nRetain most of the information / variability in a lower dimensional space (i.e., reducing the number of columns)\nThe process: (big) \\(n \\times p\\) matrix \\(\\longrightarrow\\) dimension reduction method \\(\\longrightarrow\\) (smaller) \\(n \\times k\\) matrix"
-  },
-  {
-    "objectID": "lectures/05-pca.html#principal-components-analysis-pca",
-    "href": "lectures/05-pca.html#principal-components-analysis-pca",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Principal components analysis (PCA)",
-    "text": "Principal components analysis (PCA)\nTL;DR\nPCA replaces the original \\(p\\) explanatory variables by fewer linear combinations of them (the “principal components”) that are uncorrelated while also accounting for most of their variabillity\n\n\\[\n\\begin{pmatrix}\n& & \\text{really} & & \\\\\n& & \\text{wide} & & \\\\\n& & \\text{matrix} & &\n\\end{pmatrix}\n\\rightarrow \\text{matrix algebra razzmatazz} \\rightarrow\n\\begin{pmatrix}\n\\text{much}  \\\\\n\\text{thinner}  \\\\\n\\text{matrix}\n\\end{pmatrix}\n\\]\n\nPCA explores the covariance between variables, and combines variables into a smaller set of uncorrelated variables called principal components (PCs)\n\nTurn a \\(n \\times p\\) matrix of correlated variables into a \\(n \\times k\\) matrix of uncorrelated variables"
-  },
-  {
-    "objectID": "lectures/05-pca.html#principal-components-analysis-pca-1",
-    "href": "lectures/05-pca.html#principal-components-analysis-pca-1",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Principal components analysis (PCA)",
-    "text": "Principal components analysis (PCA)\n\\[\n\\begin{pmatrix}\n& & \\text{really} & & \\\\\n& & \\text{wide} & & \\\\\n& & \\text{matrix} & &\n\\end{pmatrix}\n\\rightarrow \\text{matrix algebra razzmatazz} \\rightarrow\n\\begin{pmatrix}\n\\text{much}  \\\\\n\\text{thinner}  \\\\\n\\text{matrix}\n\\end{pmatrix}\n\\]\n\nEach of the \\(k\\) columns in the right-hand matrix are principal components (PCs), all uncorrelated with each other\n\nPCs are weighted, linear combinations of the original variables\nWeights reveal how different variables are loaded into the PCs\n\nFirst column accounts for most variation in the data, second column for second-most variation, and so on\n\nIntuition: we want a small number of PCs (first few PCs) to account for most of the information/variance in the data"
-  },
-  {
-    "objectID": "lectures/05-pca.html#what-are-principal-components",
-    "href": "lectures/05-pca.html#what-are-principal-components",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "What are principal components?",
-    "text": "What are principal components?\nAssume \\(\\boldsymbol{X}\\) is a \\(n \\times p\\) matrix that is centered and stardardized\n\nTotal variation \\(= p\\), since \\(\\text{Var}(\\boldsymbol{x}_j)\\) = 1 for all \\(j = 1, \\dots, p\\) (due to stardardization)\n\n\nPCA will give us \\(p\\) principal components that are \\(n\\)-length columns, denoted by \\(Z_1, \\dots, Z_p\\)\n\n\n\nThe first principal component is the linear combination that has the largest possible variance\nEach succeeding component has the largest possible variance under the constraint that it is uncorrelated with the preceding components\nA small number of principal components often explains a high percentage of the original variability"
-  },
-  {
-    "objectID": "lectures/05-pca.html#first-principal-component",
-    "href": "lectures/05-pca.html#first-principal-component",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "First principal component",
-    "text": "First principal component\n\\[Z_1 = \\phi_{11} X_1 + \\phi_{21} X_2 + \\dots + \\phi_{p1} X_p\\]\n\n\n\\(\\phi_{j1}\\) are the weights indicating the contributions of each variable \\(j \\in 1, \\dots, p\\)\nWeights are normalized \\(\\displaystyle \\sum_{j=1}^p \\phi_{j1}^2 = 1\\)\n\\(\\phi_{1} = (\\phi_{11}, \\phi_{21}, \\dots, \\phi_{p1})\\) is the loading vector for \\(\\text{PC}_1\\)\n\n\n\n\n\\(Z_1\\) is a linear combination of the \\(p\\) variables that has the largest variance"
-  },
-  {
-    "objectID": "lectures/05-pca.html#second-principal-component",
-    "href": "lectures/05-pca.html#second-principal-component",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Second principal component",
-    "text": "Second principal component\n\\[Z_2 = \\phi_{12} X_1 + \\phi_{22} X_2 + \\dots + \\phi_{p2} X_p\\]\n\n\\(\\phi_{j2}\\) are the weights indicating the contributions of each variable \\(j \\in 1, \\dots, p\\)\nWeights are normalized \\(\\displaystyle \\sum_{j=1}^p \\phi_{j1}^2 = 1\\)\n\\(\\phi_{2} = (\\phi_{12}, \\phi_{22}, \\dots, \\phi_{p2})\\) is the loading vector for \\(\\text{PC}_2\\)\n\\(Z_2\\) is a linear combination of the \\(p\\) variables that has the largest variance\n\nSubject to constraint it is uncorrelated with \\(Z_1\\)\n\n\n\nRepeat this process to create \\(p\\) principal components\n\nUncorrelated: Each (\\(Z_j, Z_{j'}\\)) is uncorrelated with each other\nOrdered Variance: \\(\\text{Var}(Z_1) &gt; \\text{Var}(Z_2) &gt; \\dots &gt; \\text{Var}(Z_p)\\)\nTotal Variance: \\(\\displaystyle \\sum_{j=1}^p \\text{Var}(Z_j) = p\\)"
-  },
-  {
-    "objectID": "lectures/05-pca.html#visualizing-pca-in-two-dimensions",
-    "href": "lectures/05-pca.html#visualizing-pca-in-two-dimensions",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Visualizing PCA in two dimensions",
-    "text": "Visualizing PCA in two dimensions"
-  },
-  {
-    "objectID": "lectures/05-pca.html#visualizing-pca-in-two-dimensions-1",
-    "href": "lectures/05-pca.html#visualizing-pca-in-two-dimensions-1",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Visualizing PCA in two dimensions",
-    "text": "Visualizing PCA in two dimensions"
-  },
-  {
-    "objectID": "lectures/05-pca.html#visualizing-pca-in-two-dimensions-2",
-    "href": "lectures/05-pca.html#visualizing-pca-in-two-dimensions-2",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Visualizing PCA in two dimensions",
-    "text": "Visualizing PCA in two dimensions"
-  },
-  {
-    "objectID": "lectures/05-pca.html#visualizing-pca-in-two-dimensions-3",
-    "href": "lectures/05-pca.html#visualizing-pca-in-two-dimensions-3",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Visualizing PCA in two dimensions",
-    "text": "Visualizing PCA in two dimensions"
-  },
-  {
-    "objectID": "lectures/05-pca.html#visualizing-pca-in-two-dimensions-4",
-    "href": "lectures/05-pca.html#visualizing-pca-in-two-dimensions-4",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Visualizing PCA in two dimensions",
-    "text": "Visualizing PCA in two dimensions\nKey idea: provide low-dimensional linear surfaces that are closest to the observations\n\n\n\nThe above is the minimizing projection residuals viewpoint of PCA\n\n\n\n\nThere’s another viewpoint: maximizing variance\n\nif we project all points onto the solid orange line, we maximize the variance of the resulting projected points across all such orange lines"
-  },
-  {
-    "objectID": "lectures/05-pca.html#data-nutritional-information-of-starbucks-drinks",
-    "href": "lectures/05-pca.html#data-nutritional-information-of-starbucks-drinks",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Data: nutritional information of Starbucks drinks",
-    "text": "Data: nutritional information of Starbucks drinks\n\nlibrary(tidyverse)\ntheme_set(theme_light())\nstarbucks &lt;- read_csv(\n  \"https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-12-21/starbucks.csv\"\n) |&gt;\n  # convert columns to numeric that were saved as character\n  mutate(trans_fat_g = as.numeric(trans_fat_g), fiber_g = as.numeric(fiber_g))\nglimpse(starbucks)\n\nRows: 1,147\nColumns: 15\n$ product_name    &lt;chr&gt; \"brewed coffee - dark roast\", \"brewed coffee - dark ro…\n$ size            &lt;chr&gt; \"short\", \"tall\", \"grande\", \"venti\", \"short\", \"tall\", \"…\n$ milk            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, …\n$ whip            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ serv_size_m_l   &lt;dbl&gt; 236, 354, 473, 591, 236, 354, 473, 591, 236, 354, 473,…\n$ calories        &lt;dbl&gt; 3, 4, 5, 5, 3, 4, 5, 5, 3, 4, 5, 5, 3, 4, 5, 5, 35, 50…\n$ total_fat_g     &lt;dbl&gt; 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1,…\n$ saturated_fat_g &lt;dbl&gt; 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,…\n$ trans_fat_g     &lt;dbl&gt; 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,…\n$ cholesterol_mg  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10,…\n$ sodium_mg       &lt;dbl&gt; 5, 10, 10, 10, 5, 10, 10, 10, 5, 5, 5, 5, 5, 5, 5, 5, …\n$ total_carbs_g   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, …\n$ fiber_g         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ sugar_g         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, …\n$ caffeine_mg     &lt;dbl&gt; 130, 193, 260, 340, 15, 20, 25, 30, 155, 235, 310, 410…"
-  },
-  {
-    "objectID": "lectures/05-pca.html#implementing-pca",
-    "href": "lectures/05-pca.html#implementing-pca",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Implementing PCA",
-    "text": "Implementing PCA\nUse the prcomp() function (based on SVD) for PCA on centered and scaled data\n\nfeat &lt;- starbucks |&gt; \n  select(serv_size_m_l:caffeine_mg)\nstarbucks_pca &lt;- prcomp(feat, center = TRUE, scale. = TRUE)\nsummary(starbucks_pca)\n\nImportance of components:\n                          PC1    PC2    PC3     PC4     PC5     PC6    PC7\nStandard deviation     2.4748 1.3074 1.0571 0.97919 0.67836 0.56399 0.4413\nProportion of Variance 0.5568 0.1554 0.1016 0.08716 0.04183 0.02892 0.0177\nCumulative Proportion  0.5568 0.7122 0.8138 0.90093 0.94276 0.97168 0.9894\n                           PC8     PC9    PC10    PC11\nStandard deviation     0.28123 0.16874 0.08702 0.04048\nProportion of Variance 0.00719 0.00259 0.00069 0.00015\nCumulative Proportion  0.99657 0.99916 0.99985 1.00000"
-  },
-  {
-    "objectID": "lectures/05-pca.html#computing-principal-components",
-    "href": "lectures/05-pca.html#computing-principal-components",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Computing principal components",
-    "text": "Computing principal components\nExtract the matrix of principal components (dimension will match original data)\n\nstarbucks_pc_matrix &lt;- starbucks_pca$x\nhead(starbucks_pc_matrix)\n\n           PC1        PC2        PC3           PC4         PC5         PC6\n[1,] -3.766852 -1.0023657  0.2482698 -0.1521871448  0.24739830 -0.11365847\n[2,] -3.633234 -0.6946439  1.2059943 -0.3720566566  0.06052789 -0.06406410\n[3,] -3.518063 -0.3981399  2.2165170 -0.5967175941 -0.13122572 -0.01937237\n[4,] -3.412061 -0.1067045  3.3741594 -0.8490378243 -0.26095965 -0.00899485\n[5,] -3.721426 -0.9868147 -1.0705094  0.0949330091 -0.27181508  0.17491809\n[6,] -3.564899 -0.6712499 -0.7779083 -0.0003019903 -0.72054963  0.37005543\n             PC7         PC8        PC9       PC10        PC11\n[1,] -0.02812472 0.006489978 0.05145094 0.06678083 0.019741873\n[2,]  0.05460952 0.021148978 0.07094211 0.08080545 0.023480029\n[3,]  0.09050806 0.031575955 0.08901403 0.09389227 0.028669251\n[4,]  0.11585507 0.037521689 0.11287190 0.11582260 0.034691142\n[5,]  0.07009414 0.037736197 0.02892317 0.03631676 0.005775410\n[6,]  0.20236484 0.068154160 0.03705252 0.03497690 0.002469611\n\n\nColumns are uncorrelated, such that \\(\\text{Var}(Z_1) &gt; \\text{Var}(Z_2) &gt; \\dots &gt; \\text{Var}(Z_p)\\)"
-  },
-  {
-    "objectID": "lectures/05-pca.html#visualizing-first-two-principal-components",
-    "href": "lectures/05-pca.html#visualizing-first-two-principal-components",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Visualizing first two principal components",
-    "text": "Visualizing first two principal components\n\n\n\nstarbucks &lt;- starbucks |&gt; \n  mutate(pc1 = starbucks_pc_matrix[,1], \n         pc2 = starbucks_pc_matrix[,2])\nstarbucks |&gt; \n  ggplot(aes(x = pc1, y = pc2)) +\n  geom_point(alpha = 0.5) +\n  labs(x = \"PC 1\", y = \"PC 2\")\n\n\nPrincipal components are not interpretable\nMake a biplot with arrows showing the linear relationship between one variable and other variables"
-  },
-  {
-    "objectID": "lectures/05-pca.html#making-pcs-interpretable-with-biplots",
-    "href": "lectures/05-pca.html#making-pcs-interpretable-with-biplots",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Making PCs interpretable with biplots",
-    "text": "Making PCs interpretable with biplots\nBiplot displays both the space of observations and the space of variables\nCheck out the factoextra package\n\n\n\nlibrary(factoextra)\n# fviz_pca_var(): projection of variables\n# fviz_pca_ind(): display observations with first two PCs\nstarbucks_pca |&gt; \n  fviz_pca_biplot(label = \"var\",\n                  alpha.ind = 0.25,\n                  alpha.var = 0.75,\n                  col.var = \"darkblue\",\n                  repel = TRUE)\n\n\nArrow direction: “as the variable increases…”\nArrow angles: correlation\n\n\\(90^{\\circ}\\): uncorrelated\n\\(&lt; 90^{\\circ}\\): positively correlated\n\\(&gt; 90^{\\circ}\\): negatively correlated\n\nArrow length: strength of relationship with PCs"
-  },
-  {
-    "objectID": "lectures/05-pca.html#how-many-principal-components-to-use",
-    "href": "lectures/05-pca.html#how-many-principal-components-to-use",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "How many principal components to use?",
-    "text": "How many principal components to use?\nIntuition: Additional principal components will add smaller and smaller variance\n\nKeep adding components until the added variance drops off\n\n\nsummary(starbucks_pca)\n\nImportance of components:\n                          PC1    PC2    PC3     PC4     PC5     PC6    PC7\nStandard deviation     2.4748 1.3074 1.0571 0.97919 0.67836 0.56399 0.4413\nProportion of Variance 0.5568 0.1554 0.1016 0.08716 0.04183 0.02892 0.0177\nCumulative Proportion  0.5568 0.7122 0.8138 0.90093 0.94276 0.97168 0.9894\n                           PC8     PC9    PC10    PC11\nStandard deviation     0.28123 0.16874 0.08702 0.04048\nProportion of Variance 0.00719 0.00259 0.00069 0.00015\nCumulative Proportion  0.99657 0.99916 0.99985 1.00000"
-  },
-  {
-    "objectID": "lectures/05-pca.html#create-a-scree-plot-or-elbow-plot",
-    "href": "lectures/05-pca.html#create-a-scree-plot-or-elbow-plot",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Create a scree plot (or elbow plot)",
-    "text": "Create a scree plot (or elbow plot)\n\nstarbucks_pca |&gt; \n  fviz_eig(addlabels = TRUE) +\n  geom_hline(yintercept = 100 * (1 / ncol(starbucks_pca$x)), linetype = \"dashed\", color = \"darkred\")\n\n\n\nRule of thumb: horizontal line at \\(1/p\\)"
-  },
-  {
-    "objectID": "lectures/05-pca.html#pca-output",
-    "href": "lectures/05-pca.html#pca-output",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "PCA output",
-    "text": "PCA output\n\n# str(starbucks_pca)\n\nExamine the output after running prcomp()\n\nstarbucks_pca$sdev: singular values (\\(\\sqrt{\\lambda_j}\\))\nstarbucks_pca$rotation: loading matrix (\\(V\\))\nstarbucks_pca$x: principal component scores matrix (\\(Z=XV\\))\n\nCan use the broom package for tidying prcomp()\n\ntidy(starbucks_pca, matrix = \"eigenvalues\") # equivalent to starbucks_pca$sdev\ntidy(starbucks_pca, matrix = \"rotation\") # equivalent to starbucks_pca$rotation\ntidy(starbucks_pca, matrix = \"scores\") # equivalent to starbucks_pca$x"
-  },
-  {
-    "objectID": "lectures/05-pca.html#proportion-of-variance-explained",
-    "href": "lectures/05-pca.html#proportion-of-variance-explained",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Proportion of variance explained",
-    "text": "Proportion of variance explained\n\nlibrary(broom)\nstarbucks_pca |&gt;\n  tidy(matrix = \"eigenvalues\") |&gt;\n  ggplot(aes(x = PC, y = percent)) +\n  geom_line() + \n  geom_point() +\n  geom_hline(yintercept = 1 / ncol(feat), color = \"darkred\", linetype = \"dashed\") +\n  scale_x_continuous(breaks = 1:ncol(starbucks_pca$x))"
-  },
-  {
-    "objectID": "lectures/05-pca.html#cumulative-proportion-of-variance-explained",
-    "href": "lectures/05-pca.html#cumulative-proportion-of-variance-explained",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Cumulative proportion of variance explained",
-    "text": "Cumulative proportion of variance explained\n\nlibrary(broom)\nstarbucks_pca |&gt;\n  tidy(matrix = \"eigenvalues\") |&gt;\n  ggplot(aes(x = PC, y = cumulative)) +\n  geom_line() + \n  geom_point() +\n  scale_x_continuous(breaks = 1:ncol(starbucks_pca$x))"
-  },
-  {
-    "objectID": "lectures/05-pca.html#remember-the-spelling",
-    "href": "lectures/05-pca.html#remember-the-spelling",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Remember the spelling…",
-    "text": "Remember the spelling…\n\n\nfolks. it's principal (not principle) components analysis.\n\n— Stephanie Hicks, PhD (@stephaniehicks) February 17, 2023"
-  },
-  {
-    "objectID": "lectures/05-pca.html#singular-value-decomposition-svd",
-    "href": "lectures/05-pca.html#singular-value-decomposition-svd",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Singular value decomposition (SVD)",
-    "text": "Singular value decomposition (SVD)\n\\[\nX = U D V^T\n\\]\n\n\\(U\\) and \\(V\\): matrices containing the left and right singular vectors of scaled matrix \\(X\\)\n\\(D\\): diagonal matrix of the singular values\n\n\n\nSVD simplifies matrix-vector multiplication as rotate, scale, and rotate again\n\n\n\n\\(V\\): loading matrix for \\(X\\) with \\(\\phi_{j}\\) as columns\n\n\\(Z = X  V\\): PC matrix\n\n\n\nBonus: Eigenvalue decomposition (or spectral decomposition)\n\n\\(V\\): eigenvectors of \\(X^TX\\) (covariance matrix, \\(^T\\): transpose)\n\\(U\\): eigenvectors of \\(XX^T\\)\nThe singular values (diagonal of \\(D\\)) are square roots of the eigenvalues of \\(X^TX\\) or \\(XX^T\\)\nMeaning that \\(Z = UD\\)"
-  },
-  {
-    "objectID": "lectures/05-pca.html#eigenvalues-guide-dimension-reduction",
-    "href": "lectures/05-pca.html#eigenvalues-guide-dimension-reduction",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Eigenvalues guide dimension reduction",
-    "text": "Eigenvalues guide dimension reduction\nWe want to choose \\(p^* &lt; p\\) such that we are explaining variation in the data\n\nEigenvalues \\(\\lambda_j\\) for \\(j \\in 1, \\dots, p\\) indicate the variance explained by each component\n\n\\(\\displaystyle \\sum_j^p \\lambda_j = p\\), meaning \\(\\lambda_j \\geq 1\\) indicates \\(\\text{PC}j\\) contains at least one variable’s worth in variability\n\\(\\displaystyle \\frac{\\lambda_j}{p}\\): proportion of variance explained by \\(\\text{PC}j\\)\nArranged in descending order so that \\(\\lambda_1\\) is largest eigenvalue and corresponds to PC1\n\n\n\n\nCompute the cumulative proportion of variance explained (CVE) with \\(p^*\\) components \\[\\text{CVE}_{p^*} = \\sum_j^{p*} \\frac{\\lambda_j}{p}\\] Use scree plot to plot eigenvalues and guide choice for \\(p^* &lt;p\\) by looking for “elbow” (rapid to slow change)"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#goals-of-data-visualization",
-    "href": "lectures/02-graphics.html#goals-of-data-visualization",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "Goals of data visualization",
-    "text": "Goals of data visualization\n\nto represent the data in a visual way (enough with tables… though tables are useful in a lot of situations)\n\n\n\nmost importantly, to deliver the information to your audience and help them understand the story behind the data\n\n\n\n\nData Visualization (good DataViz anyway) answers a question. - Greggy J. M."
-  },
-  {
-    "objectID": "lectures/02-graphics.html#always-visualize-your-data-before-modeling-and-analysis",
-    "href": "lectures/02-graphics.html#always-visualize-your-data-before-modeling-and-analysis",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "ALWAYS visualize your data before modeling and analysis",
-    "text": "ALWAYS visualize your data before modeling and analysis\nAnscombe’s quartet\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# A tibble: 4 × 6\n  set   x_mean x_var y_mean y_var x_y_cor\n  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;\n1 1          9    11   7.50  4.13   0.816\n2 2          9    11   7.50  4.13   0.816\n3 3          9    11   7.5   4.12   0.816\n4 4          9    11   7.50  4.12   0.817"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#always-visualize-your-data-before-modeling-and-analysis-1",
-    "href": "lectures/02-graphics.html#always-visualize-your-data-before-modeling-and-analysis-1",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "ALWAYS visualize your data before modeling and analysis",
-    "text": "ALWAYS visualize your data before modeling and analysis\nThe Datasaurus dozen\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# A tibble: 13 × 6\n   dataset    x_mean x_var y_mean y_var x_y_cor\n   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;\n 1 away         54.3  281.   47.8  726. -0.0641\n 2 bullseye     54.3  281.   47.8  726. -0.0686\n 3 circle       54.3  281.   47.8  725. -0.0683\n 4 dino         54.3  281.   47.8  726. -0.0645\n 5 dots         54.3  281.   47.8  725. -0.0603\n 6 h_lines      54.3  281.   47.8  726. -0.0617\n 7 high_lines   54.3  281.   47.8  726. -0.0685\n 8 slant_down   54.3  281.   47.8  726. -0.0690\n 9 slant_up     54.3  281.   47.8  726. -0.0686\n10 star         54.3  281.   47.8  725. -0.0630\n11 v_lines      54.3  281.   47.8  726. -0.0694\n12 wide_lines   54.3  281.   47.8  726. -0.0666\n13 x_shape      54.3  281.   47.8  725. -0.0656"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#viz-crime",
-    "href": "lectures/02-graphics.html#viz-crime",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "Viz crime?",
-    "text": "Viz crime?\nFlorence Nightingale’s rose diagram"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#viz-crime-1",
-    "href": "lectures/02-graphics.html#viz-crime-1",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "Viz crime?",
-    "text": "Viz crime?"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#previously",
-    "href": "lectures/02-graphics.html#previously",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "Previously…",
-    "text": "Previously…\nGet batting stats for each year: each row is a year with the following variables\ntotal hits, home runs, strikeouts, walks, atbats total batting average for each year = total H / total AB only keeps AL and NL leagues"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#previously-1",
-    "href": "lectures/02-graphics.html#previously-1",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "Previously…",
-    "text": "Previously…\n\n\nYearly MLB batting statistics from Lahman with tidyverse:\n\ntotal hits, home runs, strikeouts, walks, at bats\ntotal batting average for each year= total H / total AB\nonly keeps AL and NL leagues\n\n\nlibrary(tidyverse)\nlibrary(Lahman) \nyearly_batting &lt;- Batting |&gt;\n  filter(lgID %in% c(\"AL\", \"NL\")) |&gt;\n  group_by(yearID) |&gt;\n  summarize(total_h = sum(H, na.rm = TRUE),\n            total_hr = sum(HR, na.rm = TRUE),\n            total_so = sum(SO, na.rm = TRUE),\n            total_bb = sum(BB, na.rm = TRUE),\n            total_ab = sum(AB, na.rm = TRUE)) |&gt;\n  mutate(batting_avg = total_h / total_ab)\n\n\nHow do we make data visualization?\nWhat are the steps to make this figure below?"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#the-grammar-of-graphics",
-    "href": "lectures/02-graphics.html#the-grammar-of-graphics",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "The grammar of graphics",
-    "text": "The grammar of graphics\n\nKey idea: specify plotting “layers” and combine them to produce a graphic\nggplot2 provides an implementation of the grammar of graphics\nThe following layers are building blocks of data graphics\n\n\n\ndata - one or more datasets (in tidy tabular format)\ngeom - geometric objects to visually represent the data (e.g. points, lines, bars, etc.)\naes - mappings of variables to visual properties (i.e. aesthetics) of the geometric objects\nscale - one scale for each variable displayed (e.g. axis limits, log scale, colors, etc.)\nfacet - similar subplots (i.e. facets) for subsets of the same data using a conditioning variable\nstat - statistical transformations and summaries (e.g. identity, count, smooth, quantile, etc.)\ncoord - one or more coordinate systems (e.g. cartesian, polar, map projection)\nlabs - labels/guides for each variable and other parts of the plot (e.g. title, subtitle, caption, etc.)\ntheme - customization of plot layout (e.g. text size, alignment, legend position, etc.)\n\n\n\n\nLeland Wilkinson wrote the book “The Grammar of Graphics”, originally published in 1999."
-  },
-  {
-    "objectID": "lectures/02-graphics.html#first-start-with-the-data",
-    "href": "lectures/02-graphics.html#first-start-with-the-data",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "First, start with the data",
-    "text": "First, start with the data\n\n\n\n\nggplot(data = yearly_batting)\n\n\nor equivalently, using |&gt;\n\nyearly_batting |&gt; \n  ggplot()\n\n\nSo far, nothing is displayed"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#specify-variables-and-geometric-object",
-    "href": "lectures/02-graphics.html#specify-variables-and-geometric-object",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "Specify variables and geometric object",
-    "text": "Specify variables and geometric object\n\n\n\n\nyearly_batting |&gt; \n  ggplot() +\n  geom_point(aes(x = yearID, y = total_hr))\n\n\nAdding (+) a geometric layer of points to the plot\nMap yearID to the x-axis and total_hr to the y-axis via aes()\nImplicitly using coord_cartesian()\n\n\nyearly_batting |&gt; \n  ggplot() + \n  geom_point(aes(x = yearID, y = total_hr)) +\n  coord_cartesian()"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#now-can-we-add-another-geometric-layer",
-    "href": "lectures/02-graphics.html#now-can-we-add-another-geometric-layer",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "Now, can we add another geometric layer?",
-    "text": "Now, can we add another geometric layer?\n\n\n\n\nyearly_batting |&gt; \n  ggplot() +\n  geom_point(aes(x = yearID, y = total_hr)) +\n  geom_line(aes(x = yearID, y = total_hr))\n\n\nAdding (+) a line geometric layer\nInclude mappings shared across geometric layers inside ggplot()\n\n\nyearly_batting |&gt;\n  ggplot(aes(x = yearID, y = total_hr)) +\n  geom_point() +\n  geom_line()"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#scaling-axes-changing-axis-label-breaks",
-    "href": "lectures/02-graphics.html#scaling-axes-changing-axis-label-breaks",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "Scaling axes: changing axis label breaks",
-    "text": "Scaling axes: changing axis label breaks\n\n\n\n\nyearly_batting |&gt;\n  ggplot(aes(x = yearID, y = total_hr)) +\n  geom_point() +\n  geom_line() +\n  scale_y_continuous(breaks = seq(0, 6000, 1000))"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#scaling-axes-customizing-axis-limits",
-    "href": "lectures/02-graphics.html#scaling-axes-customizing-axis-limits",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "Scaling axes: customizing axis limits",
-    "text": "Scaling axes: customizing axis limits\n\n\n\n\nyearly_batting |&gt;\n  ggplot(aes(x = yearID, y = total_hr)) +\n  geom_point() +\n  geom_line() +\n  scale_x_continuous(limits = c(2000, 2015))"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#scaling-axes-having-different-axis-scales",
-    "href": "lectures/02-graphics.html#scaling-axes-having-different-axis-scales",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "Scaling axes: having different axis scales",
-    "text": "Scaling axes: having different axis scales\n\n\n\n\nyearly_batting |&gt; \n  ggplot(aes(x = yearID, y = total_hr)) + \n  geom_point() +\n  geom_line() + \n  scale_x_reverse() +\n  scale_y_log10()\n\nWe can easily adjust variable scales without directly modifying the columns in the data"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#adding-a-statistical-summary",
-    "href": "lectures/02-graphics.html#adding-a-statistical-summary",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "Adding a statistical summary",
-    "text": "Adding a statistical summary\n\n\n\n\nyearly_batting |&gt; \n  ggplot(aes(x = yearID, y = total_hr)) + \n  geom_point() +\n  geom_line() + \n  stat_smooth()\n\n\nSmoothing regression summary (will cover later) using yearID and total_hr\nGeometric layers implicitly use a default statistical summary\nTechnically we’re already using geom_point(stat = \"identity\")\n\n\nyearly_batting |&gt; \n  ggplot(aes(x = yearID, y = total_hr)) + \n  geom_point() +\n  geom_line() +\n  geom_smooth()"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#mapping-additional-variables",
-    "href": "lectures/02-graphics.html#mapping-additional-variables",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "Mapping additional variables",
-    "text": "Mapping additional variables\n\n\n\n\nyearly_batting |&gt; \n  ggplot(aes(x = yearID, y = total_hr,\n             color = total_so,\n             size = total_bb)) +\n  geom_point() +\n  geom_line()\n\n\ntotal_hr, total_so, and total_bb are all displayed\ncolor and size are being shared globally across layers\nThis is a bit odd to look at…"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#customizing-mappings-by-layer",
-    "href": "lectures/02-graphics.html#customizing-mappings-by-layer",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "Customizing mappings by layer",
-    "text": "Customizing mappings by layer\n\n\n\n\nyearly_batting |&gt; \n  ggplot(aes(x = yearID, y = total_hr)) + \n  geom_point(aes(color = total_so, size = total_bb)) +\n  geom_line()\n\n\nNow mapping total_so and total_bb to color and size of the point layer only"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#changing-aesthetics-without-mapping-variables",
-    "href": "lectures/02-graphics.html#changing-aesthetics-without-mapping-variables",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "Changing aesthetics without mapping variables",
-    "text": "Changing aesthetics without mapping variables\n\n\n\n\nyearly_batting |&gt; \n  ggplot(aes(x = yearID, y = total_hr)) + \n  geom_point(aes(color = total_so, size = total_bb)) +\n  geom_line(color = \"darkred\", linetype = \"dashed\")\n\n\nManually set the color and linetype of the line layer"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#remember-one-scale-for-each-mapped-variable",
-    "href": "lectures/02-graphics.html#remember-one-scale-for-each-mapped-variable",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "Remember: one scale for each mapped variable",
-    "text": "Remember: one scale for each mapped variable\n\n\n\n\nyearly_batting |&gt; \n  ggplot(aes(x = yearID, y = total_hr)) + \n  geom_point(aes(color = total_so, size = total_bb)) +\n  geom_line(color = \"darkred\", linetype = \"dashed\") +\n  scale_color_gradient(low = \"darkblue\", high = \"gold\") +\n  scale_size_continuous(breaks = seq(0, 20000, 2500))"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#always-label-your-plots-seriously",
-    "href": "lectures/02-graphics.html#always-label-your-plots-seriously",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "Always label your plots! (seriously…)",
-    "text": "Always label your plots! (seriously…)\n\n\n\n\nyearly_batting |&gt; \n  ggplot(aes(x = yearID, y = total_hr)) + \n  geom_point(aes(color = total_so, size = total_bb)) +\n  geom_line(color = \"darkred\", linetype = \"dashed\") +\n  scale_color_gradient(low = \"darkblue\", high = \"gold\") +\n  labs(\n    x = \"Year\",\n    y = \"Homeruns\",\n    color = \"Strikeouts\",\n    size = \"Walks\",\n    title = \"The rise of three true outcomes in baseball\",\n    caption = \"Data courtesy of Lahman\"\n  )\n\n\nEach mapped aesthetic can be labeled"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#custom-theme",
-    "href": "lectures/02-graphics.html#custom-theme",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "Custom theme",
-    "text": "Custom theme\n\n\n\n\nyearly_batting |&gt; \n  ggplot(aes(x = yearID, y = total_hr)) + \n  geom_point(aes(color = total_so, size = total_bb)) +\n  geom_line(color = \"darkred\", linetype = \"dashed\") +\n  scale_color_gradient(low = \"darkblue\", high = \"gold\") +\n  labs(\n    x = \"Year\",\n    y = \"Homeruns\",\n    color = \"Strikeouts\",\n    size = \"Walks\",\n    title = \"The rise of three true outcomes in baseball\",\n    caption = \"Data courtesy of Lahman\"\n  ) +\n  theme_bw(base_size = 20) +\n  theme(legend.position = \"bottom\",\n        plot.title = element_text(hjust = 0.5, \n                                  face = \"bold\"))\n\n\nFor more theme options, check out the ggthemes and hrbrthemes packages"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#a-lesson-about-data-visualization",
-    "href": "lectures/02-graphics.html#a-lesson-about-data-visualization",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "A lesson about data visualization…",
-    "text": "A lesson about data visualization…\n\nSo far we’ve plotted total home runs across the years, with point size representing total walks and point color representing total strikeouts\n\n\n\nSimpler is better. What can we do to improve and make the plot simpler?\n\n\n\n\nHow about creating three separate plots for home runs, strikeouts, and walks, with each mapped to the y-axis?\nBut how do we do this without repeating the same code?"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#pivoting",
-    "href": "lectures/02-graphics.html#pivoting",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "Pivoting",
-    "text": "Pivoting\nRemember: data should be in tidy format\nWithin the tidyverse, the tidyr package offers functions for reshaping the data\n\npivot_longer: casts/gathers information spread out across variables\n\ntransforms data from wide format into long format\nincrease number of rows and decrease number of columns\n\npivot_wider: melts/spreads information out from observations\n\ntransforms data from long format into wide format\ndecrease number of rows and increase number of columns\n\n\n\n\nSome terminology\nPredecessors: reshape and reshape2"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#pivoting-1",
-    "href": "lectures/02-graphics.html#pivoting-1",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "Pivoting",
-    "text": "Pivoting\n\nyearly_batting |&gt; \n  select(yearID, HRs = total_hr, Strikeouts = total_so, Walks = total_bb) |&gt; # renaming while also selecting\n  pivot_longer(HRs:Walks, # can also do !yearID (to select everything but yearID)\n               names_to = \"stat\",\n               values_to = \"val\")\n\n# A tibble: 444 × 3\n   yearID stat         val\n    &lt;int&gt; &lt;chr&gt;      &lt;int&gt;\n 1   1876 HRs           40\n 2   1876 Strikeouts   589\n 3   1876 Walks        336\n 4   1877 HRs           24\n 5   1877 Strikeouts   726\n 6   1877 Walks        345\n 7   1878 HRs           23\n 8   1878 Strikeouts  1081\n 9   1878 Walks        364\n10   1879 HRs           58\n# ℹ 434 more rows\n\n\nWe’ve pivoted the data and created the following variables\n\nstat, to represent the name of the batting statistics\nval, to represent the total value of each statistic in each year."
-  },
-  {
-    "objectID": "lectures/02-graphics.html#faceting",
-    "href": "lectures/02-graphics.html#faceting",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "Faceting",
-    "text": "Faceting\n\n\n\nyearly_batting |&gt;\n  select(yearID, HRs = total_hr, \n         Strikeouts = total_so, Walks = total_bb) |&gt;\n  pivot_longer(HRs:Walks, \n               names_to = \"stat\", \n               values_to = \"val\") |&gt;\n  ggplot(aes(yearID, val)) +\n  geom_line(color = \"darkblue\") +\n  geom_point(alpha = 0.8, color = \"darkblue\") +\n  facet_wrap(~ stat, scales = \"free_y\", ncol = 1) +\n  labs(\n    x = \"Year\", \n    y = \"Total of statistic\",\n    title = \"The rise of three true outcomes in baseball\",\n    caption = \"Data courtesy of Lahman\"\n  ) +\n  theme_bw(base_size = 20) +\n  theme(strip.background = element_blank(),\n        plot.title = element_text(hjust = 0.5, \n                                  face = \"bold\"))\n\n\nCreate a multi-panel plot faceted by a conditioning variable (in our case, stat)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThese facet/panel plots are sometimes called trellis plots (or lattice plots)"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#exercise",
-    "href": "lectures/02-graphics.html#exercise",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "Exercise",
-    "text": "Exercise\nThe babynames package contains a dataset (also) named babynames, which contains information on the number of children of each sex given each name from 1880 to 2017, provided by the United States Social Security Administration.\nHow does the popularity (in terms of frequency) of your own name (combination of name and sex) change over time? Also, stick a thick, red, vertical dashed line on the plot at your birth year (try geom_vline()).\nNext, pick two other names and compare their popularity over time with your own name.\n\n# install.packages(\"babynames\")\n# library(babynames)\n# babynames |&gt; \n#   INSERT CODE HERE"
-  },
-  {
-    "objectID": "lectures/02-graphics.html#resources",
-    "href": "lectures/02-graphics.html#resources",
-    "title": "Data visualization: the grammar of graphics and ggplot2",
-    "section": "Resources",
-    "text": "Resources\n\nggplot2 website: cheatsheets, FAQs, extensions, and more\nTidyTuesday\nDavid Robinson’s TidyTuesday screencasts\nVizBuzz: LIVE data viz replication game show\n\nQuang on VizBuzz (will participate again this summer!)"
-  },
-  {
     "objectID": "lectures/06-kmeans.html#recap-unsupervised-learning",
     "href": "lectures/06-kmeans.html#recap-unsupervised-learning",
     "title": "Unsupervised learning: \\(k\\)-means clustering",
@@ -1363,5 +1125,243 @@
     "title": "Unsupervised learning: \\(k\\)-means clustering",
     "section": "Appendix: elbow plot for \\(k\\)-means++",
     "text": "Appendix: elbow plot for \\(k\\)-means++\n\n\n\ngapminder_kmpp &lt;- function(k) {\n  \n  kmeans_results &lt;- clean_gapminder |&gt;\n    select(std_log_gdp, std_life_exp) |&gt;\n    kcca(k = k, control = list(initcent = \"kmeanspp\"))\n  \n  kmeans_out &lt;- tibble(\n    clusters = k,\n    total_wss = sum(kmeans_results@clusinfo$size * \n                      kmeans_results@clusinfo$av_dist)\n  )\n  return(kmeans_out)\n}\n\nn_clusters_search &lt;- 2:12\nkmpp_search &lt;- n_clusters_search |&gt; \n  map(gapminder_kmpp) |&gt; \n  bind_rows()\nkmpp_search |&gt; \n  ggplot(aes(x = clusters, y = total_wss)) +\n  geom_line() + \n  geom_point(size = 4) +\n  scale_x_continuous(breaks = n_clusters_search)"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#goals-of-data-visualization",
+    "href": "lectures/02-graphics.html#goals-of-data-visualization",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "Goals of data visualization",
+    "text": "Goals of data visualization\n\nto represent the data in a visual way (enough with tables… though tables are useful in a lot of situations)\n\n\n\nmost importantly, to deliver the information to your audience and help them understand the story behind the data\n\n\n\n\nData Visualization (good DataViz anyway) answers a question. - Greggy J. M."
+  },
+  {
+    "objectID": "lectures/02-graphics.html#always-visualize-your-data-before-modeling-and-analysis",
+    "href": "lectures/02-graphics.html#always-visualize-your-data-before-modeling-and-analysis",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "ALWAYS visualize your data before modeling and analysis",
+    "text": "ALWAYS visualize your data before modeling and analysis\nAnscombe’s quartet\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# A tibble: 4 × 6\n  set   x_mean x_var y_mean y_var x_y_cor\n  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;\n1 1          9    11   7.50  4.13   0.816\n2 2          9    11   7.50  4.13   0.816\n3 3          9    11   7.5   4.12   0.816\n4 4          9    11   7.50  4.12   0.817"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#always-visualize-your-data-before-modeling-and-analysis-1",
+    "href": "lectures/02-graphics.html#always-visualize-your-data-before-modeling-and-analysis-1",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "ALWAYS visualize your data before modeling and analysis",
+    "text": "ALWAYS visualize your data before modeling and analysis\nThe Datasaurus dozen\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# A tibble: 13 × 6\n   dataset    x_mean x_var y_mean y_var x_y_cor\n   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;\n 1 away         54.3  281.   47.8  726. -0.0641\n 2 bullseye     54.3  281.   47.8  726. -0.0686\n 3 circle       54.3  281.   47.8  725. -0.0683\n 4 dino         54.3  281.   47.8  726. -0.0645\n 5 dots         54.3  281.   47.8  725. -0.0603\n 6 h_lines      54.3  281.   47.8  726. -0.0617\n 7 high_lines   54.3  281.   47.8  726. -0.0685\n 8 slant_down   54.3  281.   47.8  726. -0.0690\n 9 slant_up     54.3  281.   47.8  726. -0.0686\n10 star         54.3  281.   47.8  725. -0.0630\n11 v_lines      54.3  281.   47.8  726. -0.0694\n12 wide_lines   54.3  281.   47.8  726. -0.0666\n13 x_shape      54.3  281.   47.8  725. -0.0656"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#viz-crime",
+    "href": "lectures/02-graphics.html#viz-crime",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "Viz crime?",
+    "text": "Viz crime?\nFlorence Nightingale’s rose diagram"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#viz-crime-1",
+    "href": "lectures/02-graphics.html#viz-crime-1",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "Viz crime?",
+    "text": "Viz crime?"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#previously",
+    "href": "lectures/02-graphics.html#previously",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "Previously…",
+    "text": "Previously…\nGet batting stats for each year: each row is a year with the following variables\ntotal hits, home runs, strikeouts, walks, atbats total batting average for each year = total H / total AB only keeps AL and NL leagues"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#previously-1",
+    "href": "lectures/02-graphics.html#previously-1",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "Previously…",
+    "text": "Previously…\n\n\nYearly MLB batting statistics from Lahman with tidyverse:\n\ntotal hits, home runs, strikeouts, walks, at bats\ntotal batting average for each year= total H / total AB\nonly keeps AL and NL leagues\n\n\nlibrary(tidyverse)\nlibrary(Lahman) \nyearly_batting &lt;- Batting |&gt;\n  filter(lgID %in% c(\"AL\", \"NL\")) |&gt;\n  group_by(yearID) |&gt;\n  summarize(total_h = sum(H, na.rm = TRUE),\n            total_hr = sum(HR, na.rm = TRUE),\n            total_so = sum(SO, na.rm = TRUE),\n            total_bb = sum(BB, na.rm = TRUE),\n            total_ab = sum(AB, na.rm = TRUE)) |&gt;\n  mutate(batting_avg = total_h / total_ab)\n\n\nHow do we make data visualization?\nWhat are the steps to make this figure below?"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#the-grammar-of-graphics",
+    "href": "lectures/02-graphics.html#the-grammar-of-graphics",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "The grammar of graphics",
+    "text": "The grammar of graphics\n\nKey idea: specify plotting “layers” and combine them to produce a graphic\nggplot2 provides an implementation of the grammar of graphics\nThe following layers are building blocks of data graphics\n\n\n\ndata - one or more datasets (in tidy tabular format)\ngeom - geometric objects to visually represent the data (e.g. points, lines, bars, etc.)\naes - mappings of variables to visual properties (i.e. aesthetics) of the geometric objects\nscale - one scale for each variable displayed (e.g. axis limits, log scale, colors, etc.)\nfacet - similar subplots (i.e. facets) for subsets of the same data using a conditioning variable\nstat - statistical transformations and summaries (e.g. identity, count, smooth, quantile, etc.)\ncoord - one or more coordinate systems (e.g. cartesian, polar, map projection)\nlabs - labels/guides for each variable and other parts of the plot (e.g. title, subtitle, caption, etc.)\ntheme - customization of plot layout (e.g. text size, alignment, legend position, etc.)\n\n\n\n\nLeland Wilkinson wrote the book “The Grammar of Graphics”, originally published in 1999."
+  },
+  {
+    "objectID": "lectures/02-graphics.html#first-start-with-the-data",
+    "href": "lectures/02-graphics.html#first-start-with-the-data",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "First, start with the data",
+    "text": "First, start with the data\n\n\n\n\nggplot(data = yearly_batting)\n\n\nor equivalently, using |&gt;\n\nyearly_batting |&gt; \n  ggplot()\n\n\nSo far, nothing is displayed"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#specify-variables-and-geometric-object",
+    "href": "lectures/02-graphics.html#specify-variables-and-geometric-object",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "Specify variables and geometric object",
+    "text": "Specify variables and geometric object\n\n\n\n\nyearly_batting |&gt; \n  ggplot() +\n  geom_point(aes(x = yearID, y = total_hr))\n\n\nAdding (+) a geometric layer of points to the plot\nMap yearID to the x-axis and total_hr to the y-axis via aes()\nImplicitly using coord_cartesian()\n\n\nyearly_batting |&gt; \n  ggplot() + \n  geom_point(aes(x = yearID, y = total_hr)) +\n  coord_cartesian()"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#now-can-we-add-another-geometric-layer",
+    "href": "lectures/02-graphics.html#now-can-we-add-another-geometric-layer",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "Now, can we add another geometric layer?",
+    "text": "Now, can we add another geometric layer?\n\n\n\n\nyearly_batting |&gt; \n  ggplot() +\n  geom_point(aes(x = yearID, y = total_hr)) +\n  geom_line(aes(x = yearID, y = total_hr))\n\n\nAdding (+) a line geometric layer\nInclude mappings shared across geometric layers inside ggplot()\n\n\nyearly_batting |&gt;\n  ggplot(aes(x = yearID, y = total_hr)) +\n  geom_point() +\n  geom_line()"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#scaling-axes-changing-axis-label-breaks",
+    "href": "lectures/02-graphics.html#scaling-axes-changing-axis-label-breaks",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "Scaling axes: changing axis label breaks",
+    "text": "Scaling axes: changing axis label breaks\n\n\n\n\nyearly_batting |&gt;\n  ggplot(aes(x = yearID, y = total_hr)) +\n  geom_point() +\n  geom_line() +\n  scale_y_continuous(breaks = seq(0, 6000, 1000))"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#scaling-axes-customizing-axis-limits",
+    "href": "lectures/02-graphics.html#scaling-axes-customizing-axis-limits",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "Scaling axes: customizing axis limits",
+    "text": "Scaling axes: customizing axis limits\n\n\n\n\nyearly_batting |&gt;\n  ggplot(aes(x = yearID, y = total_hr)) +\n  geom_point() +\n  geom_line() +\n  scale_x_continuous(limits = c(2000, 2015))"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#scaling-axes-having-different-axis-scales",
+    "href": "lectures/02-graphics.html#scaling-axes-having-different-axis-scales",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "Scaling axes: having different axis scales",
+    "text": "Scaling axes: having different axis scales\n\n\n\n\nyearly_batting |&gt; \n  ggplot(aes(x = yearID, y = total_hr)) + \n  geom_point() +\n  geom_line() + \n  scale_x_reverse() +\n  scale_y_log10()\n\nWe can easily adjust variable scales without directly modifying the columns in the data"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#adding-a-statistical-summary",
+    "href": "lectures/02-graphics.html#adding-a-statistical-summary",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "Adding a statistical summary",
+    "text": "Adding a statistical summary\n\n\n\n\nyearly_batting |&gt; \n  ggplot(aes(x = yearID, y = total_hr)) + \n  geom_point() +\n  geom_line() + \n  stat_smooth()\n\n\nSmoothing regression summary (will cover later) using yearID and total_hr\nGeometric layers implicitly use a default statistical summary\nTechnically we’re already using geom_point(stat = \"identity\")\n\n\nyearly_batting |&gt; \n  ggplot(aes(x = yearID, y = total_hr)) + \n  geom_point() +\n  geom_line() +\n  geom_smooth()"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#mapping-additional-variables",
+    "href": "lectures/02-graphics.html#mapping-additional-variables",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "Mapping additional variables",
+    "text": "Mapping additional variables\n\n\n\n\nyearly_batting |&gt; \n  ggplot(aes(x = yearID, y = total_hr,\n             color = total_so,\n             size = total_bb)) +\n  geom_point() +\n  geom_line()\n\n\ntotal_hr, total_so, and total_bb are all displayed\ncolor and size are being shared globally across layers\nThis is a bit odd to look at…"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#customizing-mappings-by-layer",
+    "href": "lectures/02-graphics.html#customizing-mappings-by-layer",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "Customizing mappings by layer",
+    "text": "Customizing mappings by layer\n\n\n\n\nyearly_batting |&gt; \n  ggplot(aes(x = yearID, y = total_hr)) + \n  geom_point(aes(color = total_so, size = total_bb)) +\n  geom_line()\n\n\nNow mapping total_so and total_bb to color and size of the point layer only"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#changing-aesthetics-without-mapping-variables",
+    "href": "lectures/02-graphics.html#changing-aesthetics-without-mapping-variables",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "Changing aesthetics without mapping variables",
+    "text": "Changing aesthetics without mapping variables\n\n\n\n\nyearly_batting |&gt; \n  ggplot(aes(x = yearID, y = total_hr)) + \n  geom_point(aes(color = total_so, size = total_bb)) +\n  geom_line(color = \"darkred\", linetype = \"dashed\")\n\n\nManually set the color and linetype of the line layer"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#remember-one-scale-for-each-mapped-variable",
+    "href": "lectures/02-graphics.html#remember-one-scale-for-each-mapped-variable",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "Remember: one scale for each mapped variable",
+    "text": "Remember: one scale for each mapped variable\n\n\n\n\nyearly_batting |&gt; \n  ggplot(aes(x = yearID, y = total_hr)) + \n  geom_point(aes(color = total_so, size = total_bb)) +\n  geom_line(color = \"darkred\", linetype = \"dashed\") +\n  scale_color_gradient(low = \"darkblue\", high = \"gold\") +\n  scale_size_continuous(breaks = seq(0, 20000, 2500))"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#always-label-your-plots-seriously",
+    "href": "lectures/02-graphics.html#always-label-your-plots-seriously",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "Always label your plots! (seriously…)",
+    "text": "Always label your plots! (seriously…)\n\n\n\n\nyearly_batting |&gt; \n  ggplot(aes(x = yearID, y = total_hr)) + \n  geom_point(aes(color = total_so, size = total_bb)) +\n  geom_line(color = \"darkred\", linetype = \"dashed\") +\n  scale_color_gradient(low = \"darkblue\", high = \"gold\") +\n  labs(\n    x = \"Year\",\n    y = \"Homeruns\",\n    color = \"Strikeouts\",\n    size = \"Walks\",\n    title = \"The rise of three true outcomes in baseball\",\n    caption = \"Data courtesy of Lahman\"\n  )\n\n\nEach mapped aesthetic can be labeled"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#custom-theme",
+    "href": "lectures/02-graphics.html#custom-theme",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "Custom theme",
+    "text": "Custom theme\n\n\n\n\nyearly_batting |&gt; \n  ggplot(aes(x = yearID, y = total_hr)) + \n  geom_point(aes(color = total_so, size = total_bb)) +\n  geom_line(color = \"darkred\", linetype = \"dashed\") +\n  scale_color_gradient(low = \"darkblue\", high = \"gold\") +\n  labs(\n    x = \"Year\",\n    y = \"Homeruns\",\n    color = \"Strikeouts\",\n    size = \"Walks\",\n    title = \"The rise of three true outcomes in baseball\",\n    caption = \"Data courtesy of Lahman\"\n  ) +\n  theme_bw(base_size = 20) +\n  theme(legend.position = \"bottom\",\n        plot.title = element_text(hjust = 0.5, \n                                  face = \"bold\"))\n\n\nFor more theme options, check out the ggthemes and hrbrthemes packages"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#a-lesson-about-data-visualization",
+    "href": "lectures/02-graphics.html#a-lesson-about-data-visualization",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "A lesson about data visualization…",
+    "text": "A lesson about data visualization…\n\nSo far we’ve plotted total home runs across the years, with point size representing total walks and point color representing total strikeouts\n\n\n\nSimpler is better. What can we do to improve and make the plot simpler?\n\n\n\n\nHow about creating three separate plots for home runs, strikeouts, and walks, with each mapped to the y-axis?\nBut how do we do this without repeating the same code?"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#pivoting",
+    "href": "lectures/02-graphics.html#pivoting",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "Pivoting",
+    "text": "Pivoting\nRemember: data should be in tidy format\nWithin the tidyverse, the tidyr package offers functions for reshaping the data\n\npivot_longer: casts/gathers information spread out across variables\n\ntransforms data from wide format into long format\nincrease number of rows and decrease number of columns\n\npivot_wider: melts/spreads information out from observations\n\ntransforms data from long format into wide format\ndecrease number of rows and increase number of columns\n\n\n\n\nSome terminology\nPredecessors: reshape and reshape2"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#pivoting-1",
+    "href": "lectures/02-graphics.html#pivoting-1",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "Pivoting",
+    "text": "Pivoting\n\nyearly_batting |&gt; \n  select(yearID, HRs = total_hr, Strikeouts = total_so, Walks = total_bb) |&gt; # renaming while also selecting\n  pivot_longer(HRs:Walks, # can also do !yearID (to select everything but yearID)\n               names_to = \"stat\",\n               values_to = \"val\")\n\n# A tibble: 444 × 3\n   yearID stat         val\n    &lt;int&gt; &lt;chr&gt;      &lt;int&gt;\n 1   1876 HRs           40\n 2   1876 Strikeouts   589\n 3   1876 Walks        336\n 4   1877 HRs           24\n 5   1877 Strikeouts   726\n 6   1877 Walks        345\n 7   1878 HRs           23\n 8   1878 Strikeouts  1081\n 9   1878 Walks        364\n10   1879 HRs           58\n# ℹ 434 more rows\n\n\nWe’ve pivoted the data and created the following variables\n\nstat, to represent the name of the batting statistics\nval, to represent the total value of each statistic in each year."
+  },
+  {
+    "objectID": "lectures/02-graphics.html#faceting",
+    "href": "lectures/02-graphics.html#faceting",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "Faceting",
+    "text": "Faceting\n\n\n\nyearly_batting |&gt;\n  select(yearID, HRs = total_hr, \n         Strikeouts = total_so, Walks = total_bb) |&gt;\n  pivot_longer(HRs:Walks, \n               names_to = \"stat\", \n               values_to = \"val\") |&gt;\n  ggplot(aes(yearID, val)) +\n  geom_line(color = \"darkblue\") +\n  geom_point(alpha = 0.8, color = \"darkblue\") +\n  facet_wrap(~ stat, scales = \"free_y\", ncol = 1) +\n  labs(\n    x = \"Year\", \n    y = \"Total of statistic\",\n    title = \"The rise of three true outcomes in baseball\",\n    caption = \"Data courtesy of Lahman\"\n  ) +\n  theme_bw(base_size = 20) +\n  theme(strip.background = element_blank(),\n        plot.title = element_text(hjust = 0.5, \n                                  face = \"bold\"))\n\n\nCreate a multi-panel plot faceted by a conditioning variable (in our case, stat)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThese facet/panel plots are sometimes called trellis plots (or lattice plots)"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#exercise",
+    "href": "lectures/02-graphics.html#exercise",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "Exercise",
+    "text": "Exercise\nThe babynames package contains a dataset (also) named babynames, which contains information on the number of children of each sex given each name from 1880 to 2017, provided by the United States Social Security Administration.\nHow does the popularity (in terms of frequency) of your own name (combination of name and sex) change over time? Also, stick a thick, red, vertical dashed line on the plot at your birth year (try geom_vline()).\nNext, pick two other names and compare their popularity over time with your own name.\n\n# install.packages(\"babynames\")\n# library(babynames)\n# babynames |&gt; \n#   INSERT CODE HERE"
+  },
+  {
+    "objectID": "lectures/02-graphics.html#resources",
+    "href": "lectures/02-graphics.html#resources",
+    "title": "Data visualization: the grammar of graphics and ggplot2",
+    "section": "Resources",
+    "text": "Resources\n\nggplot2 website: cheatsheets, FAQs, extensions, and more\nTidyTuesday\nDavid Robinson’s TidyTuesday screencasts\nVizBuzz: LIVE data viz replication game show\n\nQuang on VizBuzz (will participate again this summer!)"
+  },
+  {
+    "objectID": "health.html",
+    "href": "health.html",
+    "title": "Health",
+    "section": "",
+    "text": "TBA"
+  },
+  {
+    "objectID": "git-setup.html#step-1-create-a-github-account",
+    "href": "git-setup.html#step-1-create-a-github-account",
+    "title": "Git and GitHub Setup",
+    "section": "Step 1: Create a GitHub account",
+    "text": "Step 1: Create a GitHub account\nRegister for a GitHub account at https://github.com if you do not have one. It is completely free to use. You may use any username you prefer; we will later ask for your username so we can keep track."
+  },
+  {
+    "objectID": "git-setup.html#step-2-install-git",
+    "href": "git-setup.html#step-2-install-git",
+    "title": "Git and GitHub Setup",
+    "section": "Step 2: Install Git",
+    "text": "Step 2: Install Git\n(Windows)\n\nGo to https://git-scm.com/download/win\nNavigate to “Click here to download” on the first line and click on it\nFollow the installation instructions\n\n(macOS)\n\nOpen the Terminal app on your computer (Finder \\(\\rightarrow\\) Applications \\(\\rightarrow\\) Terminal)\nGo to https://brew.sh and copy/paste the chunk under “Install Homebrew” to the Terminal\nOnce Homebrew is installed, type this into the Terminal: brew install git"
+  },
+  {
+    "objectID": "git-setup.html#step-3-configure-git",
+    "href": "git-setup.html#step-3-configure-git",
+    "title": "Git and GitHub Setup",
+    "section": "Step 3: Configure Git",
+    "text": "Step 3: Configure Git\n\nAfter installation, you need to configure Git. This can be done directly in R:\n\n\n# uncomment and run the following line to install the usethis package\n# install.packages(\"usethis\")\nusethis::use_git_config(user.name = \"Your Name\", \n                        user.email = \"your-github@email.address\")\n\n\nUse your full name for the user.name field and the same email as your GitHub account for user.email\nYou then need to create a personal access token for authentication as follows:\n\n\nusethis::create_github_token()\n\n\nThis will direct you to the GitHub site on your browser (you may have to log in). On this site:\n\nUnder “Note”, type in some description for this token (e.g., “SURE 2025 GitHub token”)\nFor “Expiration”, set an expiration date for this token (e.g., 90 days) or make it permanent (i.e. choose “No expiration” if you don’t want to deal with this again in the future)\nUnder “Select scopes”, recommended scopes will be pre-selected. Stick with these for now.\n\nNext, click on “Generate token”\nCopy the token to your clipboard (or leave the browser window open, so you can come back to copy the token later)\nIn RStudio, run the following to get a prompt where you can paste your token:\n\n\n# uncomment and run the following line to install the gitcreds package\n# install.packages(\"gitcreds\")\ngitcreds::gitcreds_set()\n\nYou should then be ready to use GitHub!"
+  },
+  {
+    "objectID": "git-setup.html#step-4-create-a-github-repository",
+    "href": "git-setup.html#step-4-create-a-github-repository",
+    "title": "Git and GitHub Setup",
+    "section": "Step 4: Create a GitHub repository",
+    "text": "Step 4: Create a GitHub repository\nWe will follow the paradigm of “GitHub first”. What this means is that when we create a repository, we will create it on GitHub first, then link a local repository to it from inside RStudio.\nAfter you’ve logged in, to create a GitHub repository\n\nGo to https://github.com/new\nName the repository (give it a meaningful name)\nGive the repository a description (don’t leave this blank although this is optional)\nDecide whether to keep the repository public or private (for now, let’s just keep it public)\nClick on “Initialize this repository with a README”. For now, there’s no need to “Add .gitignore” or “Choose a license”\nClick on “Create Repository”"
+  },
+  {
+    "objectID": "git-setup.html#step-5-connect-rstudio-to-the-github-repository",
+    "href": "git-setup.html#step-5-connect-rstudio-to-the-github-repository",
+    "title": "Git and GitHub Setup",
+    "section": "Step 5: Connect RStudio to the GitHub repository",
+    "text": "Step 5: Connect RStudio to the GitHub repository\n\nGo to the browser page for your GitHub repository\nClick on Code (in the same line as “Go to file”). Under HTTPS, copy the URL\nIn RStudio, click on File &gt; New Project.... Next, click on “Version Control” and then on “Git”. Paste the URL you just copied into “Repository URL”\nType the name for the folder on your computer associated with this repository into Project directory name\n\nYou can choose whatever name you want, but it is recommended to give a name similar to the repository name on GitHub\n\nMake sure “Create project as subdirectory of:” points to where you want to locate this new folder\nClick on “Create Project”\nAt this point, you should find that the “Files” pane (in the bottom right of RStudio) is listing the files in your local repository."
+  },
+  {
+    "objectID": "git-setup.html#step-6-modify-the-repository",
+    "href": "git-setup.html#step-6-modify-the-repository",
+    "title": "Git and GitHub Setup",
+    "section": "Step 6: Modify the repository",
+    "text": "Step 6: Modify the repository\nTo add a new file from your local repository to GitHub:\n\nIn RStudio, open a new file (could be anything - e.g. R Script, Quarto document, etc.).\nFill the file with some code/comments/etc. (This is just for illustration purpose, to show how you can add a file to GitHub from your computer)\nSave the file. At this point, this file should show up in the “Git” pane (in the top right of RStudio)\nCheck the box under “Staged” in the Git pane to stage the file for a commit\nClick on “Commit” in the Git pane\nIn the new window that opens, add a “Commit message”, then click on the “Commit” button\nClick on “Push” to push your changes from your local repository to the remote repository on GitHub\n\nIf you encountered no errors then you’re done! While working on a single project you will repeatedly perform the tasks in Step 6: make changes to files, commit changes, then push changes\nEvery time you want to create a new repository, you can just start with Step 4, use GitHub, copy the repository into RStudio, then repeatedly update, commit, and push.\nAsk us for help if you have any questions."
   }
 ]
