@@ -266,186 +266,438 @@
     "text": "Eigenvalues guide dimension reduction\nWe want to choose \\(p^* &lt; p\\) such that we are explaining variation in the data\n\nEigenvalues \\(\\lambda_j\\) for \\(j \\in 1, \\dots, p\\) indicate the variance explained by each component\n\n\\(\\displaystyle \\sum_j^p \\lambda_j = p\\), meaning \\(\\lambda_j \\geq 1\\) indicates \\(\\text{PC}j\\) contains at least one variable’s worth in variability\n\\(\\displaystyle \\frac{\\lambda_j}{p}\\): proportion of variance explained by \\(\\text{PC}j\\)\nArranged in descending order so that \\(\\lambda_1\\) is largest eigenvalue and corresponds to PC1\n\n\n\n\nCompute the cumulative proportion of variance explained (CVE) with \\(p^*\\) components \\[\\text{CVE}_{p^*} = \\sum_j^{p*} \\frac{\\lambda_j}{p}\\] Use scree plot to plot eigenvalues and guide choice for \\(p^* &lt;p\\) by looking for “elbow” (rapid to slow change)"
   },
   {
-    "objectID": "lectures/04-quantitative.html#quantitative-data",
-    "href": "lectures/04-quantitative.html#quantitative-data",
-    "title": "Data visualization: quantitative data",
-    "section": "Quantitative data",
-    "text": "Quantitative data\nTwo different versions of quantitative data:\nDiscrete: countable and has clear space between values (i.e. whole number only)\n\nExamples: number of goals scored in a game, number of children in a family\n\nContinuous: can take any value within some interval\n\nExamples: price of houses in Pittsburgh, water temperature, wind speed"
+    "objectID": "lectures/08-density.html#data-caitlin-clarks-shots",
+    "href": "lectures/08-density.html#data-caitlin-clarks-shots",
+    "title": "Data visualization: density estimation",
+    "section": "Data: Caitlin Clark’s shots",
+    "text": "Data: Caitlin Clark’s shots\nShot attempts by the Caitlin Clark in the 2024 WNBA season using wehoop\n\nlibrary(tidyverse)\ntheme_set(theme_light())\nclark_shots &lt;- read_csv(\"https://raw.githubusercontent.com/36-SURE/2025/main/data/clark_shots.csv\")\nglimpse(clark_shots)\n\nRows: 658\nColumns: 6\n$ scoring_play  &lt;lgl&gt; TRUE, FALSE, FALSE, TRUE, FALSE, FALSE, TRUE, FALSE, TRU…\n$ score_value   &lt;dbl&gt; 3, 0, 0, 3, 0, 0, 2, 0, 2, 0, 0, 2, 2, 0, 2, 0, 2, 0, 0,…\n$ shot_x        &lt;dbl&gt; -17, -1, -14, -17, -18, -1, 5, 6, 1, -16, -19, 0, 2, -7,…\n$ shot_y        &lt;dbl&gt; 22, 33, 16, 19, 20, 0, 6, 30, 1, 21, 13, 4, 1, 32, 1, 14…\n$ shot_distance &lt;dbl&gt; 27.802878, 33.015148, 21.260292, 25.495098, 26.907248, 1…\n$ shot_type     &lt;chr&gt; \"Running Pullup Jump Shot\", \"Pullup Jump Shot\", \"Step Ba…\n\n\n\nEach row is a shot attempt by Caitlin Clark in the 2023 WNBA season\nCategorical / qualitative variables: scoring_play, shot_type\nContinuous / quantitative variables: shot_x, shot_y, shot_distance, score_value"
   },
   {
-    "objectID": "lectures/04-quantitative.html#data",
-    "href": "lectures/04-quantitative.html#data",
-    "title": "Data visualization: quantitative data",
+    "objectID": "lectures/08-density.html#revisiting-histograms",
+    "href": "lectures/08-density.html#revisiting-histograms",
+    "title": "Data visualization: density estimation",
+    "section": "Revisiting histograms",
+    "text": "Revisiting histograms\n\n\nfd_bw &lt;- 2 * IQR(clark_shots$shot_distance) / length(clark_shots$shot_distance)^(1/3)\nclark_shots |&gt;\n  ggplot(aes(x = shot_distance)) +\n  geom_histogram(binwidth = fd_bw)\n\n\n\n\nSplit observed data into bins\nCount number of observations in each bin\n\nNeed to choose the number of bins, adjust with:\n\nbins: number of bins (default is 30)\nbinwidth: width of bins (overrides bins), various rules of thumb\n\ne.g., see fd_bw for Freedman–Diaconis rule\n\nbreaks: vector of bin boundaries (overrides both bins and binwidth)"
+  },
+  {
+    "objectID": "lectures/08-density.html#adjusting-the-binwidth",
+    "href": "lectures/08-density.html#adjusting-the-binwidth",
+    "title": "Data visualization: density estimation",
+    "section": "Adjusting the binwidth",
+    "text": "Adjusting the binwidth\n\n\nSmall binwidth \\(\\rightarrow\\) “undersmooth” / spiky\n\nclark_shots |&gt;\n  ggplot(aes(x = shot_distance)) +\n  geom_histogram(binwidth = 1)\n\n\n\n\n\n\n\n\n\nLarge binwidth \\(\\rightarrow\\) “oversmooth” / flat\n\nclark_shots |&gt;\n  ggplot(aes(x = shot_distance)) +\n  geom_histogram(binwidth = 25)"
+  },
+  {
+    "objectID": "lectures/08-density.html#adjusting-the-binwidth-1",
+    "href": "lectures/08-density.html#adjusting-the-binwidth-1",
+    "title": "Data visualization: density estimation",
+    "section": "Adjusting the binwidth",
+    "text": "Adjusting the binwidth\n\nA binwidth that is too narrow shows too much detail\n\ntoo many bins: low bias, high variance\n\nA binwidth that is too wide hides detail\n\ntoo few bins: high bias, low variance\n\nAlways pick a value that is “just right” (The Goldilocks principle)\n\nTry several values, the R / ggplot2 default is NOT guaranteed to be an optimal choice"
+  },
+  {
+    "objectID": "lectures/08-density.html#a-subtle-point-about-the-histogram-code",
+    "href": "lectures/08-density.html#a-subtle-point-about-the-histogram-code",
+    "title": "Data visualization: density estimation",
+    "section": "A subtle point about the histogram code…",
+    "text": "A subtle point about the histogram code…\n\n\nBy default the bins are centered on the integers\n\nleft-closed, right-open intervals\nstarting at -0.5 to 0.5, 0.5 to 1.5, …\n\n\nclark_shots |&gt;\n  ggplot(aes(x = shot_distance)) +\n  geom_histogram(binwidth = 1)\n\n\n\n\n\n\n\n\n\nSpecify center of one bin (e.g. 0.5)\n\nUse closed = \"left\"\n\n\nclark_shots |&gt;\n  ggplot(aes(x = shot_distance)) +\n  geom_histogram(binwidth = 1, center = 0.5, \n                 closed = \"left\")"
+  },
+  {
+    "objectID": "lectures/08-density.html#how-do-histograms-relate-to-the-pdf-and-cdf",
+    "href": "lectures/08-density.html#how-do-histograms-relate-to-the-pdf-and-cdf",
+    "title": "Data visualization: density estimation",
+    "section": "How do histograms relate to the PDF and CDF?",
+    "text": "How do histograms relate to the PDF and CDF?\n\nHistograms approximate the PDF with bins, and points are equally likely within a bin\nPDF is the derivative of the cumulative distribution function (CDF)"
+  },
+  {
+    "objectID": "lectures/08-density.html#kernel-density-estimation",
+    "href": "lectures/08-density.html#kernel-density-estimation",
+    "title": "Data visualization: density estimation",
+    "section": "Kernel density estimation",
+    "text": "Kernel density estimation\nGoal: estimate the PDF \\(f(x)\\) for all possible values (assuming it is smooth)\n\nThe kernel density estimator (KDE) is \\(\\displaystyle \\hat{f}(x) = \\frac{1}{n} \\sum_{i=1}^n \\frac{1}{h} K_h(x - x_i)\\)\n\n\n\n\\(n\\): sample size\n\\(x\\): new point to estimate \\(f(x)\\) (does NOT have to be in the dataset!)\n\\(h\\): bandwidth, analogous to histogram binwidth, ensures \\(\\hat{f}(x)\\) integrates to 1\n\\(x_i\\): \\(i\\)th observation in the dataset\n\n\n\n\n\\(K_h(x - x_i)\\): kernel function, creates weight given distance of \\(i\\)th observation from new point\n\nas \\(|x - x_i| \\rightarrow \\infty\\) then \\(K_h(x - x_i) \\rightarrow 0\\), i.e. the further apart the \\(i\\)th observation is from \\(x\\), the smaller the weight\nas bandwidth \\(h\\) increases, weights are more evenly spread out\nChoice of kernel functions: Gaussian/normal, etc.\n\\(K_h(x - x_i)\\) is large when \\(x_i\\) is close to \\(x\\)"
+  },
+  {
+    "objectID": "lectures/08-density.html#kernel-density-estimation-1",
+    "href": "lectures/08-density.html#kernel-density-estimation-1",
+    "title": "Data visualization: density estimation",
+    "section": "Kernel density estimation",
+    "text": "Kernel density estimation\nIntuition:\n\nsmooth each data point into a small density bumps\nsum all these small bumps together to obtain the final density estimate"
+  },
+  {
+    "objectID": "lectures/08-density.html#how-do-we-compute-and-display-the-density-estimate",
+    "href": "lectures/08-density.html#how-do-we-compute-and-display-the-density-estimate",
+    "title": "Data visualization: density estimation",
+    "section": "How do we compute and display the density estimate?",
+    "text": "How do we compute and display the density estimate?\n\n\n\nWe make kernel density estimates with geom_density()\n\n\nclark_shots |&gt;\n  ggplot(aes(x = shot_distance)) + \n  geom_density() +\n  geom_rug(alpha = 0.3)\n\n\nPros:\n\nDisplays full shape of distribution\nCan easily layer\nAdd categorical variable with color\n\nCons:\n\nNeed to pick bandwidth and kernel…"
+  },
+  {
+    "objectID": "lectures/08-density.html#what-about-the-bandwidth",
+    "href": "lectures/08-density.html#what-about-the-bandwidth",
+    "title": "Data visualization: density estimation",
+    "section": "What about the bandwidth?",
+    "text": "What about the bandwidth?\nUse Gaussian reference rule (rule-of-thumb) \\(\\approx 1.06 \\cdot \\sigma \\cdot n^{-1/5}\\) (\\(\\sigma\\): observed standard deviation)\nModify the bandwidth using the adjust argument - value to multiply default bandwidth by\n\n\n\nclark_shots |&gt;\n  ggplot(aes(x = shot_distance)) + \n  geom_density(adjust = 0.5) +\n  geom_rug(alpha = 0.3)\n\n\n\n\n\n\n\n\n\n\nclark_shots |&gt;\n  ggplot(aes(x = shot_distance)) + \n  geom_density(adjust = 2) +\n  geom_rug(alpha = 0.3)"
+  },
+  {
+    "objectID": "lectures/08-density.html#notes-on-density-estimation",
+    "href": "lectures/08-density.html#notes-on-density-estimation",
+    "title": "Data visualization: density estimation",
+    "section": "Notes on density estimation",
+    "text": "Notes on density estimation\n\nIn KDE, the bandwidth parameter is analogous to the binwidth in histograms.\nIf the bandwidth is too small, the density estimate can become overly peaky and the main trends in the data may be obscured.\nIf the bandwidth is too large, then smaller features in the distribution of the data may disappear\nThe choice of the kernel can affect the shape of the density curve.\n\nA Gaussian kernel typically gives density estimates that look bell-shaped (ish)\nA rectangular kernel can generate the appearance of steps in the density curve\nKernel choice matters less with more data points\n\n\nDensity plots are often reliable and informative for large datasets but can be misleading for smaller ones."
+  },
+  {
+    "objectID": "lectures/08-density.html#common-pitfall-bounded-data",
+    "href": "lectures/08-density.html#common-pitfall-bounded-data",
+    "title": "Data visualization: density estimation",
+    "section": "Common pitfall: bounded data",
+    "text": "Common pitfall: bounded data\n\n\n\nset.seed(36)\nbounded_data &lt;- tibble(x = runif(100))\nbounded_data |&gt; \n  ggplot(aes(x)) +\n  geom_density() +\n  geom_rug(alpha = 0.5) +\n  stat_function(data = tibble(x = c(0, 1)),\n                fun = dunif, color = \"red\") +\n  scale_x_continuous(limits = c(-0.5, 1.5))\n\n\nObserve density estimates for impossible values (in the tails) - ALWAYS be mindful\nReflection method: first perform standard KDE, then “reflect” tails outside of desired interval to be inside\nSee also: evmix package"
+  },
+  {
+    "objectID": "lectures/08-density.html#use-density-curves-and-ecdfs-together",
+    "href": "lectures/08-density.html#use-density-curves-and-ecdfs-together",
+    "title": "Data visualization: density estimation",
+    "section": "Use density curves and ECDFs together",
+    "text": "Use density curves and ECDFs together"
+  },
+  {
+    "objectID": "lectures/08-density.html#code-interlude-easy-way-to-arrange-multiple-figures",
+    "href": "lectures/08-density.html#code-interlude-easy-way-to-arrange-multiple-figures",
+    "title": "Data visualization: density estimation",
+    "section": "Code interlude: easy way to arrange multiple figures",
+    "text": "Code interlude: easy way to arrange multiple figures\nUse the cowplot package to easily arrange your plots (see also patchwork)\n\nlibrary(cowplot)\n\nclark_shot_dens &lt;- clark_shots |&gt;\n  ggplot(aes(x = shot_distance)) + \n  geom_density() +\n  geom_rug(alpha = 0.3) +\n  theme_bw() +\n  labs(x = \"Shot distance (in feet)\",\n       y = \"Number of shot attempts\")\n\nclark_shot_ecdf &lt;- clark_shots |&gt;\n  ggplot(aes(x = shot_distance)) + \n  stat_ecdf() +\n  geom_rug(alpha = 0.3) +\n  theme_bw() +\n  labs(x = \"Shot distance (in feet)\",\n       y = \"Proportion of shot attempts\")\n\n# library(patchwork)\n# clark_shot_dens + clark_shot_ecdf\nplot_grid(clark_shot_dens, clark_shot_ecdf)"
+  },
+  {
+    "objectID": "lectures/08-density.html#use-density-curves-and-ecdfs-together-1",
+    "href": "lectures/08-density.html#use-density-curves-and-ecdfs-together-1",
+    "title": "Data visualization: density estimation",
+    "section": "Use density curves and ECDFs together",
+    "text": "Use density curves and ECDFs together"
+  },
+  {
+    "objectID": "lectures/08-density.html#another-code-interlude-collect-the-legends-with-patchwork",
+    "href": "lectures/08-density.html#another-code-interlude-collect-the-legends-with-patchwork",
+    "title": "Data visualization: density estimation",
+    "section": "Another code interlude: collect the legends with patchwork",
+    "text": "Another code interlude: collect the legends with patchwork\n\nclark_shot_dens_made &lt;- clark_shots |&gt;\n  ggplot(aes(x = shot_distance, \n             color = scoring_play)) + \n  geom_density() +\n  geom_rug(alpha = 0.3) +\n  labs(x = \"Shot distance (in feet)\",\n       y = \"Number of shot attempts\")\n\nclark_shot_ecdf_made &lt;- clark_shots |&gt;\n  ggplot(aes(x = shot_distance,\n             color = scoring_play)) + \n  stat_ecdf() +\n  geom_rug(alpha = 0.3) +\n  labs(x = \"Shot distance (in feet)\",\n       y = \"Proportion of shot attempts\")\n\nlibrary(patchwork)\nclark_shot_dens_made + clark_shot_ecdf_made + plot_layout(guides = \"collect\")"
+  },
+  {
+    "objectID": "lectures/08-density.html#ridgeline-plots",
+    "href": "lectures/08-density.html#ridgeline-plots",
+    "title": "Data visualization: density estimation",
+    "section": "Ridgeline plots",
+    "text": "Ridgeline plots\n\n\n\nCheck out the ggridges package for a variety of customization options\n\n\nlibrary(ggridges)\nclark_shots |&gt;\n  ggplot(aes(x = shot_distance, y = shot_type)) + \n  geom_density_ridges(rel_min_height = 0.01) \n\n\nUseful to display conditional distributions across many levels"
+  },
+  {
+    "objectID": "lectures/08-density.html#going-from-1d-to-2d-density-estimation",
+    "href": "lectures/08-density.html#going-from-1d-to-2d-density-estimation",
+    "title": "Data visualization: density estimation",
+    "section": "Going from 1D to 2D density estimation",
+    "text": "Going from 1D to 2D density estimation\nIn 1D: estimate density \\(f(x)\\), assuming that \\(f(x)\\) is smooth:\n\\[\n\\hat{f}(x) = \\frac{1}{n} \\sum_{i=1}^n \\frac{1}{h} K_h(x - x_i)\n\\]\n\nIn 2D: estimate joint density \\(f(x_1, x_2)\\)\n\\[\\hat{f}(x_1, x_2) = \\frac{1}{n} \\sum_{i=1}^n \\frac{1}{h_1h_2} K\\left(\\frac{x_1 - x_{i1}}{h_1}\\right) K\\left(\\frac{x_2 - x_{i2}}{h_2}\\right)\\]\n\n\nIn 1D there’s one bandwidth, now we have two bandwidths\n\n\\(h_1\\): controls smoothness as \\(X_1\\) changes, holding \\(X_2\\) fixed\n\\(h_2\\): controls smoothness as \\(X_2\\) changes, holding \\(X_1\\) fixed\n\nGaussian kernels are still a popular choice"
+  },
+  {
+    "objectID": "lectures/08-density.html#display-densities-for-2d-data",
+    "href": "lectures/08-density.html#display-densities-for-2d-data",
+    "title": "Data visualization: density estimation",
+    "section": "Display densities for 2D data",
+    "text": "Display densities for 2D data"
+  },
+  {
+    "objectID": "lectures/08-density.html#how-to-read-contour-plots",
+    "href": "lectures/08-density.html#how-to-read-contour-plots",
+    "title": "Data visualization: density estimation",
+    "section": "How to read contour plots",
+    "text": "How to read contour plots\nBest known in topography: outlines (contours) denote levels of elevation"
+  },
+  {
+    "objectID": "lectures/08-density.html#d-density-estimation",
+    "href": "lectures/08-density.html#d-density-estimation",
+    "title": "Data visualization: density estimation",
+    "section": "2D density estimation",
+    "text": "2D density estimation\nWe can visualize all of the shot locations: (shot_x, shot_y)\n\n\n\nclark_shots |&gt;\n  ggplot(aes(x = shot_x, y = shot_y)) +\n  geom_point(size = 4, alpha = 0.3)\n\n\nAdjust transparency with alpha for overlapping points"
+  },
+  {
+    "objectID": "lectures/08-density.html#create-contours-of-2d-kernel-density-estimate-kde",
+    "href": "lectures/08-density.html#create-contours-of-2d-kernel-density-estimate-kde",
+    "title": "Data visualization: density estimation",
+    "section": "Create contours of 2D kernel density estimate (KDE)",
+    "text": "Create contours of 2D kernel density estimate (KDE)\n\n\n\nUse geom_density2d() to display contour lines\n\n\nclark_shots |&gt;\n  filter(shot_y &lt; 35) |&gt; # remove outliers\n  ggplot(aes(x = shot_x, y = shot_y)) + \n  geom_point(size = 4, alpha = 0.3) + \n  geom_density2d() +\n  coord_fixed() +\n  theme(legend.position = \"bottom\")\n\n\nExtend KDE for joint density estimates in 2D (see section 14.4.2 for details)\nInner lines denote “peaks”\ncoord_fixed() forced a fixed ratio"
+  },
+  {
+    "objectID": "lectures/08-density.html#create-contours-of-2d-kernel-density-estimate-kde-1",
+    "href": "lectures/08-density.html#create-contours-of-2d-kernel-density-estimate-kde-1",
+    "title": "Data visualization: density estimation",
+    "section": "Create contours of 2D kernel density estimate (KDE)",
+    "text": "Create contours of 2D kernel density estimate (KDE)\n\n\n\nWe make 2D KDE contour plots using geom_density2d()\n\n\nclark_shots |&gt;\n  filter(shot_y &lt; 35) |&gt; \n  ggplot(aes(x = shot_x, y = shot_y)) + \n  geom_point(size = 4, alpha = 0.3) + \n  geom_density2d(adjust = 0.1) +\n  coord_fixed() +\n  theme(legend.position = \"bottom\")\n\n\nCan use adjust to modify the multivariate bandwidth"
+  },
+  {
+    "objectID": "lectures/08-density.html#contours-are-difficult-lets-make-a-heatmap-instead",
+    "href": "lectures/08-density.html#contours-are-difficult-lets-make-a-heatmap-instead",
+    "title": "Data visualization: density estimation",
+    "section": "Contours are difficult… let’s make a heatmap instead",
+    "text": "Contours are difficult… let’s make a heatmap instead\n\n\n\nUse stat_density_2d() and the after_stat() function to make 2D KDE heatmaps\nMay be easier to read than nested lines with color\nDefault color scale is awful. Always change it.\n\n\nclark_shots |&gt;\n  filter(shot_y &lt; 35) |&gt; \n  ggplot(aes(x = shot_x, y = shot_y)) + \n  stat_density2d(aes(fill = after_stat(level)),\n                 h = 0.6, bins = 60, geom = \"polygon\") +\n  scale_fill_gradient(low = \"midnightblue\", \n                      high = \"gold\") +\n  coord_fixed() +\n  theme(legend.position = \"bottom\")\n\nMultivariate density estimation can be difficult"
+  },
+  {
+    "objectID": "lectures/08-density.html#turn-off-contours-and-use-tiles-instead",
+    "href": "lectures/08-density.html#turn-off-contours-and-use-tiles-instead",
+    "title": "Data visualization: density estimation",
+    "section": "Turn off contours and use tiles instead",
+    "text": "Turn off contours and use tiles instead\n\n\n\nDivide the space into a grid and color the grid according to high/low values\n\n\nclark_shots |&gt;\n  filter(shot_y &lt; 35) |&gt; \n  ggplot(aes(x = shot_x, y = shot_y)) + \n  stat_density2d(aes(fill = after_stat(density)),\n                 h = 0.6, bins = 60, contour = FALSE,\n                 geom = \"raster\") +\n  # scale_fill_gradient(low = \"white\", high = \"red\") +\n  scale_fill_gradient(low = \"midnightblue\", \n                      high = \"gold\") +\n  theme(legend.position = \"bottom\") +\n  coord_fixed()"
+  },
+  {
+    "objectID": "lectures/08-density.html#best-alternative-hexagonal-binning",
+    "href": "lectures/08-density.html#best-alternative-hexagonal-binning",
+    "title": "Data visualization: density estimation",
+    "section": "Best alternative? Hexagonal binning",
+    "text": "Best alternative? Hexagonal binning\n\n\n\nUse geom_hex() to make hexagonal heatmaps\nNeed to have the hexbin package installed\n2D version of histogram\n\n\nclark_shots |&gt;\n  filter(shot_y &lt; 35) |&gt;\n  ggplot(aes(x = shot_x, y = shot_y)) + \n  geom_hex(binwidth = c(1, 1)) +\n  scale_fill_gradient(low = \"midnightblue\", \n                      high = \"gold\") + \n  theme(legend.position = \"bottom\") +\n  coord_fixed()\n\n\nCan specify binwidth in both directions\nAvoids limitations from smoothing"
+  },
+  {
+    "objectID": "lectures/08-density.html#what-about-shooting-efficiency",
+    "href": "lectures/08-density.html#what-about-shooting-efficiency",
+    "title": "Data visualization: density estimation",
+    "section": "What about shooting efficiency?",
+    "text": "What about shooting efficiency?\n\nCan compute a function of another variable inside hexagons with stat_summary_hex()\n\n\n\n\nclark_shots |&gt;\n  filter(shot_y &lt; 35) |&gt;\n  ggplot(aes(x = shot_x, y = shot_y, \n             z = scoring_play, group = -1)) +\n  stat_summary_hex(binwidth = c(2, 2), fun = mean, \n                   color = \"black\") +\n  scale_fill_gradient(low = \"midnightblue\", \n                      high = \"gold\") + \n  theme(legend.position = \"bottom\") +\n  coord_fixed()"
+  },
+  {
+    "objectID": "lectures/08-density.html#appendix-making-shot-charts-and-drawing-courts-with-sportyr",
+    "href": "lectures/08-density.html#appendix-making-shot-charts-and-drawing-courts-with-sportyr",
+    "title": "Data visualization: density estimation",
+    "section": "Appendix: Making shot charts and drawing courts with sportyR",
+    "text": "Appendix: Making shot charts and drawing courts with sportyR\n\nlibrary(sportyR)\nwnba_court &lt;- geom_basketball(\"wnba\", display_range = \"offense\", rotation = 270, x_trans = -41.5)\nwnba_court +\n  geom_hex(data = clark_shots, aes(x = shot_x, y = shot_y), binwidth = c(1, 1)) + \n  scale_fill_gradient(low = \"midnightblue\", high = \"gold\")"
+  },
+  {
+    "objectID": "lectures/08-density.html#appendix-code-to-build-dataset",
+    "href": "lectures/08-density.html#appendix-code-to-build-dataset",
+    "title": "Data visualization: density estimation",
+    "section": "Appendix: Code to build dataset",
+    "text": "Appendix: Code to build dataset\n\n# install.packages(\"wehoop\")\nlibrary(wehoop)\nwnba_pbp &lt;- load_wnba_pbp(2024)\nclark_shots &lt;- wnba_pbp |&gt; \n  filter(shooting_play) |&gt; \n  filter(str_detect(text, \"Caitlin Clark\")) |&gt; \n  filter(!str_detect(text, \"Caitlin Clark assists\")) |&gt; \n  filter(!str_detect(text, \"free throw\")) |&gt; \n  mutate(\n    shot_x = coordinate_x_raw - 25,\n    shot_y = coordinate_y_raw,\n    shot_distance = sqrt((abs(shot_x) ^ 2) + shot_y ^ 2), \n    shot_type = type_text,\n    scoring_play,\n    score_value,\n    .keep = \"none\"\n  )"
+  },
+  {
+    "objectID": "lectures/03-categorical.html#data",
+    "href": "lectures/03-categorical.html#data",
+    "title": "Data visualization: categorical data",
     "section": "Data",
-    "text": "Data\nTaylor Swift songs via the taylor package (data dictionary here)\n\nlibrary(tidyverse)\ntheme_set(theme_light())\nlibrary(taylor)\nnames(taylor_all_songs)\n\n [1] \"album_name\"          \"ep\"                  \"album_release\"      \n [4] \"track_number\"        \"track_name\"          \"artist\"             \n [7] \"featuring\"           \"bonus_track\"         \"promotional_release\"\n[10] \"single_release\"      \"track_release\"       \"danceability\"       \n[13] \"energy\"              \"key\"                 \"loudness\"           \n[16] \"mode\"                \"speechiness\"         \"acousticness\"       \n[19] \"instrumentalness\"    \"liveness\"            \"valence\"            \n[22] \"tempo\"               \"time_signature\"      \"duration_ms\"        \n[25] \"explicit\"            \"key_name\"            \"mode_name\"          \n[28] \"key_mode\"            \"lyrics\"             \n\ntaylor_all_songs &lt;- taylor_all_songs |&gt; \n  mutate(duration = duration_ms / 60000)"
+    "text": "Data\n\nFlying ettiquette survey\nPublicly available on GitHub and also via the ggmosaic package (the dataset is called fly).\nWhat does each row represent here?\n\n\nlibrary(tidyverse)\ntheme_set(theme_light()) # setting the ggplot theme\nlibrary(ggmosaic) # make sure to install it first\nflying_etiquette &lt;- fly |&gt; \n  filter(!is.na(do_you_recline), !is.na(rude_to_recline))\nnames(flying_etiquette)\n\n [1] \"id\"                             \"flight_freq\"                   \n [3] \"do_you_recline\"                 \"height\"                        \n [5] \"has_child_under_18\"             \"three_seats_two_arms\"          \n [7] \"two_seats_one_arm\"              \"window_shade\"                  \n [9] \"rude_to_move_to_unsold_seat\"    \"rude_to_talk_to_neighbor\"      \n[11] \"six_hr_flight_leave_seat\"       \"reclining_obligation_to_behind\"\n[13] \"rude_to_recline\"                \"eliminate_reclining\"           \n[15] \"rude_to_switch_seats_friends\"   \"rude_to_switch_seats_family\"   \n[17] \"rude_to_wake_neighbor_bathroom\" \"rude_to_wake_neighbor_walk\"    \n[19] \"rude_to_bring_baby\"             \"rude_to_bring_unruly_child\"    \n[21] \"use_electronics_takeoff\"        \"smoked_inflight\"               \n[23] \"gender\"                         \"age\"                           \n[25] \"household_income\"               \"education\"                     \n[27] \"region\""
   },
   {
-    "objectID": "lectures/04-quantitative.html#summarizing-1d-quantitative-data",
-    "href": "lectures/04-quantitative.html#summarizing-1d-quantitative-data",
-    "title": "Data visualization: quantitative data",
-    "section": "Summarizing 1D quantitative data",
-    "text": "Summarizing 1D quantitative data\n\nCenter: mean, median, number and location of modes\n\n\n\nSpread: range, variance, standard deviation, IQR, etc.\n\n\n\n\nShape: skew vs symmetry, outliers, heavy vs light tails, etc.\n\n\n\nCompute various statistics in R with summary(), mean(), median(), quantile(), range(), sd(), var(), etc.\n\n\nExample: Summarizing the duration of Taylor Swift songs\n\nsummary(taylor_all_songs$duration)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's \n  2.198   3.543   3.930   3.985   4.343  10.217      12 \n\nsd(taylor_all_songs$duration, na.rm = TRUE)\n\n[1] 0.7527544"
+    "objectID": "lectures/03-categorical.html#categorical-data",
+    "href": "lectures/03-categorical.html#categorical-data",
+    "title": "Data visualization: categorical data",
+    "section": "Categorical data",
+    "text": "Categorical data\nTwo different versions of categorical data:\nNominal: categorical variables having unordered scales\n\nExamples: race, gender, species, etc,\n\nOrdinal: ordered categories; levels with a meaningful order\n\nExamples: education level, grades, ranks"
   },
   {
-    "objectID": "lectures/04-quantitative.html#boxplots-visualize-summary-statistics",
-    "href": "lectures/04-quantitative.html#boxplots-visualize-summary-statistics",
-    "title": "Data visualization: quantitative data",
-    "section": "Boxplots visualize summary statistics",
-    "text": "Boxplots visualize summary statistics\n\n\nPros:\n\nDisplays outliers, percentiles, spread, skew\nUseful for side-by-side comparison\n\nCons:\n\nDoes not display the full distribution shape\nDoes not display modes\n\nThe expert weighed in…\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  geom_boxplot() +\n  theme(axis.text.y = element_blank())"
+    "objectID": "lectures/03-categorical.html#factors-in-r",
+    "href": "lectures/03-categorical.html#factors-in-r",
+    "title": "Data visualization: categorical data",
+    "section": "Factors in R",
+    "text": "Factors in R\n\nIn R, factors are used to work with categorical variables\nR treats factors as ordinal - defaults to alphabetical\n\nMay need to manually define the factor levels (e.g., the reference level)\n\nSee the forcats package (automatically loaded with tidyverse)\n\n\nclass(flying_etiquette$do_you_recline)\n\n[1] \"factor\"\n\nlevels(flying_etiquette$do_you_recline)\n\n[1] \"never\"               \"once in a while\"     \"about half the time\"\n[4] \"usually\"             \"always\""
   },
   {
-    "objectID": "lectures/04-quantitative.html#histograms-display-1d-continuous-distributions",
-    "href": "lectures/04-quantitative.html#histograms-display-1d-continuous-distributions",
-    "title": "Data visualization: quantitative data",
-    "section": "Histograms display 1D continuous distributions",
-    "text": "Histograms display 1D continuous distributions\n\n\n\\(\\displaystyle \\text{# total obs.} = \\sum_{j=1}^k \\text{# obs. in bin }j\\)\nPros:\n\nDisplays full shape of distribution\nEasy to interpret\n\nCons:\n\nHave to choose number of bins and bin locations (will revisit later)\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  geom_histogram()"
+    "objectID": "lectures/03-categorical.html#summarizing-1d-categorical-data",
+    "href": "lectures/03-categorical.html#summarizing-1d-categorical-data",
+    "title": "Data visualization: categorical data",
+    "section": "Summarizing 1D categorical data",
+    "text": "Summarizing 1D categorical data\nHow often do these respondents recline?\nFrequency tables (counts)\n\ntable(flying_etiquette$do_you_recline)\n\n\n              never     once in a while about half the time             usually \n                170                 256                 117                 175 \n             always \n                136 \n\n# flying_etiquette |&gt; \n#   group_by(do_you_recline) |&gt;\n#   summarize(n = n(), .groups = \"drop\")\n\nflying_etiquette |&gt; \n  count(do_you_recline)\n\n# A tibble: 5 × 2\n  do_you_recline          n\n  &lt;fct&gt;               &lt;int&gt;\n1 never                 170\n2 once in a while       256\n3 about half the time   117\n4 usually               175\n5 always                136"
   },
   {
-    "objectID": "lectures/04-quantitative.html#display-the-data-points-directly-with-beeswarm-plots",
-    "href": "lectures/04-quantitative.html#display-the-data-points-directly-with-beeswarm-plots",
-    "title": "Data visualization: quantitative data",
-    "section": "Display the data points directly with beeswarm plots",
-    "text": "Display the data points directly with beeswarm plots\n\n\nPros:\n\nDisplays each data point\nEasy to view full shape of distribution\n\nCons:\n\nCan be overbearing with large datasets\nWhich algorithm for arranging points?\n\n\n\nlibrary(ggbeeswarm)\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration, y = \"\")) +\n  geom_beeswarm(cex = 2)"
+    "objectID": "lectures/03-categorical.html#summarizing-1d-categorical-data-1",
+    "href": "lectures/03-categorical.html#summarizing-1d-categorical-data-1",
+    "title": "Data visualization: categorical data",
+    "section": "Summarizing 1D categorical data",
+    "text": "Summarizing 1D categorical data\nProportion table\n\nprop.table(table(flying_etiquette$do_you_recline))\n\n\n              never     once in a while about half the time             usually \n          0.1990632           0.2997658           0.1370023           0.2049180 \n             always \n          0.1592506 \n\nflying_etiquette |&gt; \n  count(do_you_recline) |&gt; \n  mutate(prop = n / sum(n))\n\n# A tibble: 5 × 3\n  do_you_recline          n  prop\n  &lt;fct&gt;               &lt;int&gt; &lt;dbl&gt;\n1 never                 170 0.199\n2 once in a while       256 0.300\n3 about half the time   117 0.137\n4 usually               175 0.205\n5 always                136 0.159"
   },
   {
-    "objectID": "lectures/04-quantitative.html#smooth-summary-with-violin-plots",
-    "href": "lectures/04-quantitative.html#smooth-summary-with-violin-plots",
-    "title": "Data visualization: quantitative data",
-    "section": "Smooth summary with violin plots",
-    "text": "Smooth summary with violin plots\n\n\nPros:\n\nDisplays full shape of distribution\nCan easily layer…\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration, y = \"\")) +\n  geom_violin()"
+    "objectID": "lectures/03-categorical.html#visualizing-1d-categorical-data",
+    "href": "lectures/03-categorical.html#visualizing-1d-categorical-data",
+    "title": "Data visualization: categorical data",
+    "section": "Visualizing 1D categorical data",
+    "text": "Visualizing 1D categorical data\n\n\nCreate a bar chart with geom_bar()\n\nMap do_you_recline to the x-axis\nCounts of each category are displayed on the y-axis\n\n\nflying_etiquette |&gt; \n  ggplot(aes(x = do_you_recline)) +\n  geom_bar()"
   },
   {
-    "objectID": "lectures/04-quantitative.html#smooth-summary-with-violin-plots-box-plots",
-    "href": "lectures/04-quantitative.html#smooth-summary-with-violin-plots-box-plots",
-    "title": "Data visualization: quantitative data",
-    "section": "Smooth summary with violin plots + box plots",
-    "text": "Smooth summary with violin plots + box plots\n\n\nPros:\n\nDisplays full shape of distribution\nCan easily layer… with box plots on top\n\nCons:\n\nSummary of data via density estimate\nMirror image is duplicate information\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration, y = \"\")) +\n  geom_violin() +\n  geom_boxplot(width = 0.4)"
+    "objectID": "lectures/03-categorical.html#behind-the-scenes-of-geom_bar",
+    "href": "lectures/03-categorical.html#behind-the-scenes-of-geom_bar",
+    "title": "Data visualization: categorical data",
+    "section": "Behind the scenes of geom_bar()",
+    "text": "Behind the scenes of geom_bar()\n\nstart with the data\naggregate and count the number of observations in each bar\nmap to plot aesthetics"
   },
   {
-    "objectID": "lectures/04-quantitative.html#what-do-visualizations-of-continuous-distributions-display",
-    "href": "lectures/04-quantitative.html#what-do-visualizations-of-continuous-distributions-display",
-    "title": "Data visualization: quantitative data",
-    "section": "What do visualizations of continuous distributions display?",
-    "text": "What do visualizations of continuous distributions display?\nProbability that continuous variable \\(X\\) takes a particular value is 0\ne.g. \\(P(\\) duration \\(= 3) = 0\\) (why?)\nFor continuous variables, the cumulative distribution function (CDF) is \\[F(x) = P(X \\leq x)\\]\nFor \\(n\\) observations, the empirical CDF (ECDF) can be computed based on the observed data \\[\\hat{F}_n(x)  = \\frac{\\text{# obs. with variable} \\leq x}{n} = \\frac{1}{n} \\sum_{i=1}^{n} I (x_i \\leq x)\\]\nwhere \\(I()\\) is the indicator function, i.e. ifelse(x_i &lt;= x, 1, 0)"
+    "objectID": "lectures/03-categorical.html#visualizing-1d-categorical-data-1",
+    "href": "lectures/03-categorical.html#visualizing-1d-categorical-data-1",
+    "title": "Data visualization: categorical data",
+    "section": "Visualizing 1D categorical data",
+    "text": "Visualizing 1D categorical data\n\n\nInstead of geom_bar(), do this “by hand” (Quang prefers this way)\n\naggregate and obtain the counts first with count() or (group_by and summarize())\nthen use geom_col()\n\n\nflying_etiquette |&gt;\n  count(do_you_recline, name = \"count\") |&gt; \n  ggplot(aes(x = do_you_recline, y = count)) +\n  geom_col()"
   },
   {
-    "objectID": "lectures/04-quantitative.html#display-full-distribution-with-ecdf-plot",
-    "href": "lectures/04-quantitative.html#display-full-distribution-with-ecdf-plot",
-    "title": "Data visualization: quantitative data",
-    "section": "Display full distribution with ECDF plot",
-    "text": "Display full distribution with ECDF plot\n\n\nPros:\n\nDisplays all of your data at once\nAs \\(n \\rightarrow \\infty\\), the ECDF \\(\\hat F_n(x)\\) converges to the true CDF \\(F(x)\\)\n\nCons:\n\nWhat are the cons?\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  stat_ecdf()"
+    "objectID": "lectures/03-categorical.html#visualizing-1d-categorical-data-2",
+    "href": "lectures/03-categorical.html#visualizing-1d-categorical-data-2",
+    "title": "Data visualization: categorical data",
+    "section": "Visualizing 1D categorical data",
+    "text": "Visualizing 1D categorical data\n\n\nFlip your bar chart axes!\nJust simply replace x with y (Quang prefers this way)\n\nflying_etiquette |&gt;\n  ggplot(aes(y = do_you_recline)) +\n  geom_bar()\n\nOr use coord_flip()\n\nflying_etiquette |&gt; \n  ggplot(aes(x = do_you_recline)) +\n  geom_bar() +\n  coord_flip()"
   },
   {
-    "objectID": "lectures/04-quantitative.html#rug-plots-display-raw-data",
-    "href": "lectures/04-quantitative.html#rug-plots-display-raw-data",
-    "title": "Data visualization: quantitative data",
-    "section": "Rug plots display raw data",
-    "text": "Rug plots display raw data\n\n\nPros:\n\nDisplays raw data points\nUseful supplement for summaries and 2D plots\n\nCons:\n\nCan be overbearing for large datasets\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  geom_rug(alpha = 0.5)"
+    "objectID": "lectures/03-categorical.html#what-does-a-bar-chart-show",
+    "href": "lectures/03-categorical.html#what-does-a-bar-chart-show",
+    "title": "Data visualization: categorical data",
+    "section": "What does a bar chart show?",
+    "text": "What does a bar chart show?\n\n\nMarginal distribution: probability that a categorical variable \\(X\\) (e.g., do_you_recline) takes each particular category value \\(x\\) (always, usually, …, never)\n\nFrequency bar charts (earlier version) give info about sample size, but this could be labeled in the chart (use geom_text() or geom_label())\nNow, we create a proportion/percent bar chart to display the individual probabilities\nThis shows the probability mass function (PMF) for discrete variables\n\n(e.g. \\(P(\\) do_you_recline \\(=\\) never\\()\\))\n\n\n\n\nflying_etiquette |&gt; \n  count(do_you_recline) |&gt; \n  mutate(prop = n / sum(n)) |&gt; \n  ggplot(aes(x = prop, y = do_you_recline)) +\n  geom_col()   # + geom_label(aes(label = n), hjust = 1)"
   },
   {
-    "objectID": "lectures/04-quantitative.html#rug-plots-supplement-other-displays",
-    "href": "lectures/04-quantitative.html#rug-plots-supplement-other-displays",
-    "title": "Data visualization: quantitative data",
-    "section": "Rug plots supplement other displays",
-    "text": "Rug plots supplement other displays\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  geom_histogram() +\n  geom_rug(alpha = 0.5)\n\n\n\n\n\n\n\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  stat_ecdf() +\n  geom_rug(alpha = 0.5)"
+    "objectID": "lectures/03-categorical.html#population-vs-sample",
+    "href": "lectures/03-categorical.html#population-vs-sample",
+    "title": "Data visualization: categorical data",
+    "section": "Population vs sample",
+    "text": "Population vs sample\nPopulation: The collection of all subjects of interest\nSample: A representative subset of the population of interest\n\nThe survey respondents is just a subset of all airplane flyers\n\n\nEmpirical distribution: estimating the true marginal distribution with observed (sample) data\n\n\n\nEstimate \\(P(\\) do_you_recline = \\(C_j\\)) with \\(\\hat p_j\\) for each category \\(C_j\\) (e.g., \\(\\hat p_\\texttt{always}\\), …, \\(\\hat p_\\texttt{never}\\))\n\nStandard error for each \\(\\hat p_j\\): \\(\\quad \\displaystyle \\text{SE}(\\hat{p}_j) = \\sqrt{\\frac{\\hat{p}_j (1 - \\hat{p}_j)}{n}}\\)"
   },
   {
-    "objectID": "lectures/04-quantitative.html#summarizing-2d-quantitative-data",
-    "href": "lectures/04-quantitative.html#summarizing-2d-quantitative-data",
-    "title": "Data visualization: quantitative data",
-    "section": "Summarizing 2D quantitative data",
-    "text": "Summarizing 2D quantitative data\n\nDirection/trend (positive, negative)\nStrength of the relationship (strong, moderate, weak)\nLinearity (linear, non-linear)\n\n\nBig picture\n\nScatterplots are by far the most common visual\nRegression analysis is by far the most popular analysis (we will have a class on this)\nRelationships may vary across other variables, e.g., categorical variables"
+    "objectID": "lectures/03-categorical.html#adding-confidence-intervals-to-bar-chart",
+    "href": "lectures/03-categorical.html#adding-confidence-intervals-to-bar-chart",
+    "title": "Data visualization: categorical data",
+    "section": "Adding confidence intervals to bar chart",
+    "text": "Adding confidence intervals to bar chart\n\n\n\n\nflying_etiquette |&gt; \n  count(do_you_recline) |&gt; \n  mutate(prop = n / sum(n),\n         se = sqrt(prop * (1 - prop) / sum(n)),\n         lower = prop - 2 * se,\n         upper = prop + 2 * se) |&gt; \n  ggplot(aes(x = prop, y = do_you_recline)) +\n  geom_col() +\n  geom_errorbar(aes(xmin = lower, xmax = upper), \n                color = \"blue\", \n                width = 0.2, \n                linewidth = 1)"
   },
   {
-    "objectID": "lectures/04-quantitative.html#making-scatterplots",
-    "href": "lectures/04-quantitative.html#making-scatterplots",
-    "title": "Data visualization: quantitative data",
-    "section": "Making scatterplots",
-    "text": "Making scatterplots\n\n\n\nUse geom_point()\nDisplaying the joint (bivariate) distribution\nWhat is the obvious flaw with this plot?\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = loudness, y = energy)) +\n  geom_point(color = \"darkred\", size = 4)"
+    "objectID": "lectures/03-categorical.html#ordering-factors-in-a-bar-chart",
+    "href": "lectures/03-categorical.html#ordering-factors-in-a-bar-chart",
+    "title": "Data visualization: categorical data",
+    "section": "Ordering factors in a bar chart",
+    "text": "Ordering factors in a bar chart\n\n\nOrder the bars by proportion\n(Let’s also flip the axes)\n\nflying_etiquette |&gt; \n  count(do_you_recline) |&gt; \n  mutate(\n    prop = n / sum(n),\n    se = sqrt(prop * (1 - prop) / sum(n)),\n    lower = prop - 2 * se,\n    upper = prop + 2 * se,\n    do_you_recline = fct_reorder(do_you_recline, prop)\n  ) |&gt; \n  ggplot(aes(x = prop, y = do_you_recline)) +\n  geom_col() +\n  geom_errorbar(aes(xmin = lower, xmax = upper), \n                color = \"blue\", \n                width = 0.2, \n                linewidth = 1)"
   },
   {
-    "objectID": "lectures/04-quantitative.html#making-scatterplots-always-adjust-the-transparency-alpha",
-    "href": "lectures/04-quantitative.html#making-scatterplots-always-adjust-the-transparency-alpha",
-    "title": "Data visualization: quantitative data",
-    "section": "Making scatterplots: always adjust the transparency (alpha)",
-    "text": "Making scatterplots: always adjust the transparency (alpha)\n\n\n\nAdjust the transparency of points via alpha to visualize overlap\nProvides better understanding of joint frequency\nEspecially important with larger datasets\nSee also: ggblend\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = loudness, y = energy)) +\n  geom_point(color = \"darkred\", size = 4, alpha = 0.5)"
+    "objectID": "lectures/03-categorical.html#pie-charts-dont-make-them",
+    "href": "lectures/03-categorical.html#pie-charts-dont-make-them",
+    "title": "Data visualization: categorical data",
+    "section": "Pie charts… don’t make them",
+    "text": "Pie charts… don’t make them\nWhy?\n\nhttps://www.data-to-viz.com/caveat/pie.html\nhttps://github.com/cxli233/FriendsDontLetFriends\n\n3D pie charts?… even worse"
   },
   {
-    "objectID": "lectures/04-quantitative.html#summarizing-2d-quantitative-data-1",
-    "href": "lectures/04-quantitative.html#summarizing-2d-quantitative-data-1",
-    "title": "Data visualization: quantitative data",
-    "section": "Summarizing 2D quantitative data",
-    "text": "Summarizing 2D quantitative data\n\n\n\nScatterplot\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = loudness, y = energy)) +\n  geom_point(color = \"darkred\", size = 4, alpha = 0.5)\n\n\n\n\n\n\n\n\n\n\nCorrelation coefficient\n\n\ncor(taylor_all_songs$loudness, \n    taylor_all_songs$energy, \n    use = \"complete.obs\")\n\n[1] 0.7910765\n\n\nNote: the default correlation you get from cor() is Pearson correlation coefficient\nOther correlations:\n\nSpearman’s correlation\nKendall rank correlation coefficient\nand more"
+    "objectID": "lectures/03-categorical.html#inference-for-1d-categorical-data",
+    "href": "lectures/03-categorical.html#inference-for-1d-categorical-data",
+    "title": "Data visualization: categorical data",
+    "section": "Inference for 1D categorical data",
+    "text": "Inference for 1D categorical data\nChi-square test for 1D categorical data\n\nNull hypothesis: \\(H_0\\): \\(p_1 = p_2 = \\cdots = p_K\\)\nTest statistic: \\(\\displaystyle \\chi^2 = \\sum_{j=1}^K \\frac{(O_j - E_j)^2}{E_j}\\), where\n\n\\(O_j\\): observed counts in category \\(j\\)\n\\(E_j\\) : expected counts under the null (i.e., \\(n/K\\) or each category is equally likely to occur)\n\n\n\nchisq.test(table(flying_etiquette$do_you_recline))\n\n\n    Chi-squared test for given probabilities\n\ndata:  table(flying_etiquette$do_you_recline)\nX-squared = 66.644, df = 4, p-value = 1.159e-13"
   },
   {
-    "objectID": "lectures/04-quantitative.html#when-the-correlations-high",
-    "href": "lectures/04-quantitative.html#when-the-correlations-high",
-    "title": "Data visualization: quantitative data",
-    "section": "When the correlation’s high…",
-    "text": "When the correlation’s high…"
+    "objectID": "lectures/03-categorical.html#hypothesis-testing-in-general",
+    "href": "lectures/03-categorical.html#hypothesis-testing-in-general",
+    "title": "Data visualization: categorical data",
+    "section": "Hypothesis testing in general",
+    "text": "Hypothesis testing in general\nComputing \\(p\\)-values works like this:\n\nChoose a test statistic\nCompute the test statistic using the data\nIs test statistic “unusual” compared to what we would expect under the null?\nCompare \\(p\\)-value to the target error rate (“significance level”) \\(\\alpha\\)\n\nTypically choose \\(\\alpha = 0.05\\) (the origins of 0.05)"
   },
   {
-    "objectID": "lectures/04-quantitative.html#displaying-trend-line-linear-regression-a-preview",
-    "href": "lectures/04-quantitative.html#displaying-trend-line-linear-regression-a-preview",
-    "title": "Data visualization: quantitative data",
-    "section": "Displaying trend line: linear regression(a preview)",
-    "text": "Displaying trend line: linear regression(a preview)\n\n\n\nDisplay regression line forenergy ~ loudness\n95% confidence intervals by default\nEstimating the conditional expectation of energy | loudness\n\ni.e., \\(\\mathbb{E}[\\) energy \\(\\mid\\) loudness \\(]\\)\n\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = loudness, y = energy)) +\n  geom_point(color = \"darkred\", size = 4, alpha = 0.5) +\n  geom_smooth(method = \"lm\", linewidth = 2)"
+    "objectID": "lectures/03-categorical.html#summarizing-2d-categorical-data",
+    "href": "lectures/03-categorical.html#summarizing-2d-categorical-data",
+    "title": "Data visualization: categorical data",
+    "section": "Summarizing 2D categorical data",
+    "text": "Summarizing 2D categorical data\nContinuing with the flying etiquette survey data, let’s look at the responses to 2 questions\n\ndo_you_recline (Do you ever recline your seat when you fly?)\nrude_to_recline (Is it rude to recline your seat on a plane?)\n\nHow many levels does each variable have?\n\ntable(flying_etiquette$do_you_recline)\n\n\n              never     once in a while about half the time             usually \n                170                 256                 117                 175 \n             always \n                136 \n\ntable(flying_etiquette$rude_to_recline)\n\n\n      no somewhat      yes \n     502      281       71"
   },
   {
-    "objectID": "lectures/04-quantitative.html#summarizing-2d-quantitative-data-2",
-    "href": "lectures/04-quantitative.html#summarizing-2d-quantitative-data-2",
-    "title": "Data visualization: quantitative data",
-    "section": "Summarizing 2D quantitative data",
-    "text": "Summarizing 2D quantitative data\n\n\nAdd rug plots to supplement scatterplot\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = loudness, y = energy)) +\n  geom_point(color = \"darkred\", size = 4, alpha = 0.5) +\n  geom_rug(alpha = 0.4)"
+    "objectID": "lectures/03-categorical.html#summarizing-2d-categorical-data-1",
+    "href": "lectures/03-categorical.html#summarizing-2d-categorical-data-1",
+    "title": "Data visualization: categorical data",
+    "section": "Summarizing 2D categorical data",
+    "text": "Summarizing 2D categorical data\nTwo-way table (or contingency table, cross tabulation, crosstab)\n\ntable(\"Recline?\" = flying_etiquette$do_you_recline, \n      \"Rude to reline?\" = flying_etiquette$rude_to_recline)\n\n                     Rude to reline?\nRecline?               no somewhat yes\n  never                35       81  54\n  once in a while     116      129  11\n  about half the time  82       35   0\n  usually             145       27   3\n  always              124        9   3\n\nxtabs(~ do_you_recline + rude_to_recline, data = flying_etiquette)\n\n                     rude_to_recline\ndo_you_recline         no somewhat yes\n  never                35       81  54\n  once in a while     116      129  11\n  about half the time  82       35   0\n  usually             145       27   3\n  always              124        9   3"
   },
   {
-    "objectID": "lectures/04-quantitative.html#pairs-plot",
-    "href": "lectures/04-quantitative.html#pairs-plot",
-    "title": "Data visualization: quantitative data",
-    "section": "Pairs plot",
-    "text": "Pairs plot\n\nlibrary(GGally)\ntaylor_all_songs |&gt; \n  select(danceability, energy, loudness, tempo) |&gt; \n  ggpairs()"
+    "objectID": "lectures/03-categorical.html#visualizing-2d-categorical-data",
+    "href": "lectures/03-categorical.html#visualizing-2d-categorical-data",
+    "title": "Data visualization: categorical data",
+    "section": "Visualizing 2D categorical data",
+    "text": "Visualizing 2D categorical data\n\n\nStacked bar chart: a bar chart of spine charts\nEmphasizes the marginal distribution of each category of x variable\n\ne.g., \\(P(\\) rude_to_recline \\(=\\) somewhat \\()\\)\n\nSimilar to 1D bar charts, start with counting every combination of 2 variables (using count() or group_by() and summarize()), then plot with geom_col()\n\n# flying_etiquette |&gt;\n#   ggplot(aes(x = rude_to_recline,\n#              fill = do_you_recline)) +\n#   geom_bar()\nflying_etiquette |&gt;\n  count(rude_to_recline, do_you_recline) |&gt;\n  ggplot(aes(x = rude_to_recline, y = n, \n             # filled by the other categorical variable\n             fill = do_you_recline)) + \n  geom_col()"
   },
   {
-    "objectID": "lectures/04-quantitative.html#continuous-by-categorical-side-by-side-plots",
-    "href": "lectures/04-quantitative.html#continuous-by-categorical-side-by-side-plots",
-    "title": "Data visualization: quantitative data",
-    "section": "Continuous by categorical: side by side plots",
-    "text": "Continuous by categorical: side by side plots\n\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration, y = album_name)) +\n  geom_violin() +\n  geom_boxplot(width = 0.4)"
+    "objectID": "lectures/03-categorical.html#visualizing-2d-categorical-data-1",
+    "href": "lectures/03-categorical.html#visualizing-2d-categorical-data-1",
+    "title": "Data visualization: categorical data",
+    "section": "Visualizing 2D categorical data",
+    "text": "Visualizing 2D categorical data\n\n\nStacked bar chart (proportion version)\n\nflying_etiquette |&gt;\n  count(rude_to_recline, do_you_recline) |&gt;\n  ggplot(aes(x = rude_to_recline, y = n, \n             fill = do_you_recline)) +\n  geom_col(position = \"fill\")"
   },
   {
-    "objectID": "lectures/04-quantitative.html#continuous-by-categorical-color",
-    "href": "lectures/04-quantitative.html#continuous-by-categorical-color",
-    "title": "Data visualization: quantitative data",
-    "section": "Continuous by categorical: color",
-    "text": "Continuous by categorical: color\n\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration, color = album_name)) +\n  stat_ecdf(linewidth = 1) +\n  scale_color_albums() + # from the taylor package \n  theme(legend.position = \"bottom\")"
+    "objectID": "lectures/03-categorical.html#visualizing-2d-categorical-data-2",
+    "href": "lectures/03-categorical.html#visualizing-2d-categorical-data-2",
+    "title": "Data visualization: categorical data",
+    "section": "Visualizing 2D categorical data",
+    "text": "Visualizing 2D categorical data\n\n\nSide-by-side (grouped, dodged) bar chart: a bar chart of bar charts\nShows the conditional distribution of fill variable given x variable\n\ne.g., \\(P(\\) do_you_recline \\(=\\) always \\(\\mid\\) rude_to_recline \\(=\\) somewhat \\()\\)\n\n\nflying_etiquette |&gt;\n  count(rude_to_recline, do_you_recline) |&gt;\n  ggplot(aes(x = rude_to_recline, y = n, \n             fill = do_you_recline)) + \n  geom_col(position = \"dodge\")"
   },
   {
-    "objectID": "lectures/04-quantitative.html#continuous-by-categorical-ridgeline-plot-joyplot",
-    "href": "lectures/04-quantitative.html#continuous-by-categorical-ridgeline-plot-joyplot",
-    "title": "Data visualization: quantitative data",
-    "section": "Continuous by categorical: ridgeline plot (joyplot)",
-    "text": "Continuous by categorical: ridgeline plot (joyplot)\nFor more, see this tutorial\n\nlibrary(ggridges)\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration, y = album_name)) +\n  geom_density_ridges(scale = 1)"
+    "objectID": "lectures/03-categorical.html#joint-marginal-and-conditional-probabilities",
+    "href": "lectures/03-categorical.html#joint-marginal-and-conditional-probabilities",
+    "title": "Data visualization: categorical data",
+    "section": "Joint, marginal, and conditional probabilities",
+    "text": "Joint, marginal, and conditional probabilities\n\n\nLet \\(X\\) = rude_to_recline and \\(Y\\) = do_you_recline\n\nJoint distribution: frequency of the intersection\n\ne.g., \\(P(X =\\) somewhat \\(, Y =\\) always \\()\\)\n\nMarginal distribution: row sums or column sums\n\ne.g., \\(P(X =\\) somewhat \\()\\), \\(P(Y =\\) always \\()\\)\n\nConditional distribution: probability event \\(X\\) given event \\(Y\\)\n\ne.g., \\(P(X =\\) somewhat \\(\\mid Y =\\) always \\()\\)\n\n\\(\\displaystyle \\qquad \\quad = \\frac{P(X = \\texttt{somewhat}, Y = \\texttt{always})}{P(Y = \\texttt{always})}\\)\n\n\n\nflying_etiquette |&gt; \n  select(do_you_recline, rude_to_recline) |&gt; \n  table()\n\n                     rude_to_recline\ndo_you_recline         no somewhat yes\n  never                35       81  54\n  once in a while     116      129  11\n  about half the time  82       35   0\n  usually             145       27   3\n  always              124        9   3\n\nflying_etiquette |&gt; \n  select(do_you_recline, rude_to_recline) |&gt; \n  table() |&gt; \n  prop.table()\n\n                     rude_to_recline\ndo_you_recline                 no    somewhat         yes\n  never               0.040983607 0.094847775 0.063231850\n  once in a while     0.135831382 0.151053864 0.012880562\n  about half the time 0.096018735 0.040983607 0.000000000\n  usually             0.169789227 0.031615925 0.003512881\n  always              0.145199063 0.010538642 0.003512881"
   },
   {
-    "objectID": "lectures/04-quantitative.html#what-about-for-histograms",
-    "href": "lectures/04-quantitative.html#what-about-for-histograms",
-    "title": "Data visualization: quantitative data",
-    "section": "What about for histograms?",
-    "text": "What about for histograms?\n\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration, fill = album_name)) +\n  geom_histogram(alpha = 0.6, bins = 15) +\n  scale_fill_albums()"
+    "objectID": "lectures/03-categorical.html#joint-marginal-and-conditional-probabilities-1",
+    "href": "lectures/03-categorical.html#joint-marginal-and-conditional-probabilities-1",
+    "title": "Data visualization: categorical data",
+    "section": "Joint, marginal, and conditional probabilities",
+    "text": "Joint, marginal, and conditional probabilities\nTwo-way proportion table (the tidyverse way) with pivot_wider\n\nflying_etiquette |&gt;\n  group_by(rude_to_recline, do_you_recline) |&gt;\n  summarize(joint = n() / nrow(flying_etiquette)) |&gt;\n  pivot_wider(names_from = rude_to_recline, values_from = joint, values_fill = 0)\n\n# A tibble: 5 × 4\n  do_you_recline          no somewhat     yes\n  &lt;fct&gt;                &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;\n1 never               0.0410   0.0948 0.0632 \n2 once in a while     0.136    0.151  0.0129 \n3 about half the time 0.0960   0.0410 0      \n4 usually             0.170    0.0316 0.00351\n5 always              0.145    0.0105 0.00351"
   },
   {
-    "objectID": "lectures/04-quantitative.html#what-about-facets",
-    "href": "lectures/04-quantitative.html#what-about-facets",
-    "title": "Data visualization: quantitative data",
-    "section": "What about facets?",
-    "text": "What about facets?\nDifference between facet_wrap and facet_grid\n\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration)) +\n  geom_histogram(bins = 15) +\n  facet_wrap(~ album_name, nrow = 1)"
+    "objectID": "lectures/03-categorical.html#categorical-heatmaps",
+    "href": "lectures/03-categorical.html#categorical-heatmaps",
+    "title": "Data visualization: categorical data",
+    "section": "Categorical heatmaps",
+    "text": "Categorical heatmaps\n\n\n\nUse geom_tile to display joint distribution of two categorical variables\nAnnotate tiles with labels of percentages using geom_text() and the scales package (a very neat package)\n\n\nflying_etiquette |&gt;\n  group_by(rude_to_recline, do_you_recline) |&gt;\n  summarize(\n    freq = n(), \n    joint = n() / nrow(flying_etiquette)\n  ) |&gt; \n  ggplot(aes(x = rude_to_recline, y = do_you_recline)) +\n  geom_tile(aes(fill = freq), color = \"white\") +\n  geom_text(aes(label = scales::percent(joint))) +\n  scale_fill_gradient2()"
   },
   {
-    "objectID": "lectures/04-quantitative.html#what-about-facets-1",
-    "href": "lectures/04-quantitative.html#what-about-facets-1",
-    "title": "Data visualization: quantitative data",
-    "section": "What about facets?",
-    "text": "What about facets?\n\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration)) +\n  geom_histogram(bins = 15) +\n  facet_grid(album_name ~ ., margins = TRUE)"
+    "objectID": "lectures/03-categorical.html#visualizing-independence",
+    "href": "lectures/03-categorical.html#visualizing-independence",
+    "title": "Data visualization: categorical data",
+    "section": "Visualizing independence",
+    "text": "Visualizing independence\n\n\nMosaic plot\n\nspine chart of spine charts\nwidth: marginal distribution of rude_to_recline\nheight: conditional distribution of do_you_recline | rude_to_recline\narea: joint distribution\n\nUsing a mosaic plot to visually check for independence:\n\ncheck whether all proportions are the same (the boxes line up in a grid)\n\n\n\nflying_etiquette |&gt; \n  select(rude_to_recline, do_you_recline) |&gt; \n  table() |&gt; \n  mosaicplot(main = \"Relationship between reclining frequency and opinion on rudeness\")"
+  },
+  {
+    "objectID": "lectures/03-categorical.html#visualizing-independence-1",
+    "href": "lectures/03-categorical.html#visualizing-independence-1",
+    "title": "Data visualization: categorical data",
+    "section": "Visualizing independence",
+    "text": "Visualizing independence\nMosaic plot with ggmosaic package\n\nflying_etiquette |&gt; \n  ggplot() +\n  geom_mosaic(aes(x = product(do_you_recline, rude_to_recline), fill = do_you_recline))"
+  },
+  {
+    "objectID": "lectures/03-categorical.html#inference-for-2d-categorical-data",
+    "href": "lectures/03-categorical.html#inference-for-2d-categorical-data",
+    "title": "Data visualization: categorical data",
+    "section": "Inference for 2D categorical data",
+    "text": "Inference for 2D categorical data\nChi-square test for 2D categorical data\n\nNull hypothesis: \\(H_0\\): 2 categorical variables are independent of each other\n\ne.g., no association between do_you_recline and rude_to_recline\n\nTest statistic: \\(\\displaystyle \\chi^2 = \\sum_i^{k_1} \\sum_j^{k_2} \\frac{(O_{ij} - E_{ij})^2}{E_{ij}}\\)\n\n\n# chisq.test(table(flying_etiquette$rude_to_recline, flying_etiquette$do_you_recline))\nflying_etiquette |&gt; \n  select(rude_to_recline, do_you_recline) |&gt; \n  table() |&gt; \n  chisq.test()\n\n\n    Pearson's Chi-squared test\n\ndata:  table(select(flying_etiquette, rude_to_recline, do_you_recline))\nX-squared = 316.73, df = 8, p-value &lt; 2.2e-16"
+  },
+  {
+    "objectID": "lectures/03-categorical.html#residuals",
+    "href": "lectures/03-categorical.html#residuals",
+    "title": "Data visualization: categorical data",
+    "section": "Residuals",
+    "text": "Residuals\nRecall the test statistic: \\(\\displaystyle \\chi^2 = \\sum_i^{k_1} \\sum_j^{k_2} \\frac{(O_{ij} - E_{ij})^2}{E_{ij}}\\)\nDefine the Pearson residuals: \\(\\displaystyle r_{ij} = \\frac{O_{ij} - E_{ij}}{\\sqrt{E_{ij}}}\\)\nSome rules of thumb:\n\n\\(r_{ij} \\approx 0\\): observed counts are close to expected counts\n\\(|r_{ij}| &gt; 2\\): significant at \\(\\alpha = 0.05\\)\nvery positive \\(r_{ij}\\): higher than expected\nvery negative \\(r_{ij}\\): lower than expected"
+  },
+  {
+    "objectID": "lectures/03-categorical.html#residuals-1",
+    "href": "lectures/03-categorical.html#residuals-1",
+    "title": "Data visualization: categorical data",
+    "section": "Residuals",
+    "text": "Residuals\nMosaic plots with boxes color-coded by Pearson residuals\nTells us which combinations of 2 categorical variables (cells) are much higher/lower than expected\n\nflying_etiquette |&gt; \n  select(rude_to_recline, do_you_recline) |&gt; \n  table() |&gt; \n  mosaicplot(main = \"Relationship between reclining frequency and opinion on rudeness\", shade = TRUE)"
+  },
+  {
+    "objectID": "lectures/03-categorical.html#beyond-2d-facets",
+    "href": "lectures/03-categorical.html#beyond-2d-facets",
+    "title": "Data visualization: categorical data",
+    "section": "Beyond 2D: facets!",
+    "text": "Beyond 2D: facets!\n\nflying_etiquette %&gt;%\n  ggplot(aes(x = rude_to_recline, fill = do_you_recline)) + \n  geom_bar() +\n  facet_wrap(~ flight_freq)"
+  },
+  {
+    "objectID": "lectures/03-categorical.html#the-janitor-package",
+    "href": "lectures/03-categorical.html#the-janitor-package",
+    "title": "Data visualization: categorical data",
+    "section": "The janitor package",
+    "text": "The janitor package\nThe most popular janitor function is clean_names()… for cleaning column names\n\n# before\niris |&gt; \n  head()\n\n  Sepal.Length Sepal.Width Petal.Length Petal.Width Species\n1          5.1         3.5          1.4         0.2  setosa\n2          4.9         3.0          1.4         0.2  setosa\n3          4.7         3.2          1.3         0.2  setosa\n4          4.6         3.1          1.5         0.2  setosa\n5          5.0         3.6          1.4         0.2  setosa\n6          5.4         3.9          1.7         0.4  setosa\n\n# after\nlibrary(janitor)\niris |&gt; \n  clean_names() |&gt; \n  head()\n\n  sepal_length sepal_width petal_length petal_width species\n1          5.1         3.5          1.4         0.2  setosa\n2          4.9         3.0          1.4         0.2  setosa\n3          4.7         3.2          1.3         0.2  setosa\n4          4.6         3.1          1.5         0.2  setosa\n5          5.0         3.6          1.4         0.2  setosa\n6          5.4         3.9          1.7         0.4  setosa"
+  },
+  {
+    "objectID": "lectures/03-categorical.html#tabulation-with-the-janitor-package",
+    "href": "lectures/03-categorical.html#tabulation-with-the-janitor-package",
+    "title": "Data visualization: categorical data",
+    "section": "Tabulation with the janitor package",
+    "text": "Tabulation with the janitor package\nThe lesser-known stars of janitor: functions for tabulation of categorical data\n\n\ntabyl\n\nflying_etiquette |&gt; \n  tabyl(do_you_recline)\n\n      do_you_recline   n   percent\n               never 170 0.1990632\n     once in a while 256 0.2997658\n about half the time 117 0.1370023\n             usually 175 0.2049180\n              always 136 0.1592506\n\n\n\nadorn_*() functions\n\nflying_etiquette |&gt; \n  tabyl(do_you_recline, rude_to_recline) |&gt; \n  adorn_percentages(\"row\") |&gt; \n  adorn_pct_formatting(digits = 2) |&gt; \n  adorn_ns()\n\n      do_you_recline           no     somewhat         yes\n               never 20.59%  (35) 47.65%  (81) 31.76% (54)\n     once in a while 45.31% (116) 50.39% (129)  4.30% (11)\n about half the time 70.09%  (82) 29.91%  (35)  0.00%  (0)\n             usually 82.86% (145) 15.43%  (27)  1.71%  (3)\n              always 91.18% (124)  6.62%   (9)  2.21%  (3)\n\n\n\nFor more, see this overview and this tutorial"
+  },
+  {
+    "objectID": "sports.html",
+    "href": "sports.html",
+    "title": "Sports",
+    "section": "",
+    "text": "TBA"
   },
   {
     "objectID": "lectures/01-explore.html#workflow-diagram",
@@ -686,235 +938,186 @@
     "text": "Check out this song"
   },
   {
-    "objectID": "sports.html",
-    "href": "sports.html",
-    "title": "Sports",
-    "section": "",
-    "text": "TBA"
+    "objectID": "lectures/04-quantitative.html#quantitative-data",
+    "href": "lectures/04-quantitative.html#quantitative-data",
+    "title": "Data visualization: quantitative data",
+    "section": "Quantitative data",
+    "text": "Quantitative data\nTwo different versions of quantitative data:\nDiscrete: countable and has clear space between values (i.e. whole number only)\n\nExamples: number of goals scored in a game, number of children in a family\n\nContinuous: can take any value within some interval\n\nExamples: price of houses in Pittsburgh, water temperature, wind speed"
   },
   {
-    "objectID": "lectures/03-categorical.html#data",
-    "href": "lectures/03-categorical.html#data",
-    "title": "Data visualization: categorical data",
+    "objectID": "lectures/04-quantitative.html#data",
+    "href": "lectures/04-quantitative.html#data",
+    "title": "Data visualization: quantitative data",
     "section": "Data",
-    "text": "Data\n\nFlying ettiquette survey\nPublicly available on GitHub and also via the ggmosaic package (the dataset is called fly).\nWhat does each row represent here?\n\n\nlibrary(tidyverse)\ntheme_set(theme_light()) # setting the ggplot theme\nlibrary(ggmosaic) # make sure to install it first\nflying_etiquette &lt;- fly |&gt; \n  filter(!is.na(do_you_recline), !is.na(rude_to_recline))\nnames(flying_etiquette)\n\n [1] \"id\"                             \"flight_freq\"                   \n [3] \"do_you_recline\"                 \"height\"                        \n [5] \"has_child_under_18\"             \"three_seats_two_arms\"          \n [7] \"two_seats_one_arm\"              \"window_shade\"                  \n [9] \"rude_to_move_to_unsold_seat\"    \"rude_to_talk_to_neighbor\"      \n[11] \"six_hr_flight_leave_seat\"       \"reclining_obligation_to_behind\"\n[13] \"rude_to_recline\"                \"eliminate_reclining\"           \n[15] \"rude_to_switch_seats_friends\"   \"rude_to_switch_seats_family\"   \n[17] \"rude_to_wake_neighbor_bathroom\" \"rude_to_wake_neighbor_walk\"    \n[19] \"rude_to_bring_baby\"             \"rude_to_bring_unruly_child\"    \n[21] \"use_electronics_takeoff\"        \"smoked_inflight\"               \n[23] \"gender\"                         \"age\"                           \n[25] \"household_income\"               \"education\"                     \n[27] \"region\""
+    "text": "Data\nTaylor Swift songs via the taylor package (data dictionary here)\n\nlibrary(tidyverse)\ntheme_set(theme_light())\nlibrary(taylor)\nnames(taylor_all_songs)\n\n [1] \"album_name\"          \"ep\"                  \"album_release\"      \n [4] \"track_number\"        \"track_name\"          \"artist\"             \n [7] \"featuring\"           \"bonus_track\"         \"promotional_release\"\n[10] \"single_release\"      \"track_release\"       \"danceability\"       \n[13] \"energy\"              \"key\"                 \"loudness\"           \n[16] \"mode\"                \"speechiness\"         \"acousticness\"       \n[19] \"instrumentalness\"    \"liveness\"            \"valence\"            \n[22] \"tempo\"               \"time_signature\"      \"duration_ms\"        \n[25] \"explicit\"            \"key_name\"            \"mode_name\"          \n[28] \"key_mode\"            \"lyrics\"             \n\ntaylor_all_songs &lt;- taylor_all_songs |&gt; \n  mutate(duration = duration_ms / 60000)"
   },
   {
-    "objectID": "lectures/03-categorical.html#categorical-data",
-    "href": "lectures/03-categorical.html#categorical-data",
-    "title": "Data visualization: categorical data",
-    "section": "Categorical data",
-    "text": "Categorical data\nTwo different versions of categorical data:\nNominal: categorical variables having unordered scales\n\nExamples: race, gender, species, etc,\n\nOrdinal: ordered categories; levels with a meaningful order\n\nExamples: education level, grades, ranks"
+    "objectID": "lectures/04-quantitative.html#summarizing-1d-quantitative-data",
+    "href": "lectures/04-quantitative.html#summarizing-1d-quantitative-data",
+    "title": "Data visualization: quantitative data",
+    "section": "Summarizing 1D quantitative data",
+    "text": "Summarizing 1D quantitative data\n\nCenter: mean, median, number and location of modes\n\n\n\nSpread: range, variance, standard deviation, IQR, etc.\n\n\n\n\nShape: skew vs symmetry, outliers, heavy vs light tails, etc.\n\n\n\nCompute various statistics in R with summary(), mean(), median(), quantile(), range(), sd(), var(), etc.\n\n\nExample: Summarizing the duration of Taylor Swift songs\n\nsummary(taylor_all_songs$duration)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's \n  2.198   3.543   3.930   3.985   4.343  10.217      12 \n\nsd(taylor_all_songs$duration, na.rm = TRUE)\n\n[1] 0.7527544"
   },
   {
-    "objectID": "lectures/03-categorical.html#factors-in-r",
-    "href": "lectures/03-categorical.html#factors-in-r",
-    "title": "Data visualization: categorical data",
-    "section": "Factors in R",
-    "text": "Factors in R\n\nIn R, factors are used to work with categorical variables\nR treats factors as ordinal - defaults to alphabetical\n\nMay need to manually define the factor levels (e.g., the reference level)\n\nSee the forcats package (automatically loaded with tidyverse)\n\n\nclass(flying_etiquette$do_you_recline)\n\n[1] \"factor\"\n\nlevels(flying_etiquette$do_you_recline)\n\n[1] \"never\"               \"once in a while\"     \"about half the time\"\n[4] \"usually\"             \"always\""
+    "objectID": "lectures/04-quantitative.html#boxplots-visualize-summary-statistics",
+    "href": "lectures/04-quantitative.html#boxplots-visualize-summary-statistics",
+    "title": "Data visualization: quantitative data",
+    "section": "Boxplots visualize summary statistics",
+    "text": "Boxplots visualize summary statistics\n\n\nPros:\n\nDisplays outliers, percentiles, spread, skew\nUseful for side-by-side comparison\n\nCons:\n\nDoes not display the full distribution shape\nDoes not display modes\n\nThe expert weighed in…\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  geom_boxplot() +\n  theme(axis.text.y = element_blank())"
   },
   {
-    "objectID": "lectures/03-categorical.html#summarizing-1d-categorical-data",
-    "href": "lectures/03-categorical.html#summarizing-1d-categorical-data",
-    "title": "Data visualization: categorical data",
-    "section": "Summarizing 1D categorical data",
-    "text": "Summarizing 1D categorical data\nHow often do these respondents recline?\nFrequency tables (counts)\n\ntable(flying_etiquette$do_you_recline)\n\n\n              never     once in a while about half the time             usually \n                170                 256                 117                 175 \n             always \n                136 \n\n# flying_etiquette |&gt; \n#   group_by(do_you_recline) |&gt;\n#   summarize(n = n(), .groups = \"drop\")\n\nflying_etiquette |&gt; \n  count(do_you_recline)\n\n# A tibble: 5 × 2\n  do_you_recline          n\n  &lt;fct&gt;               &lt;int&gt;\n1 never                 170\n2 once in a while       256\n3 about half the time   117\n4 usually               175\n5 always                136"
+    "objectID": "lectures/04-quantitative.html#histograms-display-1d-continuous-distributions",
+    "href": "lectures/04-quantitative.html#histograms-display-1d-continuous-distributions",
+    "title": "Data visualization: quantitative data",
+    "section": "Histograms display 1D continuous distributions",
+    "text": "Histograms display 1D continuous distributions\n\n\n\\(\\displaystyle \\text{# total obs.} = \\sum_{j=1}^k \\text{# obs. in bin }j\\)\nPros:\n\nDisplays full shape of distribution\nEasy to interpret\n\nCons:\n\nHave to choose number of bins and bin locations (will revisit later)\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  geom_histogram()"
   },
   {
-    "objectID": "lectures/03-categorical.html#summarizing-1d-categorical-data-1",
-    "href": "lectures/03-categorical.html#summarizing-1d-categorical-data-1",
-    "title": "Data visualization: categorical data",
-    "section": "Summarizing 1D categorical data",
-    "text": "Summarizing 1D categorical data\nProportion table\n\nprop.table(table(flying_etiquette$do_you_recline))\n\n\n              never     once in a while about half the time             usually \n          0.1990632           0.2997658           0.1370023           0.2049180 \n             always \n          0.1592506 \n\nflying_etiquette |&gt; \n  count(do_you_recline) |&gt; \n  mutate(prop = n / sum(n))\n\n# A tibble: 5 × 3\n  do_you_recline          n  prop\n  &lt;fct&gt;               &lt;int&gt; &lt;dbl&gt;\n1 never                 170 0.199\n2 once in a while       256 0.300\n3 about half the time   117 0.137\n4 usually               175 0.205\n5 always                136 0.159"
+    "objectID": "lectures/04-quantitative.html#display-the-data-points-directly-with-beeswarm-plots",
+    "href": "lectures/04-quantitative.html#display-the-data-points-directly-with-beeswarm-plots",
+    "title": "Data visualization: quantitative data",
+    "section": "Display the data points directly with beeswarm plots",
+    "text": "Display the data points directly with beeswarm plots\n\n\nPros:\n\nDisplays each data point\nEasy to view full shape of distribution\n\nCons:\n\nCan be overbearing with large datasets\nWhich algorithm for arranging points?\n\n\n\nlibrary(ggbeeswarm)\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration, y = \"\")) +\n  geom_beeswarm(cex = 2)"
   },
   {
-    "objectID": "lectures/03-categorical.html#visualizing-1d-categorical-data",
-    "href": "lectures/03-categorical.html#visualizing-1d-categorical-data",
-    "title": "Data visualization: categorical data",
-    "section": "Visualizing 1D categorical data",
-    "text": "Visualizing 1D categorical data\n\n\nCreate a bar chart with geom_bar()\n\nMap do_you_recline to the x-axis\nCounts of each category are displayed on the y-axis\n\n\nflying_etiquette |&gt; \n  ggplot(aes(x = do_you_recline)) +\n  geom_bar()"
+    "objectID": "lectures/04-quantitative.html#smooth-summary-with-violin-plots",
+    "href": "lectures/04-quantitative.html#smooth-summary-with-violin-plots",
+    "title": "Data visualization: quantitative data",
+    "section": "Smooth summary with violin plots",
+    "text": "Smooth summary with violin plots\n\n\nPros:\n\nDisplays full shape of distribution\nCan easily layer…\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration, y = \"\")) +\n  geom_violin()"
   },
   {
-    "objectID": "lectures/03-categorical.html#behind-the-scenes-of-geom_bar",
-    "href": "lectures/03-categorical.html#behind-the-scenes-of-geom_bar",
-    "title": "Data visualization: categorical data",
-    "section": "Behind the scenes of geom_bar()",
-    "text": "Behind the scenes of geom_bar()\n\nstart with the data\naggregate and count the number of observations in each bar\nmap to plot aesthetics"
+    "objectID": "lectures/04-quantitative.html#smooth-summary-with-violin-plots-box-plots",
+    "href": "lectures/04-quantitative.html#smooth-summary-with-violin-plots-box-plots",
+    "title": "Data visualization: quantitative data",
+    "section": "Smooth summary with violin plots + box plots",
+    "text": "Smooth summary with violin plots + box plots\n\n\nPros:\n\nDisplays full shape of distribution\nCan easily layer… with box plots on top\n\nCons:\n\nSummary of data via density estimate\nMirror image is duplicate information\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration, y = \"\")) +\n  geom_violin() +\n  geom_boxplot(width = 0.4)"
   },
   {
-    "objectID": "lectures/03-categorical.html#visualizing-1d-categorical-data-1",
-    "href": "lectures/03-categorical.html#visualizing-1d-categorical-data-1",
-    "title": "Data visualization: categorical data",
-    "section": "Visualizing 1D categorical data",
-    "text": "Visualizing 1D categorical data\n\n\nInstead of geom_bar(), do this “by hand” (Quang prefers this way)\n\naggregate and obtain the counts first with count() or (group_by and summarize())\nthen use geom_col()\n\n\nflying_etiquette |&gt;\n  count(do_you_recline, name = \"count\") |&gt; \n  ggplot(aes(x = do_you_recline, y = count)) +\n  geom_col()"
+    "objectID": "lectures/04-quantitative.html#what-do-visualizations-of-continuous-distributions-display",
+    "href": "lectures/04-quantitative.html#what-do-visualizations-of-continuous-distributions-display",
+    "title": "Data visualization: quantitative data",
+    "section": "What do visualizations of continuous distributions display?",
+    "text": "What do visualizations of continuous distributions display?\nProbability that continuous variable \\(X\\) takes a particular value is 0\ne.g. \\(P(\\) duration \\(= 3) = 0\\) (why?)\nFor continuous variables, the cumulative distribution function (CDF) is \\[F(x) = P(X \\leq x)\\]\nFor \\(n\\) observations, the empirical CDF (ECDF) can be computed based on the observed data \\[\\hat{F}_n(x)  = \\frac{\\text{# obs. with variable} \\leq x}{n} = \\frac{1}{n} \\sum_{i=1}^{n} I (x_i \\leq x)\\]\nwhere \\(I()\\) is the indicator function, i.e. ifelse(x_i &lt;= x, 1, 0)"
   },
   {
-    "objectID": "lectures/03-categorical.html#visualizing-1d-categorical-data-2",
-    "href": "lectures/03-categorical.html#visualizing-1d-categorical-data-2",
-    "title": "Data visualization: categorical data",
-    "section": "Visualizing 1D categorical data",
-    "text": "Visualizing 1D categorical data\n\n\nFlip your bar chart axes!\nJust simply replace x with y (Quang prefers this way)\n\nflying_etiquette |&gt;\n  ggplot(aes(y = do_you_recline)) +\n  geom_bar()\n\nOr use coord_flip()\n\nflying_etiquette |&gt; \n  ggplot(aes(x = do_you_recline)) +\n  geom_bar() +\n  coord_flip()"
+    "objectID": "lectures/04-quantitative.html#display-full-distribution-with-ecdf-plot",
+    "href": "lectures/04-quantitative.html#display-full-distribution-with-ecdf-plot",
+    "title": "Data visualization: quantitative data",
+    "section": "Display full distribution with ECDF plot",
+    "text": "Display full distribution with ECDF plot\n\n\nPros:\n\nDisplays all of your data at once\nAs \\(n \\rightarrow \\infty\\), the ECDF \\(\\hat F_n(x)\\) converges to the true CDF \\(F(x)\\)\n\nCons:\n\nWhat are the cons?\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  stat_ecdf()"
   },
   {
-    "objectID": "lectures/03-categorical.html#what-does-a-bar-chart-show",
-    "href": "lectures/03-categorical.html#what-does-a-bar-chart-show",
-    "title": "Data visualization: categorical data",
-    "section": "What does a bar chart show?",
-    "text": "What does a bar chart show?\n\n\nMarginal distribution: probability that a categorical variable \\(X\\) (e.g., do_you_recline) takes each particular category value \\(x\\) (always, usually, …, never)\n\nFrequency bar charts (earlier version) give info about sample size, but this could be labeled in the chart (use geom_text() or geom_label())\nNow, we create a proportion/percent bar chart to display the individual probabilities\nThis shows the probability mass function (PMF) for discrete variables\n\n(e.g. \\(P(\\) do_you_recline \\(=\\) never\\()\\))\n\n\n\n\nflying_etiquette |&gt; \n  count(do_you_recline) |&gt; \n  mutate(prop = n / sum(n)) |&gt; \n  ggplot(aes(x = prop, y = do_you_recline)) +\n  geom_col()   # + geom_label(aes(label = n), hjust = 1)"
+    "objectID": "lectures/04-quantitative.html#rug-plots-display-raw-data",
+    "href": "lectures/04-quantitative.html#rug-plots-display-raw-data",
+    "title": "Data visualization: quantitative data",
+    "section": "Rug plots display raw data",
+    "text": "Rug plots display raw data\n\n\nPros:\n\nDisplays raw data points\nUseful supplement for summaries and 2D plots\n\nCons:\n\nCan be overbearing for large datasets\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  geom_rug(alpha = 0.5)"
   },
   {
-    "objectID": "lectures/03-categorical.html#population-vs-sample",
-    "href": "lectures/03-categorical.html#population-vs-sample",
-    "title": "Data visualization: categorical data",
-    "section": "Population vs sample",
-    "text": "Population vs sample\nPopulation: The collection of all subjects of interest\nSample: A representative subset of the population of interest\n\nThe survey respondents is just a subset of all airplane flyers\n\n\nEmpirical distribution: estimating the true marginal distribution with observed (sample) data\n\n\n\nEstimate \\(P(\\) do_you_recline = \\(C_j\\)) with \\(\\hat p_j\\) for each category \\(C_j\\) (e.g., \\(\\hat p_\\texttt{always}\\), …, \\(\\hat p_\\texttt{never}\\))\n\nStandard error for each \\(\\hat p_j\\): \\(\\quad \\displaystyle \\text{SE}(\\hat{p}_j) = \\sqrt{\\frac{\\hat{p}_j (1 - \\hat{p}_j)}{n}}\\)"
+    "objectID": "lectures/04-quantitative.html#rug-plots-supplement-other-displays",
+    "href": "lectures/04-quantitative.html#rug-plots-supplement-other-displays",
+    "title": "Data visualization: quantitative data",
+    "section": "Rug plots supplement other displays",
+    "text": "Rug plots supplement other displays\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  geom_histogram() +\n  geom_rug(alpha = 0.5)\n\n\n\n\n\n\n\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = duration)) +\n  stat_ecdf() +\n  geom_rug(alpha = 0.5)"
   },
   {
-    "objectID": "lectures/03-categorical.html#adding-confidence-intervals-to-bar-chart",
-    "href": "lectures/03-categorical.html#adding-confidence-intervals-to-bar-chart",
-    "title": "Data visualization: categorical data",
-    "section": "Adding confidence intervals to bar chart",
-    "text": "Adding confidence intervals to bar chart\n\n\n\n\nflying_etiquette |&gt; \n  count(do_you_recline) |&gt; \n  mutate(prop = n / sum(n),\n         se = sqrt(prop * (1 - prop) / sum(n)),\n         lower = prop - 2 * se,\n         upper = prop + 2 * se) |&gt; \n  ggplot(aes(x = prop, y = do_you_recline)) +\n  geom_col() +\n  geom_errorbar(aes(xmin = lower, xmax = upper), \n                color = \"blue\", \n                width = 0.2, \n                linewidth = 1)"
+    "objectID": "lectures/04-quantitative.html#summarizing-2d-quantitative-data",
+    "href": "lectures/04-quantitative.html#summarizing-2d-quantitative-data",
+    "title": "Data visualization: quantitative data",
+    "section": "Summarizing 2D quantitative data",
+    "text": "Summarizing 2D quantitative data\n\nDirection/trend (positive, negative)\nStrength of the relationship (strong, moderate, weak)\nLinearity (linear, non-linear)\n\n\nBig picture\n\nScatterplots are by far the most common visual\nRegression analysis is by far the most popular analysis (we will have a class on this)\nRelationships may vary across other variables, e.g., categorical variables"
   },
   {
-    "objectID": "lectures/03-categorical.html#ordering-factors-in-a-bar-chart",
-    "href": "lectures/03-categorical.html#ordering-factors-in-a-bar-chart",
-    "title": "Data visualization: categorical data",
-    "section": "Ordering factors in a bar chart",
-    "text": "Ordering factors in a bar chart\n\n\nOrder the bars by proportion\n(Let’s also flip the axes)\n\nflying_etiquette |&gt; \n  count(do_you_recline) |&gt; \n  mutate(\n    prop = n / sum(n),\n    se = sqrt(prop * (1 - prop) / sum(n)),\n    lower = prop - 2 * se,\n    upper = prop + 2 * se,\n    do_you_recline = fct_reorder(do_you_recline, prop)\n  ) |&gt; \n  ggplot(aes(x = prop, y = do_you_recline)) +\n  geom_col() +\n  geom_errorbar(aes(xmin = lower, xmax = upper), \n                color = \"blue\", \n                width = 0.2, \n                linewidth = 1)"
+    "objectID": "lectures/04-quantitative.html#making-scatterplots",
+    "href": "lectures/04-quantitative.html#making-scatterplots",
+    "title": "Data visualization: quantitative data",
+    "section": "Making scatterplots",
+    "text": "Making scatterplots\n\n\n\nUse geom_point()\nDisplaying the joint (bivariate) distribution\nWhat is the obvious flaw with this plot?\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = loudness, y = energy)) +\n  geom_point(color = \"darkred\", size = 4)"
   },
   {
-    "objectID": "lectures/03-categorical.html#pie-charts-dont-make-them",
-    "href": "lectures/03-categorical.html#pie-charts-dont-make-them",
-    "title": "Data visualization: categorical data",
-    "section": "Pie charts… don’t make them",
-    "text": "Pie charts… don’t make them\nWhy?\n\nhttps://www.data-to-viz.com/caveat/pie.html\nhttps://github.com/cxli233/FriendsDontLetFriends\n\n3D pie charts?… even worse"
+    "objectID": "lectures/04-quantitative.html#making-scatterplots-always-adjust-the-transparency-alpha",
+    "href": "lectures/04-quantitative.html#making-scatterplots-always-adjust-the-transparency-alpha",
+    "title": "Data visualization: quantitative data",
+    "section": "Making scatterplots: always adjust the transparency (alpha)",
+    "text": "Making scatterplots: always adjust the transparency (alpha)\n\n\n\nAdjust the transparency of points via alpha to visualize overlap\nProvides better understanding of joint frequency\nEspecially important with larger datasets\nSee also: ggblend\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = loudness, y = energy)) +\n  geom_point(color = \"darkred\", size = 4, alpha = 0.5)"
   },
   {
-    "objectID": "lectures/03-categorical.html#inference-for-1d-categorical-data",
-    "href": "lectures/03-categorical.html#inference-for-1d-categorical-data",
-    "title": "Data visualization: categorical data",
-    "section": "Inference for 1D categorical data",
-    "text": "Inference for 1D categorical data\nChi-square test for 1D categorical data\n\nNull hypothesis: \\(H_0\\): \\(p_1 = p_2 = \\cdots = p_K\\)\nTest statistic: \\(\\displaystyle \\chi^2 = \\sum_{j=1}^K \\frac{(O_j - E_j)^2}{E_j}\\), where\n\n\\(O_j\\): observed counts in category \\(j\\)\n\\(E_j\\) : expected counts under the null (i.e., \\(n/K\\) or each category is equally likely to occur)\n\n\n\nchisq.test(table(flying_etiquette$do_you_recline))\n\n\n    Chi-squared test for given probabilities\n\ndata:  table(flying_etiquette$do_you_recline)\nX-squared = 66.644, df = 4, p-value = 1.159e-13"
+    "objectID": "lectures/04-quantitative.html#summarizing-2d-quantitative-data-1",
+    "href": "lectures/04-quantitative.html#summarizing-2d-quantitative-data-1",
+    "title": "Data visualization: quantitative data",
+    "section": "Summarizing 2D quantitative data",
+    "text": "Summarizing 2D quantitative data\n\n\n\nScatterplot\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = loudness, y = energy)) +\n  geom_point(color = \"darkred\", size = 4, alpha = 0.5)\n\n\n\n\n\n\n\n\n\n\nCorrelation coefficient\n\n\ncor(taylor_all_songs$loudness, \n    taylor_all_songs$energy, \n    use = \"complete.obs\")\n\n[1] 0.7910765\n\n\nNote: the default correlation you get from cor() is Pearson correlation coefficient\nOther correlations:\n\nSpearman’s correlation\nKendall rank correlation coefficient\nand more"
   },
   {
-    "objectID": "lectures/03-categorical.html#hypothesis-testing-in-general",
-    "href": "lectures/03-categorical.html#hypothesis-testing-in-general",
-    "title": "Data visualization: categorical data",
-    "section": "Hypothesis testing in general",
-    "text": "Hypothesis testing in general\nComputing \\(p\\)-values works like this:\n\nChoose a test statistic\nCompute the test statistic using the data\nIs test statistic “unusual” compared to what we would expect under the null?\nCompare \\(p\\)-value to the target error rate (“significance level”) \\(\\alpha\\)\n\nTypically choose \\(\\alpha = 0.05\\) (the origins of 0.05)"
+    "objectID": "lectures/04-quantitative.html#when-the-correlations-high",
+    "href": "lectures/04-quantitative.html#when-the-correlations-high",
+    "title": "Data visualization: quantitative data",
+    "section": "When the correlation’s high…",
+    "text": "When the correlation’s high…"
   },
   {
-    "objectID": "lectures/03-categorical.html#summarizing-2d-categorical-data",
-    "href": "lectures/03-categorical.html#summarizing-2d-categorical-data",
-    "title": "Data visualization: categorical data",
-    "section": "Summarizing 2D categorical data",
-    "text": "Summarizing 2D categorical data\nContinuing with the flying etiquette survey data, let’s look at the responses to 2 questions\n\ndo_you_recline (Do you ever recline your seat when you fly?)\nrude_to_recline (Is it rude to recline your seat on a plane?)\n\nHow many levels does each variable have?\n\ntable(flying_etiquette$do_you_recline)\n\n\n              never     once in a while about half the time             usually \n                170                 256                 117                 175 \n             always \n                136 \n\ntable(flying_etiquette$rude_to_recline)\n\n\n      no somewhat      yes \n     502      281       71"
+    "objectID": "lectures/04-quantitative.html#displaying-trend-line-linear-regression-a-preview",
+    "href": "lectures/04-quantitative.html#displaying-trend-line-linear-regression-a-preview",
+    "title": "Data visualization: quantitative data",
+    "section": "Displaying trend line: linear regression(a preview)",
+    "text": "Displaying trend line: linear regression(a preview)\n\n\n\nDisplay regression line forenergy ~ loudness\n95% confidence intervals by default\nEstimating the conditional expectation of energy | loudness\n\ni.e., \\(\\mathbb{E}[\\) energy \\(\\mid\\) loudness \\(]\\)\n\n\n\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = loudness, y = energy)) +\n  geom_point(color = \"darkred\", size = 4, alpha = 0.5) +\n  geom_smooth(method = \"lm\", linewidth = 2)"
   },
   {
-    "objectID": "lectures/03-categorical.html#summarizing-2d-categorical-data-1",
-    "href": "lectures/03-categorical.html#summarizing-2d-categorical-data-1",
-    "title": "Data visualization: categorical data",
-    "section": "Summarizing 2D categorical data",
-    "text": "Summarizing 2D categorical data\nTwo-way table (or contingency table, cross tabulation, crosstab)\n\ntable(\"Recline?\" = flying_etiquette$do_you_recline, \n      \"Rude to reline?\" = flying_etiquette$rude_to_recline)\n\n                     Rude to reline?\nRecline?               no somewhat yes\n  never                35       81  54\n  once in a while     116      129  11\n  about half the time  82       35   0\n  usually             145       27   3\n  always              124        9   3\n\nxtabs(~ do_you_recline + rude_to_recline, data = flying_etiquette)\n\n                     rude_to_recline\ndo_you_recline         no somewhat yes\n  never                35       81  54\n  once in a while     116      129  11\n  about half the time  82       35   0\n  usually             145       27   3\n  always              124        9   3"
+    "objectID": "lectures/04-quantitative.html#summarizing-2d-quantitative-data-2",
+    "href": "lectures/04-quantitative.html#summarizing-2d-quantitative-data-2",
+    "title": "Data visualization: quantitative data",
+    "section": "Summarizing 2D quantitative data",
+    "text": "Summarizing 2D quantitative data\n\n\nAdd rug plots to supplement scatterplot\n\ntaylor_all_songs |&gt; \n  ggplot(aes(x = loudness, y = energy)) +\n  geom_point(color = \"darkred\", size = 4, alpha = 0.5) +\n  geom_rug(alpha = 0.4)"
   },
   {
-    "objectID": "lectures/03-categorical.html#visualizing-2d-categorical-data",
-    "href": "lectures/03-categorical.html#visualizing-2d-categorical-data",
-    "title": "Data visualization: categorical data",
-    "section": "Visualizing 2D categorical data",
-    "text": "Visualizing 2D categorical data\n\n\nStacked bar chart: a bar chart of spine charts\nEmphasizes the marginal distribution of each category of x variable\n\ne.g., \\(P(\\) rude_to_recline \\(=\\) somewhat \\()\\)\n\nSimilar to 1D bar charts, start with counting every combination of 2 variables (using count() or group_by() and summarize()), then plot with geom_col()\n\n# flying_etiquette |&gt;\n#   ggplot(aes(x = rude_to_recline,\n#              fill = do_you_recline)) +\n#   geom_bar()\nflying_etiquette |&gt;\n  count(rude_to_recline, do_you_recline) |&gt;\n  ggplot(aes(x = rude_to_recline, y = n, \n             # filled by the other categorical variable\n             fill = do_you_recline)) + \n  geom_col()"
+    "objectID": "lectures/04-quantitative.html#pairs-plot",
+    "href": "lectures/04-quantitative.html#pairs-plot",
+    "title": "Data visualization: quantitative data",
+    "section": "Pairs plot",
+    "text": "Pairs plot\n\nlibrary(GGally)\ntaylor_all_songs |&gt; \n  select(danceability, energy, loudness, tempo) |&gt; \n  ggpairs()"
   },
   {
-    "objectID": "lectures/03-categorical.html#visualizing-2d-categorical-data-1",
-    "href": "lectures/03-categorical.html#visualizing-2d-categorical-data-1",
-    "title": "Data visualization: categorical data",
-    "section": "Visualizing 2D categorical data",
-    "text": "Visualizing 2D categorical data\n\n\nStacked bar chart (proportion version)\n\nflying_etiquette |&gt;\n  count(rude_to_recline, do_you_recline) |&gt;\n  ggplot(aes(x = rude_to_recline, y = n, \n             fill = do_you_recline)) +\n  geom_col(position = \"fill\")"
+    "objectID": "lectures/04-quantitative.html#continuous-by-categorical-side-by-side-plots",
+    "href": "lectures/04-quantitative.html#continuous-by-categorical-side-by-side-plots",
+    "title": "Data visualization: quantitative data",
+    "section": "Continuous by categorical: side by side plots",
+    "text": "Continuous by categorical: side by side plots\n\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration, y = album_name)) +\n  geom_violin() +\n  geom_boxplot(width = 0.4)"
   },
   {
-    "objectID": "lectures/03-categorical.html#visualizing-2d-categorical-data-2",
-    "href": "lectures/03-categorical.html#visualizing-2d-categorical-data-2",
-    "title": "Data visualization: categorical data",
-    "section": "Visualizing 2D categorical data",
-    "text": "Visualizing 2D categorical data\n\n\nSide-by-side (grouped, dodged) bar chart: a bar chart of bar charts\nShows the conditional distribution of fill variable given x variable\n\ne.g., \\(P(\\) do_you_recline \\(=\\) always \\(\\mid\\) rude_to_recline \\(=\\) somewhat \\()\\)\n\n\nflying_etiquette |&gt;\n  count(rude_to_recline, do_you_recline) |&gt;\n  ggplot(aes(x = rude_to_recline, y = n, \n             fill = do_you_recline)) + \n  geom_col(position = \"dodge\")"
+    "objectID": "lectures/04-quantitative.html#continuous-by-categorical-color",
+    "href": "lectures/04-quantitative.html#continuous-by-categorical-color",
+    "title": "Data visualization: quantitative data",
+    "section": "Continuous by categorical: color",
+    "text": "Continuous by categorical: color\n\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration, color = album_name)) +\n  stat_ecdf(linewidth = 1) +\n  scale_color_albums() + # from the taylor package \n  theme(legend.position = \"bottom\")"
   },
   {
-    "objectID": "lectures/03-categorical.html#joint-marginal-and-conditional-probabilities",
-    "href": "lectures/03-categorical.html#joint-marginal-and-conditional-probabilities",
-    "title": "Data visualization: categorical data",
-    "section": "Joint, marginal, and conditional probabilities",
-    "text": "Joint, marginal, and conditional probabilities\n\n\nLet \\(X\\) = rude_to_recline and \\(Y\\) = do_you_recline\n\nJoint distribution: frequency of the intersection\n\ne.g., \\(P(X =\\) somewhat \\(, Y =\\) always \\()\\)\n\nMarginal distribution: row sums or column sums\n\ne.g., \\(P(X =\\) somewhat \\()\\), \\(P(Y =\\) always \\()\\)\n\nConditional distribution: probability event \\(X\\) given event \\(Y\\)\n\ne.g., \\(P(X =\\) somewhat \\(\\mid Y =\\) always \\()\\)\n\n\\(\\displaystyle \\qquad \\quad = \\frac{P(X = \\texttt{somewhat}, Y = \\texttt{always})}{P(Y = \\texttt{always})}\\)\n\n\n\nflying_etiquette |&gt; \n  select(do_you_recline, rude_to_recline) |&gt; \n  table()\n\n                     rude_to_recline\ndo_you_recline         no somewhat yes\n  never                35       81  54\n  once in a while     116      129  11\n  about half the time  82       35   0\n  usually             145       27   3\n  always              124        9   3\n\nflying_etiquette |&gt; \n  select(do_you_recline, rude_to_recline) |&gt; \n  table() |&gt; \n  prop.table()\n\n                     rude_to_recline\ndo_you_recline                 no    somewhat         yes\n  never               0.040983607 0.094847775 0.063231850\n  once in a while     0.135831382 0.151053864 0.012880562\n  about half the time 0.096018735 0.040983607 0.000000000\n  usually             0.169789227 0.031615925 0.003512881\n  always              0.145199063 0.010538642 0.003512881"
+    "objectID": "lectures/04-quantitative.html#continuous-by-categorical-ridgeline-plot-joyplot",
+    "href": "lectures/04-quantitative.html#continuous-by-categorical-ridgeline-plot-joyplot",
+    "title": "Data visualization: quantitative data",
+    "section": "Continuous by categorical: ridgeline plot (joyplot)",
+    "text": "Continuous by categorical: ridgeline plot (joyplot)\nFor more, see this tutorial\n\nlibrary(ggridges)\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration, y = album_name)) +\n  geom_density_ridges(scale = 1)"
   },
   {
-    "objectID": "lectures/03-categorical.html#joint-marginal-and-conditional-probabilities-1",
-    "href": "lectures/03-categorical.html#joint-marginal-and-conditional-probabilities-1",
-    "title": "Data visualization: categorical data",
-    "section": "Joint, marginal, and conditional probabilities",
-    "text": "Joint, marginal, and conditional probabilities\nTwo-way proportion table (the tidyverse way) with pivot_wider\n\nflying_etiquette |&gt;\n  group_by(rude_to_recline, do_you_recline) |&gt;\n  summarize(joint = n() / nrow(flying_etiquette)) |&gt;\n  pivot_wider(names_from = rude_to_recline, values_from = joint, values_fill = 0)\n\n# A tibble: 5 × 4\n  do_you_recline          no somewhat     yes\n  &lt;fct&gt;                &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;\n1 never               0.0410   0.0948 0.0632 \n2 once in a while     0.136    0.151  0.0129 \n3 about half the time 0.0960   0.0410 0      \n4 usually             0.170    0.0316 0.00351\n5 always              0.145    0.0105 0.00351"
+    "objectID": "lectures/04-quantitative.html#what-about-for-histograms",
+    "href": "lectures/04-quantitative.html#what-about-for-histograms",
+    "title": "Data visualization: quantitative data",
+    "section": "What about for histograms?",
+    "text": "What about for histograms?\n\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration, fill = album_name)) +\n  geom_histogram(alpha = 0.6, bins = 15) +\n  scale_fill_albums()"
   },
   {
-    "objectID": "lectures/03-categorical.html#categorical-heatmaps",
-    "href": "lectures/03-categorical.html#categorical-heatmaps",
-    "title": "Data visualization: categorical data",
-    "section": "Categorical heatmaps",
-    "text": "Categorical heatmaps\n\n\n\nUse geom_tile to display joint distribution of two categorical variables\nAnnotate tiles with labels of percentages using geom_text() and the scales package (a very neat package)\n\n\nflying_etiquette |&gt;\n  group_by(rude_to_recline, do_you_recline) |&gt;\n  summarize(\n    freq = n(), \n    joint = n() / nrow(flying_etiquette)\n  ) |&gt; \n  ggplot(aes(x = rude_to_recline, y = do_you_recline)) +\n  geom_tile(aes(fill = freq), color = \"white\") +\n  geom_text(aes(label = scales::percent(joint))) +\n  scale_fill_gradient2()"
+    "objectID": "lectures/04-quantitative.html#what-about-facets",
+    "href": "lectures/04-quantitative.html#what-about-facets",
+    "title": "Data visualization: quantitative data",
+    "section": "What about facets?",
+    "text": "What about facets?\nDifference between facet_wrap and facet_grid\n\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration)) +\n  geom_histogram(bins = 15) +\n  facet_wrap(~ album_name, nrow = 1)"
   },
   {
-    "objectID": "lectures/03-categorical.html#visualizing-independence",
-    "href": "lectures/03-categorical.html#visualizing-independence",
-    "title": "Data visualization: categorical data",
-    "section": "Visualizing independence",
-    "text": "Visualizing independence\n\n\nMosaic plot\n\nspine chart of spine charts\nwidth: marginal distribution of rude_to_recline\nheight: conditional distribution of do_you_recline | rude_to_recline\narea: joint distribution\n\nUsing a mosaic plot to visually check for independence:\n\ncheck whether all proportions are the same (the boxes line up in a grid)\n\n\n\nflying_etiquette |&gt; \n  select(rude_to_recline, do_you_recline) |&gt; \n  table() |&gt; \n  mosaicplot(main = \"Relationship between reclining frequency and opinion on rudeness\")"
-  },
-  {
-    "objectID": "lectures/03-categorical.html#visualizing-independence-1",
-    "href": "lectures/03-categorical.html#visualizing-independence-1",
-    "title": "Data visualization: categorical data",
-    "section": "Visualizing independence",
-    "text": "Visualizing independence\nMosaic plot with ggmosaic package\n\nflying_etiquette |&gt; \n  ggplot() +\n  geom_mosaic(aes(x = product(do_you_recline, rude_to_recline), fill = do_you_recline))"
-  },
-  {
-    "objectID": "lectures/03-categorical.html#inference-for-2d-categorical-data",
-    "href": "lectures/03-categorical.html#inference-for-2d-categorical-data",
-    "title": "Data visualization: categorical data",
-    "section": "Inference for 2D categorical data",
-    "text": "Inference for 2D categorical data\nChi-square test for 2D categorical data\n\nNull hypothesis: \\(H_0\\): 2 categorical variables are independent of each other\n\ne.g., no association between do_you_recline and rude_to_recline\n\nTest statistic: \\(\\displaystyle \\chi^2 = \\sum_i^{k_1} \\sum_j^{k_2} \\frac{(O_{ij} - E_{ij})^2}{E_{ij}}\\)\n\n\n# chisq.test(table(flying_etiquette$rude_to_recline, flying_etiquette$do_you_recline))\nflying_etiquette |&gt; \n  select(rude_to_recline, do_you_recline) |&gt; \n  table() |&gt; \n  chisq.test()\n\n\n    Pearson's Chi-squared test\n\ndata:  table(select(flying_etiquette, rude_to_recline, do_you_recline))\nX-squared = 316.73, df = 8, p-value &lt; 2.2e-16"
-  },
-  {
-    "objectID": "lectures/03-categorical.html#residuals",
-    "href": "lectures/03-categorical.html#residuals",
-    "title": "Data visualization: categorical data",
-    "section": "Residuals",
-    "text": "Residuals\nRecall the test statistic: \\(\\displaystyle \\chi^2 = \\sum_i^{k_1} \\sum_j^{k_2} \\frac{(O_{ij} - E_{ij})^2}{E_{ij}}\\)\nDefine the Pearson residuals: \\(\\displaystyle r_{ij} = \\frac{O_{ij} - E_{ij}}{\\sqrt{E_{ij}}}\\)\nSome rules of thumb:\n\n\\(r_{ij} \\approx 0\\): observed counts are close to expected counts\n\\(|r_{ij}| &gt; 2\\): significant at \\(\\alpha = 0.05\\)\nvery positive \\(r_{ij}\\): higher than expected\nvery negative \\(r_{ij}\\): lower than expected"
-  },
-  {
-    "objectID": "lectures/03-categorical.html#residuals-1",
-    "href": "lectures/03-categorical.html#residuals-1",
-    "title": "Data visualization: categorical data",
-    "section": "Residuals",
-    "text": "Residuals\nMosaic plots with boxes color-coded by Pearson residuals\nTells us which combinations of 2 categorical variables (cells) are much higher/lower than expected\n\nflying_etiquette |&gt; \n  select(rude_to_recline, do_you_recline) |&gt; \n  table() |&gt; \n  mosaicplot(main = \"Relationship between reclining frequency and opinion on rudeness\", shade = TRUE)"
-  },
-  {
-    "objectID": "lectures/03-categorical.html#beyond-2d-facets",
-    "href": "lectures/03-categorical.html#beyond-2d-facets",
-    "title": "Data visualization: categorical data",
-    "section": "Beyond 2D: facets!",
-    "text": "Beyond 2D: facets!\n\nflying_etiquette %&gt;%\n  ggplot(aes(x = rude_to_recline, fill = do_you_recline)) + \n  geom_bar() +\n  facet_wrap(~ flight_freq)"
-  },
-  {
-    "objectID": "lectures/03-categorical.html#the-janitor-package",
-    "href": "lectures/03-categorical.html#the-janitor-package",
-    "title": "Data visualization: categorical data",
-    "section": "The janitor package",
-    "text": "The janitor package\nThe most popular janitor function is clean_names()… for cleaning column names\n\n# before\niris |&gt; \n  head()\n\n  Sepal.Length Sepal.Width Petal.Length Petal.Width Species\n1          5.1         3.5          1.4         0.2  setosa\n2          4.9         3.0          1.4         0.2  setosa\n3          4.7         3.2          1.3         0.2  setosa\n4          4.6         3.1          1.5         0.2  setosa\n5          5.0         3.6          1.4         0.2  setosa\n6          5.4         3.9          1.7         0.4  setosa\n\n# after\nlibrary(janitor)\niris |&gt; \n  clean_names() |&gt; \n  head()\n\n  sepal_length sepal_width petal_length petal_width species\n1          5.1         3.5          1.4         0.2  setosa\n2          4.9         3.0          1.4         0.2  setosa\n3          4.7         3.2          1.3         0.2  setosa\n4          4.6         3.1          1.5         0.2  setosa\n5          5.0         3.6          1.4         0.2  setosa\n6          5.4         3.9          1.7         0.4  setosa"
-  },
-  {
-    "objectID": "lectures/03-categorical.html#tabulation-with-the-janitor-package",
-    "href": "lectures/03-categorical.html#tabulation-with-the-janitor-package",
-    "title": "Data visualization: categorical data",
-    "section": "Tabulation with the janitor package",
-    "text": "Tabulation with the janitor package\nThe lesser-known stars of janitor: functions for tabulation of categorical data\n\n\ntabyl\n\nflying_etiquette |&gt; \n  tabyl(do_you_recline)\n\n      do_you_recline   n   percent\n               never 170 0.1990632\n     once in a while 256 0.2997658\n about half the time 117 0.1370023\n             usually 175 0.2049180\n              always 136 0.1592506\n\n\n\nadorn_*() functions\n\nflying_etiquette |&gt; \n  tabyl(do_you_recline, rude_to_recline) |&gt; \n  adorn_percentages(\"row\") |&gt; \n  adorn_pct_formatting(digits = 2) |&gt; \n  adorn_ns()\n\n      do_you_recline           no     somewhat         yes\n               never 20.59%  (35) 47.65%  (81) 31.76% (54)\n     once in a while 45.31% (116) 50.39% (129)  4.30% (11)\n about half the time 70.09%  (82) 29.91%  (35)  0.00%  (0)\n             usually 82.86% (145) 15.43%  (27)  1.71%  (3)\n              always 91.18% (124)  6.62%   (9)  2.21%  (3)\n\n\n\nFor more, see this overview and this tutorial"
+    "objectID": "lectures/04-quantitative.html#what-about-facets-1",
+    "href": "lectures/04-quantitative.html#what-about-facets-1",
+    "title": "Data visualization: quantitative data",
+    "section": "What about facets?",
+    "text": "What about facets?\n\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration)) +\n  geom_histogram(bins = 15) +\n  facet_grid(album_name ~ ., margins = TRUE)"
   },
   {
     "objectID": "lectures/06-kmeans.html#recap-unsupervised-learning",
