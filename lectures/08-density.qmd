@@ -46,7 +46,9 @@ glimpse(clark_shots)
 ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
 ```
 
--   Each row is a shot attempt by Caitlin Clark in the 2023 WNBA season
+. . .
+
+-   Each row is a shot attempt by Caitlin Clark in the 2024 WNBA season
 
 -   **Categorical** / qualitative variables: `scoring_play`, `shot_type`
 

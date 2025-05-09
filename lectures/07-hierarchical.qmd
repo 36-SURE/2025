@@ -1,0 +1,692 @@
+---
+title: "Unsupervised learning: hierarchical clustering"
+author: "<br>SURE 2024<br><br>Department of Statistics & Data Science<br>Carnegie Mellon University"
+footer:  "[36-SURE.github.io/2024](https://36-sure.github.io/2024)"
+format:
+  revealjs:
+    theme: theme.scss
+    chalkboard: true
+    smaller: true
+    slide-number: c/t
+    code-line-numbers: false
+    linestretch: 1.25
+    html-math-method:
+      method: mathjax
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center"
+)
+set.seed(101)
+```
+
+# Background
+
+## The big picture
+
+* $k$-means clustering: partition the observations into a pre-specified number of clusters
+
+. . .
+
+* Hierarchical clustering: does not require commitment to a particular choice of clusters
+
+  *   In fact, we end up with a tree-like visual representation of the observations, called a dendrogram
+  
+  *   This allows us to view at once the clusterings obtained for each possible number of clusters
+  
+  *   Common approach: agglomerative (bottom-up) hierarchical clustering: build a dendrogram starting from the leaves and combining clusters up to the trunk
+  
+  *   There's also divisive (top-down) hierarchical clustering: start with one large cluster and then break the cluster recursively into smaller and smaller pieces
+
+## Data: NBA player statistics per 100 possessions (2024-25 regular season)
+
+```{r load-data, warning = FALSE, message = FALSE}
+library(tidyverse)
+theme_set(theme_light())
+nba_players <- read_csv("https://raw.githubusercontent.com/36-SURE/2025/main/data/nba_players.csv")
+head(nba_players)
+```
+```{r}
+#| echo: false
+ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
+```
+
+## General setup
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+-   Given a dataset with $p$ variables (columns) and $n$ observations (rows) $x_1,\dots,x_n$
+
+-   Compute the **distance/dissimilarity** between observations
+
+-   e.g. **Euclidean distance** between observations $i$ and $j$
+
+$$d(x_i, x_j) = \sqrt{(x_{i1}-x_{j1})^2 + \cdots + (x_{ip}-x_{jp})^2}$$
+
+**What are the distances between these counties using `x3pa` (3-point attempts) and `trb` (total rebounds)?**
+
+```{r}
+#| label: nba-start-plot
+#| eval: false
+#| echo: false
+nba_players |> 
+  ggplot(aes(x = x3pa, y = trb)) +
+  geom_point(size = 4)
+```
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+<br>
+
+```{r}
+#| ref-label: nba-start-plot
+#| fig-height: 7
+```
+:::
+:::
+
+## Remember to standardize!
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| label: nba-std-plot
+#| eval: false
+nba_players <- nba_players |> 
+  mutate(
+    std_x3pa = as.numeric(scale(x3pa)),
+    std_trb = as.numeric(scale(trb))
+  )
+
+nba_players |> 
+  ggplot(aes(x = std_x3pa, y = std_trb)) +
+  geom_point(size = 2) +
+  coord_fixed()
+```
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| ref-label: nba-std-plot
+#| echo: false
+#| fig-height: 7
+```
+:::
+:::
+
+## Compute the distance matrix using `dist()`
+
+-   Compute pairwise Euclidean distance
+
+```{r}
+players_dist <- nba_players |> 
+  select(std_x3pa, std_trb) |> 
+  dist()
+```
+
+-   Returns an object of `dist` class... but not a `matrix`
+
+-   Convert to a matrix, then set the row and column names:
+
+```{r}
+players_dist_matrix <- as.matrix(players_dist)
+rownames(players_dist_matrix) <- nba_players$player
+colnames(players_dist_matrix) <- nba_players$player
+players_dist_matrix[1:4, 1:4]
+```
+
+# Hierarchical clustering
+
+## (Agglomerative) [Hierarchical clustering](https://en.wikipedia.org/wiki/Hierarchical_clustering)
+
+Let's pretend all $n$ observations are in their own cluster
+
+. . .
+
+-   Step 1: Compute the pairwise dissimilarities between each cluster
+
+    -   e.g., distance matrix on previous slides
+
+. . .
+
+-   Step 2: Identify the pair of clusters that are **least dissimilar**
+
+. . .
+
+-   Step 3: Fuse these two clusters into a new cluster!
+
+. . .
+
+-   **Repeat Steps 1 to 3 until all observations are in the same cluster**
+
+. . .
+
+**"Bottom-up"**, agglomerative clustering that forms a **tree/hierarchy** of merging
+
+No mention of any randomness. And no mention of the number of clusters $k$.
+
+## (Agglomerative) [Hierarchical clustering](https://en.wikipedia.org/wiki/Hierarchical_clustering)
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+Start with all observations in their own cluster
+
+-   Step 1: Compute the pairwise dissimilarities between each cluster
+
+-   Step 2: Identify the pair of clusters that are **least dissimilar**
+
+-   Step 3: Fuse these two clusters into a new cluster!
+
+-   **Repeat Steps 1 to 3 until all observations are in the same cluster**
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| out-width: "70%"
+#| echo: false
+knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Clusters.svg/250px-Clusters.svg.png")
+```
+:::
+:::
+
+## (Agglomerative) [Hierarchical clustering](https://en.wikipedia.org/wiki/Hierarchical_clustering)
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+Start with all observations in their own cluster
+
+-   Step 1: Compute the pairwise dissimilarities between each cluster
+
+-   Step 2: Identify the pair of clusters that are **least dissimilar**
+
+-   Step 3: Fuse these two clusters into a new cluster!
+
+-   **Repeat Steps 1 to 3 until all observations are in the same cluster**
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| out-width: "85%"
+#| echo: false
+knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Hierarchical_clustering_simple_diagram.svg/418px-Hierarchical_clustering_simple_diagram.svg.png")
+```
+
+Forms a **dendrogram** (typically displayed from bottom-up)
+:::
+:::
+
+## Dissimilarity between clusters
+
+* We know how to compute distance/dissimilarity between two observations
+
+* **But how do we handle clusters?**
+
+  *   Dissimilarity between a cluster and an observation, or between two clusters
+
+. . .
+
+We need to choose a **linkage function**. Clusters are built up by **linking them together**
+
+
+## Types of linkage
+
+First, compute all pairwise dissimilarities between the observations in the two clusters
+
+i.e., compute the distance matrix between observations, $d(x_i, x_j)$ for $i \in C_1$ and $j \in C_2$
+
+. . .
+
+-   **Complete linkage**: use the **maximum** (largest) value of these dissimilarities \hfill $\underset{i \in C_1, j \in C_2}{\text{max}} d(x_i, x_j)$ (**maximal** inter-cluster dissimilarity)
+
+. . .
+
+-   **Single linkage**: use the **minimum** (smallest) value of these dissimilarities \hfill $\underset{i \in C_1, j \in C_2}{\text{min}} d(x_i, x_j)$ (**minimal** inter-cluster dissimilarity)
+
+. . .
+
+-   **Average linkage**: use the **average** value of these dissimilarities \hfill $\displaystyle \frac{1}{|C_1||C_2|} \sum_{i \in C_1} \sum_{j \in C_2} d(x_i, x_j)$ (**mean** inter-cluster dissimilarity)
+
+. . .
+
+
+## Complete linkage example
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+-   Use `hclust()` with a `dist()` objsect
+
+-   Use `complete` linkage by default
+
+```{r}
+nba_complete <- players_dist |> 
+  hclust(method = "complete")
+```
+
+-   Use `cutree()` to return cluster labels
+
+-   Returns compact clusters (similar to $k$-means)
+
+```{r}
+#| eval: false
+nba_players |> 
+  mutate(
+    cluster = as.factor(cutree(nba_complete, k = 3))
+  ) |>
+  ggplot(aes(x = std_x3pa, y = std_trb,
+             color = cluster)) +
+  geom_point(size = 4) + 
+  ggthemes::scale_color_colorblind() +
+  theme(legend.position = "bottom")
+```
+
+
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+
+
+```{r}
+#| echo: false
+#| fig-height: 9
+nba_players |> 
+  mutate(
+    cluster = as.factor(cutree(nba_complete, k = 3))
+  ) |>
+  ggplot(aes(x = std_x3pa, y = std_trb,
+             color = cluster)) +
+  geom_point(size = 4) + 
+  ggthemes::scale_color_colorblind() +
+  theme(legend.position = "bottom")
+```
+:::
+:::
+
+## What are we cutting? Dendrograms
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+Use the [`ggdendro`](https://cran.r-project.org/web/packages/ggdendro/index.html) package (instead of `plot()`)
+
+```{r}
+#| label: complete-dendro
+#| eval: false
+library(ggdendro)
+nba_complete |> 
+  ggdendrogram(labels = FALSE, 
+               leaf_labels = FALSE,
+               theme_dendro = FALSE) +  
+  labs(y = "Dissimilarity between clusters") +
+  theme(axis.text.x = element_blank(), 
+        axis.title.x = element_blank(),
+        panel.grid = element_blank())
+```
+
+-   Each **leaf** is one observation
+
+-   **Height of branch indicates dissimilarity between clusters**
+
+    -   (After first step) Horizontal position along x-axis means nothing
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| ref-label: complete-dendro
+#| echo: false
+#| fig-height: 10
+```
+:::
+:::
+
+
+## [Textbook example](https://bradleyboehmke.github.io/HOML/hierarchical.html)
+
+<br>
+
+```{r}
+#| out-width: "100%"
+#| echo: false
+knitr::include_graphics("https://bradleyboehmke.github.io/HOML/19-hierarchical_files/figure-html/comparing-dendrogram-to-distances-1.png")
+```
+
+## Cut dendrograms to obtain cluster labels
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+Specify the height to cut with `h` (instead of `k`)
+
+```{r}
+#| label: complete-dendro-cut
+#| echo: false
+#| fig-height: 10
+nba_complete |> 
+  ggdendrogram(labels = FALSE, 
+               leaf_labels = FALSE,
+               theme_dendro = FALSE) +  
+  geom_hline(yintercept = 4, linetype = "dashed", color = "darkred") +
+  labs(y = "Dissimilarity between clusters") +
+  theme(axis.text.x = element_blank(), 
+        axis.title.x = element_blank(),
+        panel.grid = element_blank())
+```
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+For example, `cutree(nba_complete, h = 4)`
+
+```{r}
+#| label: nba-complete-cut-plot
+#| echo: false
+#| fig-height: 10
+nba_players |> 
+  mutate(
+    cluster = as.factor(cutree(nba_complete, h = 4))
+  ) |> 
+  ggplot(aes(x = std_x3pa, y = std_trb, color = cluster)) +
+  geom_point(size = 4) + 
+  ggthemes::scale_color_colorblind() +
+  theme(legend.position = "bottom")
+```
+:::
+:::
+
+## Single linkage example
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+Change the `method` argument to `single`
+
+```{r}
+#| label: single-dendro-cut
+#| echo: false
+#| fig-height: 10
+nba_single <- players_dist |> 
+  hclust(method = "single")
+nba_single |> 
+  ggdendrogram(labels = FALSE, 
+               leaf_labels = FALSE,
+               theme_dendro = FALSE) +  
+  labs(y = "Dissimilarity between clusters") +
+  theme(axis.text.x = element_blank(), 
+        axis.title.x = element_blank(),
+        panel.grid = element_blank())
+```
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+Results in a **chaining** effect
+
+```{r}
+#| label: nba-single-plot
+#| echo: false
+#| fig-height: 10
+nba_players |> 
+  mutate(cluster = 
+           as.factor(cutree(nba_single, k = 3))) |> 
+  ggplot(aes(x = std_x3pa, y = std_trb, color = cluster)) +
+  geom_point(size = 4) + 
+  ggthemes::scale_color_colorblind() +
+  theme(legend.position = "bottom")
+```
+:::
+:::
+
+## Average linkage example
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+Change the `method` argument to `average`
+
+```{r}
+#| label: average-dendro-cut
+#| echo: false
+#| fig-height: 10
+nba_average <- players_dist |> 
+  hclust(method = "average")
+nba_average |> 
+  ggdendrogram(labels = FALSE, 
+               leaf_labels = FALSE,
+               theme_dendro = FALSE) +  
+  labs(y = "Dissimilarity between clusters") +
+  theme(axis.text.x = element_blank(), 
+        axis.title.x = element_blank(),
+        panel.grid = element_blank())
+```
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+Closer to `complete` but varies in compactness
+
+```{r}
+#| label: nba-average-plot
+#| echo: false
+#| fig-height: 10
+nba_players |> 
+  mutate(cluster = 
+           as.factor(cutree(nba_average, k = 3))) |> 
+  ggplot(aes(x = std_x3pa, y = std_trb, color = cluster)) +
+  geom_point(size = 4) + 
+  ggthemes::scale_color_colorblind() +
+  theme(legend.position = "bottom")
+```
+:::
+:::
+
+## More linkage functions
+
+-   **Centroid linkage**: Computes the dissimilarity between the centroid for cluster 1 and the centroid for cluster 2
+
+    -   i.e. distance between the averages of the two clusters
+
+    -   use `method = centroid`
+
+. . .
+
+-   **Ward's linkage**: Merges a pair of clusters to minimize the within-cluster variance
+
+    -   i.e. aim is to minimize the objection function from $K$-means
+
+    -   can use `ward.D` or `ward.D2` (different algorithms)
+
+## Post-clustering analysis
+
+* For context, how does position relate clustering results?
+
+* Two-way table to compare the clustering assignments with player positions
+
+* (What’s the way to visually compare these two variables?)
+
+```{r}
+table("Cluster" = cutree(nba_complete, k = 3), "Position" = nba_players$pos)
+```
+
+* Takeaway: positions tend to fall within particular clusters
+
+## Include more variables
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+* It's easy to **include more variables** - just change the distance matrix
+
+```{r}
+nba_players_features <- nba_players |> 
+  select(x3pa, x2pa, fta, trb, ast, stl, blk, tov)
+  
+player_dist_mult_features <- nba_players_features |> 
+  dist()
+```
+
+* Then perform hierarchical clustering  as before
+
+```{r}
+nba_players_hc_complete <- player_dist_mult_features |> 
+  hclust(method = "complete") # can try out other methods
+```
+
+* Visualize with dendrogram
+
+```{r}
+#| eval: false
+nba_players_hc_complete |> 
+  ggdendrogram(labels = FALSE, 
+               leaf_labels = FALSE,
+               theme_dendro = FALSE) +
+  labs(y = "Dissimilarity between clusters") +
+  theme(axis.text.x = element_blank(), 
+        axis.title.x = element_blank(),
+        panel.grid = element_blank())
+```
+
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| echo: false
+#| fig-height: 10  
+nba_players_hc_complete |> 
+  ggdendrogram(labels = FALSE, 
+               leaf_labels = FALSE,
+               theme_dendro = FALSE) +
+  labs(y = "Dissimilarity between clusters") +
+  theme(axis.text.x = element_blank(), 
+        axis.title.x = element_blank(),
+        panel.grid = element_blank())
+```
+
+
+:::
+
+:::
+
+## Visualizing clustering results with PCA
+
+* Similar to $k$-means, if there are more than two dimensions (variables), we can perform PCA
+
+* Then plot the observations onto the first two principal components
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| eval: false
+library(factoextra)
+fviz_cluster(
+  list(data = nba_players_features,
+       cluster = cutree(nba_players_hc_complete, k = 3)),
+  geom = "point",
+  ellipse = FALSE
+) +
+  ggthemes::scale_color_colorblind() +
+  theme_light()
+```
+
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| echo: false
+#| fig-height: 9
+library(factoextra)
+fviz_cluster(list(data = nba_players_features, 
+                  cluster = cutree(nba_players_hc_complete, k = 3)),
+             geom = "point", pointsize = 4,
+             ellipse = FALSE) +
+  ggthemes::scale_color_colorblind() + 
+  theme_light()
+```
+
+:::
+:::
+
+## Choosing number of clusters
+
+* Just like $k$-means, there are heuristics for choosing the number of clusters for hierarchical clustering
+
+* Options: elbow method, silhouette, gap statistic (but again, use these with caution)
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| eval: false
+nba_players_features |> 
+  fviz_nbclust(FUN = hcut, method = "wss")
+
+# silhouette
+# nba_players_features |> 
+#   fviz_nbclust(FUN = hcut, method = "silhouette")
+
+# gap statistic
+# library(cluster)
+# nba_hc_gap_stat <- nba_players_features |> 
+#   clusGap(FUN = hcut, nstart = 30, K.max = 10, B = 50)
+# nba_hc_gap_stat |> 
+#   fviz_gap_stat()
+```
+
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| echo: false
+#| fig-height: 7
+nba_players_features |> 
+  fviz_nbclust(FUN = hcut, method = "wss")
+```
+
+:::
+:::
+
+
+
+## Practical issues
+
+* What dissimilarity measure should be used?
+
+* What type of linkage should be used?
+
+* How many clusters to choose?
+
+* Which features should we use to drive the clustering?
+  
+  *   Categorical variables?
+
+* Hard clustering vs. soft clustering 
+
+  *   Hard clustering ($k$-means, hierarchical): assigns each observation to exactly one cluster
+  
+  *   Soft (fuzzy) clustering: assigns each observation a probability of belonging to a cluster
+
+## Appendix: code to build dataset
+
+```{r}
+#| eval: false
+library(tidyverse)
+library(rvest)
+nba_url <- "https://www.basketball-reference.com/leagues/NBA_2025_per_poss.html"
+nba_players <- nba_url |> 
+  read_html() |> 
+  html_element(css = "#per_poss") |> 
+  html_table() |> 
+  janitor::clean_names() |> 
+  group_by(player) |> 
+  slice_max(g) |> 
+  ungroup() |> 
+  filter(mp >= 200) # keep players with at least 200 minutes played
+```
