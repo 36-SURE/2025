@@ -243,7 +243,7 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a>fd_bw <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">IQR</span>(clark_shots<span class="sc">$</span>shot_distance) <span class="sc">/</span> <span class="fu">length</span>(clark_shots<span class="sc">$</span>shot_distance)<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)</span>
 <span id="cb3-2"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
 <span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> shot_distance)) <span class="sc">+</span></span>
-<span id="cb3-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> fd_bw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="columns">
 <div class="column" style="text-align: left;">
@@ -254,10 +254,7 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <p><strong>Need to choose the number of bins</strong>, adjust with:</p>
 <ul>
 <li><p><code>bins</code>: number of bins (default is 30)</p></li>
-<li><p><code>binwidth</code>: width of bins (overrides <code>bins</code>), various <a href="https://en.wikipedia.org/wiki/Histogram">rules of thumb</a></p>
-<ul>
-<li>e.g., see <code>fd_bw</code> for <a href="https://en.wikipedia.org/wiki/Freedman%E2%80%93Diaconis_rule">Freedman–Diaconis rule</a></li>
-</ul></li>
+<li><p><code>binwidth</code>: width of bins (overrides <code>bins</code>), various <a href="https://en.wikipedia.org/wiki/Histogram">rules of thumb</a></p></li>
 <li><p><code>breaks</code>: vector of bin boundaries (overrides both <code>bins</code> and <code>binwidth</code>)</p></li>
 </ul>
 </div><div class="column" style="text-align: left;">
@@ -281,7 +278,7 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
 <span id="cb4-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> shot_distance)) <span class="sc">+</span></span>
-<span id="cb4-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -295,7 +292,7 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
 <span id="cb5-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> shot_distance)) <span class="sc">+</span></span>
-<span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
