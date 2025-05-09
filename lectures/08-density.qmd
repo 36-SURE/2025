@@ -1,0 +1,752 @@
+---
+title: "Data visualization: density estimation"
+author: "<br>SURE 2025<br><br>Department of Statistics & Data Science<br>Carnegie Mellon University"
+footer:  "[36-SURE.github.io/2025](https://36-sure.github.io/2025)"
+format:
+  revealjs:
+    theme: theme.scss
+    chalkboard: true
+    smaller: true
+    slide-number: c/t
+    code-line-numbers: false
+    linestretch: 1.25
+    html-math-method:
+      method: mathjax
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center"
+)
+# ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
+```
+
+# Background
+
+## Data: Caitlin Clark's shots
+
+Shot attempts by the [Caitlin Clark](https://en.wikipedia.org/wiki/Caitlin_Clark) in the 2024 WNBA season using [`wehoop`](https://wehoop.sportsdataverse.org/)
+
+```{r}
+#| warning: false
+#| message: false
+library(tidyverse)
+theme_set(theme_light())
+clark_shots <- read_csv("https://raw.githubusercontent.com/36-SURE/2025/main/data/clark_shots.csv")
+glimpse(clark_shots)
+```
+
+```{r}
+#| echo: false
+ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
+```
+
+-   Each row is a shot attempt by Caitlin Clark in the 2023 WNBA season
+
+-   **Categorical** / qualitative variables: `scoring_play`, `shot_type`
+
+-   **Continuous** / quantitative variables: `shot_x`, `shot_y`, `shot_distance`, `score_value`
+
+## Revisiting [histograms](https://ggplot2.tidyverse.org/reference/geom_histogram.html)
+
+. . .
+
+```{r}
+#| label: shot-dist-hist
+#| eval: false
+fd_bw <- 2 * IQR(clark_shots$shot_distance) / length(clark_shots$shot_distance)^(1/3)
+clark_shots |>
+  ggplot(aes(x = shot_distance)) +
+  geom_histogram(binwidth = fd_bw)
+```
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+-   Split observed data into **bins**
+
+-   **Count** number of observations in each bin
+
+**Need to choose the number of bins**, adjust with:
+
+-   `bins`: number of bins (default is 30)
+
+-   `binwidth`: width of bins (overrides `bins`), various [rules of thumb](https://en.wikipedia.org/wiki/Histogram)
+
+    -   e.g., see `fd_bw` for [Freedman–Diaconis rule](https://en.wikipedia.org/wiki/Freedman%E2%80%93Diaconis_rule)
+
+-   `breaks`: vector of bin boundaries (overrides both `bins` and `binwidth`)
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| ref-label: "shot-dist-hist"
+#| fig-height: 9
+#| echo: false
+```
+:::
+:::
+
+## Adjusting the binwidth
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+**Small** `binwidth` $\rightarrow$ *"undersmooth"* / spiky
+
+```{r}
+#| label: shot-dist-hist-small
+#| fig-height: 9
+clark_shots |>
+  ggplot(aes(x = shot_distance)) +
+  geom_histogram(binwidth = 1)
+```
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+**Large** `binwidth` $\rightarrow$ *"oversmooth"* / flat
+
+```{r}
+#| label: shot-dist-hist-large
+#| fig-height: 9
+clark_shots |>
+  ggplot(aes(x = shot_distance)) +
+  geom_histogram(binwidth = 25)
+```
+:::
+:::
+
+## Adjusting the binwidth
+
+-   A binwidth that is too narrow shows too much detail
+
+    - too many bins: low bias, high variance
+
+-   A binwidth that is too wide hides detail
+
+    - too few bins: high bias, low variance
+
+-   Always pick a value that is "just right" ([The Goldilocks principle](https://en.wikipedia.org/wiki/Goldilocks_principle))
+
+**Try several values, the `R` / `ggplot2` default is NOT guaranteed to be an optimal choice**
+
+## A subtle point about the histogram code...
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+By default the bins are centered on the integers
+
+-   left-closed, right-open intervals
+-   starting at -0.5 to 0.5, 0.5 to 1.5, ...
+
+```{r}
+#| ref-label: shot-dist-hist-small
+#| fig-height: 8
+```
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+**Specify center of one bin** (e.g. 0.5)
+
+-   Use `closed = "left"`
+
+```{r}
+#| label: shot-dist-hist-shift
+#| fig-height: 8
+clark_shots |>
+  ggplot(aes(x = shot_distance)) +
+  geom_histogram(binwidth = 1, center = 0.5, 
+                 closed = "left")
+```
+:::
+:::
+
+## How do histograms relate to the PDF and CDF?
+
+* Histograms approximate the PDF with bins, and **points are equally likely within a bin**
+
+* PDF is the **derivative** of the cumulative distribution function (CDF)
+
+
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| label: shot-dist-hist-left
+#| echo: false
+#| fig-height: 7
+clark_shots |>
+  ggplot(aes(x = shot_distance)) + 
+  geom_histogram(binwidth = 1, center = 0.5, closed = "left") +
+  geom_rug(alpha = 0.3) +
+  labs(x = "Shot distance (in feet)",
+       y = "Number of shot attempts")
+```
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| label: shot-dist-ecdf-right
+#| echo: false
+#| fig-height: 7
+clark_shots |>
+  ggplot(aes(x = shot_distance)) + 
+  stat_ecdf() +
+  geom_rug(alpha = 0.3) +
+  labs(x = "Shot distance (in feet)",
+       y = "Proportion of shot attempts")
+```
+:::
+:::
+
+# Density estimation
+
+## Kernel density estimation
+
+**Goal**: estimate the PDF $f(x)$ for all possible values (assuming it is smooth)
+
+. . .
+
+The kernel density estimator (KDE) is $\displaystyle \hat{f}(x) = \frac{1}{n} \sum_{i=1}^n \frac{1}{h} K_h(x - x_i)$
+
+. . .
+
+-   $n$: sample size
+
+-   $x$: new point to estimate $f(x)$ (does NOT have to be in the dataset!)
+
+-   $h$: **bandwidth**, analogous to histogram binwidth, ensures $\hat{f}(x)$ integrates to 1
+
+-   $x_i$: $i$th observation in the dataset
+
+. . .
+
+-   $K_h(x - x_i)$: **kernel** function, creates **weight** given distance of $i$th observation from new point
+    -   as $|x - x_i| \rightarrow \infty$ then $K_h(x - x_i) \rightarrow 0$, i.e. the further apart the $i$th observation is from $x$, the smaller the weight
+
+    -   as **bandwidth** $h$ increases, weights are more evenly spread out
+
+    -   [Choice of kernel functions](https://en.wikipedia.org/wiki/Kernel_(statistics)): Gaussian/normal, etc.
+
+    -   $K_h(x - x_i)$ is large when $x_i$ is close to $x$
+    
+## Kernel density estimation
+
+Intuition:
+    
+*  smooth each data point into a small density bumps
+*  sum all these small bumps together to obtain the final density estimate
+
+```{r}
+#| echo: false
+knitr::include_graphics("../images/kde-bumps.png")
+```
+
+
+## How do we compute and display the density estimate?
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+-   We make **kernel density estimates** with [`geom_density()`](https://ggplot2.tidyverse.org/reference/geom_density.html)
+
+```{r}
+#| label: curve
+#| eval: false 
+clark_shots |>
+  ggplot(aes(x = shot_distance)) + 
+  geom_density() +
+  geom_rug(alpha = 0.3)
+```
+
+-   **Pros**:
+    -   Displays full shape of distribution
+    -   Can easily layer
+    -   Add categorical variable with color
+-   **Cons**:
+    -   Need to pick bandwidth and kernel...
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r, ref.label="curve", echo=FALSE, fig.height=9}
+
+```
+:::
+:::
+
+## [What about the bandwidth?](https://www.stat.cmu.edu/~cshalizi/ADAfaEPoV/)
+
+Use **Gaussian reference rule** (*rule-of-thumb*) $\approx 1.06 \cdot \sigma \cdot n^{-1/5}$ ($\sigma$: observed standard deviation)
+
+Modify the bandwidth using the `adjust` argument - **value to multiply default bandwidth by**
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+```{r curve-noisy, fig.height=9}
+clark_shots |>
+  ggplot(aes(x = shot_distance)) + 
+  geom_density(adjust = 0.5) +
+  geom_rug(alpha = 0.3)
+```
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r curve-smooth, fig.height=9}
+clark_shots |>
+  ggplot(aes(x = shot_distance)) + 
+  geom_density(adjust = 2) +
+  geom_rug(alpha = 0.3)
+```
+:::
+:::
+
+## Notes on density estimation
+
+*   In KDE, the bandwidth parameter is analogous to the binwidth in histograms. 
+
+*   If the bandwidth is too small, the density estimate can become overly peaky and the main trends in the data may be obscured.
+
+*   If the bandwidth is too large, then smaller features in the distribution of the data may disappear
+
+*   The choice of the kernel can affect the shape of the density curve.
+
+    *   A Gaussian kernel typically gives density estimates that look bell-shaped (ish)
+
+    *   A rectangular kernel can generate the appearance of steps in the density curve  
+
+    *   Kernel choice matters less with more data points
+    
+**Density plots are often reliable and informative for large datasets but can be misleading for smaller ones.**
+    
+## Common pitfall: bounded data
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| eval: false
+set.seed(36)
+bounded_data <- tibble(x = runif(100))
+bounded_data |> 
+  ggplot(aes(x)) +
+  geom_density() +
+  geom_rug(alpha = 0.5) +
+  stat_function(data = tibble(x = c(0, 1)),
+                fun = dunif, color = "red") +
+  scale_x_continuous(limits = c(-0.5, 1.5))
+```
+
+* Observe density estimates for impossible values (in the tails) - ALWAYS be mindful
+
+* [Reflection method](https://github.com/tidyverse/ggplot2/issues/3387): first perform standard KDE, then "reflect" tails outside of desired interval to be inside
+
+* See also: [evmix package](https://www.jstatsoft.org/article/view/v084i05)
+
+:::
+
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| echo: false
+#| fig-height: 9
+set.seed(101)
+bounded_data <- tibble(x = runif(100))
+bounded_data |> 
+  ggplot(aes(x)) +
+  geom_density() +
+  geom_rug(alpha = 0.5) +
+  stat_function(data = tibble(x = c(0, 1)),
+                fun = dunif, color = "red") +
+  scale_x_continuous(limits = c(-0.5, 1.5))
+```
+
+
+:::
+:::
+
+## Use density curves and ECDFs together
+
+```{r shot-dist-curve-ecdf, echo = FALSE, fig.width=16, fig.align='center', fig.height=7}
+library(cowplot)
+
+clark_shot_dens <- clark_shots |>
+  ggplot(aes(x = shot_distance)) + 
+  geom_density() +
+  geom_rug(alpha = 0.3) +
+  theme_bw() +
+  labs(x = "Shot distance (in feet)",
+       y = "Number of shot attempts")
+
+clark_shot_ecdf <- clark_shots |>
+  ggplot(aes(x = shot_distance)) + 
+  stat_ecdf() +
+  geom_rug(alpha = 0.3) +
+  theme_bw() +
+  labs(x = "Shot distance (in feet)",
+       y = "Proportion of shot attempts")
+
+# library(patchwork)
+# clark_shot_dens + clark_shot_ecdf
+plot_grid(clark_shot_dens, clark_shot_ecdf)
+```
+
+## Code interlude: easy way to arrange multiple figures
+
+Use the [`cowplot`](https://wilkelab.org/cowplot/index.html) package to easily arrange your plots (see also [`patchwork`](https://patchwork.data-imaginist.com/))
+
+```{r ref.label='shot-dist-curve-ecdf', eval = FALSE}
+
+```
+
+## Use density curves and ECDFs together
+
+```{r shot-dist-curve-ecdf-color, echo = FALSE, fig.width=20, fig.align='center', fig.height=9}
+clark_shot_dens_made <- clark_shots |>
+  ggplot(aes(x = shot_distance, 
+             color = scoring_play)) + 
+  geom_density() +
+  geom_rug(alpha = 0.3) +
+  labs(x = "Shot distance (in feet)",
+       y = "Number of shot attempts")
+
+clark_shot_ecdf_made <- clark_shots |>
+  ggplot(aes(x = shot_distance,
+             color = scoring_play)) + 
+  stat_ecdf() +
+  geom_rug(alpha = 0.3) +
+  labs(x = "Shot distance (in feet)",
+       y = "Proportion of shot attempts")
+
+library(patchwork)
+clark_shot_dens_made + clark_shot_ecdf_made + plot_layout(guides = "collect")
+```
+
+## Another code interlude: [collect the legends](https://patchwork.data-imaginist.com/articles/guides/layout.html#controlling-guides) with `patchwork`
+
+```{r ref.label='shot-dist-curve-ecdf-color', eval = FALSE}
+
+```
+
+## Ridgeline plots
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+-   Check out the [`ggridges`](https://cran.r-project.org/web/packages/ggridges/vignettes/introduction.html) package for a variety of customization options
+
+```{r ridges, eval = FALSE}
+library(ggridges)
+clark_shots |>
+  ggplot(aes(x = shot_distance, y = shot_type)) + 
+  geom_density_ridges(rel_min_height = 0.01) 
+```
+
+-   Useful to display conditional distributions across many levels
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r ref.label = 'ridges', echo = FALSE, fig.height=10}
+```
+:::
+:::
+
+## Going from 1D to 2D density estimation
+
+In 1D: estimate density $f(x)$, assuming that $f(x)$ is _smooth_:
+
+$$
+\hat{f}(x) = \frac{1}{n} \sum_{i=1}^n \frac{1}{h} K_h(x - x_i)
+$$
+
+. . .
+
+In 2D: estimate joint density $f(x_1, x_2)$
+
+$$\hat{f}(x_1, x_2) = \frac{1}{n} \sum_{i=1}^n \frac{1}{h_1h_2} K\left(\frac{x_1 - x_{i1}}{h_1}\right) K\left(\frac{x_2 - x_{i2}}{h_2}\right)$$
+
+. . .
+
+In 1D there's one bandwidth, now __we have two bandwidths__
+
+* $h_1$: controls smoothness as $X_1$ changes, holding $X_2$ fixed
+* $h_2$: controls smoothness as $X_2$ changes, holding $X_1$ fixed
+
+Gaussian kernels are still a popular choice
+
+## Display densities for 2D data
+
+```{r, echo = FALSE, out.width="60%", fig.align='center'}
+knitr::include_graphics("https://www.byclb.com/TR/Tutorials/neural_networks/Ch_4_dosyalar/image044.gif")
+```
+
+## How to read contour plots
+
+Best known in topography: outlines (contours) denote levels of elevation
+
+```{r, echo = FALSE, out.width="60%", fig.align='center'}
+knitr::include_graphics("https://preview.redd.it/2rbe8s8t7re31.jpg?auto=webp&s=eed849b180dd803d394f556432df026c4cd1dae2")
+```
+
+
+## 2D density estimation
+
+We can visualize all of the shot locations: (`shot_x`, `shot_y`)
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| label: shot-loc-points
+#| eval: false
+clark_shots |>
+  ggplot(aes(x = shot_x, y = shot_y)) +
+  geom_point(size = 4, alpha = 0.3)
+```
+
+-   Adjust transparency with `alpha` for overlapping points
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r ref.label = 'shot-loc-points', echo = FALSE, fig.height=9}
+# ref
+```
+:::
+:::
+
+## Create contours of 2D kernel density estimate (KDE)
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+-   Use [`geom_density2d()`](https://ggplot2.tidyverse.org/reference/geom_density_2d.html) to display contour lines
+
+```{r}
+#| label: shot-loc-points-contour
+#| eval: false
+clark_shots |>
+  filter(shot_y < 35) |> # remove outliers
+  ggplot(aes(x = shot_x, y = shot_y)) + 
+  geom_point(size = 4, alpha = 0.3) + 
+  geom_density2d() +
+  coord_fixed() +
+  theme(legend.position = "bottom")
+```
+
+-   Extend KDE for joint density estimates in 2D (see [section 14.4.2 for details](https://www.stat.cmu.edu/~cshalizi/ADAfaEPoV/))
+
+-   Inner lines denote "peaks"
+
+-   `coord_fixed()` forced a fixed ratio
+
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| ref-label: "shot-loc-points-contour"
+#| echo: false
+#| fig-height: 9
+```
+:::
+:::
+
+## Create contours of 2D kernel density estimate (KDE)
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+-   We make 2D KDE **contour** plots using [`geom_density2d()`](https://ggplot2.tidyverse.org/reference/geom_density_2d.html)
+
+```{r}
+#| label: shot-loc-points-contour-adjust
+#| eval: false
+clark_shots |>
+  filter(shot_y < 35) |> 
+  ggplot(aes(x = shot_x, y = shot_y)) + 
+  geom_point(size = 4, alpha = 0.3) + 
+  geom_density2d(adjust = 0.1) +
+  coord_fixed() +
+  theme(legend.position = "bottom")
+```
+
+-   Can use `adjust` to modify the multivariate bandwidth
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| ref-label: "shot-loc-points-contour-adjust"
+#| echo: false
+#| fig-height: 9
+```
+:::
+:::
+
+## Contours are difficult... let's make a heatmap instead
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+-  Use [`stat_density_2d()`](https://ggplot2.tidyverse.org/reference/geom_density_2d.html) and the [`after_stat()`](https://ggplot2.tidyverse.org/reference/aes_eval.html) function to make 2D KDE **heatmaps**
+
+-   May be easier to read than nested lines with color
+
+-   Default color scale is awful. Always change it.
+
+
+```{r}
+#| label: shot-loc-points-heatmap
+#| eval: false
+clark_shots |>
+  filter(shot_y < 35) |> 
+  ggplot(aes(x = shot_x, y = shot_y)) + 
+  stat_density2d(aes(fill = after_stat(level)),
+                 h = 0.6, bins = 60, geom = "polygon") +
+  scale_fill_gradient(low = "midnightblue", 
+                      high = "gold") +
+  coord_fixed() +
+  theme(legend.position = "bottom")
+```
+
+**Multivariate density estimation can be difficult**
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| ref-label: "shot-loc-points-heatmap"
+#| echo: false
+#| fig-height: 9
+```
+:::
+:::
+
+## Turn off contours and use tiles instead
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+-   Divide the space into a grid and color the grid according to high/low values
+
+```{r}
+#| label: shot-loc-points-heatmap-tile
+#| eval: false
+clark_shots |>
+  filter(shot_y < 35) |> 
+  ggplot(aes(x = shot_x, y = shot_y)) + 
+  stat_density2d(aes(fill = after_stat(density)),
+                 h = 0.6, bins = 60, contour = FALSE,
+                 geom = "raster") +
+  # scale_fill_gradient(low = "white", high = "red") +
+  scale_fill_gradient(low = "midnightblue", 
+                      high = "gold") +
+  theme(legend.position = "bottom") +
+  coord_fixed()
+```
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| ref-label: "shot-loc-points-heatmap-tile"
+#| echo: false
+#| fig-height: 9
+```
+:::
+:::
+
+## Best alternative? Hexagonal binning
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+-   Use [`geom_hex()`](https://ggplot2.tidyverse.org/reference/geom_hex.html) to make **hexagonal heatmaps**
+
+-   Need to have the [`hexbin`](https://cran.r-project.org/web/packages/hexbin/index.html) package installed
+
+-   2D version of histogram
+
+```{r}
+#| label: shot-loc-points-hex
+#| eval: false
+clark_shots |>
+  filter(shot_y < 35) |>
+  ggplot(aes(x = shot_x, y = shot_y)) + 
+  geom_hex(binwidth = c(1, 1)) +
+  scale_fill_gradient(low = "midnightblue", 
+                      high = "gold") + 
+  theme(legend.position = "bottom") +
+  coord_fixed()
+```
+
+-   Can specify `binwidth` in both directions
+-   Avoids limitations from smoothing
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| ref-label: "shot-loc-points-hex"
+#| echo: false
+#| fig-height: 9
+```
+:::
+:::
+
+## What about shooting efficiency?
+
+-   Can compute a function of another variable inside hexagons with [`stat_summary_hex()`](https://ggplot2.tidyverse.org/reference/stat_summary_2d.html)
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| label: shot-loc-hex-make
+#| eval: false
+clark_shots |>
+  filter(shot_y < 35) |>
+  ggplot(aes(x = shot_x, y = shot_y, 
+             z = scoring_play, group = -1)) +
+  stat_summary_hex(binwidth = c(2, 2), fun = mean, 
+                   color = "black") +
+  scale_fill_gradient(low = "midnightblue", 
+                      high = "gold") + 
+  theme(legend.position = "bottom") +
+  coord_fixed()
+```
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r}
+#| ref-label: "shot-loc-hex-make"
+#| echo: false
+#| fig-height: 9
+```
+:::
+:::
+
+## Appendix: Making shot charts and drawing courts with [`sportyR`](https://sportyr.sportsdataverse.org/)
+
+```{r}
+#| fig-height: 7
+library(sportyR)
+wnba_court <- geom_basketball("wnba", display_range = "offense", rotation = 270, x_trans = -41.5)
+wnba_court +
+  geom_hex(data = clark_shots, aes(x = shot_x, y = shot_y), binwidth = c(1, 1)) + 
+  scale_fill_gradient(low = "midnightblue", high = "gold")
+```
+
+
+## Appendix: Code to build dataset
+
+```{r}
+# install.packages("wehoop")
+library(wehoop)
+wnba_pbp <- load_wnba_pbp(2024)
+clark_shots <- wnba_pbp |> 
+  filter(shooting_play) |> 
+  filter(str_detect(text, "Caitlin Clark")) |> 
+  filter(!str_detect(text, "Caitlin Clark assists")) |> 
+  filter(!str_detect(text, "free throw")) |> 
+  mutate(
+    shot_x = coordinate_x_raw - 25,
+    shot_y = coordinate_y_raw,
+    shot_distance = sqrt((abs(shot_x) ^ 2) + shot_y ^ 2), 
+    shot_type = type_text,
+    scoring_play,
+    score_value,
+    .keep = "none"
+  )
+```
