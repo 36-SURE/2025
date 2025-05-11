@@ -1,5 +1,5 @@
 ---
-title: "EDA project: NHL shots"
+title: "EDA project: NHL shooting"
 ---
 
 ---
