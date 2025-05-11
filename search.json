@@ -63,74 +63,74 @@
     "text": "Date\nTitle\nMaterials\n\n\n\n\nLecture 0\nJune 2\nWelcome to SURE 2025\n\n\n\nLecture 1\nJune 3\nExploring data: into the tidyverse\nslides"
   },
   {
-    "objectID": "sports/eda/wwc_shots.html#overview",
-    "href": "sports/eda/wwc_shots.html#overview",
-    "title": "EDA project: Women’s World Cup shots",
+    "objectID": "sports/eda/nhl_shooting.html#overview",
+    "href": "sports/eda/nhl_shooting.html#overview",
+    "title": "EDA project: NHL shooting",
     "section": "Overview",
     "text": "Overview\nThis project will be released on Thursday, June 5 and conclude with an 8-minute presentation on Tuesday, June 17 during lab.\nStudents will be randomly placed into groups of 2–3 and each group will be randomly assigned a dataset.\nThe goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques."
   },
   {
-    "objectID": "sports/eda/wwc_shots.html#deliverables",
-    "href": "sports/eda/wwc_shots.html#deliverables",
-    "title": "EDA project: Women’s World Cup shots",
+    "objectID": "sports/eda/nhl_shooting.html#deliverables",
+    "href": "sports/eda/nhl_shooting.html#deliverables",
+    "title": "EDA project: NHL shooting",
     "section": "Deliverables",
     "text": "Deliverables\nEach group is expected to make slides to accompany the 8-minute presentation.\nThe presentation should feature the following:\n\nOverview of the structure of your dataset\nThree questions/hypotheses you are interested in exploring\nThree data visualizations exploring the questions, at least two of which must be multivariate. Each visualization must be in a different format from the other two, and you must have at least one categorical and one continuous visualization\nOne clustering analysis\nConclusions for the hypotheses based on your EDA and data visualizations\n\nNo notes/scripts are allowed during the presentation."
   },
   {
-    "objectID": "sports/eda/wwc_shots.html#timeline",
-    "href": "sports/eda/wwc_shots.html#timeline",
-    "title": "EDA project: Women’s World Cup shots",
+    "objectID": "sports/eda/nhl_shooting.html#timeline",
+    "href": "sports/eda/nhl_shooting.html#timeline",
+    "title": "EDA project: NHL shooting",
     "section": "Timeline",
     "text": "Timeline\nThere will be two submission deadlines:\nThursday, June 12 at 5pm ET - Each student will push their individual code for the project thus far to GitHub for review.\nTuesday, June 17 at 1pm ET - Slides and full code must be completed and ready for presentation. Send your slides to Quang (quang@stat.cmu.edu). All code must be written in R; but the slides may be created in any software. Take advantage of examples from lectures, but also feel free to explore online resources that may be relevant. (But be sure to always consult the R help documentation first before attempting to google around or ask ChatGPT.)"
   },
   {
-    "objectID": "sports/eda/wwc_shots.html#data",
-    "href": "sports/eda/wwc_shots.html#data",
-    "title": "EDA project: Women’s World Cup shots",
-    "section": "Data",
-    "text": "Data\nThis dataset contains all (open-play) shot attempts from the 2023 FIFA Women’s World Cup, courtesy of StatsBomb and accessed via the StatsBombR package.\nEach row in the dataset corresponds to a shot attempt and the columns are:\n\nperiod: period of the game (1: first half, 2: second half, 3: first extra time period, 4: second extra time period)\n\nminute & second: minute & second of the game\nduration: duration of the shot (seconds)\n\nunder_pressure: whether the shot is under pressure\nplay_pattern.name: play pattern name (leading up to the shot)\npossession_team.name: possession team name\nplayer.name: player taking the shot\nposition.name: player position\nshot.technique.name: technique of the shot\nshot.body_part.name: body part used to take the shot\nshot.outcome.name: outcome of the shot\nshot.{aerial_won, one_on_one, deflected, open_goal, saved_to_post, saved_off_target, redirect}: different shot binary indicators (should be self-explanatory, NA means FALSE)\nlocation.{x, y}: (x, y) location when shot takes place. (Note: all locations have been standardized so that the possession team is going from left to right. Higher x values means closer to the opposing team’s goal, and higher y values means more toward the left wing)\nshot.end_location.{x, y, z}: (x, y, z) coordinates of shot ending location\nplayer.name.GK: goalkeeper name\nlocation.{x, y}.GK: (x, y) location of goalkeeper when shot takes place\nDistToGoal: distance between shot location and center of goal\n\nDistToKeeper: distance between keeper and center goal (NOT between keeper location and shot location)\nAngleToGoal: angle between shot location and center of goal\n\nAngleToKeeper: angle between keeper and center of goal (NOT between keeper location and shot location)\nAngleDeviation: absolute difference between AngleToGoal and AngleToKeeper\navevelocity: (average) shot velocity (over the duration of shot)\n\nDistSGK: distance between shot location and keeper location\ndensity: aggregated inverse distance for each defender behind the ball\ndensity.incone: density for only defenders who are in the cone defined by the shooter and each goal post\nAttackersBehindBall: number of attackers behind the ball\nDefendersBehindBall: number of defenders behind the ball\nDefendersInCone: number of defenders in the cone defined by the shooter and each goal post\n\nInCone.GK: whether the goalkeeper is in the cone defined by the shooter and each goal post\n\nDefArea: area of the smallest square that covers all opposing defenders\n\ndistance.ToD1.360: distance between shooter and closest defender\n\ndistance.ToD2.360: distance between shooter and second-closest defender\n\nTimeInPoss: time elapsed since the start of possession\n\nTimeToPossEnd: time remaining until end of possession"
-  },
-  {
-    "objectID": "sports/eda/wwc_shots.html#starter-code",
-    "href": "sports/eda/wwc_shots.html#starter-code",
-    "title": "EDA project: Women’s World Cup shots",
-    "section": "Starter code",
-    "text": "Starter code\n\nlibrary(tidyverse)\nwwc_shots &lt;- read_csv(\"https://raw.githubusercontent.com/36-SURE/2025/main/data/wwc_shots.csv\")\n\nIn case you’re curious, the code to build this dataset can be found below.\n\nlibrary(tidyverse)\nlibrary(StatsBombR)\n\nwwc &lt;- FreeCompetitions() |&gt; \n  filter(competition_id == \"72\" & season_id == \"107\") |&gt; \n  FreeMatches() |&gt; \n  free_allevents() |&gt; \n  allclean()\n\nwwc_shots &lt;- wwc |&gt;\n  filter(type.name == \"Shot\", \n         shot.type.name == \"Open Play\", \n         team.name == possession_team.name) |&gt; \n  janitor::remove_empty() |&gt; \n  select(period, minute, second, duration, under_pressure, \n         play_pattern.name, possession_team.name, player.name, position.name, \n         shot.technique.name, shot.body_part.name, shot.outcome.name, \n         shot.aerial_won, shot.one_on_one,shot.deflected, shot.open_goal, \n         shot.saved_to_post, shot.saved_off_target, shot.redirect, \n         location.x, location.y, shot.end_location.x, \n         shot.end_location.y, shot.end_location.z, \n         player.name.GK, location.x.GK, location.y.GK, \n         DistToGoal, DistToKeeper, AngleToGoal,AngleToKeeper, AngleDeviation, \n         avevelocity, DistSGK, density, density.incone, \n         AttackersBehindBall:distance.ToD2.360, TimeInPoss, TimeToPossEnd) |&gt; \n  mutate(InCone.GK = ifelse(InCone.GK &gt; 0, 1, InCone.GK))"
-  },
-  {
-    "objectID": "sports/eda/nhl_shots.html#overview",
-    "href": "sports/eda/nhl_shots.html#overview",
-    "title": "EDA project: NHL shots",
-    "section": "Overview",
-    "text": "Overview\nThis project will be released on Thursday, June 5 and conclude with an 8-minute presentation on Tuesday, June 17 during lab.\nStudents will be randomly placed into groups of 2–3 and each group will be randomly assigned a dataset.\nThe goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques."
-  },
-  {
-    "objectID": "sports/eda/nhl_shots.html#deliverables",
-    "href": "sports/eda/nhl_shots.html#deliverables",
-    "title": "EDA project: NHL shots",
-    "section": "Deliverables",
-    "text": "Deliverables\nEach group is expected to make slides to accompany the 8-minute presentation.\nThe presentation should feature the following:\n\nOverview of the structure of your dataset\nThree questions/hypotheses you are interested in exploring\nThree data visualizations exploring the questions, at least two of which must be multivariate. Each visualization must be in a different format from the other two, and you must have at least one categorical and one continuous visualization\nOne clustering analysis\nConclusions for the hypotheses based on your EDA and data visualizations\n\nNo notes/scripts are allowed during the presentation."
-  },
-  {
-    "objectID": "sports/eda/nhl_shots.html#timeline",
-    "href": "sports/eda/nhl_shots.html#timeline",
-    "title": "EDA project: NHL shots",
-    "section": "Timeline",
-    "text": "Timeline\nThere will be two submission deadlines:\nThursday, June 12 at 5pm ET - Each student will push their individual code for the project thus far to GitHub for review.\nTuesday, June 17 at 1pm ET - Slides and full code must be completed and ready for presentation. Send your slides to Quang (quang@stat.cmu.edu). All code must be written in R; but the slides may be created in any software. Take advantage of examples from lectures, but also feel free to explore online resources that may be relevant. (But be sure to always consult the R help documentation first before attempting to google around or ask ChatGPT.)"
-  },
-  {
-    "objectID": "sports/eda/nhl_shots.html#data",
-    "href": "sports/eda/nhl_shots.html#data",
-    "title": "EDA project: NHL shots",
+    "objectID": "sports/eda/nhl_shooting.html#data",
+    "href": "sports/eda/nhl_shooting.html#data",
+    "title": "EDA project: NHL shooting",
     "section": "Data",
     "text": "Data\nThis dataset contains all shot attempts from the 2024-25 NHL regular season, courtesy of MoneyPuck.com.\nEach row in the dataset corresponds to a shot attempt and the columns are:\n\nshooterPlayerId: player id of the skater taking the shot\nshooterName: first and Last name of the player taking the shot\nteam: team taking the shot\nshooterLeftRight: whether the shooter is a left or right shot\nshooterTimeOnIce: playing time in seconds that have passed since the shooter started their shift\nshooterTimeOnIceSinceFaceoff: minimum of the playing time in seconds since the last faceoff and the playing time that has passed since the shooter started their shift\nevent: whether the shot was a shot on goal (SHOT), goal, (GOAL), or missed the net (MISS)\nlocation: the zone the shot took place in\nshotType: type of shot\nshotAngle: angle of the shot in degrees, positive if the shot is from the left side of the ice.\nshotAnglePlusRebound: difference in angle between the previous shot and this shot if this shot is a rebound, is otherwise set to 0\nshotDistance: distance from the net of the shot in feet, net is defined as being at the (89,0) coordinates\nshotOnEmptyNet: whether the shot was on an empty net\nshotRebound: whether the shot is a rebound, i.e., if the last event was a shot and within 3 seconds of this shot\nshotRush: whether the shot was on a rush, i.e., ff the last event was in another zone and within 4 seconds\nshotWasOnGoal: whether the shot was on net - either a goal or a goalie save\nshotGeneratedRebound: whether the shot generated a rebound shot within 3 seconds of the this shot\nshotGoalieFroze: whether the goalie froze the puck within 1 second of the shot\narenaAdjustedShotDistance: shot distance adjusted for arena recording bias - uses the same methodology as War On Ice proposed by Schuckers and Curro\narenaAdjustedXCord: x coordinate of the arena adjusted shot location, always a positive number\narenaAdjustedYCord: y coordinate of the arena adjusted shot location\ngoalieIdForShot: player id for the goalie the shot is on\ngoalieNameForShot: first and Last name of the goalie the shot is on\nteamCode: team code of the shooting team\nisHomeTeam: whether the shooting team is the home team\nhomeSkatersOnIce: number of skaters on ice for the home team (does not count the goalie)\nawaySkatersOnIce: number of skaters on ice for the away team (does not count the goalie)\ngame_id: game id of the game the shot took place in\nhomeTeamCode: home team in the game\nawayTeamCode: away team in the game\nhomeTeamGoals: home team goals before the shot took place\nawayTeamGoals: away team goals before the shot took place\ntime: seconds into the game of the shot\nperiod: period of the game\n\nNote that a full glossary of the features available for NHL shot data can be found here."
   },
   {
-    "objectID": "sports/eda/nhl_shots.html#starter-code",
-    "href": "sports/eda/nhl_shots.html#starter-code",
-    "title": "EDA project: NHL shots",
+    "objectID": "sports/eda/nhl_shooting.html#starter-code",
+    "href": "sports/eda/nhl_shooting.html#starter-code",
+    "title": "EDA project: NHL shooting",
     "section": "Starter code",
     "text": "Starter code\n\nlibrary(tidyverse)\nnhl_shots &lt;- read_csv(\"https://raw.githubusercontent.com/36-SURE/2025/main/data/nhl_shots.csv\")\n\nIn case you’re curious, the code to build this dataset can be found below. (Note that the data were originally downloaded from the MoneyPuck site.)\n\n# download and unzip\n# https://peter-tanner.com/moneypuck/downloads/shots_2024.zip\n\nlibrary(tidyverse)\nnhl_shots &lt;- read_csv(\"shots_2024.csv\") # might need to modify file path\n\nnhl_shots &lt;- nhl_shots |&gt; \n  filter(isPlayoffGame == 0) |&gt; \n  select(\n    # shooter info\n    shooterPlayerId, shooterName, team, shooterLeftRight, \n    shooterTimeOnIce, shooterTimeOnIceSinceFaceoff,\n    # shot info\n    event, location, shotType, shotAngle, shotAnglePlusRebound, \n    shotDistance, shotOnEmptyNet, shotRebound, shotRush, \n    shotWasOnGoal, shotGeneratedRebound, shotGoalieFroze,\n    # arena-adjusted locations\n    arenaAdjustedShotDistance, arenaAdjustedXCord, arenaAdjustedYCord,\n    # goalie info\n    goalieIdForShot, goalieNameForShot,\n    # team context\n    teamCode, isHomeTeam, homeSkatersOnIce, awaySkatersOnIce,\n    # game context\n    game_id, homeTeamCode, awayTeamCode, homeTeamGoals, awayTeamGoals,\n    time, period\n  )"
+  },
+  {
+    "objectID": "sports/eda/wwc_passing.html#overview",
+    "href": "sports/eda/wwc_passing.html#overview",
+    "title": "EDA project: Women’s World Cup passing",
+    "section": "Overview",
+    "text": "Overview\nThis project will be released on Thursday, June 5 and conclude with an 8-minute presentation on Tuesday, June 17 during lab.\nStudents will be randomly placed into groups of 2–3 and each group will be randomly assigned a dataset.\nThe goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques."
+  },
+  {
+    "objectID": "sports/eda/wwc_passing.html#deliverables",
+    "href": "sports/eda/wwc_passing.html#deliverables",
+    "title": "EDA project: Women’s World Cup passing",
+    "section": "Deliverables",
+    "text": "Deliverables\nEach group is expected to make slides to accompany the 8-minute presentation.\nThe presentation should feature the following:\n\nOverview of the structure of your dataset\nThree questions/hypotheses you are interested in exploring\nThree data visualizations exploring the questions, at least two of which must be multivariate. Each visualization must be in a different format from the other two, and you must have at least one categorical and one continuous visualization\nOne clustering analysis\nConclusions for the hypotheses based on your EDA and data visualizations\n\nNo notes/scripts are allowed during the presentation."
+  },
+  {
+    "objectID": "sports/eda/wwc_passing.html#timeline",
+    "href": "sports/eda/wwc_passing.html#timeline",
+    "title": "EDA project: Women’s World Cup passing",
+    "section": "Timeline",
+    "text": "Timeline\nThere will be two submission deadlines:\nThursday, June 12 at 5pm ET - Each student will push their individual code for the project thus far to GitHub for review.\nTuesday, June 17 at 1pm ET - Slides and full code must be completed and ready for presentation. Send your slides to Quang (quang@stat.cmu.edu). All code must be written in R; but the slides may be created in any software. Take advantage of examples from lectures, but also feel free to explore online resources that may be relevant. (But be sure to always consult the R help documentation first before attempting to google around or ask ChatGPT.)"
+  },
+  {
+    "objectID": "sports/eda/wwc_passing.html#data",
+    "href": "sports/eda/wwc_passing.html#data",
+    "title": "EDA project: Women’s World Cup passing",
+    "section": "Data",
+    "text": "Data\nThis dataset contains all (completed) pass attempts from the 2023 FIFA Women’s World Cup, courtesy of StatsBomb and accessed via the StatsBombR package.\nEach row in the dataset corresponds to a pass attempt and the columns are:\n\nperiod: period of the game (1: first half, 2: second half, 3: first extra time period, 4: second extra time period)\n\nminute & second: minute & second of the game\nduration: duration of the pass (seconds)\n\nunder_pressure: whether the pass is under pressure\n\ncounterpress: whether the pass is under a counterpress event (defined as a pressing action occurring within five seconds of an open play turnover)\n\nplay_pattern.name: play pattern\nteam.name: team name\nplayer.name: passer name\n\nposition.name: passer position\npass.{switch, aerial_won, cross, through_ball, ..., no_touch, deflected, miscommunication}: different pass binary indicators (should be self-explanatory, NA means FALSE)\npass.recipient.name: pass recipient name\npass.height.name: type of pass height\npass.body_part.name: body part used to make the pass\npass.type.name: type of pass\npass.outcome.name: outcome of the pass\npass.technique.name: technique of the pass\nlocation.{x, y}: (x, y) location when pass takes place. (Note: all locations have been standardized so that the possession team is going from left to right. Higher x values means closer to the opposing team’s goal, and higher y values means more toward the left wing)\npass.end_location.{x, y}: (x, y) coordinates of pass ending location\npass.length: length of the pass\npass.angle: angle of the pass\nTimeInPoss: time elapsed since the start of possession\n\nTimeToPossEnd: time remaining until end of possession"
+  },
+  {
+    "objectID": "sports/eda/wwc_passing.html#starter-code",
+    "href": "sports/eda/wwc_passing.html#starter-code",
+    "title": "EDA project: Women’s World Cup passing",
+    "section": "Starter code",
+    "text": "Starter code\n\nlibrary(tidyverse)\nwwc_passes &lt;- read_csv(\"https://raw.githubusercontent.com/36-SURE/2025/main/data/wwc_passes.csv\")\n\nIn case you’re curious, the code to build this dataset can be found below.\n\nlibrary(tidyverse)\nlibrary(StatsBombR)\n\nwwc &lt;- FreeCompetitions() |&gt; \n  filter(competition_id == \"72\" & season_id == \"107\") |&gt; \n  FreeMatches() |&gt; \n  free_allevents() |&gt; \n  allclean()\n\nwwc_passes &lt;- wwc |&gt;\n  filter(type.name == \"Pass\", !is.na(pass.recipient.name)) |&gt; \n  janitor::remove_empty() |&gt; \n  select(period, minute, second, duration, under_pressure, counterpress, \n         play_pattern.name, team.name, player.name, position.name, \n         pass.switch:pass.through_ball, pass.shot_assist:pass.goal_assist, \n         pass.cut_back:pass.miscommunication, pass.recipient.name, pass.height.name, \n         pass.body_part.name, pass.type.name, pass.outcome.name, pass.technique.name,  \n         location.x, location.y, pass.end_location.x, pass.end_location.y, \n         pass.length, pass.angle, TimeInPoss, TimeToPossEnd)"
   },
   {
     "objectID": "lectures/05-pca.html#unsupervised-learning",
@@ -1750,6 +1750,41 @@
     "text": "Resources\n\nggplot2 website: cheatsheets, FAQs, extensions, and more\nTidyTuesday\nDavid Robinson’s TidyTuesday screencasts\nVizBuzz: LIVE data viz replication game show\n\nQuang on VizBuzz (will participate again this summer!)"
   },
   {
+    "objectID": "sports/eda/wwc_shooting.html#overview",
+    "href": "sports/eda/wwc_shooting.html#overview",
+    "title": "EDA project: Women’s World Cup shooting",
+    "section": "Overview",
+    "text": "Overview\nThis project will be released on Thursday, June 5 and conclude with an 8-minute presentation on Tuesday, June 17 during lab.\nStudents will be randomly placed into groups of 2–3 and each group will be randomly assigned a dataset.\nThe goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques."
+  },
+  {
+    "objectID": "sports/eda/wwc_shooting.html#deliverables",
+    "href": "sports/eda/wwc_shooting.html#deliverables",
+    "title": "EDA project: Women’s World Cup shooting",
+    "section": "Deliverables",
+    "text": "Deliverables\nEach group is expected to make slides to accompany the 8-minute presentation.\nThe presentation should feature the following:\n\nOverview of the structure of your dataset\nThree questions/hypotheses you are interested in exploring\nThree data visualizations exploring the questions, at least two of which must be multivariate. Each visualization must be in a different format from the other two, and you must have at least one categorical and one continuous visualization\nOne clustering analysis\nConclusions for the hypotheses based on your EDA and data visualizations\n\nNo notes/scripts are allowed during the presentation."
+  },
+  {
+    "objectID": "sports/eda/wwc_shooting.html#timeline",
+    "href": "sports/eda/wwc_shooting.html#timeline",
+    "title": "EDA project: Women’s World Cup shooting",
+    "section": "Timeline",
+    "text": "Timeline\nThere will be two submission deadlines:\nThursday, June 12 at 5pm ET - Each student will push their individual code for the project thus far to GitHub for review.\nTuesday, June 17 at 1pm ET - Slides and full code must be completed and ready for presentation. Send your slides to Quang (quang@stat.cmu.edu). All code must be written in R; but the slides may be created in any software. Take advantage of examples from lectures, but also feel free to explore online resources that may be relevant. (But be sure to always consult the R help documentation first before attempting to google around or ask ChatGPT.)"
+  },
+  {
+    "objectID": "sports/eda/wwc_shooting.html#data",
+    "href": "sports/eda/wwc_shooting.html#data",
+    "title": "EDA project: Women’s World Cup shooting",
+    "section": "Data",
+    "text": "Data\nThis dataset contains all (open-play) shot attempts from the 2023 FIFA Women’s World Cup, courtesy of StatsBomb and accessed via the StatsBombR package.\nEach row in the dataset corresponds to a shot attempt and the columns are:\n\nperiod: period of the game (1: first half, 2: second half, 3: first extra time period, 4: second extra time period)\n\nminute & second: minute & second of the game\nduration: duration of the shot (seconds)\n\nunder_pressure: whether the shot is under pressure\nplay_pattern.name: play pattern name (leading up to the shot)\npossession_team.name: possession team name\nplayer.name: player taking the shot\nposition.name: player position\nshot.technique.name: technique of the shot\nshot.body_part.name: body part used to take the shot\nshot.outcome.name: outcome of the shot\nshot.{aerial_won, one_on_one, deflected, open_goal, saved_to_post, saved_off_target, redirect}: different shot binary indicators (should be self-explanatory, NA means FALSE)\nlocation.{x, y}: (x, y) location when shot takes place. (Note: all locations have been standardized so that the possession team is going from left to right. Higher x values means closer to the opposing team’s goal, and higher y values means more toward the left wing)\nshot.end_location.{x, y, z}: (x, y, z) coordinates of shot ending location\nplayer.name.GK: goalkeeper name\nlocation.{x, y}.GK: (x, y) location of goalkeeper when shot takes place\nDistToGoal: distance between shot location and center of goal\n\nDistToKeeper: distance between keeper and center goal (NOT between keeper location and shot location)\nAngleToGoal: angle between shot location and center of goal\n\nAngleToKeeper: angle between keeper and center of goal (NOT between keeper location and shot location)\nAngleDeviation: absolute difference between AngleToGoal and AngleToKeeper\navevelocity: (average) shot velocity (over the duration of shot)\n\nDistSGK: distance between shot location and keeper location\ndensity: aggregated inverse distance for each defender behind the ball\ndensity.incone: density for only defenders who are in the cone defined by the shooter and each goal post\nAttackersBehindBall: number of attackers behind the ball\nDefendersBehindBall: number of defenders behind the ball\nDefendersInCone: number of defenders in the cone defined by the shooter and each goal post\n\nInCone.GK: whether the goalkeeper is in the cone defined by the shooter and each goal post\n\nDefArea: area of the smallest square that covers all opposing defenders\n\ndistance.ToD1.360: distance between shooter and closest defender\n\ndistance.ToD2.360: distance between shooter and second-closest defender\n\nTimeInPoss: time elapsed since the start of possession\n\nTimeToPossEnd: time remaining until end of possession"
+  },
+  {
+    "objectID": "sports/eda/wwc_shooting.html#starter-code",
+    "href": "sports/eda/wwc_shooting.html#starter-code",
+    "title": "EDA project: Women’s World Cup shooting",
+    "section": "Starter code",
+    "text": "Starter code\n\nlibrary(tidyverse)\nwwc_shots &lt;- read_csv(\"https://raw.githubusercontent.com/36-SURE/2025/main/data/wwc_shots.csv\")\n\nIn case you’re curious, the code to build this dataset can be found below.\n\nlibrary(tidyverse)\nlibrary(StatsBombR)\n\nwwc &lt;- FreeCompetitions() |&gt; \n  filter(competition_id == \"72\" & season_id == \"107\") |&gt; \n  FreeMatches() |&gt; \n  free_allevents() |&gt; \n  allclean()\n\nwwc_shots &lt;- wwc |&gt;\n  filter(type.name == \"Shot\", \n         shot.type.name == \"Open Play\", \n         team.name == possession_team.name) |&gt; \n  janitor::remove_empty() |&gt; \n  select(period, minute, second, duration, under_pressure, \n         play_pattern.name, possession_team.name, player.name, position.name, \n         shot.technique.name, shot.body_part.name, shot.outcome.name, \n         shot.aerial_won, shot.one_on_one,shot.deflected, shot.open_goal, \n         shot.saved_to_post, shot.saved_off_target, shot.redirect, \n         location.x, location.y, shot.end_location.x, \n         shot.end_location.y, shot.end_location.z, \n         player.name.GK, location.x.GK, location.y.GK, \n         DistToGoal, DistToKeeper, AngleToGoal,AngleToKeeper, AngleDeviation, \n         avevelocity, DistSGK, density, density.incone, \n         AttackersBehindBall:distance.ToD2.360, TimeInPoss, TimeToPossEnd) |&gt; \n  mutate(InCone.GK = ifelse(InCone.GK &gt; 0, 1, InCone.GK))"
+  },
+  {
     "objectID": "sports/eda/mlb_batting.html#overview",
     "href": "sports/eda/mlb_batting.html#overview",
     "title": "EDA project: NHL shots",
@@ -1783,41 +1818,6 @@
     "title": "EDA project: NHL shots",
     "section": "Starter code",
     "text": "Starter code\n\nlibrary(tidyverse)\nmlb_batted_balls &lt;- read_csv(\"https://raw.githubusercontent.com/36-SURE/2025/main/data/mlb_batted_balls.csv\")\n\nIn case you’re curious, the code to build this dataset can be found below.\n\n# devtools::install_github(repo = \"saberpowers/sabRmetrics\")\nlibrary(tidyverse)\nlibrary(sabRmetrics)\nmlb_batted_balls &lt;- download_baseballsavant(start_date = \"2024-04-03\",\n                                            end_date = \"2024-12-31\")\n\nmlb_batted_balls |&gt; \n  filter(type == \"X\") |&gt; \n  select(batter_name, batter_id, bat_side, bb_type,\n         pitcher_id, pitch_number, pitch_type, pitch_name, pitch_hand,\n         events, hit_coord_x, hit_coord_y, launch_speed, launch_angle,\n         bat_speed, swing_length, arm_angle, hit_location, \n         release_speed, effective_speed,\n         strike_zone_top, strike_zone_bottom,\n         release_spin_rate, extension,\n         ax, ay, az, vx0, vy0, vz0, \n         release_pos_x, release_pos_y, release_pos_z,\n         plate_x, plate_z, pfx_x, pfx_z,\n         if_fielding_alignment, of_fielding_alignment,\n         game_date, balls, strikes, outs, inning, inning_topbot,\n         pre_runner_1b_id, pre_runner_2b_id, pre_runner_3b_id,\n         home_score, away_score, post_home_score, post_away_score, des)"
-  },
-  {
-    "objectID": "sports/eda/wwc_passes.html#overview",
-    "href": "sports/eda/wwc_passes.html#overview",
-    "title": "EDA project: Women’s World Cup passes",
-    "section": "Overview",
-    "text": "Overview\nThis project will be released on Thursday, June 5 and conclude with an 8-minute presentation on Tuesday, June 17 during lab.\nStudents will be randomly placed into groups of 2–3 and each group will be randomly assigned a dataset.\nThe goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques."
-  },
-  {
-    "objectID": "sports/eda/wwc_passes.html#deliverables",
-    "href": "sports/eda/wwc_passes.html#deliverables",
-    "title": "EDA project: Women’s World Cup passes",
-    "section": "Deliverables",
-    "text": "Deliverables\nEach group is expected to make slides to accompany the 8-minute presentation.\nThe presentation should feature the following:\n\nOverview of the structure of your dataset\nThree questions/hypotheses you are interested in exploring\nThree data visualizations exploring the questions, at least two of which must be multivariate. Each visualization must be in a different format from the other two, and you must have at least one categorical and one continuous visualization\nOne clustering analysis\nConclusions for the hypotheses based on your EDA and data visualizations\n\nNo notes/scripts are allowed during the presentation."
-  },
-  {
-    "objectID": "sports/eda/wwc_passes.html#timeline",
-    "href": "sports/eda/wwc_passes.html#timeline",
-    "title": "EDA project: Women’s World Cup passes",
-    "section": "Timeline",
-    "text": "Timeline\nThere will be two submission deadlines:\nThursday, June 12 at 5pm ET - Each student will push their individual code for the project thus far to GitHub for review.\nTuesday, June 17 at 1pm ET - Slides and full code must be completed and ready for presentation. Send your slides to Quang (quang@stat.cmu.edu). All code must be written in R; but the slides may be created in any software. Take advantage of examples from lectures, but also feel free to explore online resources that may be relevant. (But be sure to always consult the R help documentation first before attempting to google around or ask ChatGPT.)"
-  },
-  {
-    "objectID": "sports/eda/wwc_passes.html#data",
-    "href": "sports/eda/wwc_passes.html#data",
-    "title": "EDA project: Women’s World Cup passes",
-    "section": "Data",
-    "text": "Data\nThis dataset contains all (completed) pass attempts from the 2023 FIFA Women’s World Cup, courtesy of StatsBomb and accessed via the StatsBombR package.\nEach row in the dataset corresponds to a pass attempt and the columns are:\n\nperiod: period of the game (1: first half, 2: second half, 3: first extra time period, 4: second extra time period)\n\nminute & second: minute & second of the game\nduration: duration of the pass (seconds)\n\nunder_pressure: whether the pass is under pressure\n\ncounterpress: whether the pass is under a counterpress event (defined as a pressing action occurring within five seconds of an open play turnover)\n\nplay_pattern.name: play pattern\nteam.name: team name\nplayer.name: passer name\n\nposition.name: passer position\npass.{switch, aerial_won, cross, through_ball, shot_ assist, outswinging, straight, inswinging, goal_assist, cut_back, no_touch, deflected ,miscommunication}: different pass binary indicators (should be self-explanatory, NA means FALSE)\npass.recipient.name: pass recipient name\npass.height.name: type of pass height\npass.body_part.name: body part used to make the pass\npass.type.name: type of pass\npass.outcome.name: outcome of the pass\npass.technique.name: technique of the pass\nlocation.{x, y}: (x, y) location when pass takes place. (Note: all locations have been standardized so that the possession team is going from left to right. Higher x values means closer to the opposing team’s goal, and higher y values means more toward the left wing)\npass.end_location.{x, y}: (x, y) coordinates of pass ending location\npass.length: length of the pass\npass.angle: angle of the pass\nTimeInPoss: time elapsed since the start of possession\n\nTimeToPossEnd: time remaining until end of possession"
-  },
-  {
-    "objectID": "sports/eda/wwc_passes.html#starter-code",
-    "href": "sports/eda/wwc_passes.html#starter-code",
-    "title": "EDA project: Women’s World Cup passes",
-    "section": "Starter code",
-    "text": "Starter code\n\nlibrary(tidyverse)\nwwc_passes &lt;- read_csv(\"https://raw.githubusercontent.com/36-SURE/2025/main/data/wwc_passes.csv\")\n\nIn case you’re curious, the code to build this dataset can be found below.\n\nlibrary(tidyverse)\nlibrary(StatsBombR)\n\nwwc &lt;- FreeCompetitions() |&gt; \n  filter(competition_id == \"72\" & season_id == \"107\") |&gt; \n  FreeMatches() |&gt; \n  free_allevents() |&gt; \n  allclean()\n\nwwc_passes &lt;- wwc |&gt;\n  filter(type.name == \"Pass\", !is.na(pass.recipient.name)) |&gt; \n  janitor::remove_empty() |&gt; \n  select(period, minute, second, duration, under_pressure, counterpress, \n         play_pattern.name, team.name, player.name, position.name, \n         pass.switch:pass.through_ball, pass.shot_assist:pass.goal_assist, \n         pass.cut_back:pass.miscommunication, pass.recipient.name, pass.height.name, \n         pass.body_part.name, pass.type.name, pass.outcome.name, pass.technique.name,  \n         location.x, location.y, pass.end_location.x, pass.end_location.y, \n         pass.length, pass.angle, TimeInPoss, TimeToPossEnd)"
   },
   {
     "objectID": "health.html",
