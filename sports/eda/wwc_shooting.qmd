@@ -6,7 +6,7 @@ title: "EDA project: Women's World Cup shooting"
 
 ## Overview
 
-This project will be released on Thursday, June 5 and **conclude with an 8-minute presentation on Tuesday, June 17 during lab**.
+This project will be released on Thursday, June 5 and **conclude with a 6-minute presentation on Tuesday, June 17 during lab**.
 
 Students will be randomly placed into groups of 2--3 and each group will be randomly assigned a dataset.
 
@@ -14,21 +14,19 @@ The goal of this project is to practice understanding the structure of a dataset
 
 ## Deliverables
 
-Each group is expected to make slides to accompany the 8-minute presentation.
+Each group is expected to make slides to accompany the 6-minute presentation. All group members must be present for the presentation and participate. **No notes/scripts are allowed during the presentation.**
 
 The presentation should feature the following:
 
--   Overview of the structure of your dataset
+* Overview of the structure of your dataset
 
--   **Three questions/hypotheses** you are interested in exploring
+* **Two questions/hypotheses** you are interested in exploring
 
--   **Three data visualizations** exploring the questions, at least two of which must be multivariate. **Each visualization must be in a different format** from the other two, and you must have at least one categorical and one continuous visualization
+* **Two data visualizations** exploring the questions---both must be multivariate (i.e., involving 2+ variables) and in different formats
 
--   **One clustering analysis**
+* **One clustering analysis**
 
--   Conclusions for the hypotheses based on your EDA and data visualizations
-
-**No notes/scripts are allowed during the presentation.**
+* Conclusions for the hypotheses based on your EDA and data visualizations
 
 ## Timeline
 
@@ -81,14 +79,16 @@ Each row in the dataset corresponds to a shot attempt and the columns are:
 
 ## Starter code
 
-```{r, eval = FALSE}
+```{r}
+#| eval: false
 library(tidyverse)
 wwc_shots <- read_csv("https://raw.githubusercontent.com/36-SURE/2025/main/data/wwc_shots.csv")
 ```
 
 In case you're curious, the code to build this dataset can be found below.
 
-```{r, eval = FALSE}
+```{r}
+#| eval: false
 library(tidyverse)
 library(StatsBombR)
 
