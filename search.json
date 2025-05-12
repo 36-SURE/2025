@@ -63,6 +63,76 @@
     "text": "Date\nTitle\nMaterials\n\n\n\n\nLecture 0\nJune 2\nWelcome to SURE 2025\n\n\n\nLecture 1\nJune 3\nExploring data: into the tidyverse\nslides"
   },
   {
+    "objectID": "health/eda/nurses.html#overview",
+    "href": "health/eda/nurses.html#overview",
+    "title": "EDA project: registered nurses",
+    "section": "Overview",
+    "text": "Overview\nThis project will be released on Thursday, June 5 and conclude with a 6-minute presentation on Tuesday, June 17 during lab.\nStudents will be randomly placed into groups of 2–3 and each group will be randomly assigned a dataset.\nThe goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques."
+  },
+  {
+    "objectID": "health/eda/nurses.html#deliverables",
+    "href": "health/eda/nurses.html#deliverables",
+    "title": "EDA project: registered nurses",
+    "section": "Deliverables",
+    "text": "Deliverables\nEach group is expected to make slides to accompany the 6-minute presentation. All group members must be present for the presentation and participate. No notes/scripts are allowed during the presentation.\nThe presentation should feature the following:\n\nOverview of the structure of your dataset\nTwo questions/hypotheses you are interested in exploring\nTwo data visualizations exploring the questions—both must be multivariate (i.e., involving 2+ variables) and in different formats\nOne clustering analysis\nConclusions for the hypotheses based on your EDA and data visualizations"
+  },
+  {
+    "objectID": "health/eda/nurses.html#timeline",
+    "href": "health/eda/nurses.html#timeline",
+    "title": "EDA project: registered nurses",
+    "section": "Timeline",
+    "text": "Timeline\nThere will be two submission deadlines:\nThursday, June 12 at 5pm ET - Each student will push their individual code for the project thus far to GitHub for review.\nTuesday, June 17 at 1pm ET - Slides and full code must be completed and ready for presentation. Send your slides to Quang (quang@stat.cmu.edu). All code must be written in R; but the slides may be created in any software. Take advantage of examples from lectures, but also feel free to explore online resources that may be relevant. (But be sure to always consult the R help documentation first before attempting to google around or ask ChatGPT.)"
+  },
+  {
+    "objectID": "health/eda/nurses.html#data",
+    "href": "health/eda/nurses.html#data",
+    "title": "EDA project: registered nurses",
+    "section": "Data",
+    "text": "Data\nThis dataset contains registered nursing labor stats for every year between 1998 and 2020 across the US states and territories. The data came from the TidyTuesday project with original source from Data.World.\nEach row in the dataset corresponds to a US state/territory and the columns are:\n\nState: name of the US state or territory\nYear: year\nTotal Employed RN: estimated total employment rounded to the nearest 10 (excludes self-employed)\nEmployed Standard Error (%): percent relative standard error (PRSE) for the employment estimate. PRSE is a measure of sampling error, expressed as a percentage of the corresponding estimate. Sampling error occurs when values for a population are estimated from a sample survey of the population, rather than calculated from data for all members of the population. Estimates with lower PRSEs are typically more precise in the presence of sampling error.\nHourly Wage Avg: mean hourly wage\nHourly Wage Median: hourly median wage (or the 50th percentile)\nAnnual Salary Avg: mean annual wage\nAnnual Salary Median: annual median wage (or the 50th percentile)\nWage/Salary standard error (%): percent relative standard error (PRSE) for the mean wage estimate\nHourly 10th Percentile: hourly 10th percentile wage\nHourly 25th Percentile: hourly 25th percentile wage\nHourly 75th Percentile: hourly 75th percentile wage\nHourly 90th Percentile: hourly 90th percentile wage\nAnnual 10th Percentile: annual 10th percentile wage\nAnnual 25th Percentile: annual 25th percentile wage\nAnnual 75th Percentile: annual 75th percentile wage\nAnnual 90th Percentile: annual 90th percentile wage\nLocation Quotient: the location quotient represents the ratio of an occupation’s share of employment in a given area to that occupation’s share of employment in the U.S. as a whole. For example, an occupation that makes up 10 percent of employment in a specific metropolitan area compared with 2 percent of U.S. employment would have a location quotient of 5 for the area in question. Only available for the state, metropolitan area, and nonmetropolitan area estimates; otherwise, this column is blank.\nTotal Employed (National)_Aggregate: total employment (national)\nTotal Employed (Healthcare, National)_Aggregate: total employment (healthcare, national)\nTotal Employed (Healthcare, State)_Aggregate: total employment (healthcare, state)\nYearly Total Employed (State)_Aggregate: yearly total employment (state)"
+  },
+  {
+    "objectID": "health/eda/nurses.html#starter-code",
+    "href": "health/eda/nurses.html#starter-code",
+    "title": "EDA project: registered nurses",
+    "section": "Starter code",
+    "text": "Starter code\n\nlibrary(tidyverse)\nnurses &lt;- read_csv(\"https://raw.githubusercontent.com/36-SURE/2025/main/data/nurses.csv\")"
+  },
+  {
+    "objectID": "health/eda/prescriptions.html#overview",
+    "href": "health/eda/prescriptions.html#overview",
+    "title": "EDA project: opioid prescriptions and claims",
+    "section": "Overview",
+    "text": "Overview\nThis project will be released on Thursday, June 5 and conclude with a 6-minute presentation on Tuesday, June 17 during lab.\nStudents will be randomly placed into groups of 2–3 and each group will be randomly assigned a dataset.\nThe goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques."
+  },
+  {
+    "objectID": "health/eda/prescriptions.html#deliverables",
+    "href": "health/eda/prescriptions.html#deliverables",
+    "title": "EDA project: opioid prescriptions and claims",
+    "section": "Deliverables",
+    "text": "Deliverables\nEach group is expected to make slides to accompany the 6-minute presentation. All group members must be present for the presentation and participate. No notes/scripts are allowed during the presentation.\nThe presentation should feature the following:\n\nOverview of the structure of your dataset\nTwo questions/hypotheses you are interested in exploring\nTwo data visualizations exploring the questions—both must be multivariate (i.e., involving 2+ variables) and in different formats\nOne clustering analysis\nConclusions for the hypotheses based on your EDA and data visualizations"
+  },
+  {
+    "objectID": "health/eda/prescriptions.html#timeline",
+    "href": "health/eda/prescriptions.html#timeline",
+    "title": "EDA project: opioid prescriptions and claims",
+    "section": "Timeline",
+    "text": "Timeline\nThere will be two submission deadlines:\nThursday, June 12 at 5pm ET - Each student will push their individual code for the project thus far to GitHub for review.\nTuesday, June 17 at 1pm ET - Slides and full code must be completed and ready for presentation. Send your slides to Quang (quang@stat.cmu.edu). All code must be written in R; but the slides may be created in any software. Take advantage of examples from lectures, but also feel free to explore online resources that may be relevant. (But be sure to always consult the R help documentation first before attempting to google around or ask ChatGPT.)"
+  },
+  {
+    "objectID": "health/eda/prescriptions.html#data",
+    "href": "health/eda/prescriptions.html#data",
+    "title": "EDA project: opioid prescriptions and claims",
+    "section": "Data",
+    "text": "Data\nThis dataset contains information on Medicare Part D Prescription Claims. Under the Medicare Part D Prescription Drug program, information is tracked for opioids and other drugs prescribed by physicians and other health care providers including the number of prescriptions dispensed (original prescriptions and refills), the total drug cost, beneficiary demographics (65+), related claims information, as well as information about the physician/provider such as their specialization and location.\nThe sample of data is proportionally sampled across the states (e.g. 5% from each state), and includes the following columns:\n\nNPI: national provider identifier for the performing provider on the claim\nLastName: provider last name\nFirstName: rovider first name\nCity: city where the provider is located\nState: state where the provider is located\nSpecialty: specialty of the provider derived from the Medicare code reported on the claims\nBrandName: brand name of the drug filled\nGenericName: generic name/chemical ingredient of the drug filled\nNumberClaims: number of Medicare Part D claims filled (includes original prescriptions and refills)\nNumber30DayFills: aggregated number of Medicare Part D standardized 30-day fills (number of days supplied dived by 30; if &lt; 1.0, bottom-coded as 1.0; if &gt; 12.0, top-coded as 12.0\nNumberDaysSupply: aggregated number of day’s supply for which the drug is dispersed\nTotalDrugCost: aggregated drug cost paid for all associated claims\nNumberMedicareBeneficiaries: total number of unique Medicare Part D beneficiaries with at least one claim for the drug\nNumberClaims65Older: number of Medicare Part D claims for beneficiaries age 65 and older\nNumber30DayFills65Older: number of Medicare Part D standardized 30-day fills for beneficiaries age 65 and older (see Number30DayFills for standardized definition)\nTotalDrugCost65Older: aggregated total drug cost paid for all associated claims for beneficiaries age 65 and older\nNumberDaysSupply65Older: aggregated number of day’s supply for which this drug was dispensed, for beneficiaries age 65 and older\nNumberMedicareBeneficiaries65Older: number of unique Medicare Part D beneficiaries age 65 and older with at least one claim for the drug\nType: type of drug used: Brand or Generic\nOpioidFlag: whether the drug is an opioid or not an opioid\nSpecialtyCateg: provider specialty in broader categories (see Specialty variable)"
+  },
+  {
+    "objectID": "health/eda/prescriptions.html#starter-code",
+    "href": "health/eda/prescriptions.html#starter-code",
+    "title": "EDA project: opioid prescriptions and claims",
+    "section": "Starter code",
+    "text": "Starter code\n\nlibrary(tidyverse)\nprescriptions &lt;- read_csv(\"https://raw.githubusercontent.com/36-SURE/2025/main/data/prescriptions.csv\")"
+  },
+  {
     "objectID": "sports/eda/nfl_passing.html#overview",
     "href": "sports/eda/nfl_passing.html#overview",
     "title": "EDA project: NFL passing",
@@ -1888,6 +1958,76 @@
     "title": "EDA project: UFA throwing",
     "section": "Starter code",
     "text": "Starter code\n\nlibrary(tidyverse)\nufa_throws &lt;- read_csv(\"https://raw.githubusercontent.com/36-SURE/2025/main/data/ufa_throws.csv\")\n\nIn case you’re curious, the code to build this dataset can be found below. (Note that the data were originally downloaded from the MoneyPuck site.)\n\nufa_throws &lt;- read_csv(\"https://raw.githubusercontent.com/BradenEberhard/Expected-Throwing-Value/refs/heads/main/data/all_games_1024.csv\")\n\nufa_throws &lt;- ufa_throws |&gt; \n  mutate(\n    goal = ifelse(receiver_y &gt; 100 & turnover == 0, 1, 0),\n    throw_distance = sqrt((receiver_x - thrower_x) ^ 2 + (receiver_y - thrower_y) ^ 2),\n    x_diff = receiver_x - thrower_x,\n    y_diff = receiver_y - thrower_y,\n    throw_angle = atan2(y_diff, x_diff)\n  ) |&gt; \n  select(-quarter_point, -total_points, -current_line)"
+  },
+  {
+    "objectID": "health/eda/hospitals.html#overview",
+    "href": "health/eda/hospitals.html#overview",
+    "title": "EDA project: hospital ratings",
+    "section": "Overview",
+    "text": "Overview\nThis project will be released on Thursday, June 5 and conclude with a 6-minute presentation on Tuesday, June 17 during lab.\nStudents will be randomly placed into groups of 2–3 and each group will be randomly assigned a dataset.\nThe goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques."
+  },
+  {
+    "objectID": "health/eda/hospitals.html#deliverables",
+    "href": "health/eda/hospitals.html#deliverables",
+    "title": "EDA project: hospital ratings",
+    "section": "Deliverables",
+    "text": "Deliverables\nEach group is expected to make slides to accompany the 6-minute presentation. All group members must be present for the presentation and participate. No notes/scripts are allowed during the presentation.\nThe presentation should feature the following:\n\nOverview of the structure of your dataset\nTwo questions/hypotheses you are interested in exploring\nTwo data visualizations exploring the questions—both must be multivariate (i.e., involving 2+ variables) and in different formats\nOne clustering analysis\nConclusions for the hypotheses based on your EDA and data visualizations"
+  },
+  {
+    "objectID": "health/eda/hospitals.html#timeline",
+    "href": "health/eda/hospitals.html#timeline",
+    "title": "EDA project: hospital ratings",
+    "section": "Timeline",
+    "text": "Timeline\nThere will be two submission deadlines:\nThursday, June 12 at 5pm ET - Each student will push their individual code for the project thus far to GitHub for review.\nTuesday, June 17 at 1pm ET - Slides and full code must be completed and ready for presentation. Send your slides to Quang (quang@stat.cmu.edu). All code must be written in R; but the slides may be created in any software. Take advantage of examples from lectures, but also feel free to explore online resources that may be relevant. (But be sure to always consult the R help documentation first before attempting to google around or ask ChatGPT.)"
+  },
+  {
+    "objectID": "health/eda/hospitals.html#data",
+    "href": "health/eda/hospitals.html#data",
+    "title": "EDA project: hospital ratings",
+    "section": "Data",
+    "text": "Data\nThis dataset contains information on hospital ratings curated by the CORGIS Dataset Project. The goal of this project was to: “allow consumers to directly compare across hospitals performance measure information related to heart attack, emergency department care, preventive care, stroke care, and other conditions. The data is part of an Administration-wide effort to increase the availability and accessibility of information on quality, utilization, and costs for effective, informed decision-making.” The original source of data can be found here.\nEach row of the dataset corresponds to a single hospital and the columns with definitions borrowed from the online glossary are:\n\nFacility.Name: name of the hospital\nFacility.City: city in which the hospital is located\nFacility.State: two letter capitalized abbreviation of the State in which the hospital is located\nFacility.Type: type of organization operating the hospital: one of Government, Private, Proprietary, Church, or Unknown\nRating.Overall: overall rating between 1 and 5 stars, with 5 stars being the highest rating; -1 represents no rating\nRating.Mortality: Above, Same, Below, or Unknown comparison to national hospital mortality\nRating.Safety: Above, Same, Below, or Unknown comparison to national hospital safety\nRating.Readmission: Above, Same, Below, or Unknown comparison to national hospital readmission\nRating.Experience: Above, Same, Below, or Unknown comparison to national hospital patience experience\nRating.Effectiveness: Above, Same, Below, or Unknown comparison to national hospital effectiveness of care\nRating.Timeliness: Above, Same, Below, or Unknown comparison to national hospital timeliness of care\nRating.Imaging: Above, Same, Below, or Unknown comparison to national hospital effective use of imaging\nProcedure.Heart Attack.Cost: Average cost of care for heart attacks\nProcedure.Heart Attack.Quality: Lower, Average, Worse, or Unknown comparison to national quality of care for heart attacks\nProcedure.Heart Attack.Value: Lower, Average, Worse, or Unknown comparison to national cost of care for heart attacks\nProcedure.Heart Failure.Cost: Average cost of care for heart failure\nProcedure.Heart Failure.Quality: Lower, Average, Worse, or Unknown comparison to national quality of care for heart failures\nProcedure.Heart Failure.Value: Lower, Average, Worse, or Unknown comparison to national cost of care for heart failures\nProcedure.Pneumonia.Cost: Average cost of care for pneumonia\nProcedure.Pneumonia.Quality: Lower, Average, Worse, or Unknown comparison to national quality of care for pneumonia\nProcedure.Pneumonia.Value: Lower, Average, Worse, or Unknown comparison to national cost of care for pneumonia\nProcedure.Hip Knee.Cost: Average cost of care for hip or knee conditions\nProcedure.Hip Knee.Quality: Lower, Average, Worse, or Unknown comparison to national quality of care for hip or knee conditions\nProcedure.Hip Knee.Value: Lower, Average, Worse, or Unknown comparison to national cost of care for hip or knee conditions"
+  },
+  {
+    "objectID": "health/eda/hospitals.html#starter-code",
+    "href": "health/eda/hospitals.html#starter-code",
+    "title": "EDA project: hospital ratings",
+    "section": "Starter code",
+    "text": "Starter code\n\nlibrary(tidyverse)\nhospitals &lt;- read_csv(\"https://raw.githubusercontent.com/36-SURE/2025/main/data/hospitals.csv\")"
+  },
+  {
+    "objectID": "health/eda/maternal.html#overview",
+    "href": "health/eda/maternal.html#overview",
+    "title": "EDA project: maternal healthcare disparities",
+    "section": "Overview",
+    "text": "Overview\nThis project will be released on Thursday, June 5 and conclude with a 6-minute presentation on Tuesday, June 17 during lab.\nStudents will be randomly placed into groups of 2–3 and each group will be randomly assigned a dataset.\nThe goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques."
+  },
+  {
+    "objectID": "health/eda/maternal.html#deliverables",
+    "href": "health/eda/maternal.html#deliverables",
+    "title": "EDA project: maternal healthcare disparities",
+    "section": "Deliverables",
+    "text": "Deliverables\nEach group is expected to make slides to accompany the 6-minute presentation. All group members must be present for the presentation and participate. No notes/scripts are allowed during the presentation.\nThe presentation should feature the following:\n\nOverview of the structure of your dataset\nTwo questions/hypotheses you are interested in exploring\nTwo data visualizations exploring the questions—both must be multivariate (i.e., involving 2+ variables) and in different formats\nOne clustering analysis\nConclusions for the hypotheses based on your EDA and data visualizations"
+  },
+  {
+    "objectID": "health/eda/maternal.html#timeline",
+    "href": "health/eda/maternal.html#timeline",
+    "title": "EDA project: maternal healthcare disparities",
+    "section": "Timeline",
+    "text": "Timeline\nThere will be two submission deadlines:\nThursday, June 12 at 5pm ET - Each student will push their individual code for the project thus far to GitHub for review.\nTuesday, June 17 at 1pm ET - Slides and full code must be completed and ready for presentation. Send your slides to Quang (quang@stat.cmu.edu). All code must be written in R; but the slides may be created in any software. Take advantage of examples from lectures, but also feel free to explore online resources that may be relevant. (But be sure to always consult the R help documentation first before attempting to google around or ask ChatGPT.)"
+  },
+  {
+    "objectID": "health/eda/maternal.html#data",
+    "href": "health/eda/maternal.html#data",
+    "title": "EDA project: maternal healthcare disparities",
+    "section": "Data",
+    "text": "Data\nThis dataset contains information on maternal healthcare disparities. The Centers for Disease Control and Prevention WONDER program helps track information related to birth records, parent demographics and risk factors, pregnancy history and pre-natal care characteristics. This data source could help identify combinations of risk factors more commonly associated with adverse outcomes which could then be utilized to develop better pre-natal care programs or targeted interventions to reduce disparities and improve patient outcomes across all ethnicity.\nThe dataset is a sample of data from the CDC Wonder database for available birth records from 2019 that has been aggregated by state and a few conditions (the number of prior births now deceased and whether the mother smoked or had pre-pregnancy diabetes or pre-pregnancy hypertension). For example, the first row corresponds to the set of births that were born to women in Alabama who had no prior births deceased, smoked, and had both diabetes and hypertension pre-pregnancy. There were 12 such births, and the following variables (e.g. mother’s age) describe the mothers/infants in that set of 12.\n\nState: name of the state\nPriorBirthsNowDeceased: number of prior births now deceased\nTobaccoUse: whether the mother uses tobacco products\nPrePregnancyDiabetes: whether the mother had diabetes prior to becoming pregnant\nPrePregnancyHypertension: whether the mother had hypertension prior to becoming pregnant\nBirths: number of births in that state with a defined combination of the previous four conditions (PriorBirthsNowDeceased, TobaccoUse, PrePregnancyDiabetes, PrePregnancyHypertension)\nAverageMotherAge: average mother’s age for the corresponding group of births\nAverageBirthWeight: average birth weight in grams for the corresponding group of births\nAveragePrePregnancyBMI: average pre-pregnancy BMI of the mother for the corresponding group of births\nAverageNumberPrenatalVisits: average number of prenatal visits of the mother for the corresponding group of births\nAverageIntervalSinceLastBirth: average length of time since the last birth for the corresponding group of births"
+  },
+  {
+    "objectID": "health/eda/maternal.html#starter-code",
+    "href": "health/eda/maternal.html#starter-code",
+    "title": "EDA project: maternal healthcare disparities",
+    "section": "Starter code",
+    "text": "Starter code\n\nlibrary(tidyverse)\nmaternal &lt;- read_csv(\"https://raw.githubusercontent.com/36-SURE/2025/main/data/maternal.csv\")"
   },
   {
     "objectID": "health.html",
