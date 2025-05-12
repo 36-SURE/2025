@@ -63,6 +63,41 @@
     "text": "Date\nTitle\nMaterials\n\n\n\n\nLecture 0\nJune 2\nWelcome to SURE 2025\n\n\n\nLecture 1\nJune 3\nExploring data: into the tidyverse\nslides"
   },
   {
+    "objectID": "sports/eda/nfl_passing.html#overview",
+    "href": "sports/eda/nfl_passing.html#overview",
+    "title": "EDA project: NFL passing",
+    "section": "Overview",
+    "text": "Overview\nThis project will be released on Thursday, June 5 and conclude with an 8-minute presentation on Tuesday, June 17 during lab.\nStudents will be randomly placed into groups of 2–3 and each group will be randomly assigned a dataset.\nThe goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques."
+  },
+  {
+    "objectID": "sports/eda/nfl_passing.html#deliverables",
+    "href": "sports/eda/nfl_passing.html#deliverables",
+    "title": "EDA project: NFL passing",
+    "section": "Deliverables",
+    "text": "Deliverables\nEach group is expected to make slides to accompany the 8-minute presentation.\nThe presentation should feature the following:\n\nOverview of the structure of your dataset\nThree questions/hypotheses you are interested in exploring\nThree data visualizations exploring the questions, at least two of which must be multivariate. Each visualization must be in a different format from the other two, and you must have at least one categorical and one continuous visualization\nOne clustering analysis\nConclusions for the hypotheses based on your EDA and data visualizations\n\nNo notes/scripts are allowed during the presentation."
+  },
+  {
+    "objectID": "sports/eda/nfl_passing.html#timeline",
+    "href": "sports/eda/nfl_passing.html#timeline",
+    "title": "EDA project: NFL passing",
+    "section": "Timeline",
+    "text": "Timeline\nThere will be two submission deadlines:\nThursday, June 12 at 5pm ET - Each student will push their individual code for the project thus far to GitHub for review.\nTuesday, June 17 at 1pm ET - Slides and full code must be completed and ready for presentation. Send your slides to Quang (quang@stat.cmu.edu). All code must be written in R; but the slides may be created in any software. Take advantage of examples from lectures, but also feel free to explore online resources that may be relevant. (But be sure to always consult the R help documentation first before attempting to google around or ask ChatGPT.)"
+  },
+  {
+    "objectID": "sports/eda/nfl_passing.html#data",
+    "href": "sports/eda/nfl_passing.html#data",
+    "title": "EDA project: NFL passing",
+    "section": "Data",
+    "text": "Data\nThis dataset contains pass attempts from weeks 1–9 of the 2022 NFL regular season, courtesy of the nflreadr package (part of the nflverse) and the 2025 NFL Big Data Bowl.\nEach row in the dataset corresponds to a pass attempt and the columns are:\n\ngame_id: unique identifier for a game\n\nplay_id: unique identifier for a play (within a game)\npasser_player_name: name of the player that attempted the pass\npasser_player_id: unique identifier for the player that attempted the pass\nposteam: abbreviation for the team with possession\ncomplete_pass: indicator denoting whether or not the pass was completed\ninterception: indicator denoting whether or not the pass was intercepted by the defense\nyards_gained: yards gained (or lost) by the possessing team, excluding yards gained via fumble recoveries and laterals\ntouchdown: indicator denoting if the play resulted in a touchdown\npass_location: categorical location of pass\npass_length: categorical length of pass\nair_yards: distance in yards perpendicular to the line of scrimmage at where the targeted receiver either caught or didn’t catch the ball\nyards_after_catch: distance in yards perpendicular to the yard line where the receiver made the reception to where the play ended\nshotgun: indicator for whether or not the play was in shotgun formation\nno_huddle: indicator for whether or not the play was in no_huddle formation\ndefteam: abbreviation for the team on defense\nposteam_type: indicating whether the posteam team is home or away\nyardline_100: distance in the number of yards from the opponent’s endzone for the posteam\nside_of_field: abbreviation for which team’s side of the field the team with possession is currently on\ndown: down for the given play\nqtr: quarter of the game (5 is overtime)\nhalf_seconds_remaining: seconds remaining in the half\ngame_half: indicating which half the play is in\nhome_team: abbreviation for the home team\naway_team: abbreviation for the away team\nhome_score: total points scored by the home team\naway_score: total points scored by the away team\ntarget_player_id: unique identifier for the intended receiver\n\ntarget_player_name: name of the intended receiver\n\nhad_pass_reception: whether the pass was caught by the intended receiver\nmotion_since_lineset: whether the intended receiver went in motion after they were initially set at the line of scrimmage\nroute_ran: route ran by the intended receiver\n\noffense_formation: formation used by the offense\ntarget_x: x coordinate (along the end zone direction) of targeted receiver when the pass arrived (Note: all locations have been standardized so that the possession team is going from left to right. Higher x values means closer to the target end zone)\n\ntarget_y: y coordinate (along the sideline direction) of targeted receiver when the pass arrived\n\ntime_to_throw: time (in seconds) elapsed between snap and pass"
+  },
+  {
+    "objectID": "sports/eda/nfl_passing.html#starter-code",
+    "href": "sports/eda/nfl_passing.html#starter-code",
+    "title": "EDA project: NFL passing",
+    "section": "Starter code",
+    "text": "Starter code\n\nlibrary(tidyverse)\nnfl_passes &lt;- read_csv(\"https://raw.githubusercontent.com/36-SURE/2025/main/data/nfl_passes.csv\")"
+  },
+  {
     "objectID": "sports/eda/nhl_shooting.html#overview",
     "href": "sports/eda/nhl_shooting.html#overview",
     "title": "EDA project: NHL shooting",
@@ -1818,6 +1853,41 @@
     "title": "EDA project: NHL shots",
     "section": "Starter code",
     "text": "Starter code\n\nlibrary(tidyverse)\nmlb_batted_balls &lt;- read_csv(\"https://raw.githubusercontent.com/36-SURE/2025/main/data/mlb_batted_balls.csv\")\n\nIn case you’re curious, the code to build this dataset can be found below.\n\n# devtools::install_github(repo = \"saberpowers/sabRmetrics\")\nlibrary(tidyverse)\nlibrary(sabRmetrics)\nmlb_batted_balls &lt;- download_baseballsavant(start_date = \"2024-04-03\",\n                                            end_date = \"2024-12-31\")\n\nmlb_batted_balls |&gt; \n  filter(type == \"X\") |&gt; \n  select(batter_name, batter_id, bat_side, bb_type,\n         pitcher_id, pitch_number, pitch_type, pitch_name, pitch_hand,\n         events, hit_coord_x, hit_coord_y, launch_speed, launch_angle,\n         bat_speed, swing_length, arm_angle, hit_location, \n         release_speed, effective_speed,\n         strike_zone_top, strike_zone_bottom,\n         release_spin_rate, extension,\n         ax, ay, az, vx0, vy0, vz0, \n         release_pos_x, release_pos_y, release_pos_z,\n         plate_x, plate_z, pfx_x, pfx_z,\n         if_fielding_alignment, of_fielding_alignment,\n         game_date, balls, strikes, outs, inning, inning_topbot,\n         pre_runner_1b_id, pre_runner_2b_id, pre_runner_3b_id,\n         home_score, away_score, post_home_score, post_away_score, des)"
+  },
+  {
+    "objectID": "sports/eda/ufa_throwing.html#overview",
+    "href": "sports/eda/ufa_throwing.html#overview",
+    "title": "EDA project: UFA throwing",
+    "section": "Overview",
+    "text": "Overview\nThis project will be released on Thursday, June 5 and conclude with an 8-minute presentation on Tuesday, June 17 during lab.\nStudents will be randomly placed into groups of 2–3 and each group will be randomly assigned a dataset.\nThe goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques."
+  },
+  {
+    "objectID": "sports/eda/ufa_throwing.html#deliverables",
+    "href": "sports/eda/ufa_throwing.html#deliverables",
+    "title": "EDA project: UFA throwing",
+    "section": "Deliverables",
+    "text": "Deliverables\nEach group is expected to make slides to accompany the 8-minute presentation.\nThe presentation should feature the following:\n\nOverview of the structure of your dataset\nThree questions/hypotheses you are interested in exploring\nThree data visualizations exploring the questions, at least two of which must be multivariate. Each visualization must be in a different format from the other two, and you must have at least one categorical and one continuous visualization\nOne clustering analysis\nConclusions for the hypotheses based on your EDA and data visualizations\n\nNo notes/scripts are allowed during the presentation."
+  },
+  {
+    "objectID": "sports/eda/ufa_throwing.html#timeline",
+    "href": "sports/eda/ufa_throwing.html#timeline",
+    "title": "EDA project: UFA throwing",
+    "section": "Timeline",
+    "text": "Timeline\nThere will be two submission deadlines:\nThursday, June 12 at 5pm ET - Each student will push their individual code for the project thus far to GitHub for review.\nTuesday, June 17 at 1pm ET - Slides and full code must be completed and ready for presentation. Send your slides to Quang (quang@stat.cmu.edu). All code must be written in R; but the slides may be created in any software. Take advantage of examples from lectures, but also feel free to explore online resources that may be relevant. (But be sure to always consult the R help documentation first before attempting to google around or ask ChatGPT.)"
+  },
+  {
+    "objectID": "sports/eda/ufa_throwing.html#data",
+    "href": "sports/eda/ufa_throwing.html#data",
+    "title": "EDA project: UFA throwing",
+    "section": "Data",
+    "text": "Data\nThis dataset contains throw attempts in the Ultimate Frisbee Association from 2021 to 2024. The Ultimate Frisbee Association (UFA), formerly known as the American Ultimate Disc League (AUDL), is the top professional ultimate league in North America. The data were used in the 2025 SSAC paper by Eberhard, Miller and Sandholz and made available on GitHub.\nEach row in the dataset corresponds to a throw attempt and the columns are:\n\nthrower: thrower name identifier\nthrower_x: (standardized) x coordinate of thrower (position along the sideline direction; 0 represents the middle of the field, positive values denote the left side (with respect to facing the target end zone), and negative values denote the right side)\nthrower_y: y coordinate of thrower (position along the end zone direction; higher y means closer to the target end zone)\nreceiver: receiver name identifier\nreceiver_x: (standardized) x coordinate of receiver (position along the sideline direction; 0 represents the middle of the field, positive values denote the left side (with respect to facing the target end zone), and negative values denote the right side)\nreceiver_y: y coordinate of receiver (position along the end zone direction; higher y means closer to the target end zone)\nreceiver: receiver name identifier\nturnover: whether the throw results in a turnover\npossession_num: possession number within a game\npossession_throw: throw number within a possession\ngame_quarter: quarter within a game\nis_home_team: whether the offense is the home team\nhome_team_score: home team score\naway_team_score: away team score\ngameID: unique identifier for game\nhome_teamID: home team name identifier\naway_teamID: away team name identifier\ntimes: game time remaining (seconds)\nhome_team_win: whether home team wins\nscore_diff: score difference between home and away teams\ngoal: whether the throw results in a goal\nthrow_distance: throw distance (yards)\nx_diff: difference in x coordinates between thrower and receiver\ny_diff: difference in y coordinates between thrower and receiver\n\nthrow_angle: throw angle (radians, 0 means forward, \\(\\pi\\) means backward, positive values mean to the right, and negative values mean to the left of the thrower)"
+  },
+  {
+    "objectID": "sports/eda/ufa_throwing.html#starter-code",
+    "href": "sports/eda/ufa_throwing.html#starter-code",
+    "title": "EDA project: UFA throwing",
+    "section": "Starter code",
+    "text": "Starter code\n\nlibrary(tidyverse)\nufa_throws &lt;- read_csv(\"https://raw.githubusercontent.com/36-SURE/2025/main/data/ufa_throws.csv\")\n\nIn case you’re curious, the code to build this dataset can be found below. (Note that the data were originally downloaded from the MoneyPuck site.)\n\nufa_throws &lt;- read_csv(\"https://raw.githubusercontent.com/BradenEberhard/Expected-Throwing-Value/refs/heads/main/data/all_games_1024.csv\")\n\nufa_throws &lt;- ufa_throws |&gt; \n  mutate(\n    goal = ifelse(receiver_y &gt; 100 & turnover == 0, 1, 0),\n    throw_distance = sqrt((receiver_x - thrower_x) ^ 2 + (receiver_y - thrower_y) ^ 2),\n    x_diff = receiver_x - thrower_x,\n    y_diff = receiver_y - thrower_y,\n    throw_angle = atan2(y_diff, x_diff)\n  ) |&gt; \n  select(-quarter_point, -total_points, -current_line)"
   },
   {
     "objectID": "health.html",
