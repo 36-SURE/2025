@@ -1,0 +1,63 @@
+---
+title: "EDA project: maternal healthcare disparities"
+---
+
+---
+
+## Overview
+
+This project will be released on Thursday, June 5 and **conclude with a 6-minute presentation on Tuesday, June 17 during lab**.
+
+Students will be randomly placed into groups of 2--3 and each group will be randomly assigned a dataset.
+
+The goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques.
+
+## Deliverables
+
+Each group is expected to make slides to accompany the 6-minute presentation. All group members must be present for the presentation and participate. **No notes/scripts are allowed during the presentation.**
+
+The presentation should feature the following:
+
+* Overview of the structure of your dataset
+
+* **Two questions/hypotheses** you are interested in exploring
+
+* **Two data visualizations** exploring the questions---both must be multivariate (i.e., involving 2+ variables) and in different formats
+
+* **One clustering analysis**
+
+* Conclusions for the hypotheses based on your EDA and data visualizations
+
+## Timeline
+
+There will be two submission deadlines:
+
+**Thursday, June 12 at 5pm ET** - Each student will push their individual code for the project thus far to GitHub for review.
+
+**Tuesday, June 17 at 1pm ET** - Slides and full code must be completed and ready for presentation. Send your slides to Quang ([`quang@stat.cmu.edu`](mailto:quang@stat.cmu.edu)). All code must be written in `R`; but the slides may be created in any software. Take advantage of examples from lectures, but also feel free to explore online resources that may be relevant. (But be sure to always consult the `R` help documentation first before attempting to google around or ask ChatGPT.)
+
+## Data
+
+This dataset contains information on maternal healthcare disparities. The [Centers for Disease Control and Prevention WONDER program](https://wonder.cdc.gov/) helps track information related to birth records, parent demographics and risk factors, pregnancy history and pre-natal care characteristics. This data source could help identify combinations of risk factors more commonly associated with adverse outcomes which could then be utilized to develop better pre-natal care programs or targeted interventions to reduce disparities and improve patient outcomes across all ethnicity.
+
+The dataset is a sample of data from the CDC Wonder database for available birth records from 2019 that has been aggregated by state and a few conditions (the number of prior births now deceased and whether the mother smoked or had pre-pregnancy diabetes or pre-pregnancy hypertension). For example, the first row corresponds to the set of births that were born to women in Alabama who had no prior births deceased, smoked, and had both diabetes and hypertension pre-pregnancy. There were 12 such births, and the following variables (e.g. mother's age) describe the mothers/infants in that set of 12.
+
+* `State`: name of the state
+* `PriorBirthsNowDeceased`: number of prior births now deceased
+* `TobaccoUse`: whether the mother uses tobacco products
+* `PrePregnancyDiabetes`: whether the mother had diabetes prior to becoming pregnant
+* `PrePregnancyHypertension`: whether the mother had hypertension prior to becoming pregnant
+* `Births`: number of births in that state with a defined combination of the previous four conditions (`PriorBirthsNowDeceased`, `TobaccoUse`, `PrePregnancyDiabetes`, `PrePregnancyHypertension`)
+* `AverageMotherAge`: average mother's age for the corresponding group of births
+* `AverageBirthWeight`: average birth weight in grams for the corresponding group of births
+* `AveragePrePregnancyBMI`: average pre-pregnancy BMI of the mother for the corresponding group of births
+* `AverageNumberPrenatalVisits`: average number of prenatal visits of the mother for the corresponding group of births
+* `AverageIntervalSinceLastBirth`: average length of time since the last birth for the corresponding group of births
+
+## Starter code
+
+```{r}
+#| eval: false
+library(tidyverse)
+maternal <- read_csv("https://raw.githubusercontent.com/36-SURE/2025/main/data/maternal.csv")
+```

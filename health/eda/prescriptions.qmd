@@ -1,0 +1,73 @@
+---
+title: "EDA project: opioid prescriptions and claims"
+---
+
+---
+
+## Overview
+
+This project will be released on Thursday, June 5 and **conclude with a 6-minute presentation on Tuesday, June 17 during lab**.
+
+Students will be randomly placed into groups of 2--3 and each group will be randomly assigned a dataset.
+
+The goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques.
+
+## Deliverables
+
+Each group is expected to make slides to accompany the 6-minute presentation. All group members must be present for the presentation and participate. **No notes/scripts are allowed during the presentation.**
+
+The presentation should feature the following:
+
+* Overview of the structure of your dataset
+
+* **Two questions/hypotheses** you are interested in exploring
+
+* **Two data visualizations** exploring the questions---both must be multivariate (i.e., involving 2+ variables) and in different formats
+
+* **One clustering analysis**
+
+* Conclusions for the hypotheses based on your EDA and data visualizations
+
+## Timeline
+
+There will be two submission deadlines:
+
+**Thursday, June 12 at 5pm ET** - Each student will push their individual code for the project thus far to GitHub for review.
+
+**Tuesday, June 17 at 1pm ET** - Slides and full code must be completed and ready for presentation. Send your slides to Quang ([`quang@stat.cmu.edu`](mailto:quang@stat.cmu.edu)). All code must be written in `R`; but the slides may be created in any software. Take advantage of examples from lectures, but also feel free to explore online resources that may be relevant. (But be sure to always consult the `R` help documentation first before attempting to google around or ask ChatGPT.)
+
+## Data
+
+This dataset contains information on Medicare Part D Prescription Claims. Under the [Medicare Part D Prescription Drug program](https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers/medicare-part-d-prescribers-by-provider-and-drug), information is tracked for opioids and other drugs prescribed by physicians and other health care providers including the number of prescriptions dispensed (original prescriptions and refills), the total drug cost, beneficiary demographics (65+), related claims information, as well as information about the physician/provider such as their specialization and location.
+
+The sample of data is proportionally sampled across the states (e.g. 5% from each state), and includes the following columns:
+
+* `NPI`: national provider identifier for the performing provider on the claim
+* `LastName`: provider last name
+* `FirstName`: rovider first name
+* `City`: city where the provider is located
+* `State`: state where the provider is located
+* `Specialty`: specialty of the provider derived from the Medicare code reported on the claims
+* `BrandName`: brand name of the drug filled
+* `GenericName`: generic name/chemical ingredient of the drug filled
+* `NumberClaims`: number of Medicare Part D claims filled (includes original prescriptions and refills)
+* `Number30DayFills`: aggregated number of Medicare Part D standardized 30-day fills (number of days supplied dived by 30; if \< 1.0, bottom-coded as 1.0; if \> 12.0, top-coded as 12.0
+* `NumberDaysSupply`: aggregated number of day's supply for which the drug is dispersed
+* `TotalDrugCost`: aggregated drug cost paid for all associated claims
+* `NumberMedicareBeneficiaries`: total number of unique Medicare Part D beneficiaries with at least one claim for the drug
+* `NumberClaims65Older`: number of Medicare Part D claims for beneficiaries age 65 and older
+* `Number30DayFills65Older`: number of Medicare Part D standardized 30-day fills for beneficiaries age 65 and older (see `Number30DayFills` for standardized definition)
+* `TotalDrugCost65Older`: aggregated total drug cost paid for all associated claims for beneficiaries age 65 and older
+* `NumberDaysSupply65Older`: aggregated number of day’s supply for which this drug was dispensed, for beneficiaries age 65 and older
+* `NumberMedicareBeneficiaries65Older`: number of unique Medicare Part D beneficiaries age 65 and older with at least one claim for the drug
+* `Type`: type of drug used: Brand or Generic
+* `OpioidFlag`: whether the drug is an opioid or not an opioid
+* `SpecialtyCateg`: provider specialty in broader categories (see `Specialty` variable)
+
+## Starter code
+
+```{r}
+#| eval: false
+library(tidyverse)
+prescriptions <- read_csv("https://raw.githubusercontent.com/36-SURE/2025/main/data/prescriptions.csv")
+```

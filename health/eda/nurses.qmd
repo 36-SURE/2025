@@ -1,0 +1,74 @@
+---
+title: "EDA project: registered nurses"
+---
+
+---
+
+## Overview
+
+This project will be released on Thursday, June 5 and **conclude with a 6-minute presentation on Tuesday, June 17 during lab**.
+
+Students will be randomly placed into groups of 2--3 and each group will be randomly assigned a dataset.
+
+The goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques.
+
+## Deliverables
+
+Each group is expected to make slides to accompany the 6-minute presentation. All group members must be present for the presentation and participate. **No notes/scripts are allowed during the presentation.**
+
+The presentation should feature the following:
+
+* Overview of the structure of your dataset
+
+* **Two questions/hypotheses** you are interested in exploring
+
+* **Two data visualizations** exploring the questions---both must be multivariate (i.e., involving 2+ variables) and in different formats
+
+* **One clustering analysis**
+
+* Conclusions for the hypotheses based on your EDA and data visualizations
+
+## Timeline
+
+There will be two submission deadlines:
+
+**Thursday, June 12 at 5pm ET** - Each student will push their individual code for the project thus far to GitHub for review.
+
+**Tuesday, June 17 at 1pm ET** - Slides and full code must be completed and ready for presentation. Send your slides to Quang ([`quang@stat.cmu.edu`](mailto:quang@stat.cmu.edu)). All code must be written in `R`; but the slides may be created in any software. Take advantage of examples from lectures, but also feel free to explore online resources that may be relevant. (But be sure to always consult the `R` help documentation first before attempting to google around or ask ChatGPT.)
+
+## Data
+
+This dataset contains registered nursing labor stats for every year between 1998 and 2020 across the US states and territories. The data came from the [TidyTuesday](https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-10-05/readme.md) project with original source from [Data.World](https://data.world/zendoll27/registered-nursing-labor-stats-1998-2020).
+
+Each row in the dataset corresponds to a US state/territory and the columns are:
+
+* `State`: name of the US state or territory
+* `Year`: year
+* `Total Employed RN`: estimated total employment rounded to the nearest 10 (excludes self-employed)
+* `Employed Standard Error (%)`: percent relative standard error (PRSE) for the employment estimate. PRSE is a measure of sampling error, expressed as a percentage of the corresponding estimate. Sampling error occurs when values for a population are estimated from a sample survey of the population, rather than calculated from data for all members of the population. Estimates with lower PRSEs are typically more precise in the presence of sampling error.
+* `Hourly Wage Avg`: mean hourly wage
+* `Hourly Wage Median`: hourly median wage (or the 50th percentile)
+* `Annual Salary Avg`: mean annual wage
+* `Annual Salary Median`: annual median wage (or the 50th percentile)
+* `Wage/Salary standard error (%)`: percent relative standard error (PRSE) for the mean wage estimate
+* `Hourly 10th Percentile`: hourly 10th percentile wage
+* `Hourly 25th Percentile`: hourly 25th percentile wage
+* `Hourly 75th Percentile`: hourly 75th percentile wage
+* `Hourly 90th Percentile`: hourly 90th percentile wage
+* `Annual 10th Percentile`: annual 10th percentile wage
+* `Annual 25th Percentile`: annual 25th percentile wage
+* `Annual 75th Percentile`: annual 75th percentile wage
+* `Annual 90th Percentile`: annual 90th percentile wage
+* `Location Quotient`: the location quotient represents the ratio of an occupation’s share of employment in a given area to that occupation’s share of employment in the U.S. as a whole. For example, an occupation that makes up 10 percent of employment in a specific metropolitan area compared with 2 percent of U.S. employment would have a location quotient of 5 for the area in question. Only available for the state, metropolitan area, and nonmetropolitan area estimates; otherwise, this column is blank.
+* `Total Employed (National)_Aggregate`: total employment (national)
+* `Total Employed (Healthcare, National)_Aggregate`: total employment (healthcare, national)
+* `Total Employed (Healthcare, State)_Aggregate`: total employment (healthcare, state)
+* `Yearly Total Employed (State)_Aggregate`: yearly total employment (state)
+
+## Starter code
+
+```{r}
+#| eval: false
+library(tidyverse)
+nurses <- read_csv("https://raw.githubusercontent.com/36-SURE/2025/main/data/nurses.csv")
+```
