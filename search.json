@@ -67,14 +67,14 @@
     "href": "sports/eda/nfl_passing.html#overview",
     "title": "EDA project: NFL passing",
     "section": "Overview",
-    "text": "Overview\nThis project will be released on Thursday, June 5 and conclude with an 8-minute presentation on Tuesday, June 17 during lab.\nStudents will be randomly placed into groups of 2–3 and each group will be randomly assigned a dataset.\nThe goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques."
+    "text": "Overview\nThis project will be released on Thursday, June 5 and conclude with a 6-minute presentation on Tuesday, June 17 during lab.\nStudents will be randomly placed into groups of 2–3 and each group will be randomly assigned a dataset.\nThe goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques."
   },
   {
     "objectID": "sports/eda/nfl_passing.html#deliverables",
     "href": "sports/eda/nfl_passing.html#deliverables",
     "title": "EDA project: NFL passing",
     "section": "Deliverables",
-    "text": "Deliverables\nEach group is expected to make slides to accompany the 8-minute presentation.\nThe presentation should feature the following:\n\nOverview of the structure of your dataset\nThree questions/hypotheses you are interested in exploring\nThree data visualizations exploring the questions, at least two of which must be multivariate. Each visualization must be in a different format from the other two, and you must have at least one categorical and one continuous visualization\nOne clustering analysis\nConclusions for the hypotheses based on your EDA and data visualizations\n\nNo notes/scripts are allowed during the presentation."
+    "text": "Deliverables\nEach group is expected to make slides to accompany the 6-minute presentation. All group members must be present for the presentation and participate. No notes/scripts are allowed during the presentation.\nThe presentation should feature the following:\n\nOverview of the structure of your dataset\nTwo questions/hypotheses you are interested in exploring\nTwo data visualizations exploring the questions—both must be multivariate (i.e., involving 2+ variables) and in different formats\nOne clustering analysis\nConclusions for the hypotheses based on your EDA and data visualizations"
   },
   {
     "objectID": "sports/eda/nfl_passing.html#timeline",
@@ -102,14 +102,14 @@
     "href": "sports/eda/nhl_shooting.html#overview",
     "title": "EDA project: NHL shooting",
     "section": "Overview",
-    "text": "Overview\nThis project will be released on Thursday, June 5 and conclude with an 8-minute presentation on Tuesday, June 17 during lab.\nStudents will be randomly placed into groups of 2–3 and each group will be randomly assigned a dataset.\nThe goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques."
+    "text": "Overview\nThis project will be released on Thursday, June 5 and conclude with a 6-minute presentation on Tuesday, June 17 during lab.\nStudents will be randomly placed into groups of 2–3 and each group will be randomly assigned a dataset.\nThe goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques."
   },
   {
     "objectID": "sports/eda/nhl_shooting.html#deliverables",
     "href": "sports/eda/nhl_shooting.html#deliverables",
     "title": "EDA project: NHL shooting",
     "section": "Deliverables",
-    "text": "Deliverables\nEach group is expected to make slides to accompany the 8-minute presentation.\nThe presentation should feature the following:\n\nOverview of the structure of your dataset\nThree questions/hypotheses you are interested in exploring\nThree data visualizations exploring the questions, at least two of which must be multivariate. Each visualization must be in a different format from the other two, and you must have at least one categorical and one continuous visualization\nOne clustering analysis\nConclusions for the hypotheses based on your EDA and data visualizations\n\nNo notes/scripts are allowed during the presentation."
+    "text": "Deliverables\nEach group is expected to make slides to accompany the 6-minute presentation. All group members must be present for the presentation and participate. No notes/scripts are allowed during the presentation.\nThe presentation should feature the following:\n\nOverview of the structure of your dataset\nTwo questions/hypotheses you are interested in exploring\nTwo data visualizations exploring the questions—both must be multivariate (i.e., involving 2+ variables) and in different formats\nOne clustering analysis\nConclusions for the hypotheses based on your EDA and data visualizations"
   },
   {
     "objectID": "sports/eda/nhl_shooting.html#timeline",
@@ -137,14 +137,14 @@
     "href": "sports/eda/wwc_passing.html#overview",
     "title": "EDA project: Women’s World Cup passing",
     "section": "Overview",
-    "text": "Overview\nThis project will be released on Thursday, June 5 and conclude with an 8-minute presentation on Tuesday, June 17 during lab.\nStudents will be randomly placed into groups of 2–3 and each group will be randomly assigned a dataset.\nThe goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques."
+    "text": "Overview\nThis project will be released on Thursday, June 5 and conclude with a 6-minute presentation on Tuesday, June 17 during lab.\nStudents will be randomly placed into groups of 2–3 and each group will be randomly assigned a dataset.\nThe goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques."
   },
   {
     "objectID": "sports/eda/wwc_passing.html#deliverables",
     "href": "sports/eda/wwc_passing.html#deliverables",
     "title": "EDA project: Women’s World Cup passing",
     "section": "Deliverables",
-    "text": "Deliverables\nEach group is expected to make slides to accompany the 8-minute presentation.\nThe presentation should feature the following:\n\nOverview of the structure of your dataset\nThree questions/hypotheses you are interested in exploring\nThree data visualizations exploring the questions, at least two of which must be multivariate. Each visualization must be in a different format from the other two, and you must have at least one categorical and one continuous visualization\nOne clustering analysis\nConclusions for the hypotheses based on your EDA and data visualizations\n\nNo notes/scripts are allowed during the presentation."
+    "text": "Deliverables\nEach group is expected to make slides to accompany the 6-minute presentation. All group members must be present for the presentation and participate. No notes/scripts are allowed during the presentation.\nThe presentation should feature the following:\n\nOverview of the structure of your dataset\nTwo questions/hypotheses you are interested in exploring\nTwo data visualizations exploring the questions—both must be multivariate (i.e., involving 2+ variables) and in different formats\nOne clustering analysis\nConclusions for the hypotheses based on your EDA and data visualizations"
   },
   {
     "objectID": "sports/eda/wwc_passing.html#timeline",
@@ -1789,14 +1789,14 @@
     "href": "sports/eda/wwc_shooting.html#overview",
     "title": "EDA project: Women’s World Cup shooting",
     "section": "Overview",
-    "text": "Overview\nThis project will be released on Thursday, June 5 and conclude with an 8-minute presentation on Tuesday, June 17 during lab.\nStudents will be randomly placed into groups of 2–3 and each group will be randomly assigned a dataset.\nThe goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques."
+    "text": "Overview\nThis project will be released on Thursday, June 5 and conclude with a 6-minute presentation on Tuesday, June 17 during lab.\nStudents will be randomly placed into groups of 2–3 and each group will be randomly assigned a dataset.\nThe goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques."
   },
   {
     "objectID": "sports/eda/wwc_shooting.html#deliverables",
     "href": "sports/eda/wwc_shooting.html#deliverables",
     "title": "EDA project: Women’s World Cup shooting",
     "section": "Deliverables",
-    "text": "Deliverables\nEach group is expected to make slides to accompany the 8-minute presentation.\nThe presentation should feature the following:\n\nOverview of the structure of your dataset\nThree questions/hypotheses you are interested in exploring\nThree data visualizations exploring the questions, at least two of which must be multivariate. Each visualization must be in a different format from the other two, and you must have at least one categorical and one continuous visualization\nOne clustering analysis\nConclusions for the hypotheses based on your EDA and data visualizations\n\nNo notes/scripts are allowed during the presentation."
+    "text": "Deliverables\nEach group is expected to make slides to accompany the 6-minute presentation. All group members must be present for the presentation and participate. No notes/scripts are allowed during the presentation.\nThe presentation should feature the following:\n\nOverview of the structure of your dataset\nTwo questions/hypotheses you are interested in exploring\nTwo data visualizations exploring the questions—both must be multivariate (i.e., involving 2+ variables) and in different formats\nOne clustering analysis\nConclusions for the hypotheses based on your EDA and data visualizations"
   },
   {
     "objectID": "sports/eda/wwc_shooting.html#timeline",
@@ -1859,14 +1859,14 @@
     "href": "sports/eda/ufa_throwing.html#overview",
     "title": "EDA project: UFA throwing",
     "section": "Overview",
-    "text": "Overview\nThis project will be released on Thursday, June 5 and conclude with an 8-minute presentation on Tuesday, June 17 during lab.\nStudents will be randomly placed into groups of 2–3 and each group will be randomly assigned a dataset.\nThe goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques."
+    "text": "Overview\nThis project will be released on Thursday, June 5 and conclude with a 6-minute presentation on Tuesday, June 17 during lab.\nStudents will be randomly placed into groups of 2–3 and each group will be randomly assigned a dataset.\nThe goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques."
   },
   {
     "objectID": "sports/eda/ufa_throwing.html#deliverables",
     "href": "sports/eda/ufa_throwing.html#deliverables",
     "title": "EDA project: UFA throwing",
     "section": "Deliverables",
-    "text": "Deliverables\nEach group is expected to make slides to accompany the 8-minute presentation.\nThe presentation should feature the following:\n\nOverview of the structure of your dataset\nThree questions/hypotheses you are interested in exploring\nThree data visualizations exploring the questions, at least two of which must be multivariate. Each visualization must be in a different format from the other two, and you must have at least one categorical and one continuous visualization\nOne clustering analysis\nConclusions for the hypotheses based on your EDA and data visualizations\n\nNo notes/scripts are allowed during the presentation."
+    "text": "Deliverables\nEach group is expected to make slides to accompany the 6-minute presentation. All group members must be present for the presentation and participate. No notes/scripts are allowed during the presentation.\nThe presentation should feature the following:\n\nOverview of the structure of your dataset\nTwo questions/hypotheses you are interested in exploring\nTwo data visualizations exploring the questions—both must be multivariate (i.e., involving 2+ variables) and in different formats\nOne clustering analysis\nConclusions for the hypotheses based on your EDA and data visualizations"
   },
   {
     "objectID": "sports/eda/ufa_throwing.html#timeline",
