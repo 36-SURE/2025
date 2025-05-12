@@ -1,3 +1,6 @@
+# Local files
+personal/
+
 # Derivative files
 **/*.pdf
 **/*.log
