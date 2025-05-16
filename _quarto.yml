@@ -18,6 +18,7 @@ website:
 format:
   html:
     theme: yeti
+    fontsize: 0.9em
     css: styles.css
     
 execute:
