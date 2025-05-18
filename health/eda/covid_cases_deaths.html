@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>EDA project: opioid prescriptions and claims – SURE 2025</title>
+<title>EDA project: COVID cases and deaths in Pennsylvania – SURE 2025</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -167,7 +167,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">EDA project: opioid prescriptions and claims</h1>
+<h1 class="title">EDA project: COVID cases and deaths in Pennsylvania</h1>
 </div>
 
 
@@ -211,37 +211,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="data" class="level2">
 <h2 class="anchored" data-anchor-id="data">Data</h2>
-<p>This dataset contains information on Medicare Part D Prescription Claims. Under the <a href="https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers/medicare-part-d-prescribers-by-provider-and-drug">Medicare Part D Prescription Drug program</a>, information is tracked for opioids and other drugs prescribed by physicians and other health care providers including the number of prescriptions dispensed (original prescriptions and refills), the total drug cost, beneficiary demographics (65+), related claims information, as well as information about the physician/provider such as their specialization and location.</p>
-<p>The sample of data is proportionally sampled across the states (e.g.&nbsp;5% from each state), and includes the following columns:</p>
+<p>This dataset contains county-level information on the number of COVID-related cases and deaths for Pennsylvania. In particular, daily case and death counts, averages, and rates are provided for all counties in Pennsylvania, with the dates ranging from April 1, 2020 to December 31, 2022. The data are available online at the <a href="https://data.pa.gov/">Open Data Pennsylvania</a> website. More information about the cases and deaths data can be found <a href="https://data.pa.gov/Covid-19/COVID-19-Aggregate-Cases-NO-FURTHER-UPDATES/j72v-r42c">here</a> and <a href="https://data.pa.gov/Covid-19/COVID-19-Aggregate-Death-Data-Current-Monthly-Coun/fbgu-sqgp">here</a>.</p>
+<p>Each row in the dataset corresponds to a county in Pennsylvania on a given date (between April 1, 2020 and December 31, 2020) and the columns are:</p>
 <ul>
-<li><code>NPI</code>: national provider identifier for the performing provider on the claim</li>
-<li><code>LastName</code>: provider last name</li>
-<li><code>FirstName</code>: provider first name</li>
-<li><code>City</code>: city where the provider is located</li>
-<li><code>State</code>: state where the provider is located</li>
-<li><code>Specialty</code>: specialty of the provider derived from the Medicare code reported on the claims</li>
-<li><code>BrandName</code>: brand name of the drug filled</li>
-<li><code>GenericName</code>: generic name/chemical ingredient of the drug filled</li>
-<li><code>NumberClaims</code>: number of Medicare Part D claims filled (includes original prescriptions and refills)</li>
-<li><code>Number30DayFills</code>: aggregated number of Medicare Part D standardized 30-day fills (number of days supplied dived by 30; if &lt; 1.0, bottom-coded as 1.0; if &gt; 12.0, top-coded as 12.0</li>
-<li><code>NumberDaysSupply</code>: aggregated number of day’s supply for which the drug is dispersed</li>
-<li><code>TotalDrugCost</code>: aggregated drug cost paid for all associated claims</li>
-<li><code>NumberMedicareBeneficiaries</code>: total number of unique Medicare Part D beneficiaries with at least one claim for the drug</li>
-<li><code>NumberClaims65Older</code>: number of Medicare Part D claims for beneficiaries age 65 and older</li>
-<li><code>Number30DayFills65Older</code>: number of Medicare Part D standardized 30-day fills for beneficiaries age 65 and older (see <code>Number30DayFills</code> for standardized definition)</li>
-<li><code>TotalDrugCost65Older</code>: aggregated total drug cost paid for all associated claims for beneficiaries age 65 and older</li>
-<li><code>NumberDaysSupply65Older</code>: aggregated number of day’s supply for which this drug was dispensed, for beneficiaries age 65 and older</li>
-<li><code>NumberMedicareBeneficiaries65Older</code>: number of unique Medicare Part D beneficiaries age 65 and older with at least one claim for the drug</li>
-<li><code>Type</code>: type of drug used: Brand or Generic</li>
-<li><code>OpioidFlag</code>: whether the drug is an opioid or not an opioid</li>
-<li><code>SpecialtyCateg</code>: provider specialty in broader categories (see <code>Specialty</code> variable)</li>
+<li><code>county</code>: name of county</li>
+<li><code>date</code>: date</li>
+<li><code>cases</code>: number of new confirmed and probable cases first reported to the Department of Health on that date</li>
+<li><code>cases_avg_new</code>: rolling 7-day average of new confirmed and probable case</li>
+<li><code>cases_cume</code>: cumulative confirmed and probable cases reported through that date<br>
+</li>
+<li><code>cases_rate</code>: number of new confirmed and probable cases reported that date per 100,000 population</li>
+<li><code>cases_avg_new_rate</code>: rolling 7-day average of new confirmed and probable cases per 100,000 population</li>
+<li><code>cases_cume_rate</code>: number of cumulative confirmed and probable cases reported through that date per 100,000 population<br>
+</li>
+<li><code>deaths</code>: count of new deaths<br>
+</li>
+<li><code>deaths_avg_new</code>: new deaths, 7-day average</li>
+<li><code>deaths_cume</code>: cumulative count of deaths<br>
+</li>
+<li><code>population</code>: population (as of 2019)<br>
+</li>
+<li><code>deaths_rate</code>: new deaths per 100,000 population</li>
+<li><code>deaths_avg_new_rate</code>: new deaths per 100,000 population, 7-day average</li>
+<li><code>deaths_cume_rate</code>: cumulative count of deaths per 100,000 population</li>
+<li><code>longitude</code>: a longitude generic point within the county</li>
+<li><code>latitude</code>: a latitude generic point within the county</li>
 </ul>
 </section>
 <section id="starter-code" class="level2">
 <h2 class="anchored" data-anchor-id="starter-code">Starter code</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>prescriptions <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/36-SURE/2025/main/data/prescriptions.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>covid_cases_deaths <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/36-SURE/2025/main/data/covid_cases_deaths.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>EDA project: opioid prescriptions and claims – SURE 2025</title>
+<title>EDA project: COVID hospitalizations in Pennsylvania – SURE 2025</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -167,7 +167,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">EDA project: opioid prescriptions and claims</h1>
+<h1 class="title">EDA project: COVID hospitalizations in Pennsylvania</h1>
 </div>
 
 
@@ -211,37 +211,68 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="data" class="level2">
 <h2 class="anchored" data-anchor-id="data">Data</h2>
-<p>This dataset contains information on Medicare Part D Prescription Claims. Under the <a href="https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers/medicare-part-d-prescribers-by-provider-and-drug">Medicare Part D Prescription Drug program</a>, information is tracked for opioids and other drugs prescribed by physicians and other health care providers including the number of prescriptions dispensed (original prescriptions and refills), the total drug cost, beneficiary demographics (65+), related claims information, as well as information about the physician/provider such as their specialization and location.</p>
-<p>The sample of data is proportionally sampled across the states (e.g.&nbsp;5% from each state), and includes the following columns:</p>
+<p>This dataset contains county-level hospitalization information on related to COVID-19 patient in Pennsylvania, with the dates ranging from April 1, 2020 to December 31, 2022. The data are available online at the <a href="https://data.pa.gov/">Open Data Pennsylvania</a> website. More information about the hospitalization data can be found <a href="https://data.pa.gov/Covid-19/COVID-19-Aggregate-Hospitalizations-Current-Weekly/kayn-sjhx">here</a>.</p>
+<p>Each row in the dataset corresponds to a county in Pennsylvania on a given date (between April 1, 2020 and December 31, 2020 - note that missing data are present for some of the rows) and the columns are:</p>
 <ul>
-<li><code>NPI</code>: national provider identifier for the performing provider on the claim</li>
-<li><code>LastName</code>: provider last name</li>
-<li><code>FirstName</code>: provider first name</li>
-<li><code>City</code>: city where the provider is located</li>
-<li><code>State</code>: state where the provider is located</li>
-<li><code>Specialty</code>: specialty of the provider derived from the Medicare code reported on the claims</li>
-<li><code>BrandName</code>: brand name of the drug filled</li>
-<li><code>GenericName</code>: generic name/chemical ingredient of the drug filled</li>
-<li><code>NumberClaims</code>: number of Medicare Part D claims filled (includes original prescriptions and refills)</li>
-<li><code>Number30DayFills</code>: aggregated number of Medicare Part D standardized 30-day fills (number of days supplied dived by 30; if &lt; 1.0, bottom-coded as 1.0; if &gt; 12.0, top-coded as 12.0</li>
-<li><code>NumberDaysSupply</code>: aggregated number of day’s supply for which the drug is dispersed</li>
-<li><code>TotalDrugCost</code>: aggregated drug cost paid for all associated claims</li>
-<li><code>NumberMedicareBeneficiaries</code>: total number of unique Medicare Part D beneficiaries with at least one claim for the drug</li>
-<li><code>NumberClaims65Older</code>: number of Medicare Part D claims for beneficiaries age 65 and older</li>
-<li><code>Number30DayFills65Older</code>: number of Medicare Part D standardized 30-day fills for beneficiaries age 65 and older (see <code>Number30DayFills</code> for standardized definition)</li>
-<li><code>TotalDrugCost65Older</code>: aggregated total drug cost paid for all associated claims for beneficiaries age 65 and older</li>
-<li><code>NumberDaysSupply65Older</code>: aggregated number of day’s supply for which this drug was dispensed, for beneficiaries age 65 and older</li>
-<li><code>NumberMedicareBeneficiaries65Older</code>: number of unique Medicare Part D beneficiaries age 65 and older with at least one claim for the drug</li>
-<li><code>Type</code>: type of drug used: Brand or Generic</li>
-<li><code>OpioidFlag</code>: whether the drug is an opioid or not an opioid</li>
-<li><code>SpecialtyCateg</code>: provider specialty in broader categories (see <code>Specialty</code> variable)</li>
+<li><code>county</code>: name of county</li>
+<li><code>date</code>: date<br>
+</li>
+<li><code>icu_avail</code>: adult ICU beds available<br>
+</li>
+<li><code>icu_total</code>: adult ICU beds total<br>
+</li>
+<li><code>med_avail</code>: medical/surgical beds available<br>
+</li>
+<li><code>med_total</code>: medical/surgical beds total</li>
+<li><code>ped_avail</code>: pediatrics beds available<br>
+</li>
+<li><code>ped_total</code>: pediatrics beds total<br>
+</li>
+<li><code>pic_avail</code>: pediatrics ICU beds available<br>
+</li>
+<li><code>pic_total</code>: pediatrics ICU beds total<br>
+</li>
+<li><code>covid_patients</code>: COVID-19 patients hospitalized</li>
+<li><code>covid_vents</code>: COVID-19 patients on ventilators<br>
+</li>
+<li><code>vents_use</code>: total ventilators in use<br>
+</li>
+<li><code>vents</code>: total ventilators<br>
+</li>
+<li><code>icu_avail_mean</code>: adult ICU beds available, 14-day average</li>
+<li><code>icu_total_mean</code>: adult ICU beds total, 14-day average<br>
+</li>
+<li><code>med_avail_mean</code>: medical/surgical beds available, 14-day average</li>
+<li><code>med_total_mean</code>: medical/surgical beds total, 14-day average</li>
+<li><code>ped_avail_mean</code>: pediatric beds available, 14-day average</li>
+<li><code>ped_total_mean</code>: pediatric beds total, 14-day average</li>
+<li><code>pic_avail_mean</code>: pediatric ICU beds available, 14-day average</li>
+<li><code>pic_total_mean</code>: pediatric ICU beds total, 14-day average</li>
+<li><code>covid_patients_mean</code>: COVID-19 patients hospitalized, 14-day average</li>
+<li><code>covid_vents_mean</code>: COVID-19 patients on ventilators, 14-day average</li>
+<li><code>vents_use_mean</code>: total ventilators in use, 14-day average</li>
+<li><code>vents_mean</code>: total ventilators, 14-day average<br>
+</li>
+<li><code>icu_percent</code>: adult ICU beds, percent available<br>
+</li>
+<li><code>med_percent</code>: medical/surgical beds, percent available<br>
+</li>
+<li><code>ped_percent</code>: pediatric beds, percent available</li>
+<li><code>pic_percent</code>: pediatric ICU beds, percent available<br>
+</li>
+<li><code>covid_icu</code>: COVID patients in intensive care unit (ICU)</li>
+<li><code>covid_icu_mean</code>: the mean for COVID patients in intensive care unit (ICU), 14-day average.<br>
+</li>
+<li><code>county_fips</code>: a county’s 5-digit code (read more <a href="https://www.census.gov/library/reference/code-lists/ansi.html">here</a>)</li>
+<li><code>longitude</code>: a longitude generic point within the county</li>
+<li><code>latitude</code>: a latitude generic point within the county</li>
 </ul>
 </section>
 <section id="starter-code" class="level2">
 <h2 class="anchored" data-anchor-id="starter-code">Starter code</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>prescriptions <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/36-SURE/2025/main/data/prescriptions.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>covid_hospitalizations <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/36-SURE/2025/main/data/covid_hospitalizations.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
