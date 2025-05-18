@@ -44,7 +44,7 @@ The sample of data is proportionally sampled across the states (e.g. 5% from eac
 
 * `NPI`: national provider identifier for the performing provider on the claim
 * `LastName`: provider last name
-* `FirstName`: rovider first name
+* `FirstName`: provider first name
 * `City`: city where the provider is located
 * `State`: state where the provider is located
 * `Specialty`: specialty of the provider derived from the Medicare code reported on the claims

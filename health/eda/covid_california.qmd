@@ -1,0 +1,67 @@
+---
+title: "EDA project: COVID vaccine distribution in California"
+---
+
+---
+
+## Overview
+
+This project will be released on Thursday, June 5 and **conclude with a 6-minute presentation on Tuesday, June 17 during lab**.
+
+Students will be randomly placed into groups of 2--3 and each group will be randomly assigned a dataset.
+
+The goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques.
+
+## Deliverables
+
+Each group is expected to make slides to accompany the 6-minute presentation. All group members must be present for the presentation and participate. **No notes/scripts are allowed during the presentation.**
+
+The presentation should feature the following:
+
+* Overview of the structure of your dataset
+
+* **Two questions/hypotheses** you are interested in exploring
+
+* **Two data visualizations** exploring the questions---both must be multivariate (i.e., involving 2+ variables) and in different formats
+
+* **One clustering analysis**
+
+* Conclusions for the hypotheses based on your EDA and data visualizations
+
+## Timeline
+
+There will be two submission deadlines:
+
+**Thursday, June 12 at 5pm ET** - Each student will push their individual code for the project thus far to GitHub for review.
+
+**Tuesday, June 17 at 1pm ET** - Slides and full code must be completed and ready for presentation. Send your slides to Quang ([`quang@stat.cmu.edu`](mailto:quang@stat.cmu.edu)). All code must be written in `R`; but the slides may be created in any software. Take advantage of examples from lectures, but also feel free to explore online resources that may be relevant. (But be sure to always consult the `R` help documentation first before attempting to google around or ask ChatGPT.)
+
+## Data
+
+This dataset contains county-level information on weekly COVID vaccine distribution in California in 2021 and 2022.
+The data are available online and published by the [California Department of Public Health](https://www.cdph.ca.gov/).
+
+Each row in the dataset corresponds to a county in California in a given week (of 2021 and 2022) and the columns are:
+
+* `county`: name of the county                             
+* `year`: year (2021 or 2022)              
+* `week`: week number within a year                
+* `first_date`: first date of the week         
+* `last_date`: last date of the week                              
+* `doses_shipped`: number of COVID-19 vaccine doses shipped in a particular week (includes direct federal allocations and federal pharmacy partnership programs but does not include doses shipped to the following federal entities: Indian Health Service, Department of Defense, U.S. Federal Bureau of Prisons, and Veterans Affairs)
+* `cumulative_doses_shipped`: cumulative number of COVID-19 vaccine doses shipped up to that week
+* `doses_delivered`: number of COVID-19 vaccine doses delivered in a particular week (includes direct federal allocations and federal pharmacy partnership programs but does not include doses delivered to the following federal entities: Indian Health Service, Department of Defense, U.S. Federal Bureau of Prisons, and Veterans Affairs) 
+* `cumulative_doses_delivered`: cumulative number of COVID-19 vaccine doses delivered up to a particular week          
+* `cdc_pharmacy_doses_delivered`: number of COVID-19 vaccine doses delivered to the CDC Pharmacy Partnership for Long-Term Care Facility (LTCF) Program and the Federal Retail Pharmacy Program in a particular week         
+* `cumulative_cdc_pharmacy_doses_delivered`: cumulative number of COVID-19 vaccine doses delivered to the CDC Pharmacy Partnership for Long-Term Care Facility (LTCF) Program and the Federal Retail Pharmacy Program up to a particular week
+* `{pfizer, moderna, jj}_doses_shipped`: number of {Pfizer, Moderna, Janssen (Johnson & Johnson)} vaccine doses shipped in a particular week              
+* `cumulative_{pfizer, moderna, jj}_doses_shipped`: cumulative number of {Pfizer, Moderna, Janssen (Johnson & Johnson)} vaccine doses shipped up to a particular week
+* `{pfizer, moderna, jj}_doses_delivered`: number of {Pfizer, Moderna, Janssen (Johnson & Johnson)} vaccine doses delivered in a particular week
+* `cumulative_{pfizer, moderna, jj}_doses_delivered`: cumulative number of {Pfizer, Moderna, Janssen (Johnson & Johnson)} vaccine doses delivered up to a particular week
+
+## Starter code
+
+```{r, eval=FALSE}
+library(tidyverse)
+covid_cases_deaths <- read_csv("https://raw.githubusercontent.com/36-SURE/2025/main/data/covid_california.csv")
+```

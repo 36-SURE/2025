@@ -1,0 +1,88 @@
+---
+title: "EDA project: COVID hospitalizations in Pennsylvania"
+---
+
+---
+
+## Overview
+
+This project will be released on Thursday, June 5 and **conclude with a 6-minute presentation on Tuesday, June 17 during lab**.
+
+Students will be randomly placed into groups of 2--3 and each group will be randomly assigned a dataset.
+
+The goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques.
+
+## Deliverables
+
+Each group is expected to make slides to accompany the 6-minute presentation. All group members must be present for the presentation and participate. **No notes/scripts are allowed during the presentation.**
+
+The presentation should feature the following:
+
+* Overview of the structure of your dataset
+
+* **Two questions/hypotheses** you are interested in exploring
+
+* **Two data visualizations** exploring the questions---both must be multivariate (i.e., involving 2+ variables) and in different formats
+
+* **One clustering analysis**
+
+* Conclusions for the hypotheses based on your EDA and data visualizations
+
+## Timeline
+
+There will be two submission deadlines:
+
+**Thursday, June 12 at 5pm ET** - Each student will push their individual code for the project thus far to GitHub for review.
+
+**Tuesday, June 17 at 1pm ET** - Slides and full code must be completed and ready for presentation. Send your slides to Quang ([`quang@stat.cmu.edu`](mailto:quang@stat.cmu.edu)). All code must be written in `R`; but the slides may be created in any software. Take advantage of examples from lectures, but also feel free to explore online resources that may be relevant. (But be sure to always consult the `R` help documentation first before attempting to google around or ask ChatGPT.)
+
+## Data
+
+This dataset contains county-level hospitalization information on related to COVID-19 patient in Pennsylvania, with the dates ranging from April 1, 2020 to December 31, 2022.
+The data are available online at the [Open Data Pennsylvania](https://data.pa.gov/) website.
+More information about the hospitalization data can be found [here](https://data.pa.gov/Covid-19/COVID-19-Aggregate-Hospitalizations-Current-Weekly/kayn-sjhx).
+
+Each row in the dataset corresponds to a county in Pennsylvania on a given date (between April 1, 2020 and December 31, 2020 - note that missing data are present for some of the rows) and the columns are:
+
+* `county`: name of county
+* `date`: date            
+* `icu_avail`: adult ICU beds available  
+* `icu_total`: adult ICU beds total    
+* `med_avail`: medical/surgical beds available    
+* `med_total`: medical/surgical beds total 
+* `ped_avail`: pediatrics beds available     
+* `ped_total`: pediatrics beds total   
+* `pic_avail`: pediatrics ICU beds available     
+* `pic_total`: pediatrics ICU beds total       
+* `covid_patients`: COVID-19 patients hospitalized
+* `covid_vents`: COVID-19 patients on ventilators     
+* `vents_use`: total ventilators in use       
+* `vents`: total ventilators       
+* `icu_avail_mean`: adult ICU beds available, 14-day average
+* `icu_total_mean`: adult ICU beds total, 14-day average  
+* `med_avail_mean`: medical/surgical beds available, 14-day average
+* `med_total_mean`: medical/surgical beds total, 14-day average
+* `ped_avail_mean`: pediatric beds available, 14-day average
+* `ped_total_mean`: pediatric beds total, 14-day average
+* `pic_avail_mean`: pediatric ICU beds available, 14-day average 
+* `pic_total_mean`: pediatric ICU beds total, 14-day average
+* `covid_patients_mean`: COVID-19 patients hospitalized, 14-day average
+* `covid_vents_mean`: COVID-19 patients on ventilators, 14-day average
+* `vents_use_mean`: total ventilators in use, 14-day average
+* `vents_mean`: total ventilators, 14-day average  
+* `icu_percent`: adult ICU beds, percent available  
+* `med_percent`: medical/surgical beds, percent available     
+* `ped_percent`: pediatric beds, percent available 
+* `pic_percent`: pediatric ICU beds, percent available    
+* `covid_icu`: COVID patients in intensive care unit (ICU)
+* `covid_icu_mean`: the mean for COVID patients in intensive care unit (ICU), 14-day average.  
+* `county_fips`: a county's 5-digit code (read more [here](https://www.census.gov/library/reference/code-lists/ansi.html))
+* `longitude`: a longitude generic point within the county
+* `latitude`: a latitude generic point within the county 
+
+## Starter code
+
+```{r, eval=FALSE}
+library(tidyverse)
+covid_hospitalizations <- read_csv("https://raw.githubusercontent.com/36-SURE/2025/main/data/covid_hospitalizations.csv")
+```

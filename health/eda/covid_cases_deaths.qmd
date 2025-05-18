@@ -1,0 +1,71 @@
+---
+title: "EDA project: COVID cases and deaths in Pennsylvania"
+---
+
+---
+
+## Overview
+
+This project will be released on Thursday, June 5 and **conclude with a 6-minute presentation on Tuesday, June 17 during lab**.
+
+Students will be randomly placed into groups of 2--3 and each group will be randomly assigned a dataset.
+
+The goal of this project is to practice understanding the structure of a dataset, and to practice generating and evaluating hypotheses using fundamental EDA and data visualization techniques.
+
+## Deliverables
+
+Each group is expected to make slides to accompany the 6-minute presentation. All group members must be present for the presentation and participate. **No notes/scripts are allowed during the presentation.**
+
+The presentation should feature the following:
+
+* Overview of the structure of your dataset
+
+* **Two questions/hypotheses** you are interested in exploring
+
+* **Two data visualizations** exploring the questions---both must be multivariate (i.e., involving 2+ variables) and in different formats
+
+* **One clustering analysis**
+
+* Conclusions for the hypotheses based on your EDA and data visualizations
+
+## Timeline
+
+There will be two submission deadlines:
+
+**Thursday, June 12 at 5pm ET** - Each student will push their individual code for the project thus far to GitHub for review.
+
+**Tuesday, June 17 at 1pm ET** - Slides and full code must be completed and ready for presentation. Send your slides to Quang ([`quang@stat.cmu.edu`](mailto:quang@stat.cmu.edu)). All code must be written in `R`; but the slides may be created in any software. Take advantage of examples from lectures, but also feel free to explore online resources that may be relevant. (But be sure to always consult the `R` help documentation first before attempting to google around or ask ChatGPT.)
+
+## Data
+
+This dataset contains county-level information on the number of COVID-related cases and deaths for Pennsylvania.
+In particular, daily case and death counts, averages, and rates are provided for all counties in Pennsylvania, with the dates ranging from April 1, 2020 to December 31, 2022.
+The data are available online at the [Open Data Pennsylvania](https://data.pa.gov/) website.
+More information about the cases and deaths data can be found [here](https://data.pa.gov/Covid-19/COVID-19-Aggregate-Cases-NO-FURTHER-UPDATES/j72v-r42c) and [here](https://data.pa.gov/Covid-19/COVID-19-Aggregate-Death-Data-Current-Monthly-Coun/fbgu-sqgp).
+
+Each row in the dataset corresponds to a county in Pennsylvania on a given date (between April 1, 2020 and December 31, 2020) and the columns are:
+
+* `county`: name of county
+* `date`: date
+* `cases`: number of new confirmed and probable cases first reported to the Department of Health on that date
+* `cases_avg_new`: rolling 7-day average of new confirmed and probable case
+* `cases_cume`: cumulative confirmed and probable cases reported through that date   
+* `cases_rate`: number of new confirmed and probable cases reported that date per 100,000 population
+* `cases_avg_new_rate`: rolling 7-day average of new confirmed and probable cases per 100,000 population
+* `cases_cume_rate`: number of cumulative confirmed and probable cases reported through that date per 100,000 population  
+* `deaths`: count of new deaths      
+* `deaths_avg_new`: new deaths, 7-day average
+* `deaths_cume`: cumulative count of deaths       
+* `population`: population (as of 2019)    
+* `deaths_rate`: new deaths per 100,000 population
+* `deaths_avg_new_rate`: new deaths per 100,000 population, 7-day average
+* `deaths_cume_rate`: cumulative count of deaths per 100,000 population
+* `longitude`: a longitude generic point within the county
+* `latitude`: a latitude generic point within the county 
+
+## Starter code
+
+```{r, eval=FALSE}
+library(tidyverse)
+covid_cases_deaths <- read_csv("https://raw.githubusercontent.com/36-SURE/2025/main/data/covid_cases_deaths.csv")
+```
