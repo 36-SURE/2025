@@ -55,7 +55,7 @@ usethis::create_github_token()
 
 * This will direct you to the GitHub site on your browser (you may have to log in). On this site:
 
-  *   Under "Note", type in some description for this token (e.g., "SURE 2024 GitHub token")
+  *   Under "Note", type in some description for this token (e.g., "Summer 2025 GitHub token")
   
   *   For "Expiration", set an expiration date for this token (e.g., 90 days) or make it permanent (i.e. choose "No expiration" if you don't want to deal with this again in the future)
   
