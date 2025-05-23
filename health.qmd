@@ -8,9 +8,20 @@ TBA
 
 <!-- Note: To download a `.qmd` file, right click and choose "Save Link As...". -->
 
-<!-- | Date   | Title                                  | Materials               | -->
-<!-- |---------------|---------------|-------------------------------------------| -->
+<!-- | Date   | Title                                  | Materials                                                                                                                                          | -->
+<!-- |--------|----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------| -->
 <!-- | June 2 | Getting started with `R`               | [`.html`](health/labs/01-intro.html) &nbsp; [`.qmd`](https://raw.githubusercontent.com/36-SURE/2025/main/health/labs/01-intro.qmd)                 | -->
 <!-- | June 3 | Data wrangling                         | [`.html`](health/labs/02-wrangling.html) &nbsp; [`.qmd`](https://raw.githubusercontent.com/36-SURE/2025/main/health/labs/02-wrangling.qmd)         | -->
 <!-- | June 4 | Data visualization                     | [`.html`](health/labs/03-visualization.html) &nbsp; [`.qmd`](https://raw.githubusercontent.com/36-SURE/2025/main/health/labs/03-visualization.qmd) | -->
 <!-- | June 5 | Using GitHub for project collaboration | [`.html`](health/labs/04-github.qmd)                                                                                                               | -->
+
+<!-- ## EDA projects -->
+
+<!-- |           |                                 |                                                      | -->
+<!-- |-----------|---------------------------------|------------------------------------------------------| -->
+<!-- | Project 1 | Opioid prescriptions and claims | [description](health/eda/prescriptions.qmd)          | -->
+<!-- | Project 2 | COVID cases and deaths          | [description](health/eda/covid_cases_deaths.qmd)     | -->
+<!-- | Project 3 | Hospital ratings                | [description](health/eda/hospitals.qmd)              | -->
+<!-- | Project 4 | COVID vaccines                  | [description](health/eda/covid_vaccines.qmd)         | -->
+<!-- | Project 5 | Maternal healthcare disparities | [description](health/eda/maternal.qmd)               | -->
+<!-- | Project 6 | COVID hospitalizations          | [description](health/eda/covid_hospitalizations.qmd) | -->
