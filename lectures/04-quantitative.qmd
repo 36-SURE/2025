@@ -617,10 +617,6 @@ taylor_all_songs |>
   facet_grid(album_name ~ ., margins = TRUE)
 ```
 
-## The end
-
-Sara test
-
 <!-- ::: columns -->
 
 <!-- ::: {.column width="50%" style="text-align: left;"} -->
