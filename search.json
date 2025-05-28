@@ -1827,13 +1827,6 @@
     "text": "What about facets?\n\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration)) +\n  geom_histogram(bins = 15) +\n  facet_grid(album_name ~ ., margins = TRUE)"
   },
   {
-    "objectID": "lectures/04-quantitative.html#the-end",
-    "href": "lectures/04-quantitative.html#the-end",
-    "title": "Data visualization: quantitative data",
-    "section": "The end",
-    "text": "The end\nSara test"
-  },
-  {
     "objectID": "lectures/03-categorical.html#data",
     "href": "lectures/03-categorical.html#data",
     "title": "Data visualization: categorical data",
