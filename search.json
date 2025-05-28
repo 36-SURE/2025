@@ -2030,13 +2030,6 @@
     "text": "Residuals\nMosaic plots with boxes color-coded by Pearson residuals\nTells us which combinations of 2 categorical variables (cells) are much higher/lower than expected\n\nflying_etiquette |&gt; \n  select(rude_to_recline, do_you_recline) |&gt; \n  table() |&gt; \n  mosaicplot(main = \"Relationship between reclining frequency and opinion on rudeness\", shade = TRUE)"
   },
   {
-    "objectID": "lectures/03-categorical.html#seal-of-approval",
-    "href": "lectures/03-categorical.html#seal-of-approval",
-    "title": "Data visualization: categorical data",
-    "section": "Seal of approval",
-    "text": "Seal of approval\n\nwahoo!!!\nHave fun with rolling joins :)"
-  },
-  {
     "objectID": "lectures/03-categorical.html#beyond-2d-facets",
     "href": "lectures/03-categorical.html#beyond-2d-facets",
     "title": "Data visualization: categorical data",
