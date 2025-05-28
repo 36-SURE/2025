@@ -7,7 +7,6 @@ title: "Lectures"
 |            | Date    | Title                                                     | Materials                                |
 |------------|---------|-----------------------------------------------------------|------------------------------------------|
 | Lecture 0  | June 2  | Welcome to SURE 2025                                      |                                          |
-| Lecture 4  | June 6  | Data visualization: quantitative data                     | [slides](lectures/04-quantitative.qmd)   |
 
 <!--
 
