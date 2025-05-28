@@ -697,12 +697,6 @@ flying_etiquette |>
   mosaicplot(main = "Relationship between reclining frequency and opinion on rudeness", shade = TRUE)
 ```
 
-## Seal of approval
-
-- wahoo!!! 
-
-- Have fun with rolling joins :) 
-
 ## Beyond 2D: facets!
 
 ```{r}
