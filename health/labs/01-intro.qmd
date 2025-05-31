@@ -188,8 +188,8 @@ Most of the data provided to you are in `.csv` format. In the code chunk below, 
 ```{r}
 #| eval: false
 library(tidyverse)
-nba_stats <- read_csv("https://raw.githubusercontent.com/36-SURE/2025/main/data/heart_disease.csv")
-head(nba_stats)
+heart_disease <- read_csv("https://raw.githubusercontent.com/36-SURE/2025/main/data/heart_disease.csv")
+head(heart_disease)
 ```
 
 ## Looking for help
