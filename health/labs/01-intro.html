@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-c59cc1be739a60ad4938a569df30aa8f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-4a41156c4453d6f6bc096f4608c54d8e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -447,8 +447,8 @@ f (x) = \frac{1}{\sqrt{2\pi}} \exp \left( - \frac{x^2}{2} \right)
 <p>Most of the data provided to you are in <code>.csv</code> format. In the code chunk below, we use the <a href="https://readr.tidyverse.org/reference/read_delim.html"><code>read_csv()</code></a> function (from the <code>readr</code> package, part of the <code>tidyverse</code>) to load a dataset that is saved in a folder located in the SURE GitHub repository. In quotations, insert the file path where the dataset is located, which in this case is online. However, typically you’ll save <code>.csv</code> files locally first and put them in an organized folder to access later.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>nba_stats <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/36-SURE/2025/main/data/heart_disease.csv"</span>)</span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(nba_stats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>heart_disease <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/36-SURE/2025/main/data/heart_disease.csv"</span>)</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(heart_disease)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="looking-for-help" class="level2">
