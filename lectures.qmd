@@ -6,7 +6,7 @@ title: "Lectures"
 
 |            | Date    | Title                                                     | Materials                                |
 |------------|---------|-----------------------------------------------------------|------------------------------------------|
-| Lecture 0  | June 2  | Welcome to SURE 2025                                      |                                          |
+| Lecture 0  | June 2  | Welcome to SURE 2025                                      | [slides](lectures/00-welcome.qmd)        |
 
 <!--
 
