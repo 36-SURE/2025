@@ -41,8 +41,8 @@ The purpose of this lab is to help you set up Git and GitHub on your computer, a
 ```{r git-config, eval = FALSE}
 # uncomment and run the following line to install the usethis package
 # install.packages("usethis")
-usethis::use_git_config(user.name = "Your Name", 
-                        user.email = "your-github@email.address")
+usethis::use_git_config(user.name = "Insert Your Name", 
+                        user.email = "Insert Your Email")
 ```
 
 * Use your full name for the `user.name` field and the same email as your GitHub account for `user.email`
@@ -142,7 +142,9 @@ Each group member should create their own "sandbox" folder locally on their own 
 
 *   In the new window that opens, add a "Commit message", then click on the "Commit" button
 
-*   Click on "Push" to push your changes from your local repository to the shared remote  repository on GitHub
+*   Click on "Pull" to make sure the repository is up to date
+
+*   Finally, click on "Push" to push your changes from your local repository to the shared remote repository on GitHub
 
 ### Step 4: Update the local repository <br>(Required for ALL group members)
 
