@@ -2272,7 +2272,7 @@
     "href": "lectures/00-welcome.html#a-typical-day-consists-of-3-main-events",
     "title": "Welcome to SURE 2025",
     "section": "A typical day consists of 3 main events",
-    "text": "A typical day consists of 3 main events\n\nLectures\nPresentations\nLabs"
+    "text": "A typical day consists of 3 main events\n\nLectures\nSpeaker/webinar sessions\nLabs"
   },
   {
     "objectID": "lectures/00-welcome.html#lectures",
@@ -2289,11 +2289,18 @@
     "text": "Labs\nMon–Fri, 1:30–3pm\nScaife 234 (Health) or Scaife 236 (Sports)\n\nDemo labs\nProject labs\n\nwill begin with a mini EDA project\nthen shift to focus on main capstone project"
   },
   {
-    "objectID": "lectures/00-welcome.html#presentations",
-    "href": "lectures/00-welcome.html#presentations",
+    "objectID": "lectures/00-welcome.html#speakerwebinar-sessions",
+    "href": "lectures/00-welcome.html#speakerwebinar-sessions",
     "title": "Welcome to SURE 2025",
-    "section": "Presentations",
-    "text": "Presentations\nEither mid-day (in between lecture and lab) or after lab\nScaife 234 / MS Teams (Health) or Scaife 236 / Zoom (Sports)\nNote: dates/times may vary; check calendar\n\nHealth: UHG webinars, individual meetings with mentors\nSports: project pitches, guest speakers"
+    "section": "Speaker/webinar sessions",
+    "text": "Speaker/webinar sessions\nEither mid-day (in between lecture and lab) or after lab\nScaife 234 / MS Teams (Health) or Scaife 236 / Zoom (Sports)\nNote: dates/times may vary; check calendar\n\nHealth: UHG webinars, individual meetings with mentors\nSports: project pitches, guest speakers"
+  },
+  {
+    "objectID": "lectures/00-welcome.html#side-note-lunches",
+    "href": "lectures/00-welcome.html#side-note-lunches",
+    "title": "Welcome to SURE 2025",
+    "section": "Side note: Lunches",
+    "text": "Side note: Lunches\nDates/times may vary; check calendar\n\nLocation: Baker Hall 129\nDon’t hesitate to take more food with you!"
   },
   {
     "objectID": "lectures/00-welcome.html#eda-project",
