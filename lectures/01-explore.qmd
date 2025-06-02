@@ -130,7 +130,7 @@ Summarize quantitative (e.g. `yearID`, `AB`) and categorical (e.g. `teamID`, `lg
 
 ```{r}
 #| echo: true
-summary(Batting$yearID)
+summary(Batting$G)
 ```
 
 -   Counts of categorical variables with the `table()` function
@@ -611,4 +611,8 @@ yearly_batting |>
 
 ## Check out this song
 
+<center>
+
 {{< video https://youtu.be/p8Py9C8iq2s width="800" height="600" >}}
+
+</center>
