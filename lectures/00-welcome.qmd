@@ -97,7 +97,7 @@ Check these frequently!
 
 * Lectures 
 
-* Presentations
+* Speaker/webinar sessions
 
 * Labs
 
@@ -149,7 +149,7 @@ A few scheduling notes:
     
     * then shift to focus on main capstone project
 
-## Presentations
+## Speaker/webinar sessions
 
 **Either mid-day (in between lecture and lab) or after lab**
 
@@ -160,6 +160,15 @@ A few scheduling notes:
 *   Health: UHG webinars, individual meetings with mentors
 
 *   Sports: project pitches, guest speakers
+
+## Side note: Lunches
+
+*Dates/times may vary; check calendar*
+
+* Location: Baker Hall 129
+
+* Don't hesitate to take more food with you!
+
 
 ## EDA project
 
@@ -214,6 +223,8 @@ Wednesday--Friday
 <!-- **Letter of recommendation (e.g., for job or grad school applications after the program)**  -->
 
 <!-- Please reach out -->
+
+
 
 ## Reminders
 
