@@ -1866,14 +1866,14 @@
     "href": "lectures.html",
     "title": "Lectures",
     "section": "",
-    "text": "Date\nTitle\nMaterials\n\n\n\n\nLecture 0\nJune 2\nWelcome to SURE 2025\nslides"
+    "text": "Date\nTitle\nMaterials\n\n\n\n\nLecture 0\nJune 2\nWelcome to SURE 2025\nslides\n\n\nLecture 1\nJune 3\nExploring data: into the tidyverse\nslides"
   },
   {
     "objectID": "lectures.html#contents",
     "href": "lectures.html#contents",
     "title": "Lectures",
     "section": "",
-    "text": "Date\nTitle\nMaterials\n\n\n\n\nLecture 0\nJune 2\nWelcome to SURE 2025\nslides"
+    "text": "Date\nTitle\nMaterials\n\n\n\n\nLecture 0\nJune 2\nWelcome to SURE 2025\nslides\n\n\nLecture 1\nJune 3\nExploring data: into the tidyverse\nslides"
   },
   {
     "objectID": "index.html",
@@ -2405,7 +2405,7 @@
     "href": "lectures/01-explore.html#descriptive-statistics",
     "title": "Exploring data: into the tidyverse",
     "section": "Descriptive statistics",
-    "text": "Descriptive statistics\nSummarize quantitative (e.g. yearID, AB) and categorical (e.g. teamID, lgID) variables in different ways…\n\n\nSummary statistics for quantitative variables with the summary() function\n\n\nsummary(Batting$yearID)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n   1871    1939    1979    1970    2004    2023 \n\n\n\nCounts of categorical variables with the table() function\n\n\n# be careful it ignores NA values\n# can do table(Batting$lgID, useNA = \"always\")\ntable(Batting$lgID)\n\n\n   AA    AL    FL    NA    NL    PL    UA \n 1893 52599   472   737 57615   149   334"
+    "text": "Descriptive statistics\nSummarize quantitative (e.g. yearID, AB) and categorical (e.g. teamID, lgID) variables in different ways…\n\n\nSummary statistics for quantitative variables with the summary() function\n\n\nsummary(Batting$G)\n\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n   1.00   12.00   34.00   50.38   78.00  165.00 \n\n\n\nCounts of categorical variables with the table() function\n\n\n# be careful it ignores NA values\n# can do table(Batting$lgID, useNA = \"always\")\ntable(Batting$lgID)\n\n\n   AA    AL    FL    NA    NL    PL    UA \n 1893 52599   472   737 57615   149   334"
   },
   {
     "objectID": "lectures/01-explore.html#the-dplyr-package",
