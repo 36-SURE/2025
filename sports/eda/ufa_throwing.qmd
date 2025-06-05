@@ -79,7 +79,7 @@ library(tidyverse)
 ufa_throws <- read_csv("https://raw.githubusercontent.com/36-SURE/2025/main/data/ufa_throws.csv")
 ```
 
-In case you're curious, the code to build this dataset can be found below. (Note that the data were originally downloaded from the MoneyPuck site.)
+In case you're curious, the code to build this dataset can be found below.
 
 ```{r}
 #| eval: false
