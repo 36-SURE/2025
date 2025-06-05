@@ -1012,14 +1012,21 @@
     "href": "health.html",
     "title": "Health",
     "section": "",
-    "text": "Note: To download a .qmd file, right click and choose “Save Link As…”.\n\n\n\nDate\nTitle\nMaterials\n\n\n\n\nJune 2\nGetting started with R\n.html   .qmd\n\n\nJune 3\nData wrangling\n.html   .qmd\n\n\nJune 4\nData visualization\n.html   .qmd"
+    "text": "Note: To download a .qmd file, right click and choose “Save Link As…”.\n\n\n\nDate\nTitle\nMaterials\n\n\n\n\nJune 2\nGetting started with R\n.html   .qmd\n\n\nJune 3\nData wrangling\n.html   .qmd\n\n\nJune 4\nData visualization\n.html   .qmd\n\n\nJune 5\nUsing GitHub for project collaboration\n.html"
   },
   {
     "objectID": "health.html#labs",
     "href": "health.html#labs",
     "title": "Health",
     "section": "",
-    "text": "Note: To download a .qmd file, right click and choose “Save Link As…”.\n\n\n\nDate\nTitle\nMaterials\n\n\n\n\nJune 2\nGetting started with R\n.html   .qmd\n\n\nJune 3\nData wrangling\n.html   .qmd\n\n\nJune 4\nData visualization\n.html   .qmd"
+    "text": "Note: To download a .qmd file, right click and choose “Save Link As…”.\n\n\n\nDate\nTitle\nMaterials\n\n\n\n\nJune 2\nGetting started with R\n.html   .qmd\n\n\nJune 3\nData wrangling\n.html   .qmd\n\n\nJune 4\nData visualization\n.html   .qmd\n\n\nJune 5\nUsing GitHub for project collaboration\n.html"
+  },
+  {
+    "objectID": "health.html#eda-projects",
+    "href": "health.html#eda-projects",
+    "title": "Health",
+    "section": "EDA projects",
+    "text": "EDA projects\n\n\n\nProject 1\nOpioid prescriptions and claims\ndescription\n\n\nProject 2\nCOVID cases and deaths\ndescription\n\n\nProject 3\nHospital ratings\ndescription\n\n\nProject 4\nCOVID vaccines\ndescription\n\n\nProject 5\nMaternal healthcare disparities\ndescription\n\n\nProject 6\nCOVID hospitalizations\ndescription"
   },
   {
     "objectID": "git-setup.html#step-1-create-a-github-account",
@@ -1432,14 +1439,21 @@
     "href": "sports.html",
     "title": "Sports",
     "section": "",
-    "text": "Note: To download a .qmd file, right click and choose “Save Link As…”.\n\n\n\nDate\nTitle\nMaterials\n\n\n\n\nJune 2\nGetting started with R\n.html   .qmd\n\n\nJune 3\nData wrangling\n.html   .qmd\n\n\nJune 4\nData visualization\n.html   .qmd"
+    "text": "Note: To download a .qmd file, right click and choose “Save Link As…”.\n\n\n\nDate\nTitle\nMaterials\n\n\n\n\nJune 2\nGetting started with R\n.html   .qmd\n\n\nJune 3\nData wrangling\n.html   .qmd\n\n\nJune 4\nData visualization\n.html   .qmd\n\n\nJune 5\nUsing GitHub for project collaboration\n.html"
   },
   {
     "objectID": "sports.html#labs",
     "href": "sports.html#labs",
     "title": "Sports",
     "section": "",
-    "text": "Note: To download a .qmd file, right click and choose “Save Link As…”.\n\n\n\nDate\nTitle\nMaterials\n\n\n\n\nJune 2\nGetting started with R\n.html   .qmd\n\n\nJune 3\nData wrangling\n.html   .qmd\n\n\nJune 4\nData visualization\n.html   .qmd"
+    "text": "Note: To download a .qmd file, right click and choose “Save Link As…”.\n\n\n\nDate\nTitle\nMaterials\n\n\n\n\nJune 2\nGetting started with R\n.html   .qmd\n\n\nJune 3\nData wrangling\n.html   .qmd\n\n\nJune 4\nData visualization\n.html   .qmd\n\n\nJune 5\nUsing GitHub for project collaboration\n.html"
+  },
+  {
+    "objectID": "sports.html#eda-projects",
+    "href": "sports.html#eda-projects",
+    "title": "Sports",
+    "section": "EDA projects",
+    "text": "EDA projects\n\n\n\nProject 1\nNFL passing\ndescription\n\n\nProject 2\nUFA throwing\ndescription\n\n\nProject 3\nNHL shooting\ndescription\n\n\nProject 4\nFIFAWWC shooting\ndescription\n\n\nProject 5\nFIFAWWC passing\ndescription\n\n\nProject 6\nMLB batting\ndescription"
   },
   {
     "objectID": "health/eda/prescriptions.html#overview",
