@@ -31,6 +31,25 @@ ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
 
 # Background
 
+## Motivating example: Starbucks drinks
+
+```{r}
+library(tidyverse)
+theme_set(theme_light())
+starbucks <- read_csv(
+  "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-12-21/starbucks.csv"
+) |>
+  # convert columns to numeric that were saved as character
+  mutate(trans_fat_g = as.numeric(trans_fat_g), fiber_g = as.numeric(fiber_g))
+glimpse(starbucks)
+```
+
+```{r}
+#| echo: false
+ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
+```
+
+
 ## Unsupervised learning
 
 * No response variable (i.e., data are not labeled)
@@ -57,13 +76,21 @@ Think of unsupervised learning as **an extension of EDA---there’s no unique ri
 
 ## Fundamental problems in unsupervised learning
 
-1. **Dimension reduction:** reduce the original dimension of the data to something smaller so we can explore/visualize the data
+. . .
+
+1. **Dimension reduction:** reduce the original feature dimension of the data to something smaller so we can explore/visualize the data
 
   * Methods: **PCA (this lecture)**, ICA, t-SNE, UMAP,...
+  
+. . .
 
 2. **Clustering**: group the observations in the data into different clusters
 
-  * Methods: hard clustering ($k$-means, hierachical clustering,...), soft clustering (mixture model)
+  * Methods: hard clustering ($k$-means, hierarchical clustering,...), soft clustering (mixture model)
+  
+. . .
+  
+3. **Density estimation**: estimate the underlying distribution of the data (in a way that makes sense)
 
 ## Dimension reduction: the big picture
 
@@ -80,25 +107,6 @@ Tedious task: Make a series of all $\displaystyle \binom{50}{2} = 1225$ pairs of
 . . .
 
 **Intuition: Take high-dimensional data and represent it in 2-3 dimensions, then visualize those dimensions**
-
-## Motivating example: Starbucks drinks
-
-```{r}
-library(tidyverse)
-theme_set(theme_light())
-starbucks <- read_csv(
-  "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-12-21/starbucks.csv"
-) |>
-  # convert columns to numeric that were saved as character
-  mutate(trans_fat_g = as.numeric(trans_fat_g), fiber_g = as.numeric(fiber_g))
-glimpse(starbucks)
-```
-
-```{r}
-#| echo: false
-ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
-```
-
 
 
 ## Dimension reduction: the big picture
@@ -134,12 +142,6 @@ We have $p$ variables (columns) for $n$ observations (rows) __BUT__ which variab
 . . .
 
 Can we find a smaller number of dimensions that captures the __interesting__ structure in the data?
-
-  - Could examine all pairwise scatterplots of each variable - tedious, manual process
-
-  - Clustering of variables based on correlation
-
-  - Can we find a combination of the original $p$ variables?
 
 . . .
 
@@ -294,17 +296,15 @@ line1.slope <- line1[2]
 line1.intercept <- line1[1]
 basic_scatter_yfit <- basic_scatter +
   geom_abline(aes(slope = line1.slope, intercept = line1.intercept),
-              colour = "darkred") +
-  annotate("text", x = 75, y = 120, label = "y ~ x", color = "darkred",
-           size = 9)
+              colour = "darkorange", linewidth = 1.5) +
+  annotate("text", x = 75, y = 115, label = "y ~ x", color = "darkorange",
+           size = 11)
 basic_scatter_yfit
 ```
 
 
 
-## [Visualizing PCA](https://www.stevejburr.com/post/scatter-plots-and-best-fit-lines/) in two dimensions
-
-```{r, echo = FALSE, fig.align='center', fig.height=7}
+```{r, echo = FALSE}
 #fit the model
 line2 <- lm(x ~ y, plot_data)$coef
 #extract the slope from the fitted model
@@ -313,10 +313,9 @@ line2.slope <- 1 / line2[2]
 line2.intercept <- -(line2[1] / line2[2])
 basic_scatter_xyfit <- basic_scatter_yfit +
   geom_abline(aes(slope = line2.slope, intercept = line2.intercept),
-              colour = "blue") +
+              colour = "blue", linewidth = 1.5) +
   annotate("text", x = 125, y = 55, label = "x ~ y", color = "blue",
            size = 9)
-basic_scatter_xyfit
 ```
 
 
@@ -328,19 +327,19 @@ pca <- prcomp(cbind(plot_data$x, plot_data$y))$rotation
 pca.slope <- pca[2,1] / pca[1,1]
 pca.intercept <- mean(plot_data$y) - (pca.slope * mean(plot_data$x))
 
-basic_scatter_xy_pca_fit <- basic_scatter_xyfit +
+basic_scatter_y_pca_fit <- basic_scatter_yfit +
   geom_abline(aes(slope = pca.slope, intercept = pca.intercept),
-              colour = "darkorange") +
-  annotate("text", x = 75, y = 90, label = "PCA", color = "darkorange",
-           size = 9)
-basic_scatter_xy_pca_fit
+              colour = "blue", linewidth = 1.5) +
+  annotate("text", x = 125, y = 55, label = "PCA", color = "blue",
+           size = 11)
+basic_scatter_y_pca_fit
 ```
 
 ## [Visualizing PCA](https://www.stevejburr.com/post/scatter-plots-and-best-fit-lines/) in two dimensions
 
 Key idea: provide low-dimensional linear surfaces that are closest to the observations
 
-```{r fig.width=14, fig.height=5, echo = FALSE, fig.align='center'}
+```{r fig.width=10, fig.height=5, echo = FALSE, fig.align='center'}
 plot_data |>
   #calculate the positions using the line equations:
   mutate(yhat_line1=(x*line1.slope+line1.intercept),
@@ -378,12 +377,13 @@ plot_data |>
            TRUE ~ "PCA"
          ),
          line = fct_relevel(line, "y ~ x", "x ~ y", "PCA")) |> 
+  filter(line != "x ~ y") |> 
   ggplot() +
   geom_point(aes(x = x, y = y, color = line)) +
-  geom_abline(aes(slope = slope, intercept = intercept, color = line)) +
+  geom_abline(aes(slope = slope, intercept = intercept, color = line), linewidth = 1.2) +
   geom_segment(aes(x = x, y = y, xend = xhat, yend = yhat, color = line)) +
   facet_wrap(~ line, ncol = 3) +
-  scale_color_manual(values = c("darkred", "blue", "darkorange")) +
+  scale_color_manual(values = c("darkorange", "blue")) +
   theme_bw() +
   theme(strip.background = element_blank(),
         legend.position = "none",
@@ -394,11 +394,9 @@ plot_data |>
 
 * The above is the **minimizing projection residuals** viewpoint of PCA
 
-. . .
 
-* There's another viewpoint: **maximizing variance**
+* Side note: there's another viewpoint---**maximizing variance**. That is, if we project all points onto the solid blue line, we maximize the variance of the resulting projected points across all such blue lines
 
-  *   if we project all points onto the solid orange line, we maximize the variance of the resulting projected points across all such orange lines
 
 # Examples
 
@@ -426,9 +424,9 @@ ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
 Use the `prcomp()` function (based on SVD) for PCA on centered and scaled data
 
 ```{r}
-feat <- starbucks |> 
+starbucks_feat <- starbucks |> 
   select(serv_size_m_l:caffeine_mg)
-starbucks_pca <- prcomp(feat, center = TRUE, scale. = TRUE)
+starbucks_pca <- prcomp(starbucks_feat, center = TRUE, scale. = TRUE)
 summary(starbucks_pca)
 ```
 
@@ -567,7 +565,7 @@ starbucks_pca |>
   ggplot(aes(x = PC, y = percent)) +
   geom_line() + 
   geom_point() +
-  geom_hline(yintercept = 1 / ncol(feat), color = "darkred", linetype = "dashed") +
+  geom_hline(yintercept = 1 / ncol(starbucks_feat), color = "darkred", linetype = "dashed") +
   scale_x_continuous(breaks = 1:ncol(starbucks_pca$x))
 ```
 
