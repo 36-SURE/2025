@@ -211,6 +211,38 @@
 <h1>Background</h1>
 
 </section>
+<section id="motivating-example-starbucks-drinks" class="slide level2">
+<h2>Motivating example: Starbucks drinks</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_light</span>())</span>
+<span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a>starbucks <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-12-21/starbucks.csv"</span></span>
+<span id="cb1-5"><a aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb1-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># convert columns to numeric that were saved as character</span></span>
+<span id="cb1-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">trans_fat_g =</span> <span class="fu">as.numeric</span>(trans_fat_g), <span class="at">fiber_g =</span> <span class="fu">as.numeric</span>(fiber_g))</span>
+<span id="cb1-8"><a aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(starbucks)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 1,147
+Columns: 15
+$ product_name    &lt;chr&gt; "brewed coffee - dark roast", "brewed coffee - dark ro…
+$ size            &lt;chr&gt; "short", "tall", "grande", "venti", "short", "tall", "…
+$ milk            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, …
+$ whip            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+$ serv_size_m_l   &lt;dbl&gt; 236, 354, 473, 591, 236, 354, 473, 591, 236, 354, 473,…
+$ calories        &lt;dbl&gt; 3, 4, 5, 5, 3, 4, 5, 5, 3, 4, 5, 5, 3, 4, 5, 5, 35, 50…
+$ total_fat_g     &lt;dbl&gt; 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1,…
+$ saturated_fat_g &lt;dbl&gt; 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,…
+$ trans_fat_g     &lt;dbl&gt; 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,…
+$ cholesterol_mg  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10,…
+$ sodium_mg       &lt;dbl&gt; 5, 10, 10, 10, 5, 10, 10, 10, 5, 5, 5, 5, 5, 5, 5, 5, …
+$ total_carbs_g   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, …
+$ fiber_g         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+$ sugar_g         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, …
+$ caffeine_mg     &lt;dbl&gt; 130, 193, 260, 340, 15, 20, 25, 30, 155, 235, 310, 410…</code></pre>
+</div>
+</div>
+</section>
 <section id="unsupervised-learning" class="slide level2">
 <h2>Unsupervised learning</h2>
 <ul>
@@ -242,18 +274,27 @@
 </section>
 <section id="fundamental-problems-in-unsupervised-learning" class="slide level2">
 <h2>Fundamental problems in unsupervised learning</h2>
+<div class="fragment">
 <ol type="1">
-<li><strong>Dimension reduction:</strong> reduce the original dimension of the data to something smaller so we can explore/visualize the data</li>
+<li><strong>Dimension reduction:</strong> reduce the original feature dimension of the data to something smaller so we can explore/visualize the data</li>
 </ol>
 <ul>
 <li>Methods: <strong>PCA (this lecture)</strong>, ICA, t-SNE, UMAP,…</li>
 </ul>
+</div>
+<div class="fragment">
 <ol start="2" type="1">
 <li><strong>Clustering</strong>: group the observations in the data into different clusters</li>
 </ol>
 <ul>
-<li>Methods: hard clustering (<span class="math inline">\(k\)</span>-means, hierachical clustering,…), soft clustering (mixture model)</li>
+<li>Methods: hard clustering (<span class="math inline">\(k\)</span>-means, hierarchical clustering,…), soft clustering (mixture model)</li>
 </ul>
+</div>
+<div class="fragment">
+<ol start="3" type="1">
+<li><strong>Density estimation</strong>: estimate the underlying distribution of the data (in a way that makes sense)</li>
+</ol>
+</div>
 </section>
 <section id="dimension-reduction-the-big-picture" class="slide level2">
 <h2>Dimension reduction: the big picture</h2>
@@ -266,38 +307,6 @@
 </div>
 <div class="fragment">
 <p><strong>Intuition: Take high-dimensional data and represent it in 2-3 dimensions, then visualize those dimensions</strong></p>
-</div>
-</section>
-<section id="motivating-example-starbucks-drinks" class="slide level2">
-<h2>Motivating example: Starbucks drinks</h2>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_light</span>())</span>
-<span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a>starbucks <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
-<span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-12-21/starbucks.csv"</span></span>
-<span id="cb1-5"><a aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
-<span id="cb1-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># convert columns to numeric that were saved as character</span></span>
-<span id="cb1-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">trans_fat_g =</span> <span class="fu">as.numeric</span>(trans_fat_g), <span class="at">fiber_g =</span> <span class="fu">as.numeric</span>(fiber_g))</span>
-<span id="cb1-8"><a aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(starbucks)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows: 1,147
-Columns: 15
-$ product_name    &lt;chr&gt; "brewed coffee - dark roast", "brewed coffee - dark ro…
-$ size            &lt;chr&gt; "short", "tall", "grande", "venti", "short", "tall", "…
-$ milk            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, …
-$ whip            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-$ serv_size_m_l   &lt;dbl&gt; 236, 354, 473, 591, 236, 354, 473, 591, 236, 354, 473,…
-$ calories        &lt;dbl&gt; 3, 4, 5, 5, 3, 4, 5, 5, 3, 4, 5, 5, 3, 4, 5, 5, 35, 50…
-$ total_fat_g     &lt;dbl&gt; 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1,…
-$ saturated_fat_g &lt;dbl&gt; 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,…
-$ trans_fat_g     &lt;dbl&gt; 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,…
-$ cholesterol_mg  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10,…
-$ sodium_mg       &lt;dbl&gt; 5, 10, 10, 10, 5, 10, 10, 10, 5, 5, 5, 5, 5, 5, 5, 5, …
-$ total_carbs_g   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, …
-$ fiber_g         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-$ sugar_g         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, …
-$ caffeine_mg     &lt;dbl&gt; 130, 193, 260, 340, 15, 20, 25, 30, 155, 235, 310, 410…</code></pre>
-</div>
 </div>
 </section>
 <section id="dimension-reduction-the-big-picture-1" class="slide level2">
@@ -339,11 +348,6 @@ $ caffeine_mg     &lt;dbl&gt; 130, 193, 260, 340, 15, 20, 25, 30, 155, 235, 310,
 <p>We have <span class="math inline">\(p\)</span> variables (columns) for <span class="math inline">\(n\)</span> observations (rows) <strong>BUT</strong> which variables are <strong>interesting</strong>?</p>
 <div class="fragment">
 <p>Can we find a smaller number of dimensions that captures the <strong>interesting</strong> structure in the data?</p>
-<ul>
-<li><p>Could examine all pairwise scatterplots of each variable - tedious, manual process</p></li>
-<li><p>Clustering of variables based on correlation</p></li>
-<li><p>Can we find a combination of the original <span class="math inline">\(p\)</span> variables?</p></li>
-</ul>
 </div>
 <div class="fragment">
 <p><strong>Dimension reduction</strong>:</p>
@@ -470,26 +474,15 @@ $ caffeine_mg     &lt;dbl&gt; 130, 193, 260, 340, 15, 20, 25, 30, 155, 235, 310,
 <section id="visualizing-pca-in-two-dimensions-2" class="slide level2">
 <h2><a href="https://www.stevejburr.com/post/scatter-plots-and-best-fit-lines/">Visualizing PCA</a> in two dimensions</h2>
 
-<img data-src="05-pca_files/figure-revealjs/unnamed-chunk-6-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
-<section id="visualizing-pca-in-two-dimensions-3" class="slide level2">
-<h2><a href="https://www.stevejburr.com/post/scatter-plots-and-best-fit-lines/">Visualizing PCA</a> in two dimensions</h2>
-
 <img data-src="05-pca_files/figure-revealjs/unnamed-chunk-7-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
-<section id="visualizing-pca-in-two-dimensions-4" class="slide level2">
+<section id="visualizing-pca-in-two-dimensions-3" class="slide level2">
 <h2><a href="https://www.stevejburr.com/post/scatter-plots-and-best-fit-lines/">Visualizing PCA</a> in two dimensions</h2>
 <p>Key idea: provide low-dimensional linear surfaces that are closest to the observations</p>
 
-<img data-src="05-pca_files/figure-revealjs/unnamed-chunk-8-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1344"><div class="fragment">
+<img data-src="05-pca_files/figure-revealjs/unnamed-chunk-8-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"><div class="fragment">
 <ul>
-<li>The above is the <strong>minimizing projection residuals</strong> viewpoint of PCA</li>
-</ul>
-</div>
-<div class="fragment">
-<ul>
-<li><p>There’s another viewpoint: <strong>maximizing variance</strong></p>
-<ul>
-<li>if we project all points onto the solid orange line, we maximize the variance of the resulting projected points across all such orange lines</li>
-</ul></li>
+<li><p>The above is the <strong>minimizing projection residuals</strong> viewpoint of PCA</p></li>
+<li><p>Side note: there’s another viewpoint—<strong>maximizing variance</strong>. That is, if we project all points onto the solid blue line, we maximize the variance of the resulting projected points across all such blue lines</p></li>
 </ul>
 </div>
 </section></section>
@@ -534,9 +527,9 @@ $ caffeine_mg     &lt;dbl&gt; 130, 193, 260, 340, 15, 20, 25, 30, 155, 235, 310,
 <h2>Implementing PCA</h2>
 <p>Use the <code>prcomp()</code> function (based on SVD) for PCA on centered and scaled data</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a>feat <span class="ot">&lt;-</span> starbucks <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a>starbucks_feat <span class="ot">&lt;-</span> starbucks <span class="sc">|&gt;</span> </span>
 <span id="cb5-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(serv_size_m_l<span class="sc">:</span>caffeine_mg)</span>
-<span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a>starbucks_pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(feat, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a>starbucks_pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(starbucks_feat, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb5-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(starbucks_pca)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Importance of components:
@@ -704,7 +697,7 @@ Cumulative Proportion  0.99657 0.99916 0.99985 1.00000</code></pre>
 <span id="cb16-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> PC, <span class="at">y =</span> percent)) <span class="sc">+</span></span>
 <span id="cb16-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
 <span id="cb16-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb16-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">ncol</span>(feat), <span class="at">color =</span> <span class="st">"darkred"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb16-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">ncol</span>(starbucks_feat), <span class="at">color =</span> <span class="st">"darkred"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
 <span id="cb16-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(starbucks_pca<span class="sc">$</span>x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>

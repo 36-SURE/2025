@@ -805,6 +805,13 @@
     "text": "What about facets?\n\ntaylor_all_songs |&gt; \n  filter(album_name %in% c(\"Lover\", \"folklore\", \"evermore\", \"Midnights\")) |&gt;\n  ggplot(aes(x = duration)) +\n  geom_histogram(bins = 15) +\n  facet_grid(album_name ~ ., margins = TRUE)"
   },
   {
+    "objectID": "lectures/05-pca.html#motivating-example-starbucks-drinks",
+    "href": "lectures/05-pca.html#motivating-example-starbucks-drinks",
+    "title": "Unsupervised learning: principal component analysis",
+    "section": "Motivating example: Starbucks drinks",
+    "text": "Motivating example: Starbucks drinks\n\nlibrary(tidyverse)\ntheme_set(theme_light())\nstarbucks &lt;- read_csv(\n  \"https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-12-21/starbucks.csv\"\n) |&gt;\n  # convert columns to numeric that were saved as character\n  mutate(trans_fat_g = as.numeric(trans_fat_g), fiber_g = as.numeric(fiber_g))\nglimpse(starbucks)\n\nRows: 1,147\nColumns: 15\n$ product_name    &lt;chr&gt; \"brewed coffee - dark roast\", \"brewed coffee - dark ro…\n$ size            &lt;chr&gt; \"short\", \"tall\", \"grande\", \"venti\", \"short\", \"tall\", \"…\n$ milk            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, …\n$ whip            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ serv_size_m_l   &lt;dbl&gt; 236, 354, 473, 591, 236, 354, 473, 591, 236, 354, 473,…\n$ calories        &lt;dbl&gt; 3, 4, 5, 5, 3, 4, 5, 5, 3, 4, 5, 5, 3, 4, 5, 5, 35, 50…\n$ total_fat_g     &lt;dbl&gt; 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1,…\n$ saturated_fat_g &lt;dbl&gt; 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,…\n$ trans_fat_g     &lt;dbl&gt; 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,…\n$ cholesterol_mg  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10,…\n$ sodium_mg       &lt;dbl&gt; 5, 10, 10, 10, 5, 10, 10, 10, 5, 5, 5, 5, 5, 5, 5, 5, …\n$ total_carbs_g   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, …\n$ fiber_g         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ sugar_g         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, …\n$ caffeine_mg     &lt;dbl&gt; 130, 193, 260, 340, 15, 20, 25, 30, 155, 235, 310, 410…"
+  },
+  {
     "objectID": "lectures/05-pca.html#unsupervised-learning",
     "href": "lectures/05-pca.html#unsupervised-learning",
     "title": "Unsupervised learning: principal component analysis",
@@ -816,7 +823,7 @@
     "href": "lectures/05-pca.html#fundamental-problems-in-unsupervised-learning",
     "title": "Unsupervised learning: principal component analysis",
     "section": "Fundamental problems in unsupervised learning",
-    "text": "Fundamental problems in unsupervised learning\n\nDimension reduction: reduce the original dimension of the data to something smaller so we can explore/visualize the data\n\n\nMethods: PCA (this lecture), ICA, t-SNE, UMAP,…\n\n\nClustering: group the observations in the data into different clusters\n\n\nMethods: hard clustering (\\(k\\)-means, hierachical clustering,…), soft clustering (mixture model)"
+    "text": "Fundamental problems in unsupervised learning\n\n\nDimension reduction: reduce the original feature dimension of the data to something smaller so we can explore/visualize the data\n\n\nMethods: PCA (this lecture), ICA, t-SNE, UMAP,…\n\n\n\n\nClustering: group the observations in the data into different clusters\n\n\nMethods: hard clustering (\\(k\\)-means, hierarchical clustering,…), soft clustering (mixture model)\n\n\n\n\nDensity estimation: estimate the underlying distribution of the data (in a way that makes sense)"
   },
   {
     "objectID": "lectures/05-pca.html#dimension-reduction-the-big-picture",
@@ -824,13 +831,6 @@
     "title": "Unsupervised learning: principal component analysis",
     "section": "Dimension reduction: the big picture",
     "text": "Dimension reduction: the big picture\nKey question: How do we visualize the structure of high-dimensional data?\n\nExample: What if you’re given a dataset with 50 variables and are asked to make one visualization that best represents the data? What do you do?\n\n\nTedious task: Make a series of all \\(\\displaystyle \\binom{50}{2} = 1225\\) pairs of plots? Or make a giant correlation heatmap?\n\n\nIntuition: Take high-dimensional data and represent it in 2-3 dimensions, then visualize those dimensions"
-  },
-  {
-    "objectID": "lectures/05-pca.html#motivating-example-starbucks-drinks",
-    "href": "lectures/05-pca.html#motivating-example-starbucks-drinks",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Motivating example: Starbucks drinks",
-    "text": "Motivating example: Starbucks drinks\n\nlibrary(tidyverse)\ntheme_set(theme_light())\nstarbucks &lt;- read_csv(\n  \"https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-12-21/starbucks.csv\"\n) |&gt;\n  # convert columns to numeric that were saved as character\n  mutate(trans_fat_g = as.numeric(trans_fat_g), fiber_g = as.numeric(fiber_g))\nglimpse(starbucks)\n\nRows: 1,147\nColumns: 15\n$ product_name    &lt;chr&gt; \"brewed coffee - dark roast\", \"brewed coffee - dark ro…\n$ size            &lt;chr&gt; \"short\", \"tall\", \"grande\", \"venti\", \"short\", \"tall\", \"…\n$ milk            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, …\n$ whip            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ serv_size_m_l   &lt;dbl&gt; 236, 354, 473, 591, 236, 354, 473, 591, 236, 354, 473,…\n$ calories        &lt;dbl&gt; 3, 4, 5, 5, 3, 4, 5, 5, 3, 4, 5, 5, 3, 4, 5, 5, 35, 50…\n$ total_fat_g     &lt;dbl&gt; 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1,…\n$ saturated_fat_g &lt;dbl&gt; 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,…\n$ trans_fat_g     &lt;dbl&gt; 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,…\n$ cholesterol_mg  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10,…\n$ sodium_mg       &lt;dbl&gt; 5, 10, 10, 10, 5, 10, 10, 10, 5, 5, 5, 5, 5, 5, 5, 5, …\n$ total_carbs_g   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, …\n$ fiber_g         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ sugar_g         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, …\n$ caffeine_mg     &lt;dbl&gt; 130, 193, 260, 340, 15, 20, 25, 30, 155, 235, 310, 410…"
   },
   {
     "objectID": "lectures/05-pca.html#dimension-reduction-the-big-picture-1",
@@ -844,7 +844,7 @@
     "href": "lectures/05-pca.html#what-is-the-goal-of-dimension-reduction",
     "title": "Unsupervised learning: principal component analysis",
     "section": "What is the goal of dimension reduction?",
-    "text": "What is the goal of dimension reduction?\nWe have \\(p\\) variables (columns) for \\(n\\) observations (rows) BUT which variables are interesting?\n\nCan we find a smaller number of dimensions that captures the interesting structure in the data?\n\nCould examine all pairwise scatterplots of each variable - tedious, manual process\nClustering of variables based on correlation\nCan we find a combination of the original \\(p\\) variables?\n\n\n\nDimension reduction:\n\nFocus on reducing the dimensionality of the feature space (i.e., number of columns)\nRetain most of the information / variability in a lower dimensional space (i.e., reducing the number of columns)\nThe process: (big) \\(n \\times p\\) matrix \\(\\longrightarrow\\) dimension reduction method \\(\\longrightarrow\\) (smaller) \\(n \\times k\\) matrix"
+    "text": "What is the goal of dimension reduction?\nWe have \\(p\\) variables (columns) for \\(n\\) observations (rows) BUT which variables are interesting?\n\nCan we find a smaller number of dimensions that captures the interesting structure in the data?\n\n\nDimension reduction:\n\nFocus on reducing the dimensionality of the feature space (i.e., number of columns)\nRetain most of the information / variability in a lower dimensional space (i.e., reducing the number of columns)\nThe process: (big) \\(n \\times p\\) matrix \\(\\longrightarrow\\) dimension reduction method \\(\\longrightarrow\\) (smaller) \\(n \\times k\\) matrix"
   },
   {
     "objectID": "lectures/05-pca.html#principal-components-analysis-pca",
@@ -907,14 +907,7 @@
     "href": "lectures/05-pca.html#visualizing-pca-in-two-dimensions-3",
     "title": "Unsupervised learning: principal component analysis",
     "section": "Visualizing PCA in two dimensions",
-    "text": "Visualizing PCA in two dimensions"
-  },
-  {
-    "objectID": "lectures/05-pca.html#visualizing-pca-in-two-dimensions-4",
-    "href": "lectures/05-pca.html#visualizing-pca-in-two-dimensions-4",
-    "title": "Unsupervised learning: principal component analysis",
-    "section": "Visualizing PCA in two dimensions",
-    "text": "Visualizing PCA in two dimensions\nKey idea: provide low-dimensional linear surfaces that are closest to the observations\n\n\n\nThe above is the minimizing projection residuals viewpoint of PCA\n\n\n\n\nThere’s another viewpoint: maximizing variance\n\nif we project all points onto the solid orange line, we maximize the variance of the resulting projected points across all such orange lines"
+    "text": "Visualizing PCA in two dimensions\nKey idea: provide low-dimensional linear surfaces that are closest to the observations\n\n\n\nThe above is the minimizing projection residuals viewpoint of PCA\nSide note: there’s another viewpoint—maximizing variance. That is, if we project all points onto the solid blue line, we maximize the variance of the resulting projected points across all such blue lines"
   },
   {
     "objectID": "lectures/05-pca.html#data-nutritional-information-of-starbucks-drinks",
@@ -928,7 +921,7 @@
     "href": "lectures/05-pca.html#implementing-pca",
     "title": "Unsupervised learning: principal component analysis",
     "section": "Implementing PCA",
-    "text": "Implementing PCA\nUse the prcomp() function (based on SVD) for PCA on centered and scaled data\n\nfeat &lt;- starbucks |&gt; \n  select(serv_size_m_l:caffeine_mg)\nstarbucks_pca &lt;- prcomp(feat, center = TRUE, scale. = TRUE)\nsummary(starbucks_pca)\n\nImportance of components:\n                          PC1    PC2    PC3     PC4     PC5     PC6    PC7\nStandard deviation     2.4748 1.3074 1.0571 0.97919 0.67836 0.56399 0.4413\nProportion of Variance 0.5568 0.1554 0.1016 0.08716 0.04183 0.02892 0.0177\nCumulative Proportion  0.5568 0.7122 0.8138 0.90093 0.94276 0.97168 0.9894\n                           PC8     PC9    PC10    PC11\nStandard deviation     0.28123 0.16874 0.08702 0.04048\nProportion of Variance 0.00719 0.00259 0.00069 0.00015\nCumulative Proportion  0.99657 0.99916 0.99985 1.00000"
+    "text": "Implementing PCA\nUse the prcomp() function (based on SVD) for PCA on centered and scaled data\n\nstarbucks_feat &lt;- starbucks |&gt; \n  select(serv_size_m_l:caffeine_mg)\nstarbucks_pca &lt;- prcomp(starbucks_feat, center = TRUE, scale. = TRUE)\nsummary(starbucks_pca)\n\nImportance of components:\n                          PC1    PC2    PC3     PC4     PC5     PC6    PC7\nStandard deviation     2.4748 1.3074 1.0571 0.97919 0.67836 0.56399 0.4413\nProportion of Variance 0.5568 0.1554 0.1016 0.08716 0.04183 0.02892 0.0177\nCumulative Proportion  0.5568 0.7122 0.8138 0.90093 0.94276 0.97168 0.9894\n                           PC8     PC9    PC10    PC11\nStandard deviation     0.28123 0.16874 0.08702 0.04048\nProportion of Variance 0.00719 0.00259 0.00069 0.00015\nCumulative Proportion  0.99657 0.99916 0.99985 1.00000"
   },
   {
     "objectID": "lectures/05-pca.html#computing-principal-components",
@@ -977,7 +970,7 @@
     "href": "lectures/05-pca.html#proportion-of-variance-explained",
     "title": "Unsupervised learning: principal component analysis",
     "section": "Proportion of variance explained",
-    "text": "Proportion of variance explained\n\nlibrary(broom)\nstarbucks_pca |&gt;\n  tidy(matrix = \"eigenvalues\") |&gt;\n  ggplot(aes(x = PC, y = percent)) +\n  geom_line() + \n  geom_point() +\n  geom_hline(yintercept = 1 / ncol(feat), color = \"darkred\", linetype = \"dashed\") +\n  scale_x_continuous(breaks = 1:ncol(starbucks_pca$x))"
+    "text": "Proportion of variance explained\n\nlibrary(broom)\nstarbucks_pca |&gt;\n  tidy(matrix = \"eigenvalues\") |&gt;\n  ggplot(aes(x = PC, y = percent)) +\n  geom_line() + \n  geom_point() +\n  geom_hline(yintercept = 1 / ncol(starbucks_feat), color = \"darkred\", linetype = \"dashed\") +\n  scale_x_continuous(breaks = 1:ncol(starbucks_pca$x))"
   },
   {
     "objectID": "lectures/05-pca.html#cumulative-proportion-of-variance-explained",
