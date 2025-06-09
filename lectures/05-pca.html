@@ -242,6 +242,12 @@ $ sugar_g         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5,
 $ caffeine_mg     &lt;dbl&gt; 130, 193, 260, 340, 15, 20, 25, 30, 155, 235, 310, 410…</code></pre>
 </div>
 </div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a>starbucks_feat <span class="ot">&lt;-</span> starbucks <span class="sc">|&gt;</span> </span>
+<span id="cb3-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(serv_size_m_l<span class="sc">:</span>caffeine_mg)</span>
+<span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a>starbucks_pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(starbucks_feat, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(starbucks_pca)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="unsupervised-learning" class="slide level2">
 <h2>Unsupervised learning</h2>
@@ -345,84 +351,44 @@ $ caffeine_mg     &lt;dbl&gt; 130, 193, 260, 340, 15, 20, 25, 30, 155, 235, 310,
 </section>
 <section id="what-is-the-goal-of-dimension-reduction" class="slide level2">
 <h2>What is the goal of dimension reduction?</h2>
-<p>We have <span class="math inline">\(p\)</span> variables (columns) for <span class="math inline">\(n\)</span> observations (rows) <strong>BUT</strong> which variables are <strong>interesting</strong>?</p>
-<div class="fragment">
-<p>Can we find a smaller number of dimensions that captures the <strong>interesting</strong> structure in the data?</p>
-</div>
+<p>Given a dataset with <span class="math inline">\(p\)</span> variables (columns) for <span class="math inline">\(n\)</span> observations (rows), can we find a smaller number of dimensions that captures the <strong>interesting</strong> structure in the data?</p>
 <div class="fragment">
 <p><strong>Dimension reduction</strong>:</p>
 <ul>
 <li><p>Focus on reducing the dimensionality of the feature space (i.e., number of columns)</p></li>
 <li><p><strong>Retain</strong> most of the information / <strong>variability</strong> in a lower dimensional space (i.e., reducing the number of columns)</p></li>
-<li><p>The process: (big) <span class="math inline">\(n \times p\)</span> matrix <span class="math inline">\(\longrightarrow\)</span> dimension reduction method <span class="math inline">\(\longrightarrow\)</span> (smaller) <span class="math inline">\(n \times k\)</span> matrix</p></li>
 </ul>
 </div>
 </section>
 <section id="principal-components-analysis-pca" class="slide level2">
 <h2><a href="https://en.wikipedia.org/wiki/Principal_component_analysis">Principal components analysis (PCA)</a></h2>
-<p><strong>TL;DR</strong></p>
-<p>PCA replaces the original <span class="math inline">\(p\)</span> explanatory variables by fewer linear combinations of them (the “principal components”) that are uncorrelated while also accounting for most of their variabillity</p>
-<div class="fragment">
-<p><span class="math display">\[
-\begin{pmatrix}
-&amp; &amp; \text{really} &amp; &amp; \\
-&amp; &amp; \text{wide} &amp; &amp; \\
-&amp; &amp; \text{matrix} &amp; &amp;
-\end{pmatrix}
-\rightarrow \text{matrix algebra razzmatazz} \rightarrow
-\begin{pmatrix}
-\text{much}  \\
-\text{thinner}  \\
-\text{matrix}
-\end{pmatrix}
-\]</span></p>
 <ul>
-<li><p>PCA explores the <strong>covariance</strong> between variables, and combines variables into a smaller set of <strong>uncorrelated</strong> variables called <strong>principal components (PCs)</strong></p>
-<ul>
-<li>Turn a <span class="math inline">\(n \times p\)</span> matrix of <strong>correlated</strong> variables into a <span class="math inline">\(n \times k\)</span> matrix of <strong>uncorrelated</strong> variables</li>
-</ul></li>
+<li><p>PCA produces a low-dimensional representation of a dataset</p></li>
+<li><p>PCA finds a set of variables that are linear combinations of the features that have maximal variance <em>and</em> are mutually uncorrelated</p></li>
+<li><p>The set of uncorrelated variables is called the <strong>principal components (PCs)</strong></p></li>
 </ul>
-</div>
 </section>
-<section id="principal-components-analysis-pca-1" class="slide level2">
-<h2><a href="https://en.wikipedia.org/wiki/Principal_component_analysis">Principal components analysis (PCA)</a></h2>
-<p><span class="math display">\[
-\begin{pmatrix}
-&amp; &amp; \text{really} &amp; &amp; \\
-&amp; &amp; \text{wide} &amp; &amp; \\
-&amp; &amp; \text{matrix} &amp; &amp;
-\end{pmatrix}
-\rightarrow \text{matrix algebra razzmatazz} \rightarrow
-\begin{pmatrix}
-\text{much}  \\
-\text{thinner}  \\
-\text{matrix}
-\end{pmatrix}
-\]</span></p>
+<section id="principal-components" class="slide level2">
+<h2>Principal components</h2>
 <ul>
-<li><p>Each of the <span class="math inline">\(k\)</span> columns in the right-hand matrix are <strong>principal components</strong> (PCs), all uncorrelated with each other</p>
-<ul>
-<li><p>PCs are <strong>weighted</strong>, linear combinations of the original variables</p></li>
+<li><p>PCs are weighted, normalized linear combinations of the original variables</p></li>
 <li><p>Weights reveal how different variables are <strong><em>loaded</em></strong> into the PCs</p></li>
-</ul></li>
-<li><p>First column accounts for most variation in the data, second column for second-most variation, and so on</p></li>
+<li><p>First PC accounts for most variation in the data, second PC for second-most variation, and so on</p></li>
 </ul>
-<p>Intuition: we want a <strong>small number of PCs</strong> (first few PCs) to account for most of the information/variance in the data</p>
 </section>
-<section id="what-are-principal-components" class="slide level2">
-<h2>What are principal components?</h2>
-<p>Assume <span class="math inline">\(\boldsymbol{X}\)</span> is a <span class="math inline">\(n \times p\)</span> matrix that is <strong>centered</strong> and <strong>stardardized</strong></p>
-<div class="fragment">
-<p><em>Total variation</em> <span class="math inline">\(= p\)</span>, since <span class="math inline">\(\text{Var}(\boldsymbol{x}_j)\)</span> = 1 for all <span class="math inline">\(j = 1, \dots, p\)</span> (due to stardardization)</p>
-</div>
-<div class="fragment">
-<p>PCA will give us <span class="math inline">\(p\)</span> principal components that are <span class="math inline">\(n\)</span>-length columns, denoted by <span class="math inline">\(Z_1, \dots, Z_p\)</span></p>
-</div>
+<section id="principal-components-a-little-more-formal" class="slide level2">
+<h2>Principal components (a little more formal)</h2>
+<ul>
+<li>Assume <span class="math inline">\(\boldsymbol{X}\)</span> is a <span class="math inline">\(n \times p\)</span> matrix that is <strong>centered</strong> and <strong>stardardized</strong></li>
+</ul>
 <div class="fragment">
 <ul>
-<li><p>The first principal component is the linear combination that has the largest possible variance</p></li>
+<li><p>PCA will give us <span class="math inline">\(p\)</span> principal components that are <span class="math inline">\(n\)</span>-length columns, denoted by <span class="math inline">\(Z_1, \dots, Z_p\)</span></p>
+<ul>
+<li><p>The first PC is the linear combination that has the largest possible variance</p></li>
 <li><p>Each succeeding component has the largest possible variance under the constraint that it is uncorrelated with the preceding components</p></li>
-<li><p>A small number of principal components often explains a high percentage of the original variability</p></li>
+<li><p><strong>A small number of principal components often explains a high proportion of the variability in the data</strong></p></li>
+</ul></li>
 </ul>
 </div>
 </section>
@@ -431,14 +397,11 @@ $ caffeine_mg     &lt;dbl&gt; 130, 193, 260, 340, 15, 20, 25, 30, 155, 235, 310,
 <p><span class="math display">\[Z_1 = \phi_{11} X_1 + \phi_{21} X_2 + \dots + \phi_{p1} X_p\]</span></p>
 <div class="fragment">
 <ul>
-<li><p><span class="math inline">\(\phi_{j1}\)</span> are the weights indicating the contributions of each variable <span class="math inline">\(j \in 1, \dots, p\)</span></p></li>
-<li><p>Weights are normalized <span class="math inline">\(\displaystyle \sum_{j=1}^p \phi_{j1}^2 = 1\)</span></p></li>
-<li><p><span class="math inline">\(\phi_{1} = (\phi_{11}, \phi_{21}, \dots, \phi_{p1})\)</span> is the <strong>loading vector</strong> for <span class="math inline">\(\text{PC}_1\)</span></p></li>
-</ul>
-</div>
-<div class="fragment">
-<ul>
-<li><span class="math inline">\(Z_1\)</span> is a linear combination of the <span class="math inline">\(p\)</span> variables that has the <strong>largest variance</strong></li>
+<li><p><span class="math inline">\(\phi_{11}, \phi_{21}, \dots, \phi_{p1}\)</span> are the loadings of the first PC</p></li>
+<li><p>These are weights indicating the contributions of each feature</p></li>
+<li><p>Weights are normalized <span class="math inline">\(\displaystyle \sum_{j=1}^p \phi_{j1}^2 = 1\)</span> (else, arbitraily large variance)</p></li>
+<li><p>Together, the loadings make up the <strong>loading vector</strong> for the first PC, <span class="math inline">\(\phi_{1} = (\phi_{11}, \phi_{21}, \dots, \phi_{p1})\)</span></p></li>
+<li><p><span class="math inline">\(Z_1\)</span> is a linear combination of the <span class="math inline">\(p\)</span> variables that has the <strong>largest variance</strong> (among all PCs)</p></li>
 </ul>
 </div>
 </section>
@@ -446,43 +409,53 @@ $ caffeine_mg     &lt;dbl&gt; 130, 193, 260, 340, 15, 20, 25, 30, 155, 235, 310,
 <h2>Second principal component</h2>
 <p><span class="math display">\[Z_2 = \phi_{12} X_1 + \phi_{22} X_2 + \dots + \phi_{p2} X_p\]</span></p>
 <ul>
-<li><p><span class="math inline">\(\phi_{j2}\)</span> are the weights indicating the contributions of each variable <span class="math inline">\(j \in 1, \dots, p\)</span></p></li>
-<li><p>Weights are normalized <span class="math inline">\(\displaystyle \sum_{j=1}^p \phi_{j1}^2 = 1\)</span></p></li>
-<li><p><span class="math inline">\(\phi_{2} = (\phi_{12}, \phi_{22}, \dots, \phi_{p2})\)</span> is the <strong>loading vector</strong> for <span class="math inline">\(\text{PC}_2\)</span></p></li>
-<li><p><span class="math inline">\(Z_2\)</span> is a linear combination of the <span class="math inline">\(p\)</span> variables that has the <strong>largest variance</strong></p>
-<ul>
-<li><strong>Subject to constraint it is uncorrelated with <span class="math inline">\(Z_1\)</span></strong></li>
-</ul></li>
+<li><p><span class="math inline">\(\phi_{12}, \phi_{22}, \dots, \phi_{p2}\)</span> are the loadings of the second PC</p></li>
+<li><p>Weights are normalized <span class="math inline">\(\displaystyle \sum_{j=1}^p \phi_{j2}^2 = 1\)</span></p></li>
+<li><p>Together, the loadings make up the <strong>loading vector</strong> for the second PC, <span class="math inline">\(\phi_{2} = (\phi_{12}, \phi_{22}, \dots, \phi_{p2})\)</span></p></li>
+<li><p><span class="math inline">\(Z_2\)</span> is a linear combination of the <span class="math inline">\(p\)</span> variables that has the <strong>largest variance</strong> <em>but</em> <strong>subject to constraint it is uncorrelated with <span class="math inline">\(Z_1\)</span></strong></p></li>
 </ul>
-<div class="fragment">
-<p>Repeat this process to create <span class="math inline">\(p\)</span> principal components</p>
+</section>
+<section id="obtaining-the-principal-components" class="slide level2">
+<h2>Obtaining the principal components</h2>
+<p>Repeat the same process to create <span class="math inline">\(p\)</span> principal components</p>
 <ul>
 <li><p><strong>Uncorrelated</strong>: Each (<span class="math inline">\(Z_j, Z_{j'}\)</span>) is uncorrelated with each other</p></li>
 <li><p><strong>Ordered Variance</strong>: <span class="math inline">\(\text{Var}(Z_1) &gt; \text{Var}(Z_2) &gt; \dots &gt; \text{Var}(Z_p)\)</span></p></li>
 <li><p><strong>Total Variance</strong>: <span class="math inline">\(\displaystyle \sum_{j=1}^p \text{Var}(Z_j) = p\)</span></p></li>
 </ul>
-</div>
+<p>PCA can be</p>
+<ul>
+<li><p>formulated as an optimization problem</p></li>
+<li><p>solved via linear algebra techniques (e.g.&nbsp;eigen decomposition or singular value decomposition (SVD))</p></li>
+</ul>
 </section>
-<section id="visualizing-pca-in-two-dimensions" class="slide level2">
-<h2><a href="https://www.stevejburr.com/post/scatter-plots-and-best-fit-lines/">Visualizing PCA</a> in two dimensions</h2>
-
-<img data-src="05-pca_files/figure-revealjs/unnamed-chunk-4-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
-<section id="visualizing-pca-in-two-dimensions-1" class="slide level2">
-<h2><a href="https://www.stevejburr.com/post/scatter-plots-and-best-fit-lines/">Visualizing PCA</a> in two dimensions</h2>
+<section id="geometry-of-pca" class="slide level2">
+<h2>Geometry of PCA</h2>
+<ul>
+<li><p>The loading vector <span class="math inline">\(\phi_1\)</span> with elements <span class="math inline">\(\phi_{11}, \phi_{21}, \dots, \phi_{p1}\)</span> defines a direction in feature space along which the data vary the most</p></li>
+<li><p>If we project the observations in our dataset onto this direction, the projected values are called the principal component scores</p></li>
+</ul>
+</section>
+<section id="geometry-of-pca-in-2d" class="slide level2">
+<h2>Geometry of PCA in 2D</h2>
 
 <img data-src="05-pca_files/figure-revealjs/unnamed-chunk-5-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
-<section id="visualizing-pca-in-two-dimensions-2" class="slide level2">
-<h2><a href="https://www.stevejburr.com/post/scatter-plots-and-best-fit-lines/">Visualizing PCA</a> in two dimensions</h2>
+<section id="geometry-of-pca-in-2d-1" class="slide level2">
+<h2>Geometry of PCA in 2D</h2>
 
-<img data-src="05-pca_files/figure-revealjs/unnamed-chunk-7-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
-<section id="visualizing-pca-in-two-dimensions-3" class="slide level2">
+<img data-src="05-pca_files/figure-revealjs/unnamed-chunk-6-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
+<section id="geometric-interpretation-of-pca-in-2d" class="slide level2">
+<h2>Geometric interpretation of PCA in 2D</h2>
+
+<img data-src="05-pca_files/figure-revealjs/unnamed-chunk-8-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
+<section id="visualizing-pca-in-two-dimensions" class="slide level2">
 <h2><a href="https://www.stevejburr.com/post/scatter-plots-and-best-fit-lines/">Visualizing PCA</a> in two dimensions</h2>
 <p>Key idea: provide low-dimensional linear surfaces that are closest to the observations</p>
 
-<img data-src="05-pca_files/figure-revealjs/unnamed-chunk-8-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"><div class="fragment">
+<img data-src="05-pca_files/figure-revealjs/unnamed-chunk-9-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"><div class="fragment">
 <ul>
 <li><p>The above is the <strong>minimizing projection residuals</strong> viewpoint of PCA</p></li>
-<li><p>Side note: there’s another viewpoint—<strong>maximizing variance</strong>. That is, if we project all points onto the solid blue line, we maximize the variance of the resulting projected points across all such blue lines</p></li>
+<li><p>There’s another viewpoint—<strong>maximizing variance</strong>. That is, if we project all points onto the solid blue line, we maximize the variance of the resulting projected points across all such blue lines</p></li>
 </ul>
 </div>
 </section></section>
@@ -494,14 +467,14 @@ $ caffeine_mg     &lt;dbl&gt; 130, 193, 260, 340, 15, 20, 25, 30, 155, 235, 310,
 <section id="data-nutritional-information-of-starbucks-drinks" class="slide level2">
 <h2>Data: nutritional information of Starbucks drinks</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb3-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_light</span>())</span>
-<span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a>starbucks <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
-<span id="cb3-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-12-21/starbucks.csv"</span></span>
-<span id="cb3-5"><a aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
-<span id="cb3-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># convert columns to numeric that were saved as character</span></span>
-<span id="cb3-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">trans_fat_g =</span> <span class="fu">as.numeric</span>(trans_fat_g), <span class="at">fiber_g =</span> <span class="fu">as.numeric</span>(fiber_g))</span>
-<span id="cb3-8"><a aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(starbucks)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb4-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_light</span>())</span>
+<span id="cb4-3"><a aria-hidden="true" tabindex="-1"></a>starbucks <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb4-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-12-21/starbucks.csv"</span></span>
+<span id="cb4-5"><a aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb4-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># convert columns to numeric that were saved as character</span></span>
+<span id="cb4-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">trans_fat_g =</span> <span class="fu">as.numeric</span>(trans_fat_g), <span class="at">fiber_g =</span> <span class="fu">as.numeric</span>(fiber_g))</span>
+<span id="cb4-8"><a aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(starbucks)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 1,147
 Columns: 15
@@ -527,10 +500,10 @@ $ caffeine_mg     &lt;dbl&gt; 130, 193, 260, 340, 15, 20, 25, 30, 155, 235, 310,
 <h2>Implementing PCA</h2>
 <p>Use the <code>prcomp()</code> function (based on SVD) for PCA on centered and scaled data</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a>starbucks_feat <span class="ot">&lt;-</span> starbucks <span class="sc">|&gt;</span> </span>
-<span id="cb5-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(serv_size_m_l<span class="sc">:</span>caffeine_mg)</span>
-<span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a>starbucks_pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(starbucks_feat, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(starbucks_pca)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a>starbucks_feat <span class="ot">&lt;-</span> starbucks <span class="sc">|&gt;</span> </span>
+<span id="cb6-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(serv_size_m_l<span class="sc">:</span>caffeine_mg)</span>
+<span id="cb6-3"><a aria-hidden="true" tabindex="-1"></a>starbucks_pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(starbucks_feat, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(starbucks_pca)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Importance of components:
                           PC1    PC2    PC3     PC4     PC5     PC6    PC7
@@ -547,9 +520,10 @@ Cumulative Proportion  0.99657 0.99916 0.99985 1.00000</code></pre>
 <section id="computing-principal-components" class="slide level2">
 <h2>Computing principal components</h2>
 <p>Extract the matrix of principal components (dimension will match original data)</p>
+<p>Note: columns are uncorrelated, such that <span class="math inline">\(\text{Var}(Z_1) &gt; \text{Var}(Z_2) &gt; \dots &gt; \text{Var}(Z_p)\)</span></p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a>starbucks_pc_matrix <span class="ot">&lt;-</span> starbucks_pca<span class="sc">$</span>x</span>
-<span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(starbucks_pc_matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a>starbucks_pc_matrix <span class="ot">&lt;-</span> starbucks_pca<span class="sc">$</span>x</span>
+<span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(starbucks_pc_matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           PC1        PC2        PC3           PC4         PC5         PC6
 [1,] -3.766852 -1.0023657  0.2482698 -0.1521871448  0.24739830 -0.11365847
@@ -567,20 +541,63 @@ Cumulative Proportion  0.99657 0.99916 0.99985 1.00000</code></pre>
 [6,]  0.20236484 0.068154160 0.03705252 0.03497690 0.002469611</code></pre>
 </div>
 </div>
-<p>Columns are uncorrelated, such that <span class="math inline">\(\text{Var}(Z_1) &gt; \text{Var}(Z_2) &gt; \dots &gt; \text{Var}(Z_p)\)</span></p>
+</section>
+<section id="extracting-loading-matrix" class="slide level2">
+<h2>Extracting loading matrix</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a>starbucks_pca<span class="sc">$</span>rotation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                        PC1         PC2         PC3          PC4         PC5
+serv_size_m_l    0.20078297  0.44103545  0.35053466 -0.117331692 -0.71633828
+calories         0.39488151  0.10314156 -0.01048587  0.055814030  0.11487225
+total_fat_g      0.35254969 -0.31687231  0.06598414  0.046196797  0.07677253
+saturated_fat_g  0.33929914 -0.30565133  0.05310592 -0.003731227  0.16145662
+trans_fat_g      0.29974182 -0.39855899  0.01855869 -0.092804122 -0.35695525
+cholesterol_mg   0.33049434 -0.37077805  0.01219867 -0.105617624 -0.18815364
+sodium_mg        0.33573598  0.24647412 -0.09107538 -0.083512068  0.34969486
+total_carbs_g    0.34858318  0.34483762 -0.09623296  0.002842153  0.12386718
+fiber_g          0.11351848  0.04137855  0.17814948  0.956078124 -0.04719036
+sugar_g          0.34234584  0.35100839 -0.13314389 -0.109371714  0.12108189
+caffeine_mg     -0.03085327 -0.01056235  0.89572768 -0.167846419  0.35265479
+                        PC6         PC7         PC8         PC9         PC10
+serv_size_m_l    0.30806678  0.13668394  0.04039275  0.01194522  0.001076764
+calories        -0.01331210 -0.18521073  0.09836135 -0.45551398 -0.744248239
+total_fat_g      0.37698224 -0.03833030  0.03871096 -0.58859673  0.518643989
+saturated_fat_g  0.57285718 -0.06553378 -0.26369346  0.56257742 -0.209355859
+trans_fat_g     -0.50043224  0.15197176 -0.58086994 -0.05398876 -0.032105721
+cholesterol_mg  -0.26449384 -0.04594580  0.74615325  0.27703165  0.032124871
+sodium_mg       -0.06228905  0.82317144  0.06292570  0.04230447  0.037304757
+total_carbs_g   -0.17619489 -0.34490217 -0.08588651  0.12501079  0.148886253
+fiber_g         -0.11365528  0.06192955  0.01207815  0.10654914  0.061378250
+sugar_g         -0.16729497 -0.33345131 -0.10758116  0.14408095  0.321644156
+caffeine_mg     -0.19600402 -0.06671121 -0.02122274  0.01530108  0.020691492
+                         PC11
+serv_size_m_l   -0.0053899973
+calories         0.1070327163
+total_fat_g     -0.0489644534
+saturated_fat_g  0.0152794817
+trans_fat_g     -0.0069417249
+cholesterol_mg   0.0004710159
+sodium_mg       -0.0185545403
+total_carbs_g   -0.7347049650
+fiber_g          0.0730283725
+sugar_g          0.6635335478
+caffeine_mg      0.0094861578</code></pre>
+</div>
+</div>
 </section>
 <section id="visualizing-first-two-principal-components" class="slide level2">
 <h2>Visualizing first two principal components</h2>
 <div class="columns">
 <div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a>starbucks <span class="ot">&lt;-</span> starbucks <span class="sc">|&gt;</span> </span>
-<span id="cb9-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pc1 =</span> starbucks_pc_matrix[,<span class="dv">1</span>], </span>
-<span id="cb9-3"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">pc2 =</span> starbucks_pc_matrix[,<span class="dv">2</span>])</span>
-<span id="cb9-4"><a aria-hidden="true" tabindex="-1"></a>starbucks <span class="sc">|&gt;</span> </span>
-<span id="cb9-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> pc1, <span class="at">y =</span> pc2)) <span class="sc">+</span></span>
-<span id="cb9-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb9-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"PC 1"</span>, <span class="at">y =</span> <span class="st">"PC 2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a>starbucks <span class="ot">&lt;-</span> starbucks <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pc1 =</span> starbucks_pc_matrix[,<span class="dv">1</span>], </span>
+<span id="cb12-3"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">pc2 =</span> starbucks_pc_matrix[,<span class="dv">2</span>])</span>
+<span id="cb12-4"><a aria-hidden="true" tabindex="-1"></a>starbucks <span class="sc">|&gt;</span> </span>
+<span id="cb12-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> pc1, <span class="at">y =</span> pc2)) <span class="sc">+</span></span>
+<span id="cb12-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb12-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"PC 1"</span>, <span class="at">y =</span> <span class="st">"PC 2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li><p>Principal components are not interpretable</p></li>
@@ -591,7 +608,7 @@ Cumulative Proportion  0.99657 0.99916 0.99985 1.00000</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="05-pca_files/figure-revealjs/unnamed-chunk-13-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="05-pca_files/figure-revealjs/unnamed-chunk-15-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -605,46 +622,106 @@ Cumulative Proportion  0.99657 0.99916 0.99985 1.00000</code></pre>
 <div class="columns">
 <div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
-<span id="cb10-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># fviz_pca_var(): projection of variables</span></span>
-<span id="cb10-3"><a aria-hidden="true" tabindex="-1"></a><span class="co"># fviz_pca_ind(): display observations with first two PCs</span></span>
-<span id="cb10-4"><a aria-hidden="true" tabindex="-1"></a>starbucks_pca <span class="sc">|&gt;</span> </span>
-<span id="cb10-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">fviz_pca_biplot</span>(<span class="at">label =</span> <span class="st">"var"</span>,</span>
-<span id="cb10-6"><a aria-hidden="true" tabindex="-1"></a>                  <span class="at">alpha.ind =</span> <span class="fl">0.25</span>,</span>
-<span id="cb10-7"><a aria-hidden="true" tabindex="-1"></a>                  <span class="at">alpha.var =</span> <span class="fl">0.75</span>,</span>
-<span id="cb10-8"><a aria-hidden="true" tabindex="-1"></a>                  <span class="at">col.var =</span> <span class="st">"darkblue"</span>,</span>
-<span id="cb10-9"><a aria-hidden="true" tabindex="-1"></a>                  <span class="at">repel =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb13-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># fviz_pca_var(): projection of variables</span></span>
+<span id="cb13-3"><a aria-hidden="true" tabindex="-1"></a><span class="co"># fviz_pca_ind(): display observations with first two PCs</span></span>
+<span id="cb13-4"><a aria-hidden="true" tabindex="-1"></a>starbucks_pca <span class="sc">|&gt;</span> </span>
+<span id="cb13-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">fviz_pca_biplot</span>(<span class="at">label =</span> <span class="st">"var"</span>,</span>
+<span id="cb13-6"><a aria-hidden="true" tabindex="-1"></a>                  <span class="at">alpha.ind =</span> <span class="fl">0.25</span>,</span>
+<span id="cb13-7"><a aria-hidden="true" tabindex="-1"></a>                  <span class="at">alpha.var =</span> <span class="fl">0.75</span>,</span>
+<span id="cb13-8"><a aria-hidden="true" tabindex="-1"></a>                  <span class="at">labelsize =</span> <span class="dv">5</span>,</span>
+<span id="cb13-9"><a aria-hidden="true" tabindex="-1"></a>                  <span class="at">col.var =</span> <span class="st">"darkblue"</span>,</span>
+<span id="cb13-10"><a aria-hidden="true" tabindex="-1"></a>                  <span class="at">repel =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Interpreting a biplot</p>
 <ul>
-<li><p>Arrow direction: “as the variable increases…”</p></li>
-<li><p>Arrow angles: correlation</p>
-<ul>
-<li><span class="math inline">\(90^{\circ}\)</span>: uncorrelated</li>
-<li><span class="math inline">\(&lt; 90^{\circ}\)</span>: positively correlated</li>
-<li><span class="math inline">\(&gt; 90^{\circ}\)</span>: negatively correlated</li>
-</ul></li>
-<li><p>Arrow length: strength of relationship with PCs</p></li>
+<li><p>Arrow direction</p></li>
+<li><p>Arrow angles</p></li>
+<li><p>Arrow length</p></li>
 </ul>
 </div><div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="05-pca_files/figure-revealjs/unnamed-chunk-14-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="05-pca_files/figure-revealjs/unnamed-chunk-16-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
 </div>
 </div></div>
 </section>
-<section id="how-many-principal-components-to-use" class="slide level2">
-<h2>How many principal components to use?</h2>
-<p>Intuition: Additional principal components will add smaller and smaller variance</p>
+<section id="interpreting-a-biplot" class="slide level2">
+<h2>Interpreting a biplot</h2>
+<div class="columns">
+<div class="column" style="text-align: left;">
+<p>Interpreting the <strong>direction of a particular arrow</strong></p>
 <ul>
-<li>Keep adding components until the added variance <em>drops off</em></li>
+<li><p>For example, the far left arrow for <code>caffeine_mg</code> suggests that, as <code>caffeine_mg</code> increases, <span class="math inline">\(Z_1\)</span> and <span class="math inline">\(Z_2\)</span> tend to decrease</p>
+<ul>
+<li>in other words, within the definition of <span class="math inline">\(Z_1\)</span> and <span class="math inline">\(Z_2\)</span>, the coefficient for <code>caffeine_mg</code> is negative</li>
+</ul></li>
+<li><p>In contrast, the arrow for <code>serv_size_m_l</code> is pointing to the upper right, indicating that as <code>serv_size_m_l</code> increases, both <span class="math inline">\(Z_1\)</span> and <span class="math inline">\(Z_2\)</span> also increase</p></li>
 </ul>
+</div><div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(starbucks_pca)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="05-pca_files/figure-revealjs/unnamed-chunk-17-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="interpreting-a-biplot-1" class="slide level2">
+<h2>Interpreting a biplot</h2>
+<div class="columns">
+<div class="column" style="text-align: left;">
+<p><strong>The angle of between the vectors is indicative of the correlation between different variables</strong></p>
+<ul>
+<li><p><span class="math inline">\(90^{\circ}\)</span> (right angle): uncorrelated (e.g.&nbsp;<code>serv_size_m_l</code> and <code>saturated_fat_g</code>)</p></li>
+<li><p><span class="math inline">\(&lt; 90^{\circ}\)</span> (vectors in similar directions):<br>positively correlated<br>(e.g.&nbsp;<code>sugar_g</code> and <code>total_carbs_g</code>)</p></li>
+<li><p><span class="math inline">\(&gt; 90^{\circ}\)</span> (vectors in different directions):<br>negatively correlated<br>(e.g.&nbsp;<code>caffeine_mg</code> and <code>calories</code>)</p></li>
+</ul>
+</div><div class="column" style="text-align: left;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="05-pca_files/figure-revealjs/unnamed-chunk-18-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="interpreting-a-biplot-2" class="slide level2">
+<h2>Interpreting a biplot</h2>
+<div class="columns">
+<div class="column" style="text-align: left;">
+<p><strong>The arrow length indicates how strongly related the principal components are with the individual variables</strong></p>
+<ul>
+<li><p>For example, <code>serv_size_m_l</code> has a fairly long arrow because it has a large positive coefficient in the rotation matrix (see below)</p></li>
+<li><p>Meanwhile, <code>caffeine_mg</code> has a relatively short arrow because its coefficients are relatively small.</p></li>
+</ul>
+</div><div class="column" style="text-align: left;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="05-pca_files/figure-revealjs/unnamed-chunk-19-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="intuition-on-how-many-pcs-to-use" class="slide level2">
+<h2>Intuition on how many PCs to use</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(starbucks_pca)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Importance of components:
                           PC1    PC2    PC3     PC4     PC5     PC6    PC7
@@ -657,64 +734,93 @@ Proportion of Variance 0.00719 0.00259 0.00069 0.00015
 Cumulative Proportion  0.99657 0.99916 0.99985 1.00000</code></pre>
 </div>
 </div>
+<div class="fragment">
+<ul>
+<li>PC1 accounts for the most variation in our data, PC2 accounts for the next most, and so on</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Each time we add a new PC dimension, we capture a higher proportion of the variability/information in the data</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>But that increase in proportion decreases for each new dimension we add (i.e., additional PCs will add smaller and smaller variance)</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li><strong>It is recommended to keep adding PCs until the marginal gain levels off (i.e.&nbsp;decreases to the point that it isn’t too beneficial to add another dimension to the data)</strong></li>
+</ul>
+</div>
 </section>
 <section id="create-a-scree-plot-or-elbow-plot" class="slide level2">
 <h2>Create a scree plot (or elbow plot)</h2>
+<div class="columns">
+<div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a>starbucks_pca <span class="sc">|&gt;</span> </span>
-<span id="cb13-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">fviz_eig</span>(<span class="at">addlabels =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<span id="cb13-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">100</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">/</span> <span class="fu">ncol</span>(starbucks_pca<span class="sc">$</span>x)), <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"darkred"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-hidden="true" tabindex="-1"></a>starbucks_pca <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">fviz_eig</span>(<span class="at">addlabels =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb16-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(</span>
+<span id="cb16-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">yintercept =</span> <span class="dv">100</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">/</span> <span class="fu">ncol</span>(starbucks_pca<span class="sc">$</span>x)), </span>
+<span id="cb16-5"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">linetype =</span> <span class="st">"dashed"</span>, </span>
+<span id="cb16-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"darkred"</span>,</span>
+<span id="cb16-7"><a aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<img data-src="05-pca_files/figure-revealjs/scree-plot-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><ul>
-<li><em>Rule of thumb</em>: horizontal line at <span class="math inline">\(1/p\)</span></li>
-</ul>
-</section>
-<section id="pca-output" class="slide level2">
-<h2>PCA output</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># str(starbucks_pca)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="05-pca_files/figure-revealjs/unnamed-chunk-22-1.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
+</figure>
 </div>
-<p>Examine the output after running <code>prcomp()</code></p>
+</div>
+</div>
+</div><div class="column" style="text-align: left;">
 <ul>
-<li><code>starbucks_pca$sdev</code>: singular values (<span class="math inline">\(\sqrt{\lambda_j}\)</span>)</li>
-<li><code>starbucks_pca$rotation</code>: loading matrix (<span class="math inline">\(V\)</span>)</li>
-<li><code>starbucks_pca$x</code>: principal component scores matrix (<span class="math inline">\(Z=XV\)</span>)</li>
+<li><p>Shows proportion of variation explained by each PC</p></li>
+<li><p>Visual rule-of-thumb: look for the “elbow” (where the proportion of variation starts to become flat)</p></li>
+<li><p>A heuristic rule of thumb: horizontal line at <span class="math inline">\(1/p\)</span></p></li>
+<li><p>Based on this plot, we can make a strong argument to use first 3 PCs (but maybe go up to first 5 PCs for another substantial drop in the elbow)</p></li>
 </ul>
-<p>Can use the <code>broom</code> package for tidying <code>prcomp()</code></p>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(starbucks_pca, <span class="at">matrix =</span> <span class="st">"eigenvalues"</span>) <span class="co"># equivalent to starbucks_pca$sdev</span></span>
-<span id="cb15-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(starbucks_pca, <span class="at">matrix =</span> <span class="st">"rotation"</span>) <span class="co"># equivalent to starbucks_pca$rotation</span></span>
-<span id="cb15-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(starbucks_pca, <span class="at">matrix =</span> <span class="st">"scores"</span>) <span class="co"># equivalent to starbucks_pca$x</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+</div></div>
 </section>
-<section id="proportion-of-variance-explained" class="slide level2">
-<h2>Proportion of variance explained</h2>
+<section id="discussion" class="slide level2">
+<h2>Discussion</h2>
+<div class="columns">
+<div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
-<span id="cb16-2"><a aria-hidden="true" tabindex="-1"></a>starbucks_pca <span class="sc">|&gt;</span></span>
-<span id="cb16-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>(<span class="at">matrix =</span> <span class="st">"eigenvalues"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb16-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> PC, <span class="at">y =</span> percent)) <span class="sc">+</span></span>
-<span id="cb16-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
-<span id="cb16-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb16-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">ncol</span>(starbucks_feat), <span class="at">color =</span> <span class="st">"darkred"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb16-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(starbucks_pca<span class="sc">$</span>x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-hidden="true" tabindex="-1"></a>starbucks_pca <span class="sc">|&gt;</span> </span>
+<span id="cb17-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">fviz_eig</span>(<span class="at">addlabels =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb17-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(</span>
+<span id="cb17-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">yintercept =</span> <span class="dv">100</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">/</span> <span class="fu">ncol</span>(starbucks_pca<span class="sc">$</span>x)), </span>
+<span id="cb17-5"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">linetype =</span> <span class="st">"dashed"</span>, </span>
+<span id="cb17-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"darkred"</span>,</span>
+<span id="cb17-7"><a aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<img data-src="05-pca_files/figure-revealjs/unnamed-chunk-18-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
-<section id="cumulative-proportion-of-variance-explained" class="slide level2">
-<h2>Cumulative proportion of variance explained</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
-<span id="cb17-2"><a aria-hidden="true" tabindex="-1"></a>starbucks_pca <span class="sc">|&gt;</span></span>
-<span id="cb17-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>(<span class="at">matrix =</span> <span class="st">"eigenvalues"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb17-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> PC, <span class="at">y =</span> cumulative)) <span class="sc">+</span></span>
-<span id="cb17-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
-<span id="cb17-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb17-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(starbucks_pca<span class="sc">$</span>x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="05-pca_files/figure-revealjs/unnamed-chunk-24-1.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
+</figure>
 </div>
-<img data-src="05-pca_files/figure-revealjs/unnamed-chunk-19-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
+</div>
+</div>
+</div><div class="column" style="text-align: left;">
+<ul>
+<li><p>Let’s say we decide to use first 3 PCs (to capture satisfactory amount of the variation in the data)</p></li>
+<li><p>Our biplot only plots the first 2 PCs, and so we are hiding some data information that we are better off plotting in some way if possible</p>
+<ul>
+<li><p>Specifically, we are hiding about 30% of the information (i.e.&nbsp;the total amount of information captured by PCs 3, 4, …, 11)</p></li>
+<li><p>About a third of this remaining information is captured by that third component that we are not plotting</p></li>
+</ul></li>
+<li><p>This means that, theoretically, we should plot three quantitative variables (e.g., point size, transparency, or even a 3D scatterplot)</p></li>
+<li><p>Alternatively, we could make three scatterplots (one for each pair of PCs)</p></li>
+</ul>
+</div></div>
+</section>
 <section id="remember-the-spelling" class="slide level2">
 <h2>Remember the spelling…</h2>
 <blockquote class="twitter-tweet">
@@ -730,6 +836,51 @@ folks. it's <em>principal</em> (not principle) components analysis.
 <h1>Appendix</h1>
 
 </section>
+<section id="pca-output" class="slide level2">
+<h2>PCA output</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># str(starbucks_pca)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Examine the output after running <code>prcomp()</code></p>
+<ul>
+<li><p><code>starbucks_pca$sdev</code>: singular values (<span class="math inline">\(\sqrt{\lambda_j}\)</span>)</p></li>
+<li><p><code>starbucks_pca$rotation</code>: loading matrix (<span class="math inline">\(V\)</span>)</p></li>
+<li><p><code>starbucks_pca$x</code>: principal component scores matrix (<span class="math inline">\(Z=XV\)</span>)</p></li>
+</ul>
+<p>Can use the <code>broom</code> package for tidying <code>prcomp()</code></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(starbucks_pca, <span class="at">matrix =</span> <span class="st">"eigenvalues"</span>) <span class="co"># equivalent to starbucks_pca$sdev</span></span>
+<span id="cb19-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(starbucks_pca, <span class="at">matrix =</span> <span class="st">"rotation"</span>) <span class="co"># equivalent to starbucks_pca$rotation</span></span>
+<span id="cb19-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(starbucks_pca, <span class="at">matrix =</span> <span class="st">"scores"</span>) <span class="co"># equivalent to starbucks_pca$x</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="proportion-of-variance-explained" class="slide level2">
+<h2>Proportion of variance explained</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb20-2"><a aria-hidden="true" tabindex="-1"></a>starbucks_pca <span class="sc">|&gt;</span></span>
+<span id="cb20-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>(<span class="at">matrix =</span> <span class="st">"eigenvalues"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb20-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> PC, <span class="at">y =</span> percent)) <span class="sc">+</span></span>
+<span id="cb20-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb20-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb20-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">ncol</span>(starbucks_feat), <span class="at">color =</span> <span class="st">"darkred"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb20-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(starbucks_pca<span class="sc">$</span>x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="05-pca_files/figure-revealjs/unnamed-chunk-27-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
+<section id="cumulative-proportion-of-variance-explained" class="slide level2">
+<h2>Cumulative proportion of variance explained</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb21-2"><a aria-hidden="true" tabindex="-1"></a>starbucks_pca <span class="sc">|&gt;</span></span>
+<span id="cb21-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>(<span class="at">matrix =</span> <span class="st">"eigenvalues"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> PC, <span class="at">y =</span> cumulative)) <span class="sc">+</span></span>
+<span id="cb21-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb21-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb21-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(starbucks_pca<span class="sc">$</span>x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="05-pca_files/figure-revealjs/unnamed-chunk-28-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
 <section id="singular-value-decomposition-svd" class="slide level2">
 <h2><a href="https://en.wikipedia.org/wiki/Singular_value_decomposition"><strong>Singular value decomposition (SVD)</strong></a></h2>
 <p><span class="math display">\[
