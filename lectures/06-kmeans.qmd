@@ -32,9 +32,15 @@ set.seed(100)
 
 * In unsupervised learning, we are only given a (big) data matrix that are not labeled
 
-* Dimension reduction: Can we meaningfully reduce the dimension of the data either so we can visualize it, and potentially do better supervised learning with it?
+. . .
+
+* Dimension reduction: Can we meaningfully reduce the dimension of the data either so we can visualize it?
+
+. . .
 
 * PCA answers this questions by finding “interesting directions” and projecting the data on to those directions
+
+. . .
 
 * Besides dimension reduction, clustering is another fundamental problem in unsupervised learning
 
@@ -54,8 +60,31 @@ set.seed(100)
 
 . . .
 
-* This often involves domain-specific considerations based on knowledge of the data being studied
+* This often involves domain-specific considerations based on knowledge of the provided data
 
+. . .
+
+* Besides tabular data, clustering can be applied to other types of data (e.g., curves/functions, shapes, graphs/networks, images, etc.)
+
+## Types of clustering
+
+* **Hard clustering** ($k$-means, hierarchical)
+
+  * output hard assignments
+  
+  * strictly assign observations to only one cluster
+  
+. . .
+
+* **Soft/fuzzy clustering** (model-based clustering, mixture model)
+
+  * output soft assignments
+  
+  * assign an observation a probability of belonging to each cluster
+  
+  * provide uncertainty in the clustering results
+  
+  * incorporate statistical modeling into clustering
 
 ## Distance between observations
 
@@ -165,7 +194,11 @@ $$D = \begin{pmatrix}
 
 -   We want to minimize the **within-cluster variation** $W(C_k)$ for each cluster $C_k$ (i.e. the amount by which the observations within a cluster differ from each other)
 
--   This is equivalent to solving $$\underset{C_1, \dots, C_K}{\text{minimize }} \Big\{ \sum_{k=1}^K W(C_k) \Big\}$$
+. . .
+
+-   This is equivalent to solving $\qquad \underset{C_1, \dots, C_K}{\text{minimize }} \Big\{ \sum_{k=1}^K W(C_k) \Big\}$
+
+. . .
 
 -   In other words, we want to partition the observations into $K$ clusters such that the total within-cluster variation, summed over all K clusters, is as small as possible
 
@@ -572,7 +605,7 @@ kmeans_many_features |>
 
 ## Beyond $k$-means: $k$-means++
 
-Objective: initialize the cluster centers before proceeding with the standard $k$-means clustering algorithm, provide a Better alternative to `nstart`
+Objective: initialize the cluster centers before proceeding with the standard $k$-means clustering algorithm, provide a better alternative to `nstart`
 
 . . .
 
@@ -580,7 +613,13 @@ Intuition:
 
 * randomly choose a data point the first cluster center
 
-* each subsequent cluster center is chosen from the remaining data points with probability proportional to its squared distance from the point's closest existing cluster center
+* each subsequent cluster center is chosen from the remaining data points 
+
+  * with probability proportional to its squared distance from the closest existing cluster center
+
+. . .
+
+Watch this [video](https://www.youtube.com/watch?v=BIQDlmZDuf8)
 
 ## The $k$-means++ algorithm
 
