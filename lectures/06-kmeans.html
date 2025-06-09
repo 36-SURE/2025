@@ -214,11 +214,23 @@
 <section id="recap-unsupervised-learning" class="slide level2">
 <h2>Recap: Unsupervised learning</h2>
 <ul>
-<li><p>In unsupervised learning, we are only given a (big) data matrix that are not labeled</p></li>
-<li><p>Dimension reduction: Can we meaningfully reduce the dimension of the data either so we can visualize it, and potentially do better supervised learning with it?</p></li>
-<li><p>PCA answers this questions by finding “interesting directions” and projecting the data on to those directions</p></li>
-<li><p>Besides dimension reduction, clustering is another fundamental problem in unsupervised learning</p></li>
+<li>In unsupervised learning, we are only given a (big) data matrix that are not labeled</li>
 </ul>
+<div class="fragment">
+<ul>
+<li>Dimension reduction: Can we meaningfully reduce the dimension of the data either so we can visualize it?</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>PCA answers this questions by finding “interesting directions” and projecting the data on to those directions</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Besides dimension reduction, clustering is another fundamental problem in unsupervised learning</li>
+</ul>
+</div>
 </section>
 <section id="clustering-cluster-analysis" class="slide level2">
 <h2>Clustering (cluster analysis)</h2>
@@ -236,7 +248,33 @@
 </div>
 <div class="fragment">
 <ul>
-<li>This often involves domain-specific considerations based on knowledge of the data being studied</li>
+<li>This often involves domain-specific considerations based on knowledge of the provided data</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Besides tabular data, clustering can be applied to other types of data (e.g., curves/functions, shapes, graphs/networks, images, etc.)</li>
+</ul>
+</div>
+</section>
+<section id="types-of-clustering" class="slide level2">
+<h2>Types of clustering</h2>
+<ul>
+<li><p><strong>Hard clustering</strong> (<span class="math inline">\(k\)</span>-means, hierarchical)</p>
+<ul>
+<li><p>output hard assignments</p></li>
+<li><p>strictly assign observations to only one cluster</p></li>
+</ul></li>
+</ul>
+<div class="fragment">
+<ul>
+<li><p><strong>Soft/fuzzy clustering</strong> (model-based clustering, mixture model)</p>
+<ul>
+<li><p>output soft assignments</p></li>
+<li><p>assign an observation a probability of belonging to each cluster</p></li>
+<li><p>provide uncertainty in the clustering results</p></li>
+<li><p>incorporate statistical modeling into clustering</p></li>
+</ul></li>
 </ul>
 </div>
 </section>
@@ -336,9 +374,17 @@
 </div>
 <div class="fragment">
 <ul>
-<li><p>We want to minimize the <strong>within-cluster variation</strong> <span class="math inline">\(W(C_k)\)</span> for each cluster <span class="math inline">\(C_k\)</span> (i.e.&nbsp;the amount by which the observations within a cluster differ from each other)</p></li>
-<li><p>This is equivalent to solving <span class="math display">\[\underset{C_1, \dots, C_K}{\text{minimize }} \Big\{ \sum_{k=1}^K W(C_k) \Big\}\]</span></p></li>
-<li><p>In other words, we want to partition the observations into <span class="math inline">\(K\)</span> clusters such that the total within-cluster variation, summed over all K clusters, is as small as possible</p></li>
+<li>We want to minimize the <strong>within-cluster variation</strong> <span class="math inline">\(W(C_k)\)</span> for each cluster <span class="math inline">\(C_k\)</span> (i.e.&nbsp;the amount by which the observations within a cluster differ from each other)</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>This is equivalent to solving <span class="math inline">\(\qquad \underset{C_1, \dots, C_K}{\text{minimize }} \Big\{ \sum_{k=1}^K W(C_k) \Big\}\)</span></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>In other words, we want to partition the observations into <span class="math inline">\(K\)</span> clusters such that the total within-cluster variation, summed over all K clusters, is as small as possible</li>
 </ul>
 </div>
 </section>
@@ -724,13 +770,19 @@ $ region           &lt;fct&gt; Southern Europe, Northern Africa, Middle Africa, 
 </section>
 <section id="beyond-k-means-k-means" class="slide level2">
 <h2>Beyond <span class="math inline">\(k\)</span>-means: <span class="math inline">\(k\)</span>-means++</h2>
-<p>Objective: initialize the cluster centers before proceeding with the standard <span class="math inline">\(k\)</span>-means clustering algorithm, provide a Better alternative to <code>nstart</code></p>
+<p>Objective: initialize the cluster centers before proceeding with the standard <span class="math inline">\(k\)</span>-means clustering algorithm, provide a better alternative to <code>nstart</code></p>
 <div class="fragment">
 <p>Intuition:</p>
 <ul>
 <li><p>randomly choose a data point the first cluster center</p></li>
-<li><p>each subsequent cluster center is chosen from the remaining data points with probability proportional to its squared distance from the point’s closest existing cluster center</p></li>
+<li><p>each subsequent cluster center is chosen from the remaining data points</p>
+<ul>
+<li>with probability proportional to its squared distance from the closest existing cluster center</li>
+</ul></li>
 </ul>
+</div>
+<div class="fragment">
+<p>Watch this <a href="https://www.youtube.com/watch?v=BIQDlmZDuf8">video</a></p>
 </div>
 </section>
 <section id="the-k-means-algorithm" class="slide level2">

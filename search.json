@@ -4,14 +4,21 @@
     "href": "lectures/06-kmeans.html#recap-unsupervised-learning",
     "title": "Unsupervised learning: \\(k\\)-means clustering",
     "section": "Recap: Unsupervised learning",
-    "text": "Recap: Unsupervised learning\n\nIn unsupervised learning, we are only given a (big) data matrix that are not labeled\nDimension reduction: Can we meaningfully reduce the dimension of the data either so we can visualize it, and potentially do better supervised learning with it?\nPCA answers this questions by finding “interesting directions” and projecting the data on to those directions\nBesides dimension reduction, clustering is another fundamental problem in unsupervised learning"
+    "text": "Recap: Unsupervised learning\n\nIn unsupervised learning, we are only given a (big) data matrix that are not labeled\n\n\n\nDimension reduction: Can we meaningfully reduce the dimension of the data either so we can visualize it?\n\n\n\n\nPCA answers this questions by finding “interesting directions” and projecting the data on to those directions\n\n\n\n\nBesides dimension reduction, clustering is another fundamental problem in unsupervised learning"
   },
   {
     "objectID": "lectures/06-kmeans.html#clustering-cluster-analysis",
     "href": "lectures/06-kmeans.html#clustering-cluster-analysis",
     "title": "Unsupervised learning: \\(k\\)-means clustering",
     "section": "Clustering (cluster analysis)",
-    "text": "Clustering (cluster analysis)\n\n\nClustering refers to a very broad set of techniques for finding subgroups, or clusters, in a data set — ISLR\n\n\n\nGoals: partition of the observations into distinct clusters so that\n\nobservations within clusters are more similar to each other\nobservations in different clusters are more different from each other\n\n\n\n\nThis often involves domain-specific considerations based on knowledge of the data being studied"
+    "text": "Clustering (cluster analysis)\n\n\nClustering refers to a very broad set of techniques for finding subgroups, or clusters, in a data set — ISLR\n\n\n\nGoals: partition of the observations into distinct clusters so that\n\nobservations within clusters are more similar to each other\nobservations in different clusters are more different from each other\n\n\n\n\nThis often involves domain-specific considerations based on knowledge of the provided data\n\n\n\n\nBesides tabular data, clustering can be applied to other types of data (e.g., curves/functions, shapes, graphs/networks, images, etc.)"
+  },
+  {
+    "objectID": "lectures/06-kmeans.html#types-of-clustering",
+    "href": "lectures/06-kmeans.html#types-of-clustering",
+    "title": "Unsupervised learning: \\(k\\)-means clustering",
+    "section": "Types of clustering",
+    "text": "Types of clustering\n\nHard clustering (\\(k\\)-means, hierarchical)\n\noutput hard assignments\nstrictly assign observations to only one cluster\n\n\n\n\nSoft/fuzzy clustering (model-based clustering, mixture model)\n\noutput soft assignments\nassign an observation a probability of belonging to each cluster\nprovide uncertainty in the clustering results\nincorporate statistical modeling into clustering"
   },
   {
     "objectID": "lectures/06-kmeans.html#distance-between-observations",
@@ -39,7 +46,7 @@
     "href": "lectures/06-kmeans.html#k-means-clustering-1",
     "title": "Unsupervised learning: \\(k\\)-means clustering",
     "section": "\\(k\\)-means clustering",
-    "text": "\\(k\\)-means clustering\n\nGoal: partition the observations into a pre-specified number of clusters\n\n\n\nLet \\(C_1, \\dots, C_K\\) denote sets containing indices of observations in each of the \\(k\\) clusters\n\nif observation \\(i\\) is in cluster \\(k\\), then \\(i \\in C_k\\)\n\n\n\n\n\nWe want to minimize the within-cluster variation \\(W(C_k)\\) for each cluster \\(C_k\\) (i.e. the amount by which the observations within a cluster differ from each other)\nThis is equivalent to solving \\[\\underset{C_1, \\dots, C_K}{\\text{minimize }} \\Big\\{ \\sum_{k=1}^K W(C_k) \\Big\\}\\]\nIn other words, we want to partition the observations into \\(K\\) clusters such that the total within-cluster variation, summed over all K clusters, is as small as possible"
+    "text": "\\(k\\)-means clustering\n\nGoal: partition the observations into a pre-specified number of clusters\n\n\n\nLet \\(C_1, \\dots, C_K\\) denote sets containing indices of observations in each of the \\(k\\) clusters\n\nif observation \\(i\\) is in cluster \\(k\\), then \\(i \\in C_k\\)\n\n\n\n\n\nWe want to minimize the within-cluster variation \\(W(C_k)\\) for each cluster \\(C_k\\) (i.e. the amount by which the observations within a cluster differ from each other)\n\n\n\n\nThis is equivalent to solving \\(\\qquad \\underset{C_1, \\dots, C_K}{\\text{minimize }} \\Big\\{ \\sum_{k=1}^K W(C_k) \\Big\\}\\)\n\n\n\n\nIn other words, we want to partition the observations into \\(K\\) clusters such that the total within-cluster variation, summed over all K clusters, is as small as possible"
   },
   {
     "objectID": "lectures/06-kmeans.html#k-means-clustering-2",
@@ -144,7 +151,7 @@
     "href": "lectures/06-kmeans.html#beyond-k-means-k-means",
     "title": "Unsupervised learning: \\(k\\)-means clustering",
     "section": "Beyond \\(k\\)-means: \\(k\\)-means++",
-    "text": "Beyond \\(k\\)-means: \\(k\\)-means++\nObjective: initialize the cluster centers before proceeding with the standard \\(k\\)-means clustering algorithm, provide a Better alternative to nstart\n\nIntuition:\n\nrandomly choose a data point the first cluster center\neach subsequent cluster center is chosen from the remaining data points with probability proportional to its squared distance from the point’s closest existing cluster center"
+    "text": "Beyond \\(k\\)-means: \\(k\\)-means++\nObjective: initialize the cluster centers before proceeding with the standard \\(k\\)-means clustering algorithm, provide a better alternative to nstart\n\nIntuition:\n\nrandomly choose a data point the first cluster center\neach subsequent cluster center is chosen from the remaining data points\n\nwith probability proportional to its squared distance from the closest existing cluster center\n\n\n\n\nWatch this video"
   },
   {
     "objectID": "lectures/06-kmeans.html#the-k-means-algorithm",
@@ -1922,14 +1929,14 @@
     "href": "lectures.html",
     "title": "Lectures",
     "section": "",
-    "text": "Date\nTitle\nMaterials\n\n\n\n\nLecture 0\nJune 2\nWelcome to SURE 2025\nslides\n\n\nLecture 1\nJune 3\nExploring data: into the tidyverse\nslides\n\n\nLecture 2\nJune 4\nData visualization: the grammar of graphics and ggplot2\nslides\n\n\nLecture 3\nJune 5\nData visualization: categorical data\nslides\n\n\nLecture 4\nJune 6\nData visualization: quantitative data\nslides\n\n\nLecture 5\nJune 9\nUnsupervised learning: principal component analysis\nslides."
+    "text": "Date\nTitle\nMaterials\n\n\n\n\nLecture 0\nJune 2\nWelcome to SURE 2025\nslides\n\n\nLecture 1\nJune 3\nExploring data: into the tidyverse\nslides\n\n\nLecture 2\nJune 4\nData visualization: the grammar of graphics and ggplot2\nslides\n\n\nLecture 3\nJune 5\nData visualization: categorical data\nslides\n\n\nLecture 4\nJune 6\nData visualization: quantitative data\nslides\n\n\nLecture 5\nJune 9\nUnsupervised learning: principal component analysis\nslides\n\n\nLecture 6\nJune 10\nUnsupervised learning: \\(k\\)-means clustering\nslides"
   },
   {
     "objectID": "lectures.html#contents",
     "href": "lectures.html#contents",
     "title": "Lectures",
     "section": "",
-    "text": "Date\nTitle\nMaterials\n\n\n\n\nLecture 0\nJune 2\nWelcome to SURE 2025\nslides\n\n\nLecture 1\nJune 3\nExploring data: into the tidyverse\nslides\n\n\nLecture 2\nJune 4\nData visualization: the grammar of graphics and ggplot2\nslides\n\n\nLecture 3\nJune 5\nData visualization: categorical data\nslides\n\n\nLecture 4\nJune 6\nData visualization: quantitative data\nslides\n\n\nLecture 5\nJune 9\nUnsupervised learning: principal component analysis\nslides."
+    "text": "Date\nTitle\nMaterials\n\n\n\n\nLecture 0\nJune 2\nWelcome to SURE 2025\nslides\n\n\nLecture 1\nJune 3\nExploring data: into the tidyverse\nslides\n\n\nLecture 2\nJune 4\nData visualization: the grammar of graphics and ggplot2\nslides\n\n\nLecture 3\nJune 5\nData visualization: categorical data\nslides\n\n\nLecture 4\nJune 6\nData visualization: quantitative data\nslides\n\n\nLecture 5\nJune 9\nUnsupervised learning: principal component analysis\nslides\n\n\nLecture 6\nJune 10\nUnsupervised learning: \\(k\\)-means clustering\nslides"
   },
   {
     "objectID": "index.html",
