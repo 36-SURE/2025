@@ -182,29 +182,39 @@ $$D = \begin{pmatrix}
 
 ## $k$-means clustering
 
--   Goal: partition the observations into a pre-specified number of clusters
+* Goal: partition the observations into a pre-specified number of clusters
 
 . . .
 
--   Let $C_1, \dots, C_K$ denote sets containing indices of observations in each of the $k$ clusters
-
-    -   if observation $i$ is in cluster $k$, then $i \in C_k$
-
-. . .
-
--   We want to minimize the **within-cluster variation** $W(C_k)$ for each cluster $C_k$ (i.e. the amount by which the observations within a cluster differ from each other)
+* Idea behind $k$-means clustering: a "good"
+clustering is one for which the within-cluster variation is as
+small as possible
 
 . . .
 
--   This is equivalent to solving $\qquad \underset{C_1, \dots, C_K}{\text{minimize }} \Big\{ \sum_{k=1}^K W(C_k) \Big\}$
+* We want to minimize the **within-cluster variation** $W(C_k)$ for each cluster $C_k$ (i.e. the amount by which the observations within a cluster differ from each other)
 
 . . .
 
--   In other words, we want to partition the observations into $K$ clusters such that the total within-cluster variation, summed over all K clusters, is as small as possible
+* This is equivalent to solving $\qquad \underset{C_1, \dots, C_K}{\text{minimize }} \Big\{ \sum_{k=1}^K W(C_k) \Big\}$
+
+. . .
+
+* In words, we want to 
+
+    * partition the observations into $k$ clusters 
+    
+    * so that the total within-cluster variation, summed over all $k$ clusters, is as small as possible
+    
+. . .
+
+* Keep in mind... the clusters are non-overlapping: no observation belongs to more than 1 cluster
 
 ## $k$-means clustering
 
 How do we define within-cluster variation?
+
+. . .
 
 -   Use the **(squared) Euclidean distance** $$W(C_k) = \frac{1}{|C_k|}\sum_{i,j \in C_k} d(x_i, x_j)^2 \,,$$ where $|C_k|$ denote the number of observations in cluster $k$
 
@@ -214,36 +224,40 @@ How do we define within-cluster variation?
 
 **So how do we solve this?**
 
-## [Lloyd's algorithm](https://en.wikipedia.org/wiki/K-means_clustering)
+## Lloyd's algorithm (naive $k$-means)
 
-::: columns
-::: {.column width="50%" style="text-align: left;"}
+Watch this [video](https://www.youtube.com/watch?v=5I3Ei69I40s)
 
-1)  Choose $k$ random centers, aka **centroids**
+. . .
 
-2)  Assign each observation closest center (using Euclidean distance)
+* Input: the value for $k$
 
-3)  Repeat until cluster assignment stop changing:
+* Initialization: randomly choose $k$ **centroids** (i.e. $k$ means).
 
--   Compute new centroids as the averages of the updated groups
+* Proceed by alternating between two steps
 
--   Reassign each observations to closest center
+  1. **Assignment step:** assign each observation to the cluster with the nearest centroid (using Euclidean distance)
 
-**Converges to a local optimum**, not the global
+  2. **Update step:** compute new centroids as the averages of the updated groups & reassign each observations to closest centroid
 
-**Results will change from run to run** (set the seed!)
+* Repeat until cluster assignment stop changing
 
-**Takes** $k$ as an input!
-:::
+## Some notes on the algorithm
 
-::: {.column width="50%" style="text-align: left;"}
-```{r}
-#| out-width: "80%"
-#| echo: false
-knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/e/ea/K-means_convergence.gif")
-```
-:::
-:::
+* The algorithm starts from a random initialization, hence **results will change from run to run** (set the seed!)
+
+. . .
+
+* We're not guaranteed to find the global optimum of its objective function (WSS); instead it typically converges to a local optimum
+
+. . .
+
+* We will attempt to fix randomness issue later
+
+. . .
+
+Watch this [video](https://www.youtube.com/watch?v=9nKfViAfajY)
+
 
 ## Gapminder data
 
