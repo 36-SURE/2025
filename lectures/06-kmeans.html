@@ -366,10 +366,7 @@
 </ul>
 <div class="fragment">
 <ul>
-<li><p>Let <span class="math inline">\(C_1, \dots, C_K\)</span> denote sets containing indices of observations in each of the <span class="math inline">\(k\)</span> clusters</p>
-<ul>
-<li>if observation <span class="math inline">\(i\)</span> is in cluster <span class="math inline">\(k\)</span>, then <span class="math inline">\(i \in C_k\)</span></li>
-</ul></li>
+<li>Idea behind <span class="math inline">\(k\)</span>-means clustering: a “good” clustering is one for which the within-cluster variation is as small as possible</li>
 </ul>
 </div>
 <div class="fragment">
@@ -384,48 +381,66 @@
 </div>
 <div class="fragment">
 <ul>
-<li>In other words, we want to partition the observations into <span class="math inline">\(K\)</span> clusters such that the total within-cluster variation, summed over all K clusters, is as small as possible</li>
+<li><p>In words, we want to</p>
+<ul>
+<li><p>partition the observations into <span class="math inline">\(k\)</span> clusters</p></li>
+<li><p>so that the total within-cluster variation, summed over all <span class="math inline">\(k\)</span> clusters, is as small as possible</p></li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Keep in mind… the clusters are non-overlapping: no observation belongs to more than 1 cluster</li>
 </ul>
 </div>
 </section>
 <section id="k-means-clustering-2" class="slide level2">
 <h2><span class="math inline">\(k\)</span>-means clustering</h2>
 <p>How do we define within-cluster variation?</p>
+<div class="fragment">
 <ul>
 <li><p>Use the <strong>(squared) Euclidean distance</strong> <span class="math display">\[W(C_k) = \frac{1}{|C_k|}\sum_{i,j \in C_k} d(x_i, x_j)^2 \,,\]</span> where <span class="math inline">\(|C_k|\)</span> denote the number of observations in cluster <span class="math inline">\(k\)</span></p></li>
 <li><p>Commonly referred to as the within-cluster sum of squares (WSS)</p></li>
 </ul>
+</div>
 <div class="fragment">
 <p><strong>So how do we solve this?</strong></p>
 </div>
 </section>
-<section id="lloyds-algorithm" class="slide level2">
-<h2><a href="https://en.wikipedia.org/wiki/K-means_clustering">Lloyd’s algorithm</a></h2>
-<div class="columns">
-<div class="column" style="text-align: left;">
-<ol type="1">
-<li><p>Choose <span class="math inline">\(k\)</span> random centers, aka <strong>centroids</strong></p></li>
-<li><p>Assign each observation closest center (using Euclidean distance)</p></li>
-<li><p>Repeat until cluster assignment stop changing:</p></li>
-</ol>
+<section id="lloyds-algorithm-naive-k-means" class="slide level2">
+<h2>Lloyd’s algorithm (naive <span class="math inline">\(k\)</span>-means)</h2>
+<p>Watch this <a href="https://www.youtube.com/watch?v=5I3Ei69I40s">video</a></p>
+<div class="fragment">
 <ul>
-<li><p>Compute new centroids as the averages of the updated groups</p></li>
-<li><p>Reassign each observations to closest center</p></li>
+<li><p>Input: the value for <span class="math inline">\(k\)</span></p></li>
+<li><p>Initialization: randomly choose <span class="math inline">\(k\)</span> <strong>centroids</strong> (i.e.&nbsp;<span class="math inline">\(k\)</span> means).</p></li>
+<li><p>Proceed by alternating between two steps</p>
+<ol type="1">
+<li><p><strong>Assignment step:</strong> assign each observation to the cluster with the nearest centroid (using Euclidean distance)</p></li>
+<li><p><strong>Update step:</strong> compute new centroids as the averages of the updated groups &amp; reassign each observations to closest centroid</p></li>
+</ol></li>
+<li><p>Repeat until cluster assignment stop changing</p></li>
 </ul>
-<p><strong>Converges to a local optimum</strong>, not the global</p>
-<p><strong>Results will change from run to run</strong> (set the seed!)</p>
-<p><strong>Takes</strong> <span class="math inline">\(k\)</span> as an input!</p>
-</div><div class="column" style="text-align: left;">
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="https://upload.wikimedia.org/wikipedia/commons/e/ea/K-means_convergence.gif" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
-</figure>
 </div>
+</section>
+<section id="some-notes-on-the-algorithm" class="slide level2">
+<h2>Some notes on the algorithm</h2>
+<ul>
+<li>The algorithm starts from a random initialization, hence <strong>results will change from run to run</strong> (set the seed!)</li>
+</ul>
+<div class="fragment">
+<ul>
+<li>We’re not guaranteed to find the global optimum of its objective function (WSS); instead it typically converges to a local optimum</li>
+</ul>
 </div>
+<div class="fragment">
+<ul>
+<li>We will attempt to fix randomness issue later</li>
+</ul>
 </div>
-</div></div>
+<div class="fragment">
+<p>Watch this <a href="https://www.youtube.com/watch?v=9nKfViAfajY">video</a></p>
+</div>
 </section>
 <section id="gapminder-data" class="slide level2">
 <h2>Gapminder data</h2>
@@ -458,7 +473,7 @@ $ region           &lt;fct&gt; Southern Europe, Northern Africa, Middle Africa, 
 <span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-5-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
+<img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-4-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
 <section id="some-initial-cleaning" class="slide level2">
 <h2>Some initial cleaning…</h2>
 <ul>
@@ -500,7 +515,7 @@ $ region           &lt;fct&gt; Southern Europe, Northern Africa, Middle Africa, 
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-7-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-6-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -531,7 +546,7 @@ $ region           &lt;fct&gt; Southern Europe, Northern Africa, Middle Africa, 
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-8-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-7-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -572,7 +587,7 @@ $ region           &lt;fct&gt; Southern Europe, Northern Africa, Middle Africa, 
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-9-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-8-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -600,7 +615,7 @@ $ region           &lt;fct&gt; Southern Europe, Northern Africa, Middle Africa, 
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-10-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-9-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -634,7 +649,7 @@ $ region           &lt;fct&gt; Southern Europe, Northern Africa, Middle Africa, 
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-11-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-10-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -666,7 +681,7 @@ $ region           &lt;fct&gt; Southern Europe, Northern Africa, Middle Africa, 
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-12-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-11-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -701,7 +716,7 @@ $ region           &lt;fct&gt; Southern Europe, Northern Africa, Middle Africa, 
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-13-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-12-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -761,7 +776,7 @@ $ region           &lt;fct&gt; Southern Europe, Northern Africa, Middle Africa, 
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-18-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-17-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -841,7 +856,7 @@ $ region           &lt;fct&gt; Southern Europe, Northern Africa, Middle Africa, 
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-19-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-18-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -909,7 +924,7 @@ $ region           &lt;fct&gt; Southern Europe, Northern Africa, Middle Africa, 
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-22-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-21-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -934,7 +949,7 @@ $ region           &lt;fct&gt; Southern Europe, Northern Africa, Middle Africa, 
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-24-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-23-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -955,7 +970,7 @@ $ region           &lt;fct&gt; Southern Europe, Northern Africa, Middle Africa, 
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-26-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-25-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -999,7 +1014,7 @@ B=100 simulated reference sets, k = 1..10; spaceH0="scaledPCA"
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-28-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-27-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -1040,7 +1055,7 @@ B=100 simulated reference sets, k = 1..10; spaceH0="scaledPCA"
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-29-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="06-kmeans_files/figure-revealjs/unnamed-chunk-28-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
