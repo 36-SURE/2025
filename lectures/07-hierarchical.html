@@ -785,7 +785,7 @@ Cluster   C  PF  PG  SF  SG
 <span id="cb13-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(x3pa, x2pa, fta, trb, ast, stl, blk, tov)</span>
 <span id="cb13-3"><a aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb13-4"><a aria-hidden="true" tabindex="-1"></a>player_dist_mult_features <span class="ot">&lt;-</span> nba_players_features <span class="sc">|&gt;</span> </span>
-<span id="cb13-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">dist</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">dist</span>(<span class="at">method =</span> <span class="st">"euclidean"</span>) <span class="co"># can try out other methods</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Then perform hierarchical clustering as before</li>
