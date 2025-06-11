@@ -9,7 +9,7 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.31">
 
-  <meta name="author" content=" SURE 2024 Department of Statistics &amp; Data Science Carnegie Mellon University">
+  <meta name="author" content=" SURE 2025 Department of Statistics &amp; Data Science Carnegie Mellon University">
   <title>SURE 2025 – Unsupervised learning: hierarchical clustering</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -200,7 +200,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-<br>SURE 2024<br><br>Department of Statistics &amp; Data Science<br>Carnegie Mellon University 
+<br>SURE 2025<br><br>Department of Statistics &amp; Data Science<br>Carnegie Mellon University 
 </div>
 </div>
 </div>
@@ -234,22 +234,43 @@
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_light</span>())</span>
 <span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a>nba_players <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/36-SURE/2025/main/data/nba_players.csv"</span>)</span>
-<span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(nba_players)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(nba_players)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 33
-     rk player    age team  pos       g    gs    mp    fg   fga fg_percent   x3p
-  &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt;
-1   152 A.J. G…    25 MIL   SG       73     7  1659   5.3  12.4      0.429   4.5
-2   379 A.J. L…    24 TOR   SG       26     2   486   7.9  18.8      0.421   3.3
-3   338 AJ Joh…    20 2TM   SG       29    11   639   6.1  15.9      0.385   1.8
-4   185 Aaron …    29 DEN   PF       51    42  1447   8.8  16.5      0.531   2.5
-5   305 Aaron …    28 HOU   PG       62     3   792   7.2  16.5      0.437   4.4
-6   250 Aaron …    25 IND   SF       45    37  1123   8.2  16.2      0.507   3.6
-# ℹ 21 more variables: x3pa &lt;dbl&gt;, x3p_percent &lt;dbl&gt;, x2p &lt;dbl&gt;, x2pa &lt;dbl&gt;,
-#   x2p_percent &lt;dbl&gt;, e_fg_percent &lt;dbl&gt;, ft &lt;dbl&gt;, fta &lt;dbl&gt;,
-#   ft_percent &lt;dbl&gt;, orb &lt;dbl&gt;, drb &lt;dbl&gt;, trb &lt;dbl&gt;, ast &lt;dbl&gt;, stl &lt;dbl&gt;,
-#   blk &lt;dbl&gt;, tov &lt;dbl&gt;, pf &lt;dbl&gt;, pts &lt;dbl&gt;, o_rtg &lt;dbl&gt;, d_rtg &lt;dbl&gt;,
-#   awards &lt;lgl&gt;</code></pre>
+<pre><code>Rows: 457
+Columns: 33
+$ rk           &lt;dbl&gt; 152, 379, 338, 185, 305, 250, 139, 457, 287, 349, 153, 29…
+$ player       &lt;chr&gt; "A.J. Green", "A.J. Lawson", "AJ Johnson", "Aaron Gordon"…
+$ age          &lt;dbl&gt; 25, 24, 20, 29, 28, 25, 26, 25, 21, 22, 38, 33, 30, 31, 2…
+$ team         &lt;chr&gt; "MIL", "TOR", "2TM", "DEN", "HOU", "IND", "OKC", "OKC", "…
+$ pos          &lt;chr&gt; "SG", "SG", "SG", "PF", "PG", "SF", "SG", "SG", "C", "SG"…
+$ g            &lt;dbl&gt; 73, 26, 29, 51, 62, 45, 76, 37, 58, 36, 60, 49, 54, 46, 1…
+$ gs           &lt;dbl&gt; 7, 2, 11, 42, 3, 37, 26, 0, 11, 1, 42, 14, 3, 7, 0, 67, 7…
+$ mp           &lt;dbl&gt; 1659, 486, 639, 1447, 792, 1123, 1744, 203, 905, 597, 165…
+$ fg           &lt;dbl&gt; 5.3, 7.9, 6.1, 8.8, 7.2, 8.2, 9.8, 5.9, 7.4, 7.3, 5.9, 6.…
+$ fga          &lt;dbl&gt; 12.4, 18.8, 15.9, 16.5, 16.5, 16.2, 20.0, 22.7, 10.5, 14.…
+$ fg_percent   &lt;dbl&gt; 0.429, 0.421, 0.385, 0.531, 0.437, 0.507, 0.488, 0.260, 0…
+$ x3p          &lt;dbl&gt; 4.5, 3.3, 1.8, 2.5, 4.4, 3.6, 3.6, 3.3, 0.0, 1.8, 3.4, 5.…
+$ x3pa         &lt;dbl&gt; 10.6, 10.0, 6.7, 5.7, 11.1, 8.3, 9.3, 17.0, 0.1, 4.8, 9.5…
+$ x3p_percent  &lt;dbl&gt; 0.427, 0.327, 0.267, 0.436, 0.398, 0.431, 0.383, 0.194, 0…
+$ x2p          &lt;dbl&gt; 0.8, 4.7, 4.3, 6.3, 2.8, 4.6, 6.2, 2.6, 7.4, 5.5, 2.4, 1.…
+$ x2pa         &lt;dbl&gt; 1.8, 8.8, 9.2, 10.8, 5.3, 7.9, 10.7, 5.7, 10.4, 10.0, 4.4…
+$ x2p_percent  &lt;dbl&gt; 0.443, 0.528, 0.472, 0.582, 0.517, 0.587, 0.578, 0.458, 0…
+$ e_fg_percent &lt;dbl&gt; 0.612, 0.508, 0.441, 0.607, 0.571, 0.617, 0.577, 0.333, 0…
+$ ft           &lt;dbl&gt; 0.6, 4.3, 2.4, 4.8, 2.1, 3.1, 2.0, 0.2, 3.6, 2.3, 1.0, 2.…
+$ fta          &lt;dbl&gt; 0.8, 6.2, 2.8, 5.9, 2.5, 3.4, 2.4, 0.5, 5.4, 2.8, 1.1, 2.…
+$ ft_percent   &lt;dbl&gt; 0.815, 0.683, 0.865, 0.810, 0.829, 0.913, 0.831, 0.500, 0…
+$ orb          &lt;dbl&gt; 0.5, 2.0, 0.6, 2.7, 0.8, 1.6, 2.2, 1.7, 5.0, 1.4, 2.4, 0.…
+$ drb          &lt;dbl&gt; 4.5, 6.5, 3.8, 5.5, 4.0, 6.0, 5.9, 4.7, 8.3, 4.0, 8.8, 6.…
+$ trb          &lt;dbl&gt; 5.1, 8.5, 4.4, 8.2, 4.8, 7.6, 8.1, 6.4, 13.3, 5.5, 11.2, …
+$ ast          &lt;dbl&gt; 3.1, 3.1, 5.7, 5.5, 5.1, 2.3, 3.7, 2.8, 1.5, 5.1, 3.9, 3.…
+$ stl          &lt;dbl&gt; 1.1, 1.3, 0.9, 0.8, 1.2, 1.5, 1.7, 1.9, 1.4, 2.0, 1.1, 1.…
+$ blk          &lt;dbl&gt; 0.2, 0.6, 0.2, 0.5, 0.7, 0.7, 0.5, 0.7, 3.8, 0.3, 1.5, 0.…
+$ tov          &lt;dbl&gt; 1.2, 1.5, 2.6, 2.4, 2.3, 1.6, 1.9, 0.9, 3.3, 2.3, 1.4, 1.…
+$ pf           &lt;dbl&gt; 4.6, 4.4, 3.7, 2.7, 3.9, 4.9, 2.8, 3.5, 6.8, 5.5, 2.4, 2.…
+$ pts          &lt;dbl&gt; 15.8, 23.4, 16.4, 24.9, 20.9, 23.2, 25.2, 15.4, 18.4, 18.…
+$ o_rtg        &lt;dbl&gt; 119, 113, 98, 129, 121, 124, 119, 80, 123, 117, 121, 117,…
+$ d_rtg        &lt;dbl&gt; 117, 116, 123, 120, 114, 116, 110, 110, 115, 111, 111, 11…
+$ awards       &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</code></pre>
 </div>
 </div>
 </section>
@@ -262,7 +283,7 @@
 <li><p>Compute the <strong>distance/dissimilarity</strong> between observations</p></li>
 <li><p>e.g.&nbsp;<strong>Euclidean distance</strong> between observations <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span></p></li>
 </ul>
-<p><span class="math display">\[d(x_i, x_j) = \sqrt{(x_{i1}-x_{j1})^2 + \cdots + (x_{ip}-x_{jp})^2}\]</span></p>
+<p><span class="math display">\[d_{ij} = \sqrt{(x_{i1}-x_{j1})^2 + \cdots + (x_{ip}-x_{jp})^2}\]</span></p>
 <p><strong>What are the distances between these counties using <code>x3pa</code> (3-point attempts) and <code>trb</code> (total rebounds)?</strong></p>
 </div><div class="column" style="text-align: left;">
 <p><br></p>
@@ -293,7 +314,7 @@
 <span id="cb4-6"><a aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-7"><a aria-hidden="true" tabindex="-1"></a>nba_players <span class="sc">|&gt;</span> </span>
 <span id="cb4-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> std_x3pa, <span class="at">y =</span> std_trb)) <span class="sc">+</span></span>
-<span id="cb4-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb4-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
 <span id="cb4-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div><div class="column" style="text-align: left;">
@@ -341,14 +362,67 @@ Aaron Gordon  1.5086463   1.1393048  0.9839163    0.0000000</code></pre>
 <h1>Hierarchical clustering</h1>
 
 </section>
-<section id="agglomerative-hierarchical-clustering" class="slide level2">
-<h2>(Agglomerative) <a href="https://en.wikipedia.org/wiki/Hierarchical_clustering">Hierarchical clustering</a></h2>
-<p>Let’s pretend all <span class="math inline">\(n\)</span> observations are in their own cluster</p>
+<section id="hierarchical-clustering-in-simple-terms" class="slide level2">
+<h2>Hierarchical clustering in simple terms</h2>
+<div class="columns">
+<div class="column" style="text-align: left;">
+<ul>
+<li><p>Key idea: Builds a hierarchy in a agglomerative/bottom-up fashion</p></li>
+<li><p>Algorithm (informal version)</p>
+<ul>
+<li><p>Start with each point in its own cluster</p></li>
+<li><p>Identify the closest two clusters and merge them</p></li>
+<li><p>Repeat</p></li>
+<li><p>Ends when all points are in a single cluster</p></li>
+</ul></li>
+</ul>
+</div><div class="column" style="text-align: left;">
+<p>Toy example</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/hc-toy-plain.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="toy-example" class="slide level2">
+<h2>Toy example</h2>
+<div class="columns">
+<div class="column" style="text-align: left;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/hc-toy-annotated.png" class="quarto-figure quarto-figure-center" style="width:90.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="text-align: left;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../images/hc-toy-dendro.png" class="quarto-figure quarto-figure-center" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="hierarchical-clustering-1" class="slide level2">
+<h2>Hierarchical clustering</h2>
+<p>Start with all observations in their own cluster</p>
 <div class="fragment">
 <ul>
 <li><p>Step 1: Compute the pairwise dissimilarities between each cluster</p>
 <ul>
-<li>e.g., distance matrix on previous slides</li>
+<li><p>e.g., distance matrix on previous slides (using Euclidean distance)</p></li>
+<li><p>In practice, we can also try out different types of distance</p></li>
 </ul></li>
 </ul>
 </div>
@@ -359,7 +433,7 @@ Aaron Gordon  1.5086463   1.1393048  0.9839163    0.0000000</code></pre>
 </div>
 <div class="fragment">
 <ul>
-<li>Step 3: Fuse these two clusters into a new cluster!</li>
+<li>Step 3: Fuse these two clusters into a new cluster</li>
 </ul>
 </div>
 <div class="fragment">
@@ -372,85 +446,67 @@ Aaron Gordon  1.5086463   1.1393048  0.9839163    0.0000000</code></pre>
 <p>No mention of any randomness. And no mention of the number of clusters <span class="math inline">\(k\)</span>.</p>
 </div>
 </section>
-<section id="agglomerative-hierarchical-clustering-1" class="slide level2">
-<h2>(Agglomerative) <a href="https://en.wikipedia.org/wiki/Hierarchical_clustering">Hierarchical clustering</a></h2>
-<div class="columns">
-<div class="column" style="text-align: left;">
-<p>Start with all observations in their own cluster</p>
-<ul>
-<li><p>Step 1: Compute the pairwise dissimilarities between each cluster</p></li>
-<li><p>Step 2: Identify the pair of clusters that are <strong>least dissimilar</strong></p></li>
-<li><p>Step 3: Fuse these two clusters into a new cluster!</p></li>
-<li><p><strong>Repeat Steps 1 to 3 until all observations are in the same cluster</strong></p></li>
-</ul>
-</div><div class="column" style="text-align: left;">
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Clusters.svg/250px-Clusters.svg.png" class="quarto-figure quarto-figure-center" style="width:70.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-</div></div>
-</section>
-<section id="agglomerative-hierarchical-clustering-2" class="slide level2">
-<h2>(Agglomerative) <a href="https://en.wikipedia.org/wiki/Hierarchical_clustering">Hierarchical clustering</a></h2>
-<div class="columns">
-<div class="column" style="text-align: left;">
-<p>Start with all observations in their own cluster</p>
-<ul>
-<li><p>Step 1: Compute the pairwise dissimilarities between each cluster</p></li>
-<li><p>Step 2: Identify the pair of clusters that are <strong>least dissimilar</strong></p></li>
-<li><p>Step 3: Fuse these two clusters into a new cluster!</p></li>
-<li><p><strong>Repeat Steps 1 to 3 until all observations are in the same cluster</strong></p></li>
-</ul>
-</div><div class="column" style="text-align: left;">
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Hierarchical_clustering_simple_diagram.svg/418px-Hierarchical_clustering_simple_diagram.svg.png" class="quarto-figure quarto-figure-center" style="width:85.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Forms a <strong>dendrogram</strong> (typically displayed from bottom-up)</p>
-</div></div>
-</section>
 <section id="dissimilarity-between-clusters" class="slide level2">
 <h2>Dissimilarity between clusters</h2>
 <ul>
-<li><p>We know how to compute distance/dissimilarity between two observations</p></li>
-<li><p><strong>But how do we handle clusters?</strong></p>
-<ul>
-<li>Dissimilarity between a cluster and an observation, or between two clusters</li>
-</ul></li>
+<li>We know how to compute distance/dissimilarity between two observations</li>
 </ul>
 <div class="fragment">
-<p>We need to choose a <strong>linkage function</strong>. Clusters are built up by <strong>linking them together</strong></p>
+<ul>
+<li>But what about distance/dissimilarity between a cluster and an observation, or between two clusters?</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>We need to choose a <strong>linkage function</strong>. Clusters are built up by <strong>linking them together</strong></li>
+</ul>
 </div>
 </section>
-<section id="types-of-linkage" class="slide level2">
-<h2>Types of linkage</h2>
-<p>First, compute all pairwise dissimilarities between the observations in the two clusters</p>
-<p>i.e., compute the distance matrix between observations, <span class="math inline">\(d(x_i, x_j)\)</span> for <span class="math inline">\(i \in C_1\)</span> and <span class="math inline">\(j \in C_2\)</span></p>
+<section id="linkages" class="slide level2">
+<h2>Linkages</h2>
+<ul>
+<li>Linkage: function <span class="math inline">\(d(C_1, C_2)\)</span> that takes two groups (clusters) <span class="math inline">\(C_1\)</span> and <span class="math inline">\(C_2\)</span> and returns a dissimilarity score between them</li>
+</ul>
 <div class="fragment">
 <ul>
-<li><strong>Complete linkage</strong>: use the <strong>maximum</strong> (largest) value of these dissimilarities <span class="math inline">\(\underset{i \in C_1, j \in C_2}{\text{max}} d(x_i, x_j)\)</span> (<strong>maximal</strong> inter-cluster dissimilarity)</li>
+<li>First, compute all pairwise dissimilarities between the observations in the two clusters (i.e., compute the distance matrix between observations)</li>
 </ul>
 </div>
 <div class="fragment">
 <ul>
-<li><strong>Single linkage</strong>: use the <strong>minimum</strong> (smallest) value of these dissimilarities <span class="math inline">\(\underset{i \in C_1, j \in C_2}{\text{min}} d(x_i, x_j)\)</span> (<strong>minimal</strong> inter-cluster dissimilarity)</li>
+<li><p>Agglomerative clustering, given the linkage:</p>
+<ul>
+<li><p>Start with all points in their own cluster</p></li>
+<li><p>Until there is only one cluster, repeatedly: merge the two clusters <span class="math inline">\(C_1\)</span>, <span class="math inline">\(C_2\)</span> such that <span class="math inline">\(d(C_1, C_2)\)</span> is the smallest</p></li>
+</ul></li>
 </ul>
 </div>
 <div class="fragment">
 <ul>
-<li><strong>Average linkage</strong>: use the <strong>average</strong> value of these dissimilarities <span class="math inline">\(\displaystyle \frac{1}{|C_1||C_2|} \sum_{i \in C_1} \sum_{j \in C_2} d(x_i, x_j)\)</span> (<strong>mean</strong> inter-cluster dissimilarity)</li>
+<li>There are different types of linkage: complete, single, average,…</li>
 </ul>
 </div>
+</section>
+<section id="complete-linkage" class="slide level2">
+<h2>Complete linkage</h2>
+<p>In complete linkage, we use the largest dissimilarity between two points of different clusters (<strong>maximal</strong> inter-cluster dissimilarity) <span class="math display">\[d_\text{complete}(C_1, C_2) = \underset{i \in C_1, j \in C_2}{\text{max}} d_{ij}\]</span></p>
+<p>Below, the complete linkage score <span class="math inline">\(d_\text{complete}(C_1, C_2)\)</span> is the distance of the furthest pair</p>
+<center>
+<img src="../images/complete-linkage.png" style="border: 1px solid grey;" width="360">
+</center>
+</section>
+<section id="single-linkage" class="slide level2">
+<h2>Single linkage</h2>
+<p>In single linkage, we use the smallest dissimilarity between two points of different clusters (<strong>minimal</strong> inter-cluster dissimilarity) <span class="math display">\[d_\text{single}(C_1, C_2) = \underset{i \in C_1, j \in C_2}{\text{min}} d_{ij}\]</span></p>
+<p>Below, the single linkage score <span class="math inline">\(d_\text{single}(C_1, C_2)\)</span> is the distance of the closest pair</p>
+<center>
+<img src="../images/single-linkage.png" style="border: 1px solid grey;" width="360">
+</center>
+</section>
+<section id="average-linkage" class="slide level2">
+<h2>Average linkage</h2>
+<p>In average linkage, we use the average dissimilarity over all points of different clusters (<strong>mean</strong> inter-cluster dissimilarity) <span class="math display">\[d_\text{average}(C_1, C_2) = \frac{1}{|C_1||C_2|} \sum_{i \in C_1, j \in C_2} d_{ij}\]</span></p>
+<p>In short, the average linkage score <span class="math inline">\(d_\text{average}(C_1, C_2)\)</span> is the average distance across all pairs (of different clusters)</p>
 </section>
 <section id="complete-linkage-example" class="slide level2">
 <h2>Complete linkage example</h2>
@@ -484,7 +540,7 @@ Aaron Gordon  1.5086463   1.1393048  0.9839163    0.0000000</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="07-hierarchical_files/figure-revealjs/unnamed-chunk-11-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="07-hierarchical_files/figure-revealjs/unnamed-chunk-12-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -519,18 +575,38 @@ Aaron Gordon  1.5086463   1.1393048  0.9839163    0.0000000</code></pre>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="07-hierarchical_files/figure-revealjs/unnamed-chunk-12-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="07-hierarchical_files/figure-revealjs/unnamed-chunk-13-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
 </div>
 </div></div>
 </section>
-<section id="textbook-example" class="slide level2">
-<h2><a href="https://bradleyboehmke.github.io/HOML/hierarchical.html">Textbook example</a></h2>
-<p><br></p>
+<section id="some-notes-on-dendrograms" class="slide level2">
+<h2>Some notes on dendrograms</h2>
+<ul>
+<li>Dendrograms are often misinterpreted</li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Conclusions about the distance/dissimilarity between two observations should not be implied by their relationship on the horizontal axis nor by the vertical connections</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Rather, the height of the branch between an observation and the clusters of observations below them indicate the distance between the observation and that cluster it is joined to</li>
+</ul>
+</div>
+</section>
+<section id="toy-example-1" class="slide level2">
+<h2>Toy example</h2>
+<ul>
+<li><p>Consider observations 9 and 2. They appear close on the dendrogram</p></li>
+<li><p>But their closeness on the dendrogram imply they are approximately the same distance measure from the cluster that they are fused to (observations 5, 7, 8)</p></li>
+<li><p>It by no means implies that observation 9 and 2 are close to one another.</p></li>
+</ul>
 
-<img data-src="https://bradleyboehmke.github.io/HOML/19-hierarchical_files/figure-html/comparing-dendrogram-to-distances-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
+<img data-src="https://bradleyboehmke.github.io/HOML/19-hierarchical_files/figure-html/comparing-dendrogram-to-distances-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
 <section id="cut-dendrograms-to-obtain-cluster-labels" class="slide level2">
 <h2>Cut dendrograms to obtain cluster labels</h2>
 <div class="columns">
@@ -612,6 +688,51 @@ Aaron Gordon  1.5086463   1.1393048  0.9839163    0.0000000</code></pre>
 </div>
 </div></div>
 </section>
+<section id="shortcomings-of-different-types-of-linkage" class="slide level2">
+<h2>Shortcomings of different types of linkage</h2>
+<ul>
+<li><p>Single linkage suffers from <strong>chaining</strong></p>
+<ul>
+<li><p>In order to merge two groups, only need one pair of points to be close, irrespective of all others</p></li>
+<li><p>Therefore clusters can be too spread out, and not compact enough</p></li>
+</ul></li>
+</ul>
+<div class="fragment">
+<ul>
+<li><p>Complete linkage avoids chaining, but suffers from <strong>crowding</strong></p>
+<ul>
+<li><p>Because its score is based on the maximum dissimilarity between pairs, a point can be closer to points in other clusters than to points in its own cluster</p></li>
+<li><p>Clusters are compact, but not far enough apart</p></li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li><p>Average linkage tries to strike a balance</p>
+<ul>
+<li><p>It uses average pairwise dissimilarity, so clusters tend to be relatively compact and relatively far apart</p></li>
+<li><p>But it is not clear what properties the resulting clusters have when we cut an average linkage tree at given height.</p></li>
+<li><p>Single and complete linkage trees each has simple interpretations</p></li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="complete-linkage-interpretation" class="slide level2">
+<h2>Complete linkage interpretation</h2>
+<ul>
+<li><p>Cutting the tree at <span class="math inline">\(h = 5\)</span> gives the clustering assignments marked by colors</p></li>
+<li><p>Cut interpretation: for each point <span class="math inline">\(x_i\)</span>, every other point <span class="math inline">\(x_j\)</span> in its cluster satisfies <span class="math inline">\(d_{ij} \le 5\)</span></p></li>
+</ul>
+
+<img src="../images/complete-linkage-cut.png" width="200" class="r-stretch"></section>
+<section id="single-linkage-interpretation" class="slide level2">
+<h2>Single linkage interpretation</h2>
+<ul>
+<li><p>Cutting the tree at <span class="math inline">\(h = 0.9\)</span> gives the clustering assignments marked by colors</p></li>
+<li><p>Cut interpretation: for each point <span class="math inline">\(x_i\)</span>, there is another point <span class="math inline">\(x_j\)</span> in its cluster satisfies <span class="math inline">\(d_{ij} \le 0.9\)</span></p></li>
+</ul>
+
+<img src="../images/single-linkage-cut.png" width="200" class="r-stretch"></section>
 <section id="more-linkage-functions" class="slide level2">
 <h2>More linkage functions</h2>
 <ul>
@@ -625,7 +746,7 @@ Aaron Gordon  1.5086463   1.1393048  0.9839163    0.0000000</code></pre>
 <ul>
 <li><p><strong>Ward’s linkage</strong>: Merges a pair of clusters to minimize the within-cluster variance</p>
 <ul>
-<li><p>i.e.&nbsp;aim is to minimize the objection function from <span class="math inline">\(K\)</span>-means</p></li>
+<li><p>i.e.&nbsp;aim is to minimize the objection function from <span class="math inline">\(k\)</span>-means</p></li>
 <li><p>can use <code>ward.D</code> or <code>ward.D2</code> (different algorithms)</p></li>
 </ul></li>
 </ul>
@@ -691,7 +812,7 @@ Cluster   C  PF  PG  SF  SG
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="07-hierarchical_files/figure-revealjs/unnamed-chunk-18-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="07-hierarchical_files/figure-revealjs/unnamed-chunk-19-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -722,7 +843,7 @@ Cluster   C  PF  PG  SF  SG
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="07-hierarchical_files/figure-revealjs/unnamed-chunk-20-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="07-hierarchical_files/figure-revealjs/unnamed-chunk-21-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -757,7 +878,7 @@ Cluster   C  PF  PG  SF  SG
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="07-hierarchical_files/figure-revealjs/unnamed-chunk-22-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="07-hierarchical_files/figure-revealjs/unnamed-chunk-23-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -780,9 +901,14 @@ Cluster   C  PF  PG  SF  SG
 <li><p>Soft (fuzzy) clustering: assigns each observation a probability of belonging to a cluster</p></li>
 </ul></li>
 </ul>
+</section></section>
+<section>
+<section id="appendix" class="title-slide slide level1 center">
+<h1>Appendix</h1>
+
 </section>
-<section id="appendix-code-to-build-dataset" class="slide level2">
-<h2>Appendix: code to build dataset</h2>
+<section id="code-to-build-dataset" class="slide level2">
+<h2>Code to build dataset</h2>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb18-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
@@ -803,7 +929,7 @@ Cluster   C  PF  PG  SF  SG
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
-<p><a href="https://36-sure.github.io/2024">36-SURE.github.io/2024</a></p>
+<p><a href="https://36-sure.github.io/2025">36-SURE.github.io/2025</a></p>
 </div>
 </div></div>
 
