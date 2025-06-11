@@ -1915,7 +1915,7 @@
     "href": "lectures/08-density.html#adjusting-the-binwidth-1",
     "title": "Data visualization: density estimation",
     "section": "Adjusting the binwidth",
-    "text": "Adjusting the binwidth\n\nA binwidth that is too narrow shows too much detail\n\ntoo many bins: low bias, high variance\n\nA binwidth that is too wide hides detail\n\ntoo few bins: high bias, low variance\n\nAlways pick a value that is “just right” (The Goldilocks principle, the “baby bear”)\n\nTry several values, the ggplot2 default is NOT guaranteed to be an optimal choice"
+    "text": "Adjusting the binwidth\n\nA binwidth that is too narrow shows too much detail\n\ntoo many bins: low bias, high variance\n\n\n\n\nA binwidth that is too wide hides detail\n\ntoo few bins: high bias, low variance\n\n\n\n\n\nAlways pick a value that is “just right” (The Goldilocks principle, the “baby bear”)\n\nTry several values, the ggplot2 default is NOT guaranteed to be an optimal choice"
   },
   {
     "objectID": "lectures/08-density.html#a-subtle-point-about-the-histogram-code",
@@ -1925,11 +1925,11 @@
     "text": "A subtle point about the histogram code…\n\n\nBy default the bins are centered on the integers\n\nleft-closed, right-open intervals\nstarting at -0.5 to 0.5, 0.5 to 1.5, …\n\n\nclark_shots |&gt;\n  ggplot(aes(x = shot_distance)) +\n  geom_histogram(binwidth = 1)\n\n\n\n\n\n\n\n\n\nSpecify center of one bin (e.g. 0.5)\n\nUse closed = \"left\"\n\n\nclark_shots |&gt;\n  ggplot(aes(x = shot_distance)) +\n  geom_histogram(binwidth = 1, center = 0.5, \n                 closed = \"left\")"
   },
   {
-    "objectID": "lectures/08-density.html#how-do-histograms-relate-to-the-pdf-and-cdf",
-    "href": "lectures/08-density.html#how-do-histograms-relate-to-the-pdf-and-cdf",
+    "objectID": "lectures/08-density.html#how-do-histograms-relate-to-the-pdf-cdf",
+    "href": "lectures/08-density.html#how-do-histograms-relate-to-the-pdf-cdf",
     "title": "Data visualization: density estimation",
-    "section": "How do histograms relate to the PDF and CDF?",
-    "text": "How do histograms relate to the PDF and CDF?\n\nHistograms approximate the PDF with bins, and points are equally likely within a bin\nPDF is the derivative of the cumulative distribution function (CDF)"
+    "section": "How do histograms relate to the PDF & CDF?",
+    "text": "How do histograms relate to the PDF & CDF?\n\nHistograms approximate the PDF with bins, and points are equally likely within a bin\nPDF is the derivative of the cumulative distribution function (CDF)"
   },
   {
     "objectID": "lectures/08-density.html#kernel-density-estimation-intuition",

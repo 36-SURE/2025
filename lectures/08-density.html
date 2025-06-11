@@ -323,13 +323,21 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <ul>
 <li>too many bins: low bias, high variance</li>
 </ul></li>
+</ul>
+<div class="fragment">
+<ul>
 <li><p>A binwidth that is too wide hides detail</p>
 <ul>
 <li>too few bins: high bias, low variance</li>
 </ul></li>
-<li><p>Always pick a value that is “just right” (<a href="https://en.wikipedia.org/wiki/Goldilocks_principle">The Goldilocks principle</a>, the “baby bear”)</p></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Always pick a value that is “just right” (<a href="https://en.wikipedia.org/wiki/Goldilocks_principle">The Goldilocks principle</a>, the “baby bear”)</li>
 </ul>
 <p><strong>Try several values, the <code>ggplot2</code> default is NOT guaranteed to be an optimal choice</strong></p>
+</div>
 </section>
 <section id="a-subtle-point-about-the-histogram-code" class="slide level2">
 <h2>A subtle point about the histogram code…</h2>
@@ -372,8 +380,8 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 </div>
 </div></div>
 </section>
-<section id="how-do-histograms-relate-to-the-pdf-and-cdf" class="slide level2">
-<h2>How do histograms relate to the PDF and CDF?</h2>
+<section id="how-do-histograms-relate-to-the-pdf-cdf" class="slide level2">
+<h2>How do histograms relate to the PDF &amp; CDF?</h2>
 <ul>
 <li><p>Histograms approximate the PDF with bins, and <strong>points are equally likely within a bin</strong></p></li>
 <li><p>PDF is the <strong>derivative</strong> of the cumulative distribution function (CDF)</p></li>
