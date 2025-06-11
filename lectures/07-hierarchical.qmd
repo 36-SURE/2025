@@ -621,7 +621,7 @@ nba_players_features <- nba_players |>
   select(x3pa, x2pa, fta, trb, ast, stl, blk, tov)
   
 player_dist_mult_features <- nba_players_features |> 
-  dist()
+  dist(method = "euclidean") # can try out other methods
 ```
 
 * Then perform hierarchical clustering  as before
