@@ -132,10 +132,14 @@ clark_shots |>
 -   A binwidth that is too narrow shows too much detail
 
     - too many bins: low bias, high variance
+    
+. . .
 
 -   A binwidth that is too wide hides detail
 
     - too few bins: high bias, low variance
+    
+. . .    
 
 -   Always pick a value that is "just right" ([The Goldilocks principle](https://en.wikipedia.org/wiki/Goldilocks_principle), the "baby bear")
 
@@ -174,7 +178,7 @@ clark_shots |>
 :::
 :::
 
-## How do histograms relate to the PDF and CDF?
+## How do histograms relate to the PDF & CDF?
 
 * Histograms approximate the PDF with bins, and **points are equally likely within a bin**
 
