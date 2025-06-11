@@ -1,7 +1,7 @@
 ---
 title: "Unsupervised learning: hierarchical clustering"
-author: "<br>SURE 2024<br><br>Department of Statistics & Data Science<br>Carnegie Mellon University"
-footer:  "[36-SURE.github.io/2024](https://36-sure.github.io/2024)"
+author: "<br>SURE 2025<br><br>Department of Statistics & Data Science<br>Carnegie Mellon University"
+footer:  "[36-SURE.github.io/2025](https://36-sure.github.io/2025)"
 format:
   revealjs:
     theme: theme.scss
@@ -50,7 +50,7 @@ set.seed(101)
 library(tidyverse)
 theme_set(theme_light())
 nba_players <- read_csv("https://raw.githubusercontent.com/36-SURE/2025/main/data/nba_players.csv")
-head(nba_players)
+glimpse(nba_players)
 ```
 ```{r}
 #| echo: false
@@ -68,7 +68,7 @@ ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
 
 -   e.g. **Euclidean distance** between observations $i$ and $j$
 
-$$d(x_i, x_j) = \sqrt{(x_{i1}-x_{j1})^2 + \cdots + (x_{ip}-x_{jp})^2}$$
+$$d_{ij} = \sqrt{(x_{i1}-x_{j1})^2 + \cdots + (x_{ip}-x_{jp})^2}$$
 
 **What are the distances between these counties using `x3pa` (3-point attempts) and `trb` (total rebounds)?**
 
@@ -109,7 +109,7 @@ nba_players <- nba_players |>
 
 nba_players |> 
   ggplot(aes(x = std_x3pa, y = std_trb)) +
-  geom_point(size = 2) +
+  geom_point(size = 4) +
   coord_fixed()
 ```
 :::
@@ -118,7 +118,7 @@ nba_players |>
 ```{r}
 #| ref-label: nba-std-plot
 #| echo: false
-#| fig-height: 7
+#| fig-height: 9
 ```
 :::
 :::
@@ -146,15 +146,76 @@ players_dist_matrix[1:4, 1:4]
 
 # Hierarchical clustering
 
-## (Agglomerative) [Hierarchical clustering](https://en.wikipedia.org/wiki/Hierarchical_clustering)
+## Hierarchical clustering in simple terms
 
-Let's pretend all $n$ observations are in their own cluster
+::: columns
+::: {.column width="70%" style="text-align: left;"}
+
+* Key idea: Builds a hierarchy in a agglomerative/bottom-up fashion
+
+* Algorithm (informal version)
+
+  * Start with each point in its own cluster
+
+  * Identify the closest two clusters and merge them
+
+  * Repeat
+
+  * Ends when all points are in a single cluster
+  
+:::
+
+::: {.column width="30%" style="text-align: left;"}
+
+Toy example
+
+```{r}
+#| echo: false
+#| out-width: 80%
+knitr::include_graphics("../images/hc-toy-plain.png")
+```
+
+:::
+:::
+
+## Toy example
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| echo: false
+#| out-width: 90%
+knitr::include_graphics("../images/hc-toy-annotated.png")
+```
+  
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| echo: false
+#| out-width: 70%
+knitr::include_graphics("../images/hc-toy-dendro.png")
+```
+
+
+:::
+:::
+
+
+
+## Hierarchical clustering
+
+Start with all observations in their own cluster
 
 . . .
 
 -   Step 1: Compute the pairwise dissimilarities between each cluster
 
-    -   e.g., distance matrix on previous slides
+    -   e.g., distance matrix on previous slides (using Euclidean distance)
+    
+    -   In practice, we can also try out different types of distance
 
 . . .
 
@@ -162,7 +223,7 @@ Let's pretend all $n$ observations are in their own cluster
 
 . . .
 
--   Step 3: Fuse these two clusters into a new cluster!
+-   Step 3: Fuse these two clusters into a new cluster
 
 . . .
 
@@ -174,89 +235,66 @@ Let's pretend all $n$ observations are in their own cluster
 
 No mention of any randomness. And no mention of the number of clusters $k$.
 
-## (Agglomerative) [Hierarchical clustering](https://en.wikipedia.org/wiki/Hierarchical_clustering)
-
-::: columns
-::: {.column width="50%" style="text-align: left;"}
-Start with all observations in their own cluster
-
--   Step 1: Compute the pairwise dissimilarities between each cluster
-
--   Step 2: Identify the pair of clusters that are **least dissimilar**
-
--   Step 3: Fuse these two clusters into a new cluster!
-
--   **Repeat Steps 1 to 3 until all observations are in the same cluster**
-:::
-
-::: {.column width="50%" style="text-align: left;"}
-```{r}
-#| out-width: "70%"
-#| echo: false
-knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Clusters.svg/250px-Clusters.svg.png")
-```
-:::
-:::
-
-## (Agglomerative) [Hierarchical clustering](https://en.wikipedia.org/wiki/Hierarchical_clustering)
-
-::: columns
-::: {.column width="50%" style="text-align: left;"}
-Start with all observations in their own cluster
-
--   Step 1: Compute the pairwise dissimilarities between each cluster
-
--   Step 2: Identify the pair of clusters that are **least dissimilar**
-
--   Step 3: Fuse these two clusters into a new cluster!
-
--   **Repeat Steps 1 to 3 until all observations are in the same cluster**
-:::
-
-::: {.column width="50%" style="text-align: left;"}
-```{r}
-#| out-width: "85%"
-#| echo: false
-knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Hierarchical_clustering_simple_diagram.svg/418px-Hierarchical_clustering_simple_diagram.svg.png")
-```
-
-Forms a **dendrogram** (typically displayed from bottom-up)
-:::
-:::
 
 ## Dissimilarity between clusters
 
 * We know how to compute distance/dissimilarity between two observations
 
-* **But how do we handle clusters?**
+. . .
 
-  *   Dissimilarity between a cluster and an observation, or between two clusters
+* But what about distance/dissimilarity between a cluster and an observation, or between two clusters?
 
 . . .
 
-We need to choose a **linkage function**. Clusters are built up by **linking them together**
+* We need to choose a **linkage function**. Clusters are built up by **linking them together**
 
 
-## Types of linkage
+## Linkages
 
-First, compute all pairwise dissimilarities between the observations in the two clusters
-
-i.e., compute the distance matrix between observations, $d(x_i, x_j)$ for $i \in C_1$ and $j \in C_2$
+* Linkage: function $d(C_1, C_2)$ that takes two groups (clusters) $C_1$ and $C_2$ and returns a dissimilarity score between them
 
 . . .
 
--   **Complete linkage**: use the **maximum** (largest) value of these dissimilarities \hfill $\underset{i \in C_1, j \in C_2}{\text{max}} d(x_i, x_j)$ (**maximal** inter-cluster dissimilarity)
+* First, compute all pairwise dissimilarities between the observations in the two clusters (i.e., compute the distance matrix between observations)
 
 . . .
 
--   **Single linkage**: use the **minimum** (smallest) value of these dissimilarities \hfill $\underset{i \in C_1, j \in C_2}{\text{min}} d(x_i, x_j)$ (**minimal** inter-cluster dissimilarity)
+* Agglomerative clustering, given the linkage:
 
+  * Start with all points in their own cluster
+
+  * Until there is only one cluster, repeatedly: merge the two clusters $C_1$, $C_2$ such that $d(C_1, C_2)$ is the smallest
+  
 . . .
 
--   **Average linkage**: use the **average** value of these dissimilarities \hfill $\displaystyle \frac{1}{|C_1||C_2|} \sum_{i \in C_1} \sum_{j \in C_2} d(x_i, x_j)$ (**mean** inter-cluster dissimilarity)
+* There are different types of linkage: complete, single, average,...
 
-. . .
+## Complete linkage
 
+In complete linkage, we use the largest dissimilarity between two points of different clusters (**maximal** inter-cluster dissimilarity) $$d_\text{complete}(C_1, C_2) = \underset{i \in C_1, j \in C_2}{\text{max}} d_{ij}$$
+
+Below, the complete linkage score $d_\text{complete}(C_1, C_2)$ is the distance of the furthest pair
+
+<center>
+<img src= "/images/complete-linkage.png" style="border: 1px solid grey;" width="360">
+</center>
+
+## Single linkage
+
+In single linkage, we use the smallest dissimilarity between two points of different clusters (**minimal** inter-cluster dissimilarity) $$d_\text{single}(C_1, C_2) = \underset{i \in C_1, j \in C_2}{\text{min}} d_{ij}$$
+
+Below, the single linkage score $d_\text{single}(C_1, C_2)$ is the distance of the closest pair
+
+<center>
+<img src= "/images/single-linkage.png" style="border: 1px solid grey;" width="360">
+</center>
+
+## Average linkage
+
+In average linkage, we use the average dissimilarity over all points of different clusters
+(**mean** inter-cluster dissimilarity) $$d_\text{average}(C_1, C_2) = \frac{1}{|C_1||C_2|} \sum_{i \in C_1, j \in C_2} d_{ij}$$
+
+In short, the average linkage score $d_\text{average}(C_1, C_2)$ is the average distance across all pairs (of different clusters)
 
 ## Complete linkage example
 
@@ -348,13 +386,28 @@ nba_complete |>
 :::
 :::
 
+## Some notes on dendrograms
 
-## [Textbook example](https://bradleyboehmke.github.io/HOML/hierarchical.html)
+* Dendrograms are often misinterpreted
 
-<br>
+. . .
+
+* Conclusions about the distance/dissimilarity between two observations should not be implied by their relationship on the horizontal axis nor by the vertical connections
+
+. . .
+
+* Rather, the height of the branch between an observation and the clusters of observations below them indicate the distance between the observation and that cluster it is joined to
+
+## Toy example
+
+* Consider observations 9 and 2. They appear close on the dendrogram
+
+* But their closeness on the dendrogram imply they are approximately the same distance measure from the cluster that they are fused to (observations 5, 7, 8)
+
+* It by no means implies that observation 9 and 2 are close to one another.
 
 ```{r}
-#| out-width: "100%"
+#| out-width: "80%"
 #| echo: false
 knitr::include_graphics("https://bradleyboehmke.github.io/HOML/19-hierarchical_files/figure-html/comparing-dendrogram-to-distances-1.png")
 ```
@@ -484,6 +537,48 @@ nba_players |>
 :::
 :::
 
+## Shortcomings of different types of linkage
+
+* Single linkage suffers from **chaining**
+
+  * In order to merge two groups, only need one pair of points to be close, irrespective of all others
+  
+  * Therefore clusters can be too spread out, and not compact enough
+  
+. . .
+  
+* Complete linkage avoids chaining, but suffers from **crowding**
+
+  * Because its score is based on the maximum dissimilarity between pairs, a point can be closer to points in other clusters than to points in its own cluster
+  
+  * Clusters are compact, but not far enough apart
+  
+. . .
+
+* Average linkage tries to strike a balance
+
+  * It uses average pairwise dissimilarity, so clusters tend to be relatively compact and relatively far apart
+  
+  * But it is not clear what properties the resulting clusters have when we cut an average linkage tree at given height. 
+  
+  * Single and complete linkage trees each has simple interpretations
+  
+## Complete linkage interpretation
+
+* Cutting the tree at $h = 5$ gives the clustering assignments marked by colors
+
+* Cut interpretation: for each point $x_i$, every other point $x_j$ in its cluster satisfies $d_{ij} \le 5$
+
+<img src= "/images/complete-linkage-cut.png" width="200">
+
+## Single linkage interpretation
+
+* Cutting the tree at $h = 0.9$ gives the clustering assignments marked by colors
+
+* Cut interpretation: for each point $x_i$,  there is another point $x_j$ in its cluster satisfies $d_{ij} \le 0.9$
+
+<img src= "/images/single-linkage-cut.png" width="200">
+
 ## More linkage functions
 
 -   **Centroid linkage**: Computes the dissimilarity between the centroid for cluster 1 and the centroid for cluster 2
@@ -496,7 +591,7 @@ nba_players |>
 
 -   **Ward's linkage**: Merges a pair of clusters to minimize the within-cluster variance
 
-    -   i.e. aim is to minimize the objection function from $K$-means
+    -   i.e. aim is to minimize the objection function from $k$-means
 
     -   can use `ward.D` or `ward.D2` (different algorithms)
 
@@ -673,7 +768,9 @@ nba_players_features |>
   
   *   Soft (fuzzy) clustering: assigns each observation a probability of belonging to a cluster
 
-## Appendix: code to build dataset
+# Appendix
+
+## Code to build dataset
 
 ```{r}
 #| eval: false
