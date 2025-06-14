@@ -4,7 +4,7 @@ title: "Project Guidelines"
 
 ## Your Task
 
-Each student has been assigned into a project group (of up to 3 students).
+Each student has been allocated into a project group of three.
 Each group has been assigned a specific project research topic.
 Your goal is to complete the required project deliverables and checkpoints, in accordance with the guidelines detailed in the remainder of this document.
 
@@ -36,7 +36,7 @@ We will then make a printed copy for the poster session on the final day.
 **DUE THURSDAY, JULY 24 AT 11:59PM ET**
 
 Each group will give a **7-minute presentation on the final day (July 25)**. 
-The presentation should effectively have the same structure as your report with an introduction, followed by data description, an overview of methods, followed by results and discussion.
+The presentation should effectively have the same structure as your report with an introduction, data description, an overview of methods, followed by results, recommendations, and discussion.
 Your slides may be created in any software, but we only accept submissions in the form of a `.pdf` file, a Google Slides link, or a Quarto presentation ([self-contained `.html` file or hosted online](https://quarto.org/docs/output-formats/html-publishing.html)).
 
 ## Checkpoints
@@ -75,7 +75,7 @@ Your second checkpoint presentation should be structured as follows.
 
 *   Plan of action (1 slide): List all the steps needed to complete your project (be specific). Highlight the completed steps.
 
-*   Present the completed steps (5 slides max): methods, plots, findings, etc.
+*   Present the completed steps (5 slides max): methods, plots, findings, recommendations, etc.
 
     *   Design the slides using the [assertion-evidence](https://www.cmu.edu/student-success/other-resources/handouts/comm-supp-pdfs/designing-powerpoint-slides.pdf) model
 

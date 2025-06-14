@@ -2,6 +2,10 @@
 title: "Health"
 ---
 
+<!-- ## Capstone project -->
+
+<!-- [Guidelines](https://36-sure.github.io/2025/health/project/description.html) -->
+
 ## Labs
 
 Note: To download a `.qmd` file, right click and choose "Save Link As...".
