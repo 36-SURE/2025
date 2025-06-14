@@ -1,0 +1,807 @@
+---
+title: "Supervised learning: linear regression"
+author: "<br>SURE 2025<br><br>Department of Statistics & Data Science<br>Carnegie Mellon University"
+footer:  "[36-SURE.github.io/2025](https://36-sure.github.io/2025)"
+format:
+  revealjs:
+    theme: theme.scss
+    chalkboard: true
+    smaller: true
+    slide-number: c/t
+    code-line-numbers: false
+    linestretch: 1.25
+    html-math-method:
+      method: mathjax
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  fig.height = 9
+)
+library(tidyverse)
+theme_set(theme_light())
+ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
+```
+
+# Background
+
+## Supervised learning
+
+* General setup: Given a dataset of $n$ observations (rows) and $p$ variables (columns)
+
+. . .
+
+* Response/outcome/target/dependent variable $Y$ in one of the $p$ variables
+
+. . .
+
+* **Goal**: uncover associations between a set of predictors/features/covariates/explanatory variables and a response variable
+
+  * Accurately predict unseen test cases
+
+  * Understand which features affect the response (and how)
+
+  * Assess the quality of our predictions and inferences
+  
+. . .  
+
+* Two main types of problems
+
+  * Regression: estimate average value of response (i.e. the response is quantitative)
+
+  * Classification: determine the most likely class of a set of discrete response variable classes (i.e. the response is categorical)
+  
+## Examples of supervised learning methods
+
+* Linear regression (today)
+
+* Generalized linear models (GLMs) and penalized versions (lasso, ridge, elastic net)
+
+* Smoothing splines, generalized additive models (GAMs)
+
+* Decision trees and its variants (e.g., random forests, boosting)
+
+* Deep learning, neural networks
+
+## Resources
+
+*   [Advanced Data Analysis from an Elementary Point of View](https://www.stat.cmu.edu/~cshalizi/ADAfaEPoV/ADAfaEPoV.pdf) (aka the greatest book that will never be published)
+
+*   [The Truth about Linear Regression](https://www.stat.cmu.edu/~cshalizi/TALR/TALR.pdf)
+
+> "Regression", in statistical jargon, is the problem of guessing the average level of some quantitative response variable from various predictor variables. - [Note GOAT](http://bactra.org/notebooks/regression.html)
+
+## Simple linear regression
+
+**Linear regression is used when the response variable is quantitative**
+
+. . .
+
+Assume a __linear relationship__ for $Y = f(X)$ $$Y_{i}=\beta_{0}+\beta_{1} X_{i}+\epsilon_{i}, \quad \text { for } i=1,2, \dots, n$$
+
+- $Y_i$ is the $i$th value for the __response__ variable
+  
+- $X_i$ is the $i$th value for the __predictor__ variable
+
+. . .
+  
+- $\beta_0$ is an _unknown_, constant __intercept__
+
+  -   average value for $Y$ if $X = 0$ (be careful sometimes...)
+  
+- $\beta_1$ is an _unknown_, constant __slope__
+
+  -   change in average value for $Y$ for each one-unit increase in $X$
+  
+. . .
+  
+- $\epsilon_i$ is the __random__ noise
+
+    -   assume __independent, identically distributed__ (_iid_) from a normal distribution 
+
+    -   $\epsilon_i \overset{iid}{\sim}N(0, \sigma^2)$ with constant variance $\sigma^2$
+
+
+
+## Simple linear regression estimation
+
+We are estimating the __conditional expection (mean)__ for $Y$:
+
+$$\mathbb{E}[Y_i \mid X_i] = \beta_0 + \beta_1X_i$$
+
+- average value for $Y$ given the value for $X$
+
+. . .
+
+How do we estimate the __best fitted__ line?
+
+. . .
+
+__Ordinary least squares (OLS)__ - by minimizing the __residual sum of squares (RSS)__
+
+$$\text{RSS} \left(\beta_{0}, \beta_{1}\right)=\sum_{i=1}^{n}\left[Y_{i}-\left(\beta_{0}+\beta_{1} X_{i}\right)\right]^{2}=\sum_{i=1}^{n}\left(Y_{i}-\beta_{0}-\beta_{1} X_{i}\right)^{2}$$
+
+. . .
+
+$$\widehat{\beta}_{1}=\frac{\sum_{i=1}^{n}\left(X_{i}-\bar{X}\right)\left(Y_{i}-\bar{Y}\right)}{\sum_{i=1}^{n}\left(X_{i}-\bar{X}\right)^{2}} \quad \text{ and } \quad \widehat{\beta}_{0}=\bar{Y}-\widehat{\beta}_{1} \bar{X}$$
+
+where $\displaystyle \bar{X} = \frac{1}{n}\sum_{i=1}^n X_i$ and $\displaystyle \bar{Y} = \frac{1}{n}\sum_{i=1}^n Y_i$
+
+## Visual explanation
+
+* Imagine a 2D scatterplot with different data points
+
+* Linear regression aims to find a "best fit" line that minimizes the vertical distance between the line and the data points
+
+  * The vertical distance is known as a residual (difference between the actual y-value of a data point and the predicted y-value on the regression line)
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| echo: false
+#| fig-height: 8
+set.seed(2)
+d <- tibble(x = rnorm(50, mean = 100, sd = 20)) |>
+  mutate(y =  0.8 * x + rnorm(50, mean = 0, sd = 10))
+m <- lm(y ~ x, data = d)
+d <- d |> 
+  mutate(yhat = fitted(m))
+
+basic_scatter <- d |> 
+  ggplot(aes(x, y)) +
+  geom_point(size = 4) +
+  coord_equal()
+basic_scatter
+```
+
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| echo: false
+#| fig-height: 8
+basic_scatter +
+  geom_segment(aes(xend = x, yend = yhat), color = "red") +
+  geom_smooth(method = "lm", color = "red", se = FALSE)
+```
+
+:::
+:::
+
+# Linear regression in `R`
+
+## Data: Capital Bikeshare Ridership
+
+Daily count of rental bikes between years 2011 and 2012 in Capital bikeshare system with the corresponding weather and seasonal information.
+
+```{r load-data, warning = FALSE, message = FALSE}
+library(tidyverse)
+theme_set(theme_light())
+
+bikes <- read_csv("https://raw.githubusercontent.com/36-SURE/2025/refs/heads/main/data/bikes.csv")
+glimpse(bikes)
+```
+
+```{r}
+#| echo: false
+ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
+```
+
+
+## Modeling bike ridership
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+Interested in modeling bikeshare `rides`
+
+```{r bike-rides, echo = TRUE, eval = FALSE}
+bikes |>
+  ggplot(aes(x = rides)) +
+  geom_histogram(color = "black", fill = "gray")
+```
+
+
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r ref.label = 'bike-rides', echo = FALSE}
+
+```
+
+:::
+:::
+
+## Relationship between rides and feels-like temperature
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+```{r scatter, eval = FALSE}
+rides_temp <- bikes |>
+  ggplot(aes(x = temp_feel, y = rides)) +
+  geom_point(size = 3, alpha = 0.5)
+rides_temp
+```
+
+We fit linear regression models using `lm()`, formula is input as: `response ~ predictor`
+
+```{r rides-reg}
+simple_lm <- lm(rides ~ temp_feel, data = bikes) 
+```
+
+:::
+
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r ref.label = 'scatter', echo = FALSE}
+
+```
+
+:::
+:::
+
+## Model summary using  `summary()`
+
+::: columns
+::: {.column width="45%" style="text-align: left;"}
+
+```{r}
+summary(simple_lm)
+```
+
+:::
+
+::: {.column width="55%" style="text-align: left;"}
+
+How do we read the summary output?
+
+Model: $\ \small \text{Rides} = \beta_0 + \beta_1 \ \text{Temperature} + \epsilon$
+
+From output: $\ \small \hat{\beta}_0 = -2179.27$ and $\small \hat{\beta}_1 = 81.88$
+
+OLS line: $\ \ \small \widehat{\text{Rides}} = -2179.27 + 81.88 \ \text{Temperature}$
+
+Interpretation of $\hat \beta_1$: estimated change in y for a one unit change in x
+
+In context: For every additional $^{\circ}$ F in feels-like temperature, the expected ridership increases by about 82 rides.
+
+:::
+:::
+
+## Inference: hypothesis testing
+
+::: columns
+::: {.column width="45%" style="text-align: left;"}
+
+```{r}
+summary(simple_lm)
+```
+
+:::
+
+::: {.column width="55%" style="text-align: left;"}
+
+Estimates of uncertainty for model coefficients via __standard errors__ $$\quad \widehat{SE}(\hat{\beta}_0) = 358.63 \quad \text{and} \quad \widehat{SE}(\hat{\beta}_1) = 5.12$$
+
+We're testing whether there is a linear relationship between the predictor and the response $$\quad H_0: \beta_1 = 0 \quad \text{vs} \quad H_1: \beta_1 \neq 0$$
+
+Test statistic: $$t = \frac{\hat{\beta}_1}{\widehat{SE}(\hat{\beta}_1)} = \frac{81.88}{5.12} = 15.99$$
+
+:::
+:::
+
+## Inference: hypothesis testing
+
+::: columns
+::: {.column width="45%" style="text-align: left;"}
+
+```{r}
+summary(simple_lm)
+```
+
+:::
+
+::: {.column width="55%" style="text-align: left;"}
+
+Recall that we're testing $$\quad H_0: \beta_1 = 0 \quad \text{vs} \quad H_1: \beta_1 \neq 0$$
+
+* $p$-value (i.e., `Pr(>|t|)`): probability of observing a value as extreme as the observed test statistic (under the null hypothesis)
+  
+* $p$-value $< \alpha = 0.05$ (conventional threshold): __sufficient evidence to reject the null hypothesis that the coefficient is zero__
+
+* In context: There is a statistically significant association between temperature and number of bikeshare rides, $\small \hat \beta_1 = 81.88, t = 15.99,p$-value $<0.001$.
+
+:::
+:::
+  
+## Model summary using the [`broom`](https://cran.r-project.org/web/packages/broom/vignettes/broom.html) package
+
+The 3 `broom` functions (Note: the output is always a tibble)
+
+*   `tidy()`: coefficients table in a tidy format
+
+*   `glance()`: produces summary metrics of a model fit
+
+*   `augment()`: adds/"augments" columns to the original data (e.g., adding predictions)
+
+. . .
+
+```{r}
+library(broom)
+tidy(simple_lm)
+glance(simple_lm)
+```
+
+## Confidence interval for model coefficients
+
+
+```{r}
+tidy(simple_lm, conf.int = TRUE, conf.level = 0.95)
+```
+
+In-context interpretation (for `temp_feel`)
+
+* For every additional $^{\circ}$ F in feels-like temperature, the expected ridership increases by about 82 rides (95% CI [71.8, 91.9])
+
+. . . 
+
+* We're 95% confident that every additional degree Fahrenheit in temperature is associated with an increase of about 72 to 92 rides in expected ridership.
+
+
+## Coefficient of determination
+
+* In linear regression, the square of the correlation coefficient happens to be exactly the coefficient of
+determination
+
+```{r example-cor}
+cor(bikes$temp_feel, bikes$rides)
+cor(bikes$temp_feel, bikes$rides) ^ 2
+```
+
+* $R^2$ estimates the __proportion of the variance__ of $Y$ explained by $X$ 
+
+* More generally: variance of model predictions / variance of $Y$
+
+```{r general-rsquared}
+var(predict(simple_lm)) / var(bikes$rides) 
+```
+
+* Interpretation: 33.9% of the variability in the number of bikeshare rides can be explained by the linear relationship between
+ridership and feels-like temperature (the remaining 66.1% of the variation is due to other factors and/or noise)
+
+## Generating predictions
+
+We can use the `predict()` or `fitted()` function to get the fitted values from the regression model
+
+```{r init-predict}
+head(predict(simple_lm))
+```
+
+```{r}
+head(fitted(simple_lm))
+```
+
+## Plot observed values against predictions
+
+Useful diagnostic (for __any type of model__, not just linear regression!) 
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+```{r plot-pred-obs, eval = FALSE}
+bikes |>
+  mutate(pred = predict(simple_lm)) |> 
+  ggplot(aes(x = pred, y = rides)) +
+  geom_point(alpha = 0.5, size = 3) +
+  geom_abline(slope = 1, intercept = 0, 
+              linetype = "dashed",
+              color = "red",
+              linewidth = 2)
+```
+
+- "Perfect" model will follow __diagonal__
+
+:::
+
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r ref.label='plot-pred-obs', echo = FALSE, fig.height=6,fig.width=6,fig.align="center"}
+
+```
+
+:::
+:::
+
+
+
+## Plot observed values against predictions
+
+Augment the data with model output using the [`broom` package](https://cran.r-project.org/web/packages/broom/vignettes/broom.html)
+
+`augment()` adds various columns from model fit we can use in plotting for model diagnostics
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+```{r plot-pred-obs-broom, eval = FALSE}
+bikes <- simple_lm |> 
+  augment(bikes) 
+bikes |>
+  ggplot(aes(x = .fitted, y = rides)) + 
+  geom_point(alpha = 0.5, size = 3) +
+  geom_abline(slope = 1, intercept = 0, color = "red", 
+              linetype = "dashed", linewidth = 2)
+```
+
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+```{r ref.label='plot-pred-obs-broom', echo = FALSE, fig.height=6,fig.width=6,fig.align="center"}
+
+```
+
+:::
+:::
+
+## Assessing assumptions of linear regression
+
+Simple linear regression assumes $Y_i \overset{iid}{\sim} N(\beta_0 + \beta_1 X_i, \sigma^2)$
+
+- If this is true, then $Y_i - \hat{Y}_i \overset{iid}{\sim} N(0, \sigma^2)$
+
+. . .
+
+Plot residuals against $\hat{Y}_i$, __residuals vs fit__ plot
+
+- Used to assess linearity, any divergence from mean 0
+
+- Used to assess equal variance, i.e., if $\sigma^2$ is homogenous across predictions/fits $\hat{Y}_i$
+
+. . .
+
+More difficult to assess the independence and fixed $X$ assumptions
+
+- Make these assumptions based on subject-matter knowledge
+
+
+
+## Plot residuals against predicted values
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+- Residuals = observed - predicted
+
+- Interpretation of residuals in context?
+
+- Conditional on the predicted values, the __residuals should have a mean of zero__
+
+```{r plot-resid-fit-broom, eval = FALSE}
+bikes |>
+  ggplot(aes(x = .fitted, y = .resid)) + 
+  geom_point(alpha = 0.5, size = 3) +
+  geom_hline(yintercept = 0, linetype = "dashed", 
+             color = "red", linewidth = 2) +
+  # plot the residual mean
+  geom_smooth(se = FALSE)
+```
+
+- Residuals __should NOT display any pattern__
+
+- Two things to look for:
+
+  -   Any trend around horizontal reference line?
+
+  -   Equal vertical spread?
+
+:::
+
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r ref.label='plot-resid-fit-broom', echo = FALSE, fig.height=6,fig.width=6,fig.align="center"}
+
+```
+
+:::
+:::
+
+## Linear regression with one categorical predictor
+
+* Model `rides` by the `season` (4 levels: `spring`, `summer`, `fall`, `winter`)
+
+```{r}
+# table(bikes$season)
+```
+
+* We are changing the intercept of our regression line by including a categorical variable
+
+* Notice we only get 3 coefficients for the season besides the intercept $$\widehat{\text{Rides}} = 4051 - 265 \ I_{\texttt{spring}} + 543 \ I_{\texttt{summer}} - 1686 \ I_{\texttt{winter}}$$
+
+```{r}
+season_lm <- lm(rides ~ season, data = bikes)
+tidy(season_lm, conf.int = TRUE)
+```
+
+## Linear regression with one categorical predictor
+
+$$\widehat{\text{Rides}} = 4050.7 - 264.7 \ I_{\texttt{spring}} + 543.5 \ I_{\texttt{summer}} - 1686.3 \ I_{\texttt{winter}}$$
+
+* By default, `R` turns the categorical variables of $m$ levels (e.g. 4 seasons in this dataset) into $m-1$ indicator/dummy variables for different categories relative to a baseline/reference level
+
+  * Indicator/dummy variables: binary variables (1: that level, 0: not that level) 
+
+  * `R` uses alphabetical order to determine the reference level (`fall` season in this case)
+  
+## Linear regression with one categorical predictor
+
+$$\widehat{\text{Rides}} = 4050.7 - 264.7 \ I_{\texttt{spring}} + 543.5 \ I_{\texttt{summer}} - 1686.3 \ I_{\texttt{winter}}$$
+
+* The intercept term gives us the (baseline) average y for the reference level
+  
+  * In context, the expected daily bikeshare rides during fall season is 4051 rides (95% CI [3841, 4260])
+
+* The values for the coefficient estimates indicate the expected change in the response variable relative to the reference level
+
+  * For example, the expected bikeshare rides during winter is 1686 rides lower (95% CI [-1985, -1388]) than during fall (does this make sense?)
+  
+## Comparing observed values and predictions
+
+* Similar to before, we can plot the actual and predicted ridership
+
+* To reiterate, all we're doing is changing the intercept of our regression line by including a categorical variable
+
+::: columns
+::: {.column width="30%" style="text-align: left;"}
+
+```{r}
+#| eval: false
+bikes |>
+  mutate(season_pred = predict(season_lm)) |> 
+  ggplot(aes(x = rides, y = season_pred)) +
+  geom_point(size = 3, alpha = 0.5) +
+  facet_wrap(~ season, ncol = 4) +
+  labs(x = "Actual number of rides", 
+       y = "Predicted number of rides")
+```
+
+:::
+
+
+::: {.column width="70%" style="text-align: left;"}
+
+```{r}
+#| echo: false
+bikes |>
+  mutate(season_pred = predict(season_lm)) |> 
+  ggplot(aes(x = rides, y = season_pred)) +
+  geom_point(size = 1, alpha = 0.5) +
+  facet_wrap(~ season, ncol = 4) +
+  labs(x = "Actual number of rides", 
+       y = "Predicted number of rides")
+```
+
+:::
+
+:::
+
+## Interactions
+
+* An interaction allows one predictor’s association with the outcome to depend on values of another predictor
+
+. . .
+
+* Example: interaction between a categorical variable (`season`) and a quantitative variable (`temp_feel`)
+
+  * When to include interaction? When we believe relationships between a quantitative variable and the response differ across categories (of a categorical variable)
+
+  * 4 different lines for each `season` in modeling relationship between `rides` and `temp_feel`
+
+  * This means those regression lines have different intercepts as well as different slopes
+  
+. . .  
+  
+* For more on interactions, see these [notes](https://www.medicine.mcgill.ca/epidemiology/joseph/courses/EPIB-621/interaction.pdf)
+  
+## Visualizing interactions
+
+```{r}
+bikes |> 
+  ggplot(aes(x = temp_feel, y = rides, color = season)) +
+  geom_point(size = 2, alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 2) +
+  ggthemes::scale_color_colorblind()
+```
+
+## Interpreting interactions
+
+$$
+\begin{aligned}
+{\text{Rides}} &= \beta_0 + \beta_1 \ \text{Temp} + \beta_2 \ I_{\texttt{spring}} + \beta_3 \ I_{\texttt{summer}} + \beta_4 \ I_{\texttt{winter}} \\
+&+ \beta_5 \{ \text{Temp } \times I_{\texttt{spring}} \} +  \beta_6 \{ \text{Temp } \times I_{\texttt{summer}} \} +  \beta_7 \{ \text{Temp } \times I_{\texttt{winter}} \} + \epsilon \\
+\end{aligned}
+$$
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| attr-output: "style='font-size: 0.55em;'"
+interaction_lm <- lm(rides ~ temp_feel * season, 
+                     data = bikes)
+tidy(interaction_lm)
+```
+
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+* $\beta_0$ and $\beta_1$ give the slope and intercept for the regression line (describing the relationship between ridership & temperature) for fall season (the reference level)
+
+* $\beta_2$ measures the difference in the intercepts between spring and fall seasons 
+
+* $\beta_5$ shows how much the slopes change as we move from the regression line for fall (the reference level) to the line for spring
+
+* and so on...
+
+:::
+:::
+
+
+## Multiple linear regression 
+
+We can include as many variables as we want (assuming $n > p$)
+
+$$Y=\beta_{0}+\beta_{1} X_{1}+\beta_{2} X_{2}+\cdots+\beta_{p} X_{p}+\epsilon$$
+
+OLS estimates in matrix notation ( $\boldsymbol{X}$ is a $n \times p$ matrix):
+  
+$$\hat{\boldsymbol{\beta}} = (\boldsymbol{X} ^T \boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{Y}$$
+
+. . .
+
+Can just add more variables to the formula in `R`
+
+```{r}
+multiple_lm <- lm(rides ~ temp_feel + humidity, data = bikes)
+```
+
+- Use adjusted $R^2$  when including multiple variables $\displaystyle 1 - \frac{(1 - R^2)(n - 1)}{(n - p - 1)}$
+
+  - Adjusts for the number of variables in the model $p$  
+  
+  - Adding more variables __will always increase__ the model's (unadjusted) $R^2$
+  
+READ THIS: [$R^2$ myths](https://www.stat.cmu.edu/~cshalizi/TALR/TALR.pdf#page=181) 
+
+[Get your $R^2$ out of here](https://www.tiktok.com/@fatgreggy/video/7186499956058950958)
+
+
+## What about the normality assumption?
+
+* Model: $Y=\beta_{0}+\beta_{1} X_{1}+\beta_{2} X_{2}+\cdots+\beta_{p} X_{p}+\epsilon$
+
+- $\epsilon_i$ is the __random__ noise: assume __independent and identically distributed__ (_iid_) from a Normal distribution $\epsilon_i \overset{iid}{\sim}N(0, \sigma^2)$ with constant variance $\sigma^2$
+
+. . .
+
+* __OLS doesn't care about this assumption__, it's just estimating coefficients!
+
+. . .
+
+* In order to perform inference, __we need to impose additional assumptions__
+
+* By assuming $\epsilon_i \overset{iid}{\sim}N(0, \sigma^2)$, what we really mean is $Y \overset{iid}{\sim}N(\beta_{0}+\beta_{1} X_{1}+\beta_{2} X_{2}+\cdots+\beta_{p} X_{p}, \sigma^2)$
+
+. . .
+
+* So we're estimating the mean $\mu$ of this conditional distribution, but what about $\sigma^2$?
+  
+. . .
+
+* [Unbiased estimate](https://bradleyboehmke.github.io/HOML/linear-regression.html#simple-linear-regression) $\displaystyle \hat{\sigma}^2 = \frac{\text{RSS}}{n - (p + 1)}$
+
+* __Degrees of freedom__:  $n - (p + 1)$, data supplies us with $n$ "degrees of freedom" and we used up $p + 1$
+
+
+## Regression confidence intervals vs prediction intervals
+
+Do we want to predict the mean response for a particular value $x^*$ of the explanatory variable or do we want to predict the response for an individual case?
+
+Example: 
+
+*   if we would like to know the average ridership for **all** days with feels-like temperature of 70 degrees Fahrenheit, then we would use an interval for the **mean response**
+
+*   if we want an interval to contain the ridership of **a particular** day with feels-like temperature of 70 degrees Fahrenheit, then we need the interval for **a single prediction**
+
+
+## Regression confidence intervals
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+- `geom_smooth()` displays __confidence intervals__ for the regression line
+
+```{r conf-int, eval = FALSE}
+# predict(simple_lm, interval = "confidence")
+lm_plot <- bikes |>
+  ggplot(aes(x = temp_feel, y = rides)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm")
+lm_plot
+```
+
+:::
+
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r, ref.label='conf-int', echo = FALSE, fig.height=5, fig.width=6,fig.align="center"}
+
+```
+
+:::
+:::
+
+
+---
+
+## Regression confidence intervals
+
+*   Interval estimate for the MEAN response at a given observation (i.e. for the predicted AVERAGE $\hat{\beta}_0 + \hat{\beta}_1 x^*$)
+
+*   Based on standard errors for the estimated regression line at $x^*$ $$SE_{\text{line}}\left(x^{*}\right)=\hat{\sigma} \cdot \sqrt{\frac{1}{n}+\frac{\left(x^{*}-\bar{x}\right)^{2}}{\sum_{i=1}^{n}\left(x_{i}-\bar{x}\right)^{2}}}$$
+
+*   Variation only comes from uncertainty in the parameter 
+
+## Regression prediction intervals
+
+*   interval estimate for an INDIVIDUAL response at a given (new) observation 
+
+*   add the variance $\sigma^2$ of a __single predicted value__ $$SE_{\text{pred}}\left(x^{*}\right)=\hat{\sigma} \cdot \sqrt{1 + \frac{1}{n}+\frac{\left(x^{*}-\bar{x}\right)^{2}}{\sum_{i=1}^{n}\left(x_{i}-\bar{x}\right)^{2}}}$$
+
+*   Variation comes from uncertainty in parameter estimates and error variance 
+
+## Confidence intervals versus prediction intervals
+
+Generate 95% intervals
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+```{r pred-interval, eval = FALSE}
+# predict(simple_lm, interval = "prediction")
+lm_plot +
+  geom_ribbon(
+    data = augment(simple_lm, interval = "prediction"),
+    aes(ymin = .lower, ymax = .upper),
+    color = "red", fill = NA
+  )
+```
+
+*   The standard error for predicting an individual response will always be larger than for predicting a mean response
+
+*   Prediction intervals will always be wider than confidence intervals
+
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r, ref.label='pred-interval', echo = FALSE,  fig.height=6,fig.width=6,fig.align="center"}
+
+```
+
+:::
+:::
