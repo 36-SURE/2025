@@ -573,6 +573,8 @@ write_csv(kmeans_search, "data/kmeans_search_results.csv")
 
     -   Note: NEVER use `setwd()` to change working directory. ([Here's why](https://github.com/jennybc/here_here))
     
+-   Naming things (files, folders, etc.): see [here](https://www2.stat.duke.edu/~rcs46/lectures_2015/01-markdown-git/slides/naming-slides/naming-slides.pdf) and [here](https://github.com/jennybc/how-to-name-files)
+    
 ## File path and working directory    
 
 -   Special paths
