@@ -238,21 +238,21 @@
 <span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># letters</span></span>
 <span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(letters, <span class="at">size =</span> <span class="dv">5</span>) <span class="co"># sample without replacement, by default</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "y" "m" "p" "r" "c"</code></pre>
+<pre><code>[1] "i" "o" "g" "t" "y"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">size =</span> <span class="dv">7</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>) <span class="co"># sample with replacement</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0 0 0 1 1 0 1</code></pre>
+<pre><code>[1] 1 1 0 0 0 1 1</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># 5 (independent) coin tosses</span></span>
 <span id="cb5-2"><a aria-hidden="true" tabindex="-1"></a>coin <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"H"</span>, <span class="st">"T"</span>)</span>
 <span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(coin, <span class="dv">5</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "H" "H" "T" "H" "T"</code></pre>
+<pre><code>[1] "T" "T" "H" "H" "T"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="dv">1</span>) <span class="co"># sample a random integer between 1 and 100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 52</code></pre>
+<pre><code>[1] 35</code></pre>
 </div>
 </div>
 </section>
@@ -394,12 +394,12 @@
 <span id="cb12-3"><a aria-hidden="true" tabindex="-1"></a><span class="co"># check: the sample mean is approximately 0</span></span>
 <span id="cb12-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(z) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.003130053</code></pre>
+<pre><code>[1] -0.0376545</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># check: the sample sd is approximately 1</span></span>
 <span id="cb14-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(z)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9966137</code></pre>
+<pre><code>[1] 0.9853173</code></pre>
 </div>
 </div>
 </section>
@@ -412,7 +412,7 @@
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-hidden="true" tabindex="-1"></a>z_ecdf <span class="ot">&lt;-</span> <span class="fu">ecdf</span>(z)</span>
 <span id="cb16-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">z_ecdf</span>(<span class="dv">0</span>) <span class="co"># should get close to 1/2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.501</code></pre>
+<pre><code>[1] 0.509</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(z_ecdf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -426,16 +426,16 @@
 <pre><code># A tibble: 1,000 × 3
        z empirical    true
    &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
- 1 -3.06     0.001 0.00112
- 2 -2.90     0.002 0.00189
- 3 -2.83     0.003 0.00231
- 4 -2.56     0.004 0.00518
- 5 -2.49     0.005 0.00644
- 6 -2.46     0.006 0.00700
- 7 -2.45     0.007 0.00713
- 8 -2.37     0.008 0.00888
- 9 -2.37     0.009 0.00895
-10 -2.36     0.01  0.00914
+ 1 -2.95     0.001 0.00161
+ 2 -2.80     0.002 0.00254
+ 3 -2.74     0.003 0.00303
+ 4 -2.71     0.004 0.00333
+ 5 -2.71     0.005 0.00333
+ 6 -2.65     0.006 0.00400
+ 7 -2.64     0.007 0.00413
+ 8 -2.59     0.008 0.00481
+ 9 -2.53     0.009 0.00578
+10 -2.50     0.01  0.00620
 # ℹ 990 more rows</code></pre>
 </div>
 </div>
@@ -751,6 +751,7 @@
 <ul>
 <li>Note: NEVER use <code>setwd()</code> to change working directory. (<a href="https://github.com/jennybc/here_here">Here’s why</a>)</li>
 </ul></li>
+<li><p>Naming things (files, folders, etc.): see <a href="https://www2.stat.duke.edu/~rcs46/lectures_2015/01-markdown-git/slides/naming-slides/naming-slides.pdf">here</a> and <a href="https://github.com/jennybc/how-to-name-files">here</a></p></li>
 </ul>
 </section>
 <section id="file-path-and-working-directory-1" class="slide level2">
