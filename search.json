@@ -291,7 +291,7 @@
     "href": "lectures/10-simulation.html#sampling-from-a-given-vector",
     "title": "Simulation",
     "section": "Sampling from a given vector",
-    "text": "Sampling from a given vector\n\nTo sample from a given vector, use sample()\n\n\n# base R built in English alphabet\n# letters\nsample(letters, size = 5) # sample without replacement, by default\n\n[1] \"i\" \"o\" \"g\" \"t\" \"y\"\n\nsample(c(0, 1), size = 7, replace = TRUE) # sample with replacement\n\n[1] 1 1 0 0 0 1 1\n\n# 5 (independent) coin tosses\ncoin &lt;- c(\"H\", \"T\")\nsample(coin, 5, replace = TRUE)\n\n[1] \"T\" \"T\" \"H\" \"H\" \"T\"\n\nsample(1:100, 1) # sample a random integer between 1 and 100\n\n[1] 35"
+    "text": "Sampling from a given vector\n\nTo sample from a given vector, use sample()\n\n\n# base R built in English alphabet\n# letters\nsample(letters, size = 5) # sample without replacement, by default\n\n[1] \"z\" \"e\" \"f\" \"j\" \"s\"\n\nsample(c(0, 1), size = 7, replace = TRUE) # sample with replacement\n\n[1] 1 1 1 0 0 1 0\n\n# 5 (independent) coin tosses\ncoin &lt;- c(\"H\", \"T\")\nsample(coin, 5, replace = TRUE)\n\n[1] \"H\" \"T\" \"T\" \"H\" \"T\"\n\nsample(1:100, 1) # sample a random integer between 1 and 100\n\n[1] 54"
   },
   {
     "objectID": "lectures/10-simulation.html#probability-distributions",
@@ -333,14 +333,14 @@
     "href": "lectures/10-simulation.html#random-number-generation-1",
     "title": "Simulation",
     "section": "Random number generation",
-    "text": "Random number generation\n\n# these are the defaults for mean and sd\nz &lt;- rnorm(1000, mean = 0, sd = 1)\n# check: the sample mean is approximately 0\nmean(z) \n\n[1] -0.0376545\n\n# check: the sample sd is approximately 1\nsd(z)\n\n[1] 0.9853173"
+    "text": "Random number generation\n\n# these are the defaults for mean and sd\nz &lt;- rnorm(1000, mean = 0, sd = 1)\n# check: the sample mean is approximately 0\nmean(z) \n\n[1] -0.07436969\n\n# check: the sample sd is approximately 1\nsd(z)\n\n[1] 0.9875742"
   },
   {
     "objectID": "lectures/10-simulation.html#revisiting-ecdf",
     "href": "lectures/10-simulation.html#revisiting-ecdf",
     "title": "Simulation",
     "section": "Revisiting ECDF",
-    "text": "Revisiting ECDF\nRecall that we can use the ECDF to estimate the true cumulative distribution function\n\n\n\nz_ecdf &lt;- ecdf(z)\nz_ecdf(0) # should get close to 1/2\n\n[1] 0.509\n\nclass(z_ecdf)\n\n[1] \"ecdf\"     \"stepfun\"  \"function\"\n\nnormal_tbl &lt;- tibble(z = sort(z)) |&gt; \n  mutate(empirical = z_ecdf(z),\n         true = pnorm(z))\nnormal_tbl\n\n# A tibble: 1,000 × 3\n       z empirical    true\n   &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;\n 1 -2.95     0.001 0.00161\n 2 -2.80     0.002 0.00254\n 3 -2.74     0.003 0.00303\n 4 -2.71     0.004 0.00333\n 5 -2.71     0.005 0.00333\n 6 -2.65     0.006 0.00400\n 7 -2.64     0.007 0.00413\n 8 -2.59     0.008 0.00481\n 9 -2.53     0.009 0.00578\n10 -2.50     0.01  0.00620\n# ℹ 990 more rows\n\n\n\n\nnormal_tbl |&gt; \n  pivot_longer(!z, \n               names_to = \"method\", \n               values_to = \"val\") |&gt; \n  ggplot(aes(x = z, y = val, color = method)) +\n  geom_line()"
+    "text": "Revisiting ECDF\nRecall that we can use the ECDF to estimate the true cumulative distribution function\n\n\n\nz_ecdf &lt;- ecdf(z)\nz_ecdf(0) # should get close to 1/2\n\n[1] 0.529\n\nclass(z_ecdf)\n\n[1] \"ecdf\"     \"stepfun\"  \"function\"\n\nnormal_tbl &lt;- tibble(z = sort(z)) |&gt; \n  mutate(empirical = z_ecdf(z),\n         true = pnorm(z))\nnormal_tbl\n\n# A tibble: 1,000 × 3\n       z empirical     true\n   &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n 1 -3.14     0.001 0.000858\n 2 -3.06     0.002 0.00112 \n 3 -2.72     0.003 0.00328 \n 4 -2.66     0.004 0.00389 \n 5 -2.61     0.005 0.00453 \n 6 -2.58     0.006 0.00491 \n 7 -2.52     0.007 0.00581 \n 8 -2.38     0.008 0.00867 \n 9 -2.37     0.009 0.00878 \n10 -2.35     0.01  0.00929 \n# ℹ 990 more rows\n\n\n\n\nnormal_tbl |&gt; \n  pivot_longer(!z, \n               names_to = \"method\", \n               values_to = \"val\") |&gt; \n  ggplot(aes(x = z, y = val, color = method)) +\n  geom_line()"
   },
   {
     "objectID": "lectures/10-simulation.html#stick-breaking-problem",
