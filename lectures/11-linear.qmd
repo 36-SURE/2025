@@ -201,7 +201,9 @@ ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
 ::: columns
 ::: {.column width="50%" style="text-align: left;"}
 
-Interested in modeling bikeshare `rides`
+* To best serve its members, Capital Bikeshare must understand the demand for its service
+
+* Modeling & predicting bikeshare `rides`
 
 ```{r bike-rides, echo = TRUE, eval = FALSE}
 bikes |>
@@ -666,7 +668,7 @@ We can include as many variables as we want (assuming $n > p$)
 
 $$Y=\beta_{0}+\beta_{1} X_{1}+\beta_{2} X_{2}+\cdots+\beta_{p} X_{p}+\epsilon$$
 
-OLS estimates in matrix notation ( $\boldsymbol{X}$ is a $n \times p$ matrix):
+OLS estimates in matrix notation ($\boldsymbol{X}$ is a $n \times p$ matrix):
   
 $$\hat{\boldsymbol{\beta}} = (\boldsymbol{X} ^T \boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{Y}$$
 
