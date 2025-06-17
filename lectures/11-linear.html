@@ -6,8 +6,8 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.31">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.7.32">
 
   <meta name="author" content=" SURE 2025 Department of Statistics &amp; Data Science Carnegie Mellon University">
   <title>SURE 2025 – Supervised learning: linear regression</title>
@@ -381,7 +381,10 @@ $ rides       &lt;dbl&gt; 654, 1229, 1454, 1518, 1362, 891, 1280, 1220, 1137, 13
 <h2>Modeling bike ridership</h2>
 <div class="columns">
 <div class="column" style="text-align: left;">
-<p>Interested in modeling bikeshare <code>rides</code></p>
+<ul>
+<li><p>To best serve its members, Capital Bikeshare must understand the demand for its service</p></li>
+<li><p>Modeling &amp; predicting bikeshare <code>rides</code></p></li>
+</ul>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a>bikes <span class="sc">|&gt;</span></span>
 <span id="cb3-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> rides)) <span class="sc">+</span></span>
@@ -897,7 +900,7 @@ F-statistic: 255.7 on 1 and 498 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h2>Multiple linear regression</h2>
 <p>We can include as many variables as we want (assuming <span class="math inline">\(n &gt; p\)</span>)</p>
 <p><span class="math display">\[Y=\beta_{0}+\beta_{1} X_{1}+\beta_{2} X_{2}+\cdots+\beta_{p} X_{p}+\epsilon\]</span></p>
-<p>OLS estimates in matrix notation ( <span class="math inline">\(\boldsymbol{X}\)</span> is a <span class="math inline">\(n \times p\)</span> matrix):</p>
+<p>OLS estimates in matrix notation (<span class="math inline">\(\boldsymbol{X}\)</span> is a <span class="math inline">\(n \times p\)</span> matrix):</p>
 <p><span class="math display">\[\hat{\boldsymbol{\beta}} = (\boldsymbol{X} ^T \boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{Y}\]</span></p>
 <div class="fragment">
 <p>Can just add more variables to the formula in <code>R</code></p>
