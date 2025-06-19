@@ -68,7 +68,7 @@ ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
   
 . . .
 
-* Be a responsible modeler!
+* Be a responsible modeler! (Check out [this substack](https://mindfulmodeler.substack.com/))
 
 ## Confounding variables
 
@@ -381,21 +381,31 @@ In short: "When faced with several methods that give roughly equivalent performa
 
 ## $K$-fold cross-validation
 
-* Randomly split the observations into $K$ (roughly) equal-sized folds (usually $k=5$ or $k=10$)
+* Randomly split the observations into $K$ (roughly) equal-sized folds (usually $K=5$ or $K=10$)
+
+. . .
   
 * For each fold $k=1,2,\dots,K$
   
   * Fit the model on data excluding observations in fold $k$
     
-  * Obtain predictions and performance measure (e.g. MSE) for the left-out fold $k$
-    
-* Aggregate performance measure across $k$ folds
+  * Obtain predictions for fold $k$
   
-  * e.g., compute average MSE, including standard error for CV estimate
+  * Compute performance measure (e.g. MSE) for fold $k$
+  
+. . .
+    
+* Aggregate performance measure across folds
+  
+  * e.g., compute average MSE, including standard error
 
 . . .    
 
 We can justify model choice (e.g. model selection/comparison, variable selection, tuning parameter selection) using any performance measure we want with CV
+
+. . .
+
+Why do we typically choose $K=5$ or $K=10$? Think about: What's the smallest and largest $K$ could be? And what's the trade-off?
 
 ## (5-fold) cross-validation procedure diagram
 
@@ -533,7 +543,7 @@ bikes_test_summary |>
 
 ::: {.column width="50%" style="text-align: left;"}
 
-* Including season (together with temperature) clearly provides better model performance
+* Including season (together with temperature) clearly provides better performance
 
 * Including an interaction term between season and temperature is not worthwhile<br>(in fact, the performance is slightly worse compared to the model without interaction)
 
