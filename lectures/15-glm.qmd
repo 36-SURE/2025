@@ -1,0 +1,485 @@
+---
+title: "Supervised learning: generalized linear models"
+author: "<br>SURE 2025<br><br>Department of Statistics & Data Science<br>Carnegie Mellon University"
+footer:  "[36-SURE.github.io/2025](https://36-sure.github.io/2025)"
+format:
+  revealjs:
+    theme: theme.scss
+    chalkboard: true
+    smaller: true
+    slide-number: c/t
+    code-line-numbers: false
+    linestretch: 1.25
+    html-math-method:
+      method: mathjax
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  fig.height = 9
+)
+```
+
+# Background
+
+## Recap
+
+* When the response is continuous, we can use linear regression 
+
+* When the response is binary categorical, we can use logistic regression
+
+* Which model do we use if the response contains discrete counts?
+
+## Generalized linear models (GLMs)
+
+Three components of a GLM
+
+. . .
+
+**1. Random component (distribution of the response)**
+
+*   Identifies the response variable and assumes a probability distribution for it
+
+. . .
+
+**2. Linear predictor**
+
+*   Specifies the predictor variables
+  
+*   Linear combination of predictors on the right-hand side of the model equation
+  
+*   In the form $\beta_0 + \beta_1 X_1 + \dots + \beta_p X_p$
+
+. . .
+
+**3. Link function (a function of the parameter)**
+
+*   Connects the random component with the linear predictor
+
+*   Via a function of the expected value of the probability distribution of the response
+
+See also: [Exponential family](https://en.wikipedia.org/wiki/Exponential_family)
+
+## Linear regression
+
+1. $Y \sim N(\mu, \sigma ^2)$
+
+2. Linear predictor: $\beta_0 + \beta_1 X_1 + \dots + \beta_p X_p$
+
+3. Identity link function: $g(\mu) = \mu$
+
+## Logistic regression
+
+1. $Y \sim \text{Binomial}(n,p)$
+
+2. Linear predictor: $\beta_0 + \beta_1 X_1 + \dots + \beta_p X_p$
+
+3. Logit link function: $\displaystyle g(p) = \log\left(\frac{p}{1-p}\right)$
+
+(Recall: We cannot just simply model $p = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p$ since the binary response can only take on values of either 0 or 1)
+
+## Poisson regression
+
+1. $Y \sim \text{Poisson}(\lambda)$
+
+2. Linear predictor: $\beta_0 + \beta_1 X_1 + \dots + \beta_p X_p$
+
+3. Log link function: $\displaystyle g(\lambda) = \log (\lambda)$
+
+(We cannot just simply model $\lambda = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p$ since the counts can only take on non-negative integers)
+
+## Generalization example
+
+In linear regression, the distribution is normal and the domain of $Y \mid x$ is $(-\infty,\infty)$
+
+. . .
+
+What, however, happens if we know that
+
+* the domain of observed values of the response is actually $[0,\infty]$
+
+* the observed values are __discrete__, with possible values $0, 1, 2, \dots$
+
+
+. . .
+
+__The normal distribution doesn't hold here__
+
+- Which distribution could possibly govern $Y \mid x$?
+
+- Remember, we might not know truly how $Y \mid x$ is distributed, but any assumption we make has to fit with the nature of the data
+
+## Generalization: Poisson regression
+
+-   PMF of a Poisson distribution: $\displaystyle f(x \mid \lambda)= \frac{ e^{-\lambda} \lambda^x}{x!}$; $x = 0, 1, 2, \dots$ and $\lambda > 0$
+
+. . .
+
+- Model for the counts of an event in a fixed period of time or space, with a rate of occurrence (intensity) parameter $\lambda$
+
+. . .
+
+- $\lambda$ is __both__ the mean and the variance of the distribution
+
+  - in general, the variance governs the distribution's shape
+
+. . .
+
+- distribution of independent event occurences in an interval, e.g. soccer goals in a match
+
+- $\lambda$ is the average number of the events in an interval
+
+. . .
+
+So, when we apply GLM in this context, we would identify the family as Poisson
+
+But there's another step in generalization...
+
+## Generalization: link function
+
+Start with one predictor, linear function: $\beta_0 + \beta_1 x$
+
+. . .
+
+Range of this function: $(-\infty,\infty)$
+
+But for Poisson regression, $Y$ __cannot be negative__,
+
+- __We need to transform the linear function__ to be $[0,\infty)$ 
+
+  -   (What if we use linear regression? Results may not be meaningful, e.g., we predict ${\hat Y}$ to be negative!)
+
+. . .
+
+__There is usually no unique transformation__, but rather conventional ones
+
+## Generalization: link function
+
+For Poisson, we use the $\log()$ function as the __link function__ $g()$:
+
+$$g(\lambda \mid x) = \log(\lambda \mid x) = \beta_0 + \beta_1 x$$
+
+
+(Hence we also call this a [log-linear model](https://en.wikipedia.org/wiki/Log-linear_model))
+
+. . .
+
+Given $Y$ with values limited to being either 0 or positive integers, with no upper bound, we
+
+1. assume $Y \mid x \sim \text{Poisson}(\lambda)$
+
+2. assume $\lambda \mid x = e^{\beta_0 + \beta_1 x}$ 
+
+3. use optimization to estimate $\beta_0$ and $\beta_1$ by maximizing the likelihood function
+
+
+## More distributions
+
+[Gamma distribution](https://en.wikipedia.org/wiki/Gamma_distribution) (application: modeling TODO INSERT THIS)
+
++ $Y \mid x$ continuous, but bounded between 0 and $\infty$
+
+```{r out.width='50%', echo = FALSE, fig.align='center'}
+knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Gamma_distribution_pdf.svg/650px-Gamma_distribution_pdf.svg.png")
+```
+
+## More distributions
+
+[Beta distribution](https://en.wikipedia.org/wiki/Beta_distribution)  (application: modeling TODO INSERT THIS)
+
++ $Y \mid x$ continuous, but bounded between 0 and 1
+
+```{r out.width='50%', echo = FALSE, fig.align='center'}
+knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Beta_distribution_pdf.svg/650px-Beta_distribution_pdf.svg.png")
+```
+
+## Modeling count data
+
+Goals scored across men’s soccer matches in the five biggest European leagues during the 2023-2024 season, via the [worldfootballR](https://jaseziv.github.io/worldfootballR) package
+
+```{r}
+library(tidyverse)
+theme_set(theme_light())
+goals <- read_csv("https://raw.githubusercontent.com/36-SURE/2025/main/data/goals.csv")
+glimpse(goals)
+```
+
+```{r}
+#| echo: false
+ggplot2::theme_set(ggplot2::theme_light(base_size = 22))
+```
+
+## EDA: Distribution for the number of goals
+
+```{r}
+goals |> 
+  count(n_goals) |> 
+  ggplot(aes(n_goals, n)) +
+  geom_col(width = 0.5) +
+  scale_x_continuous(breaks = 0:8)
+```
+
+## EDA: Distribution for the number of goals by league
+
+```{r}
+#| fig-width: 18
+#| fig-height: 5
+goals |> 
+  count(n_goals, league) |> 
+  ggplot(aes(n_goals, n)) +
+  geom_col(width = 0.5) +
+  scale_x_continuous(breaks = 0:8) +
+  facet_wrap(~ league, nrow = 1)
+```
+
+## EDA: Distribution for the number of goals by home/away team
+
+```{r}
+#| fig-width: 15
+goals |> 
+  count(n_goals, is_home) |> 
+  mutate(is_home = factor(is_home)) |> 
+  ggplot(aes(n_goals, n, fill = is_home, group = is_home)) +
+  geom_col(position = "dodge", width = 0.5) +
+  scale_x_continuous(breaks = 0:8)
+```
+
+## Fitting a poisson regression model
+
+```{r}
+goals_poisson <- glm(n_goals ~ league + is_home, family = "poisson", data = goals)
+# summary(goals_poisson)
+library(broom)
+tidy(goals_poisson)
+```
+
+What observations in the dataset correspond to predictions using only the intercept?
+
+## Fitting a poisson regression model
+
+```{r}
+tidy(goals_poisson, exponentiate = TRUE, conf.int = TRUE)
+```
+
+. . .
+
+We have sufficient evidence to suggest the expected number of goals is different between ENG teams and each of ESP and ITA, but not FRA or GER, after accounting for home field advantage
+
+The expected number of goals changes (is multiplied) by a factor of 1.13 (95% CI [1.07, 1.19]) if the team is home in comparison to away teams, after accounting for league
+
+## Model residuals and goodness-of-fit measures 
+
+*   Pearson residuals: $\displaystyle r_i = \frac{y_i-\hat{\lambda}_i}{\sqrt{\hat{\lambda}_i}}$
+
+
+*   Deviance residuals: $\displaystyle d_i = \textrm{sign}(y_i-\hat{\lambda}_i) \sqrt{2 \left[y_i \log\left(\frac{y_i}{\hat{\lambda}_i}\right) -(y_i - \hat{\lambda}_i) \right]}$
+
+```{r}
+#| eval: false
+residuals(goals_poisson, type = "pearson")
+residuals(goals_poisson, type = "deviance")
+```
+
+*   Model summaries
+
+```{r}
+glance(goals_poisson)
+```
+
+**As before, we prefer assessment in terms of out-of-sample/test set performances over these measures**
+
+## Overdispersion
+
+* Overdispersion is a common problem faced in Poisson regression when the variance is larger than what is assumed under the model
+
+. . .
+
+* Recall that a Poisson distribution assumes equidispersion (i.e. the mean and variance are equal)
+
+. . .
+
+* Any concerns here?
+
+```{r}
+var(goals$n_goals)
+mean(goals$n_goals)
+```
+
+## Negative binomial regression
+
+Key idea: introduces another parameter such that the variance can exceed the mean
+
+. . .
+
+We have $E(Y)  = \lambda$ and $\text{Var}(Y)=\lambda(1+\alpha \lambda)$
+
+. . .
+
+* The variance is still proportional to $\lambda$, but depends on the dispersion parameter $\alpha \ge 0$
+
+. . .
+
+* The further $\alpha$ falls above 0, the greater the overdispersion relative to Poisson variability
+
+. . .
+
+* As $\alpha$ decreases toward 0, the variance decreases toward $\lambda$ , and the model converges to a Poisson distribution
+
+. . .
+
+See [here](https://bookdown.org/roback/bookdown-BeyondMLR/ch-poissonreg.html#negative-binomial-modeling) for more information
+
+## Negative binomial regression
+
+```{r}
+goals_nb <- MASS::glm.nb(n_goals ~ league + is_home, data = goals)
+summary(goals_nb)
+```
+
+## Zero-inflated Poisson regression
+
+*   One common problem in modeling count data is the prevalence of zeros
+
+. . .
+
+*   While the Poisson distribution allows for zero counts, there are problems with a lot more zeros observed than expected for Poisson data
+
+. . .
+
+*   A **zero-inflated Poisson (ZIP) model** is a mixture model with two components
+
+    *   Logistic regression model to predict whether the response will be zero (whether 0 goals are observed) $$P(Y = 0) = \pi + (1 - \pi)e^{\lambda}$$
+
+    *   Poisson regression model for non-zero counts (non-zero goal values) $$P(Y = y) = (1 - \pi) \frac{\lambda^y e^{-\lambda}}{y!}, \text{
+for } y = 1, 2, 3, \dots$$
+    
+
+## Zero-inflated Poisson (ZIP) regression
+
+```{r}
+library(pscl) # install.packages("pscl")
+goals_zip <- zeroinfl(n_goals ~ league + is_home, data = goals)
+summary(goals_zip)
+```
+
+## Model comparison: Poisson vs ZIP
+
+```{r}
+set.seed(2008)
+n_folds <- 5
+goals_folds <- goals |> 
+  distinct(match_id) |>
+  mutate(match_fold = sample(rep(1:n_folds, length.out = n())))
+
+# goals_folds |> count(match_fold)
+
+goals <- goals |> 
+  left_join(goals_folds, by = "match_id")
+```
+
+## Cross-validation
+
+```{r}
+poisson_cv <- function(k) {
+
+  train_goals <- goals |> 
+    filter(match_fold != k)
+  test_goals <- goals |> 
+    filter(match_fold == k)
+
+  poisson_fit <- glm(n_goals ~ league + is_home, family = "poisson", data = train_goals)
+  poisson_test_preds <- predict(poisson_fit, newdata = test_goals, type = "response")
+  
+  # return a table with RMSE and fold id
+  poisson_out <- tibble(rmse = sqrt(mean((test_goals$n_goals - poisson_test_preds) ^ 2)), 
+                        match_fold = k)
+  return(poisson_out)
+}
+
+poisson_cv_results <- map(1:n_folds, poisson_cv) |> 
+  list_rbind()
+```
+
+## Cross-validation
+
+```{r}
+zip_cv <- function(k) {
+
+  train_goals <- goals |> 
+    filter(match_fold != k)
+  test_goals <- goals |> 
+    filter(match_fold == k)
+  
+  zip_fit <- zeroinfl(n_goals ~ league + is_home, data = train_goals)
+  zip_test_preds <- predict(zip_fit, newdata = test_goals)
+  
+  zip_out <- tibble(rmse = sqrt(mean((test_goals$n_goals - zip_test_preds)^2)),
+                    match_fold = k)
+  return(zip_out)
+}
+
+zip_cv_results <- map(1:n_folds, zip_cv) |> 
+  list_rbind()
+```
+
+## Out-of-sample comparison
+
+Which model would you select?
+
+```{r}
+poisson_cv_results |> 
+  summarize(avg_rmse = mean(rmse))
+
+zip_cv_results |> 
+  summarize(avg_rmse = mean(rmse))
+```
+
+. . .
+
+Remember: [Occam's razor](https://en.wikipedia.org/wiki/Occam%27s_razor)
+
+## Resources
+
+*   [Bivariate Poisson regression](https://doi.org/10.1111/1467-9884.00366)
+
+*   [Generalized Poisson regression](https://doi.org/10.1080/03610929208830766)
+
+*   [Skellam regression](https://arxiv.org/pdf/1807.07536)
+
+*   [Conway-Maxwell-Poisson regression](https://doi.org/10.1007/s11222-023-10244-0)
+
+*   Poisson–Tweedie regression
+
+## Appendix: Code to build dataset
+
+```{r}
+#| eval: false
+library(worldfootballR)
+library(tidyverse)
+big5 <- fb_match_results(country = c("ENG", "ESP", "ITA", "GER", "FRA"),
+                         gender = "M", 
+                         season_end_year = 2025, 
+                         tier = "1st")
+big5 <- big5 |>
+  mutate(match_id = row_number()) |>  # add unique id for each row
+  filter(!is.na(Wk))
+  
+home_goals <- big5 |>
+  select(n_goals = HomeGoals, xG = Home_xG, off_team = Home, def_team = Away, league = Country, match_id) |>
+  mutate(is_home = 1)
+
+away_goals <- big5 |>
+  select(n_goals = AwayGoals, xG = Away_xG, off_team = Away, def_team = Home, league = Country, match_id) |>
+  mutate(is_home = 0)
+
+goals <- home_goals |>
+  bind_rows(away_goals)
+  
+# write_csv(goals, "goals.csv")  
+```

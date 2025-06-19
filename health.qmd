@@ -2,9 +2,9 @@
 title: "Health"
 ---
 
-<!-- ## Capstone project -->
+## Capstone project
 
-<!-- [Guidelines](https://36-sure.github.io/2025/health/project/description.html) -->
+[Guidelines](https://36-sure.github.io/2025/health/project/description.html)
 
 ## Labs
 
