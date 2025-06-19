@@ -107,6 +107,9 @@ Example: Examine the impact of fertilizer on the yield of an apple orchard
 
 * These variables, if included in the data, should also be adjusted for in the model
 
+## Just remember...
+
+> Conditioning is the soul of statistics. --- Joe Blitzstein
 
 # The trade-offs
 
