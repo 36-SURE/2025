@@ -1579,14 +1579,14 @@
     "href": "lectures.html",
     "title": "Lectures",
     "section": "",
-    "text": "Date\nTitle\nMaterials\n\n\n\n\nLecture 0\nJune 2\nWelcome to SURE 2025\nslides\n\n\nLecture 1\nJune 3\nExploring data: into the tidyverse\nslides\n\n\nLecture 2\nJune 4\nData visualization: the grammar of graphics and ggplot2\nslides\n\n\nLecture 3\nJune 5\nData visualization: categorical data\nslides\n\n\nLecture 4\nJune 6\nData visualization: quantitative data\nslides\n\n\nLecture 5\nJune 9\nUnsupervised learning: principal component analysis\nslides\n\n\nLecture 6\nJune 10\nUnsupervised learning: \\(k\\)-means clustering\nslides\n\n\nLecture 7\nJune 11\nUnsupervised learning: hierarchical clustering\nslides\n\n\nLecture 8\nJune 12\nData visualization: density estimation\nslides\n\n\nLecture 9\nJune 13\nPresentations\nslides\n\n\nLecture 10\nJune 16\nSimulation\nslides\n\n\nLecture 11\nJune 17\nSupervised learning: linear regression\nslides"
+    "text": "Date\nTitle\nMaterials\n\n\n\n\nLecture 0\nJune 2\nWelcome to SURE 2025\nslides\n\n\nLecture 1\nJune 3\nExploring data: into the tidyverse\nslides\n\n\nLecture 2\nJune 4\nData visualization: the grammar of graphics and ggplot2\nslides\n\n\nLecture 3\nJune 5\nData visualization: categorical data\nslides\n\n\nLecture 4\nJune 6\nData visualization: quantitative data\nslides\n\n\nLecture 5\nJune 9\nUnsupervised learning: principal component analysis\nslides\n\n\nLecture 6\nJune 10\nUnsupervised learning: \\(k\\)-means clustering\nslides\n\n\nLecture 7\nJune 11\nUnsupervised learning: hierarchical clustering\nslides\n\n\nLecture 8\nJune 12\nData visualization: density estimation\nslides\n\n\nLecture 9\nJune 13\nPresentations\nslides\n\n\nLecture 10\nJune 16\nSimulation\nslides\n\n\nLecture 11\nJune 17\nSupervised learning: linear regression\nslides\n\n\nLecture 12\nJune 20\nSupervised learning: model building\nslides"
   },
   {
     "objectID": "lectures.html#contents",
     "href": "lectures.html#contents",
     "title": "Lectures",
     "section": "",
-    "text": "Date\nTitle\nMaterials\n\n\n\n\nLecture 0\nJune 2\nWelcome to SURE 2025\nslides\n\n\nLecture 1\nJune 3\nExploring data: into the tidyverse\nslides\n\n\nLecture 2\nJune 4\nData visualization: the grammar of graphics and ggplot2\nslides\n\n\nLecture 3\nJune 5\nData visualization: categorical data\nslides\n\n\nLecture 4\nJune 6\nData visualization: quantitative data\nslides\n\n\nLecture 5\nJune 9\nUnsupervised learning: principal component analysis\nslides\n\n\nLecture 6\nJune 10\nUnsupervised learning: \\(k\\)-means clustering\nslides\n\n\nLecture 7\nJune 11\nUnsupervised learning: hierarchical clustering\nslides\n\n\nLecture 8\nJune 12\nData visualization: density estimation\nslides\n\n\nLecture 9\nJune 13\nPresentations\nslides\n\n\nLecture 10\nJune 16\nSimulation\nslides\n\n\nLecture 11\nJune 17\nSupervised learning: linear regression\nslides"
+    "text": "Date\nTitle\nMaterials\n\n\n\n\nLecture 0\nJune 2\nWelcome to SURE 2025\nslides\n\n\nLecture 1\nJune 3\nExploring data: into the tidyverse\nslides\n\n\nLecture 2\nJune 4\nData visualization: the grammar of graphics and ggplot2\nslides\n\n\nLecture 3\nJune 5\nData visualization: categorical data\nslides\n\n\nLecture 4\nJune 6\nData visualization: quantitative data\nslides\n\n\nLecture 5\nJune 9\nUnsupervised learning: principal component analysis\nslides\n\n\nLecture 6\nJune 10\nUnsupervised learning: \\(k\\)-means clustering\nslides\n\n\nLecture 7\nJune 11\nUnsupervised learning: hierarchical clustering\nslides\n\n\nLecture 8\nJune 12\nData visualization: density estimation\nslides\n\n\nLecture 9\nJune 13\nPresentations\nslides\n\n\nLecture 10\nJune 16\nSimulation\nslides\n\n\nLecture 11\nJune 17\nSupervised learning: linear regression\nslides\n\n\nLecture 12\nJune 20\nSupervised learning: model building\nslides"
   },
   {
     "objectID": "health/labs/01-intro.html",
@@ -3414,6 +3414,13 @@
     "title": "Supervised learning: model building",
     "section": "Visualizing model performance results",
     "text": "Visualizing model performance results\n\n\n\nbikes_test_summary |&gt; \n  ggplot(aes(x = model, y = rmse)) + \n  geom_point(size = 4) +\n  stat_summary(fun = mean, geom = \"point\", \n               color = \"red\", size = 4) + \n  stat_summary(fun.data = mean_se, geom = \"errorbar\", \n               color = \"red\", width = 0.2)\n\n\n\n\n\n\n\n\n\n\nIncluding season (together with temperature) clearly provides better model performance\nIncluding an interaction term between season and temperature is not worthwhile(in fact, the performance is slightly worse compared to the model without interaction)"
+  },
+  {
+    "objectID": "lectures/12-building.html#before-doing-any-modelinganalysis",
+    "href": "lectures/12-building.html#before-doing-any-modelinganalysis",
+    "title": "Supervised learning: model building",
+    "section": "Before doing any modeling/analysis…",
+    "text": "Before doing any modeling/analysis…\n\n\nThink carefully about what the ideal data would be\n\nDo you have the suitable data?\nWhat is the appropriate data format for the modeling problem?\n\n\n\n\n\nWrite down different aspects you want your model to capture\n\nDistribution of the response?\nDifferent types of feature?\nAny dependence structure you want your model to capture?\n…"
   },
   {
     "objectID": "lectures/12-building.html#make-sure-to-justify-the-model-choice",
