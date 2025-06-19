@@ -18,6 +18,7 @@ title: "Lectures"
 | Lecture 9  | June 13 | Presentations                                             | [slides](lectures/09-presentation.qmd)   |
 | Lecture 10 | June 16 | Simulation                                                | [slides](lectures/10-simulation.qmd)     |
 | Lecture 11 | June 17 | Supervised learning: linear regression                    | [slides](lectures/11-linear.qmd)         |
+| Lecture 12 | June 20 | Supervised learning: model building                       | [slides](lectures/12-building.qmd)       |
 
 
 <!--
@@ -26,7 +27,7 @@ PLAN, for now
 subject to change
 
 
-| Lecture 12 | June 20 | Supervised learning: model building                       | [slides](lectures/12-building.qmd)       |
+
 
 
 

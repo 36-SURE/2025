@@ -544,6 +544,28 @@ bikes_test_summary |>
 
 # Model building checklist
 
+## Before doing any modeling/analysis...
+
+. . .
+
+* Think carefully about what the ideal data would be
+
+  * Do you have the suitable data? 
+  
+  * What is the appropriate data format for the modeling problem?
+  
+. . .
+
+* Write down different aspects you want your model to capture
+
+  * Distribution of the response?
+  
+  * Different types of feature?
+  
+  * Any dependence structure you want your model to capture?
+  
+  * ...
+
 ## Make sure to justify the model choice
 
 Why is your model appropriate for the problem?
