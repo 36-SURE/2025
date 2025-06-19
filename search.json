@@ -3815,6 +3815,13 @@
     "text": "Confounding variables\nExample: Examine the impact of fertilizer on the yield of an apple orchard\n\nSuppose researchers are studying the relationship between the amount of fertilizer used and the yield of apple orchards\n\n\n\nThey fit a model with the yield as the response and amount of fertilizer used as the single predictor\n\n\n\n\nBut, there are many possible confounding variables that might be associated with both the amount of fertilizer used and the yield (e.g., quality of soil, weather, etc.)\n\n\n\n\nThese variables, if included in the data, should also be adjusted for in the model"
   },
   {
+    "objectID": "lectures/12-building.html#just-remember",
+    "href": "lectures/12-building.html#just-remember",
+    "title": "Supervised learning: model building",
+    "section": "Just remember…",
+    "text": "Just remember…\n\nConditioning is the soul of statistics. — Joe Blitzstein"
+  },
+  {
     "objectID": "lectures/12-building.html#which-models-should-i-use-in-my-analysis",
     "href": "lectures/12-building.html#which-models-should-i-use-in-my-analysis",
     "title": "Supervised learning: model building",
