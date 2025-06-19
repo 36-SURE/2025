@@ -3791,7 +3791,7 @@
     "href": "lectures/12-building.html#variable-selection-is-a-difficult-problem",
     "title": "Supervised learning: model building",
     "section": "Variable selection is a difficult problem!",
-    "text": "Variable selection is a difficult problem!\n\nLike much of a statistics research, there is not one unique, correct answer\n\n\n\nDo not turn off your brain! Algorithms can be tempting but they are NOT substitutes!\n\n\n\n\nJustify which predictors used in modeling based on:\n\ndomain knowledge\nextensive EDA\nmodel assessment based on holdout predictions (w/ cross-validation, we’ll discuss this in a bit)\n\n\n\n\n\nBe a responsible modeler!"
+    "text": "Variable selection is a difficult problem!\n\nLike much of a statistics research, there is not one unique, correct answer\n\n\n\nDo not turn off your brain! Algorithms can be tempting but they are NOT substitutes!\n\n\n\n\nJustify which predictors used in modeling based on:\n\ndomain knowledge\nextensive EDA\nmodel assessment based on holdout predictions (w/ cross-validation, we’ll discuss this in a bit)\n\n\n\n\n\nBe a responsible modeler! (Check out this substack)"
   },
   {
     "objectID": "lectures/12-building.html#confounding-variables",
@@ -3931,7 +3931,7 @@
     "href": "lectures/12-building.html#k-fold-cross-validation",
     "title": "Supervised learning: model building",
     "section": "\\(K\\)-fold cross-validation",
-    "text": "\\(K\\)-fold cross-validation\n\nRandomly split the observations into \\(K\\) (roughly) equal-sized folds (usually \\(k=5\\) or \\(k=10\\))\nFor each fold \\(k=1,2,\\dots,K\\)\n\nFit the model on data excluding observations in fold \\(k\\)\nObtain predictions and performance measure (e.g. MSE) for the left-out fold \\(k\\)\n\nAggregate performance measure across \\(k\\) folds\n\ne.g., compute average MSE, including standard error for CV estimate\n\n\n\nWe can justify model choice (e.g. model selection/comparison, variable selection, tuning parameter selection) using any performance measure we want with CV"
+    "text": "\\(K\\)-fold cross-validation\n\nRandomly split the observations into \\(K\\) (roughly) equal-sized folds (usually \\(K=5\\) or \\(K=10\\))\n\n\n\nFor each fold \\(k=1,2,\\dots,K\\)\n\nFit the model on data excluding observations in fold \\(k\\)\nObtain predictions for fold \\(k\\)\nCompute performance measure (e.g. MSE) for fold \\(k\\)\n\n\n\n\n\nAggregate performance measure across folds\n\ne.g., compute average MSE, including standard error\n\n\n\n\nWe can justify model choice (e.g. model selection/comparison, variable selection, tuning parameter selection) using any performance measure we want with CV\n\n\nWhy do we typically choose \\(K=5\\) or \\(K=10\\)? Think about: What’s the smallest and largest \\(K\\) could be? And what’s the trade-off?"
   },
   {
     "objectID": "lectures/12-building.html#fold-cross-validation-procedure-diagram",
@@ -3980,7 +3980,7 @@
     "href": "lectures/12-building.html#visualizing-model-performance-results",
     "title": "Supervised learning: model building",
     "section": "Visualizing model performance results",
-    "text": "Visualizing model performance results\n\n\n\nbikes_test_summary |&gt; \n  ggplot(aes(x = model, y = rmse)) + \n  geom_point(size = 4) +\n  stat_summary(fun = mean, geom = \"point\", \n               color = \"red\", size = 4) + \n  stat_summary(fun.data = mean_se, geom = \"errorbar\", \n               color = \"red\", width = 0.2)\n\n\n\n\n\n\n\n\n\n\nIncluding season (together with temperature) clearly provides better model performance\nIncluding an interaction term between season and temperature is not worthwhile(in fact, the performance is slightly worse compared to the model without interaction)"
+    "text": "Visualizing model performance results\n\n\n\nbikes_test_summary |&gt; \n  ggplot(aes(x = model, y = rmse)) + \n  geom_point(size = 4) +\n  stat_summary(fun = mean, geom = \"point\", \n               color = \"red\", size = 4) + \n  stat_summary(fun.data = mean_se, geom = \"errorbar\", \n               color = \"red\", width = 0.2)\n\n\n\n\n\n\n\n\n\n\nIncluding season (together with temperature) clearly provides better performance\nIncluding an interaction term between season and temperature is not worthwhile(in fact, the performance is slightly worse compared to the model without interaction)"
   },
   {
     "objectID": "lectures/12-building.html#before-doing-any-modelinganalysis",

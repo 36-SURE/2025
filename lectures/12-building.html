@@ -250,7 +250,7 @@
 </div>
 <div class="fragment">
 <ul>
-<li>Be a responsible modeler!</li>
+<li>Be a responsible modeler! (Check out <a href="https://mindfulmodeler.substack.com/">this substack</a>)</li>
 </ul>
 </div>
 </section>
@@ -594,19 +594,31 @@ Remember, when building predictive models, try to find the sweet spot between bi
 <section id="k-fold-cross-validation" class="slide level2">
 <h2><span class="math inline">\(K\)</span>-fold cross-validation</h2>
 <ul>
-<li><p>Randomly split the observations into <span class="math inline">\(K\)</span> (roughly) equal-sized folds (usually <span class="math inline">\(k=5\)</span> or <span class="math inline">\(k=10\)</span>)</p></li>
+<li>Randomly split the observations into <span class="math inline">\(K\)</span> (roughly) equal-sized folds (usually <span class="math inline">\(K=5\)</span> or <span class="math inline">\(K=10\)</span>)</li>
+</ul>
+<div class="fragment">
+<ul>
 <li><p>For each fold <span class="math inline">\(k=1,2,\dots,K\)</span></p>
 <ul>
 <li><p>Fit the model on data excluding observations in fold <span class="math inline">\(k\)</span></p></li>
-<li><p>Obtain predictions and performance measure (e.g.&nbsp;MSE) for the left-out fold <span class="math inline">\(k\)</span></p></li>
-</ul></li>
-<li><p>Aggregate performance measure across <span class="math inline">\(k\)</span> folds</p>
-<ul>
-<li>e.g., compute average MSE, including standard error for CV estimate</li>
+<li><p>Obtain predictions for fold <span class="math inline">\(k\)</span></p></li>
+<li><p>Compute performance measure (e.g.&nbsp;MSE) for fold <span class="math inline">\(k\)</span></p></li>
 </ul></li>
 </ul>
+</div>
+<div class="fragment">
+<ul>
+<li><p>Aggregate performance measure across folds</p>
+<ul>
+<li>e.g., compute average MSE, including standard error</li>
+</ul></li>
+</ul>
+</div>
 <div class="fragment">
 <p>We can justify model choice (e.g.&nbsp;model selection/comparison, variable selection, tuning parameter selection) using any performance measure we want with CV</p>
+</div>
+<div class="fragment">
+<p>Why do we typically choose <span class="math inline">\(K=5\)</span> or <span class="math inline">\(K=10\)</span>? Think about: What’s the smallest and largest <span class="math inline">\(K\)</span> could be? And what’s the trade-off?</p>
 </div>
 </section>
 <section id="fold-cross-validation-procedure-diagram" class="slide level2">
@@ -751,7 +763,7 @@ Remember, when building predictive models, try to find the sweet spot between bi
 </div>
 </div><div class="column" style="text-align: left;">
 <ul>
-<li><p>Including season (together with temperature) clearly provides better model performance</p></li>
+<li><p>Including season (together with temperature) clearly provides better performance</p></li>
 <li><p>Including an interaction term between season and temperature is not worthwhile<br>(in fact, the performance is slightly worse compared to the model without interaction)</p></li>
 </ul>
 </div></div>
