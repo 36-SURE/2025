@@ -304,6 +304,12 @@ $$
   * encourages highly correlated features to be average
   
   * encourages a sparse solution in the coefficients of these averaged features
+  
+. . .
+
+* From the original paper's abtract: 
+
+> ... the elastic net encourages a grouping effect, where strongly correlated predictors tend to be in or out of the model together.
 
 ## Ridge vs lasso vs elastic net
 
