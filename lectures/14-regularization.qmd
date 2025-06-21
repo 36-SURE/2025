@@ -24,9 +24,28 @@ knitr::opts_chunk$set(
   fig.align = "center",
   fig.height = 9
 )
+set.seed(101)
 ```
 
 # Background
+
+## Shortcomings of linear regression
+
+* Predictability
+
+  * Recall that we can decompose estimation (prediction) error into squared bias and variance
+  
+  * Linear regression: high bias, low variance
+  
+. . .
+  
+* Variable selection
+
+  * With a large number of predictors, it can be helpful to identify a smaller subset of important variables and eliminate uninformative ones
+  
+  * Linear regression “freely” assigns a coefficient to each predictor variable
+  
+  * Can we have a model fitting procedure that make only a subset of the coefficients large, and others small (or even better, zero)?
 
 ## The big picture
 
@@ -48,103 +67,180 @@ Regularized/shrinkage/penalized regression
 
 . . .
 
-* Thus, regularization methods can perform variable selection
+* Thus, regularization methods (e.g. LASSO) can perform variable selection
 
 ## Recap: linear regression
 
-__Linear regression__ estimates coefficients by minimizing
+* __Linear regression__ (least squares) estimates coefficients by minimizing 
 
- $$\text{RSS} = \sum_i^n \big(Y_i - \beta_0 -  \sum_j^p \hat{\beta}_j X_{ij}\big)^2$$
-
+$$\text{RSS} = \sum_{i=1}^n \big(Y_i - \beta_0 -  \sum_{j=1}^p \beta_j X_{ij}\big)^2$$
 
 <center>
-
-<!-- ![](/images/rss.png){width="700"} -->
 
 <img src= "/images/rss.png" style="border: 1px solid grey;" width="600">
 
 </center>
 
-## Shrinkage methods: ridge regression
+# Ridge regression
 
-__Linear regression__ estimates coefficients by minimizing
+## Linear regression vs ridge regression
 
- $$\text{RSS} = \sum_i^n \big(Y_i - \beta_0 -  \sum_j^p \hat{\beta}_j X_{ij}\big)^2$$
+* __Linear regression__ (least squares) estimates coefficients by minimizing 
 
-. . .
-
-__Ridge regression__ introduces a __shrinkage penalty__ $\lambda \geq 0$ by minimizing
-
-$$\sum_i^n \big(Y_i - \beta_0 -  \sum_j^p \beta_j X_{ij}\big)^2 + \lambda \sum_j^p \beta_j^2 = \text{RSS} + \lambda \sum_j^p \beta_j^2$$
+$$\text{RSS} = \sum_{i=1}^n \big(Y_i - \beta_0 -  \sum_{j=1}^p \beta_j X_{ij}\big)^2$$
 
 . . .
 
-- as $\lambda$ increases, flexibility of models decreases
+* __Ridge regression__ introduces a shrinkage penalty term and minimizes
 
-  - __increases bias, but decreases variance__
- 
+$$\sum_{i=1}^n \big(Y_i - \beta_0 -  \sum_{j=1}^p \beta_j X_{ij}\big)^2 + \lambda \sum_{j=1}^p \beta_j^2 = \text{RSS} + \lambda \sum_{j=1}^p \beta_j^2$$
 
 . . .
 
-- for fixed value of $\lambda$, ridge regression fits only a single model
+* Ridge regression uses a (squared) $\ell_2$ penalty (hence ridge is also known as $\ell_2$ regularization)
 
-  - need to use cross-validation to __tune__ $\lambda$
+  * The $\ell_2$ norm of a coefficient vector $\beta$ is given by $\displaystyle \Vert \beta \Vert_2 = \sqrt{\sum_{j=1}^p \vert \beta_j \vert ^2}$
 
 
-## Shrinkage methods: ridge regression
+## Ridge regression: more details
 
-For example: note how the magnitude of the coefficient for `Income` trends as $\lambda \rightarrow \infty$
+* Recall that __ridge regression__ minimizes
+
+$$\sum_{i=1}^n \big(Y_i - \beta_0 -  \sum_{j=1}^p \beta_j X_{ij}\big)^2 + \lambda \sum_{j=1}^p \beta_j^2 = \text{RSS} + \lambda \sum_{j=1}^p \beta_j^2$$
+
+. . .
+
+* Here, $\lambda \ge 0$ is a **tuning parameter**, which controls the strength of the penalty term
+
+. . .
+
+* Use cross-validation to __tune__ $\lambda$ (for a fixed value of $\lambda$, ridge regression fits only a single model)
+
+. . .
+
+* As $\lambda$ increases, flexibility of models decreases (bias increases, variance decreases)
+
+  * When $\lambda = 0$, it's just linear regression
+  
+  * When $\lambda \rightarrow \infty$, the coefficient estimates approach 0
+  
+  * For $\lambda$ in between, we are balancing two ideas: fitting a linear model and shrinking the coefficients
+
+
+## Ridge regression: textbook example
+
+* Notice how the magnitude of the coefficients for the 4 highlighted variables trend as $\lambda \rightarrow \infty$
+
+* The coefficients __shrink towards zero__, but never actually reach it
 
 ```{r out.width='20%', echo = FALSE, fig.align='center'}
-knitr::include_graphics("http://www.stat.cmu.edu/~pfreeman/Ridge.png")
+knitr::include_graphics("../images/ridge-toy.png")
 ```
 
-The coefficient __shrinks towards zero__, but never actually reaches it
+# Lasso & sparsity
 
-- `Income` is always a variable in the learned model, regardless of the value of $\lambda$
+## Moving from ridge to lasso
 
-
-## Shrinkage methods: lasso regression
-
-Ridge regression __keeps all variables__, but we may believe there is a __sparse__ solution
-
+* Ridge never sets coefficients to exactly zero (i.e., always keeps all variables)
 
 . . .
 
-__Lasso__ ("Least Absolute Shrinkage and Selection Operator") enables variable selection with $\lambda$ by minimizing:
-
-$$\sum_i^n \big(Y_i - \beta_0 -  \sum_j^p \beta_j X_{ij}\big)^2 + \lambda \sum_j^p\vert  \beta_j \vert = \text{RSS} + \lambda \sum_j^p \vert \beta_j \vert$$
-
-- Lasso uses an $\ell_1$ ("ell 1") penalty
-
+* Therefore ridge regression cannot perform variable selection
 
 . . .
 
-- as $\lambda$ increases, flexibility of models decreases
+* But we may believe there is a __sparse__ solution (i.e., a model involving only a subset of the variables)
 
-  - __increases bias, but decreases variance__
+. . .
+
+* Entering the lasso (least absolute shrinkage and selection operator)
+
+. . .
+
+* Compared to ridge, one big advantage of lasso/sparsity: it performs variable selection in the linear model, so we can understand which relevant features the model relies on for prediction
+
+## Linear regression vs ridge vs lasso
+
+* __Linear regression__ (least squares) estimates coefficients by minimizing 
+
+$$\text{RSS} = \sum_{i=1}^n \big(Y_i - \beta_0 -  \sum_{j=1}^p \beta_j X_{ij}\big)^2$$
+
+. . .
+
+* __Ridge regression__ minimizes
+
+$$\sum_{i=1}^n \big(Y_i - \beta_0 -  \sum_{j=1}^p \beta_j X_{ij}\big)^2 + \lambda \sum_{j=1}^p \beta_j^2 = \text{RSS} + \lambda \sum_{j=1}^p \beta_j^2$$
+
+. . .
+
+* **Lasso regression** enables variable selection by minimizing
+
+$$\sum_{i=1}^n \big(Y_i - \beta_0 -  \sum_{j=1}^p \beta_j X_{ij}\big)^2 + \lambda \sum_{j=1}^p\vert  \beta_j \vert = \text{RSS} + \lambda \sum_{j=1}^p \vert \beta_j \vert$$
+
+## The lasso: more details
+
+* Recall that the lasso minimizes
+
+$$\sum_{i=1}^n \big(Y_i - \beta_0 -  \sum_{j=1}^p \beta_j X_{ij}\big)^2 + \lambda \sum_{j=1}^p\vert  \beta_j \vert = \text{RSS} + \lambda \sum_{j=1}^p \vert \beta_j \vert$$
+
+. . .
+
+* Lasso uses an $\ell_1$ penalty (hence also known as $\ell_1$ regularization)
+
+  * The $\ell_1$ norm of a coefficient vector $\beta$ is given by $\displaystyle \Vert \beta \Vert_1 = \sum_{j=1}^p \vert \beta_j \vert$
+  
   
 . . .
 
-- Can handle the $p > n$ case, i.e. more variables than observations!
+* The only difference between lasso and ridge is that ridge uses a (squared) $\ell_2$ penalty $\Vert \beta \Vert_2^2$, while lasso uses an $\vert \ell_1 \vert$ penalty 
+
+. . .
+
+* Importantly, although these two problems look relatively similar, their solutions behave very differently
+
+
+## The lasso: more details
+
+* Recall that the lasso minimizes
+
+$$\sum_{i=1}^n \big(Y_i - \beta_0 -  \sum_{j=1}^p \beta_j X_{ij}\big)^2 + \lambda \sum_{j=1}^p\vert  \beta_j \vert = \text{RSS} + \lambda \sum_{j=1}^p \vert \beta_j \vert$$
+
+. . .
+
+* Here, $\lambda \ge 0$ is a **tuning parameter**, which controls the strength of the penalty (like ridge)
+
+. . .
+
+* Use cross-validation to __tune__ $\lambda$ (for a fixed value of $\lambda$, lasso regression fits only a single model)
+
+. . .
+
+* As $\lambda$ increases, flexibility of models decreases (bias increases, variance decreases)
+
+  * When $\lambda = 0$, it's just linear regression
+  
+  * When $\lambda \rightarrow \infty$, the coefficient estimates approach 0
+  
+  * For $\lambda$ in between, we are balancing two ideas: fitting a linear model and shrinking the coefficients
+  
+  * But the nature of the $\ell_1$ penalty allows some coefficients to be shrunken to zero exactly
+
+. . .
+
+* Lasso can handle the $p > n$ case, i.e. more variables than observations
  
 ## Shrinkage methods: lasso regression
 
-Lasso regression __performs variable selection__ yielding __sparse__ models (i.e. models that involve only a subset of the variables)
+* Lasso regression __performs variable selection__ yielding __sparse__ models (i.e. models that involve only a subset of the variables)
 
-```{r out.width='40%', echo = FALSE, fig.align='center'}
-knitr::include_graphics("http://www.stat.cmu.edu/~pfreeman/Lasso.png")
+* We get different models with different number of predictors at different values of $\lambda$
+
+* The coefficients shrink towards and __eventually equal zero__
+
+```{r out.width='20%', echo = FALSE, fig.align='center'}
+knitr::include_graphics("../images/lasso-toy.png")
 ```
 
-The coefficient shrinks towards and __eventually equals zero__
-
-## Be lasso 
-
-<center>
-
-![](/images/lasso-costume.jpeg){width="500"}
-
-</center>
 
 
 ## Lasso and ridge as optimization problems
@@ -163,7 +259,7 @@ $$
 \underset{\beta}{\text{minimize}} \sum_{i=1}^n \left(Y_i - \beta_0 - \sum_{j=1}^p\beta_j X_{ij} \right)^2 \quad \text{subject to} \quad \sum_{j=1}^p \beta_j ^2 \le s
 $$
 
-## Lasso and ridge in picture
+## Lasso and ridge in pictures
 
 <center>
 
@@ -171,53 +267,102 @@ $$
 
 </center>
 
+## Lasso and ridge in pictures, explained
+
+* Consider the case of $p=2$ (2 predictors, hence 2 coefficients $\beta_1$ and $\beta_2$ to be estimated) 
+
+* The residual sum of squares has elliptical contours, centered at the unregularized least squares estimate $\hat \beta$
+
+* The constraint region for lasso (left) is the diamond $\vert \beta_1 \vert + \vert \beta_2 \vert \le s$
+
+* The constraint region for ridge (right) is the square $\beta_1 ^ 2 + \beta_2 ^ 2 \le s$
+
+* Both methods aim to find the first point where the elliptical contours hit the constraint region
+
+* Unlike the disk, the diamond has corners; if the solution occurs at a corner, then it has one $\beta_j$ equal to zero
+
+* When $p>2$, the diamond becomes a rhomboid (with many corners, flat edges, faces, etc.), allowing more opportunities for the estimated coefficients to be zero
+
+# Elastic net
+ 
 ## Best of both worlds: elastic net
 
-$$\sum_{i}^{n}\left(Y_{i}-\beta_{0}-\sum_{j=1}^{p} \beta_{j} X_{i j}\right)^{2}+\lambda\left(\frac{1-\alpha}{2}\|\beta\|_{2}^{2}+\alpha\|\beta\|_{1} \right)$$
-
-- $\Vert \beta \Vert_1$: $\ell_1$ norm: $\Vert \beta \Vert_1 = \sum_{j=1}^p \vert \beta_j \vert$
-
-- $\Vert \beta \Vert_2$: $\ell_2$ (Euclidean) norm: $\Vert \beta \Vert_2 = \sqrt{\sum_{j=1}^p \beta_j^2}$
+* Motivation: when developing models, there are often strong correlations among the features
 
 . . .
 
-- Ridge penalty: $\lambda \cdot (1 - \alpha) / 2$
+* The lasso penalty is somewhat indifferent to the choice among a set of strong but correlated features
 
-- Lasso penalty: $\lambda \cdot \alpha$
+. . .
 
-- $\alpha$ controls the __mixing__ between the two types, ranges from 0 to 1
+* The ridge penalty tends to shrink the coefficients of correlated features toward each other
 
-  - $\alpha = 1$ returns lasso, $\alpha = 0$ return ridge
+. . .
 
-- $\lambda$ and $\alpha$ are __tuning parameters__
+* The elastic net penalty is a compromise, aiming to
 
-- Choose appropriate values based on out-of-sample performance/cross-validation
+  * encourages highly correlated features to be average
+  
+  * encourages a sparse solution in the coefficients of these averaged features
 
-- Use `cv.glmnet()` function in `glmnet` to perform cross-validation
+## Ridge vs lasso vs elastic net
+
+* **Ridge** minimizes
+
+$$\sum_{i=1}^n \big(Y_i - \beta_0 -  \sum_{j=1}^p \beta_j X_{ij}\big)^2 + \lambda \sum_{j=1}^p \beta_j^2 = \text{RSS} + \lambda \sum_{j=1}^p \beta_j^2$$
+
+. . .
+
+* **Lasso** minimizes
+
+$$\sum_{i=1}^n \big(Y_i - \beta_0 -  \sum_{j=1}^p \beta_j X_{ij}\big)^2 + \lambda \sum_{j=1}^p\vert  \beta_j \vert = \text{RSS} + \lambda \sum_{j=1}^p \vert \beta_j \vert$$
+
+. . .
+
+* **Elastic net** compromises between ridge and lasso
+
+$$\sum_{i=1}^{n}\left(Y_{i}-\beta_{0}-\sum_{j=1}^{p} \beta_{j} X_{i j}\right)^{2}+\lambda\left(\frac{1-\alpha}{2}\|\beta\|_{2}^{2}+\alpha\|\beta\|_{1} \right)$$
+
+## Elastic net: more details
+
+* **Elastic net** minimizes
+
+$$\sum_{i=1}^{n}\left(Y_{i}-\beta_{0}-\sum_{j=1}^{p} \beta_{j} X_{i j}\right)^{2}+\lambda\left(\frac{1-\alpha}{2}\|\beta\|_{2}^{2}+\alpha\|\beta\|_{1} \right)$$
+
+. . .
+
+* Penalty terms: $\lambda \cdot (1 - \alpha) / 2$ (ridge) and $\lambda \cdot \alpha$ (lasso)
+
+  * $\alpha$ controls the __mixing__ between the two types, ranges from 0 to 1
+
+  * $\alpha = 1$ returns lasso, $\alpha = 0$ return ridge
+  
+. . .
+
+* $\lambda$ and $\alpha$ are __tuning parameters__; use cross-validation to tune
 
 ## Scaling of predictors
 
 - In linear regression, the (least squares) coefficient estimates are scale equivariant
 
-  -   multiplying $X_j$ by a constant c simply leads to a scaling of the least squares coefficient estimates by a
+  -   Multiplying $X_j$ by a constant c simply leads to a scaling of the least squares coefficient estimates by a
 factor of $1/c$
 
   -   i.e., regardless of how the $j$th predictor is scaled, $X_j \hat \beta_j$ will remain the same
+  
+. . .
 
-- For either ridge, lasso, or elastic net: __you should standardize your data__
+- For ridge, lasso, and elastic net: __standardize the predictors__
 
   -  The coefficient estimates can change substantially when multiplying a given predictor by a constant, due to the sum of squared coefficients term in the penalty
-
-- Common convention: for each predictor column, subtract off the mean, and divide by the standard deviation $\qquad \displaystyle \tilde{x}_{ij} = \frac{x_{ij} - \bar{x}_j}{s_{x,j}}$
-
-- [`glmnet`](https://glmnet.stanford.edu/articles/glmnet.html) package does this by default and reports coefficients on the original scale
+  
+  -  For each predictor column, subtract off the mean, and divide by the standard deviation $$\tilde{x}_{ij} = \frac{x_{ij} - \bar{x}_j}{s_{x,j}}$$
 
 # Examples
 
 ## Data: prostate cancer
 
-Examine the level of a prostate specific antigen and a number of clinical measures in
-men who were about to receive a radical prostatectomy
+Examine the level of a prostate specific antigen and a number of clinical measures in men who were about to receive a radical prostatectomy
 
 
 ```{r}
@@ -304,7 +449,7 @@ plot(prostate_ridge, xvar = "lambda")
 
 ## Ridge regression
 
-Use cross-validation to select $\lambda$ with `cv.glmnet()` which uses 10-folds by default
+Use cross-validation to select $\lambda$ with `cv.glmnet()` which uses 10 folds by default
 
 Specify ridge regression with `alpha = 0`
 
@@ -585,16 +730,16 @@ cv_enet_50 |>
 
 ```{r}
 set.seed(101)
-k <- 5
+N_FOLDS <- 5
 prostate <- prostate |>
-  mutate(test_fold = sample(rep(1:k, length.out = n())))
+  mutate(test_fold = sample(rep(1:N_FOLDS, length.out = n())))
 ```
 
 
 ```{r}
-get_test_pred <- function(k) {
-  test_data <- prostate |> filter(test_fold == k)                     # get test and training data
-  train_data <- prostate |> filter(test_fold != k)
+get_test_pred <- function(x) {
+  test_data <- prostate |> filter(test_fold == x)                     # get test and training data
+  train_data <- prostate |> filter(test_fold != x)
   test_x <- as.matrix(select(test_data, -lpsa))                       # get test and training matrices
   train_x <- as.matrix(select(train_data, -lpsa))
   
@@ -608,12 +753,12 @@ get_test_pred <- function(k) {
          lasso_pred = as.numeric(predict(lasso_fit, newx = test_x)),
          enet_pred = as.numeric(predict(enet_fit, newx = test_x)),
          test_actual = test_data$lpsa,
-         test_fold = k)
+         test_fold = x)
 }
 ```
 
 ```{r}
-test_pred_all <- map(1:k, get_test_pred) |> 
+test_pred_all <- map(1:N_FOLDS, get_test_pred) |> 
   bind_rows()
 ```
 
@@ -641,7 +786,7 @@ test_pred_all |>
                color = "red", width = 0.2)
 ```
 
-Linear regression actually performs "better" than regularization, but within intervals
+Linear regression actually slightly outperforms regularization here, but within intervals
 
 :::
 
