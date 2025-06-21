@@ -211,6 +211,26 @@
 <h1>Background</h1>
 
 </section>
+<section id="shortcomings-of-linear-regression" class="slide level2">
+<h2>Shortcomings of linear regression</h2>
+<ul>
+<li><p>Predictability</p>
+<ul>
+<li><p>Recall that we can decompose estimation (prediction) error into squared bias and variance</p></li>
+<li><p>Linear regression: high bias, low variance</p></li>
+</ul></li>
+</ul>
+<div class="fragment">
+<ul>
+<li><p>Variable selection</p>
+<ul>
+<li><p>With a large number of predictors, it can be helpful to identify a smaller subset of important variables and eliminate uninformative ones</p></li>
+<li><p>Linear regression “freely” assigns a coefficient to each predictor variable</p></li>
+<li><p>Can we have a model fitting procedure that make only a subset of the coefficients large, and others small (or even better, zero)?</p></li>
+</ul></li>
+</ul>
+</div>
+</section>
 <section id="the-big-picture" class="slide level2">
 <h2>The big picture</h2>
 <p>Regularized/shrinkage/penalized regression</p>
@@ -234,89 +254,198 @@
 </div>
 <div class="fragment">
 <ul>
-<li>Thus, regularization methods can perform variable selection</li>
+<li>Thus, regularization methods (e.g.&nbsp;LASSO) can perform variable selection</li>
 </ul>
 </div>
 </section>
 <section id="recap-linear-regression" class="slide level2">
 <h2>Recap: linear regression</h2>
-<p><strong>Linear regression</strong> estimates coefficients by minimizing</p>
-<p><span class="math display">\[\text{RSS} = \sum_i^n \big(Y_i - \beta_0 -  \sum_j^p \hat{\beta}_j X_{ij}\big)^2\]</span></p>
+<ul>
+<li><strong>Linear regression</strong> (least squares) estimates coefficients by minimizing</li>
+</ul>
+<p><span class="math display">\[\text{RSS} = \sum_{i=1}^n \big(Y_i - \beta_0 -  \sum_{j=1}^p \beta_j X_{ij}\big)^2\]</span></p>
 <center>
-<!-- ![](/images/rss.png){width="700"} -->
 <p><img src="../images/rss.png" style="border: 1px solid grey;" width="600"></p>
 </center>
-</section>
-<section id="shrinkage-methods-ridge-regression" class="slide level2">
-<h2>Shrinkage methods: ridge regression</h2>
-<p><strong>Linear regression</strong> estimates coefficients by minimizing</p>
-<p><span class="math display">\[\text{RSS} = \sum_i^n \big(Y_i - \beta_0 -  \sum_j^p \hat{\beta}_j X_{ij}\big)^2\]</span></p>
-<div class="fragment">
-<p><strong>Ridge regression</strong> introduces a <strong>shrinkage penalty</strong> <span class="math inline">\(\lambda \geq 0\)</span> by minimizing</p>
-<p><span class="math display">\[\sum_i^n \big(Y_i - \beta_0 -  \sum_j^p \beta_j X_{ij}\big)^2 + \lambda \sum_j^p \beta_j^2 = \text{RSS} + \lambda \sum_j^p \beta_j^2\]</span></p>
-</div>
-<div class="fragment">
-<ul>
-<li><p>as <span class="math inline">\(\lambda\)</span> increases, flexibility of models decreases</p>
-<ul>
-<li><strong>increases bias, but decreases variance</strong></li>
-</ul></li>
-</ul>
-</div>
-<div class="fragment">
-<ul>
-<li><p>for fixed value of <span class="math inline">\(\lambda\)</span>, ridge regression fits only a single model</p>
-<ul>
-<li>need to use cross-validation to <strong>tune</strong> <span class="math inline">\(\lambda\)</span></li>
-</ul></li>
-</ul>
-</div>
-</section>
-<section id="shrinkage-methods-ridge-regression-1" class="slide level2">
-<h2>Shrinkage methods: ridge regression</h2>
-<p>For example: note how the magnitude of the coefficient for <code>Income</code> trends as <span class="math inline">\(\lambda \rightarrow \infty\)</span></p>
+</section></section>
+<section>
+<section id="ridge-regression" class="title-slide slide level1 center">
+<h1>Ridge regression</h1>
 
-<img data-src="http://www.stat.cmu.edu/~pfreeman/Ridge.png" class="quarto-figure quarto-figure-center r-stretch" style="width:20.0%"><p>The coefficient <strong>shrinks towards zero</strong>, but never actually reaches it</p>
+</section>
+<section id="linear-regression-vs-ridge-regression" class="slide level2">
+<h2>Linear regression vs ridge regression</h2>
 <ul>
-<li><code>Income</code> is always a variable in the learned model, regardless of the value of <span class="math inline">\(\lambda\)</span></li>
+<li><strong>Linear regression</strong> (least squares) estimates coefficients by minimizing</li>
 </ul>
+<p><span class="math display">\[\text{RSS} = \sum_{i=1}^n \big(Y_i - \beta_0 -  \sum_{j=1}^p \beta_j X_{ij}\big)^2\]</span></p>
+<div class="fragment">
+<ul>
+<li><strong>Ridge regression</strong> introduces a shrinkage penalty term and minimizes</li>
+</ul>
+<p><span class="math display">\[\sum_{i=1}^n \big(Y_i - \beta_0 -  \sum_{j=1}^p \beta_j X_{ij}\big)^2 + \lambda \sum_{j=1}^p \beta_j^2 = \text{RSS} + \lambda \sum_{j=1}^p \beta_j^2\]</span></p>
+</div>
+<div class="fragment">
+<ul>
+<li><p>Ridge regression uses a (squared) <span class="math inline">\(\ell_2\)</span> penalty (hence ridge is also known as <span class="math inline">\(\ell_2\)</span> regularization)</p>
+<ul>
+<li>The <span class="math inline">\(\ell_2\)</span> norm of a coefficient vector <span class="math inline">\(\beta\)</span> is given by <span class="math inline">\(\displaystyle \Vert \beta \Vert_2 = \sqrt{\sum_{j=1}^p \vert \beta_j \vert ^2}\)</span></li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="ridge-regression-more-details" class="slide level2">
+<h2>Ridge regression: more details</h2>
+<ul>
+<li>Recall that <strong>ridge regression</strong> minimizes</li>
+</ul>
+<p><span class="math display">\[\sum_{i=1}^n \big(Y_i - \beta_0 -  \sum_{j=1}^p \beta_j X_{ij}\big)^2 + \lambda \sum_{j=1}^p \beta_j^2 = \text{RSS} + \lambda \sum_{j=1}^p \beta_j^2\]</span></p>
+<div class="fragment">
+<ul>
+<li>Here, <span class="math inline">\(\lambda \ge 0\)</span> is a <strong>tuning parameter</strong>, which controls the strength of the penalty term</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Use cross-validation to <strong>tune</strong> <span class="math inline">\(\lambda\)</span> (for a fixed value of <span class="math inline">\(\lambda\)</span>, ridge regression fits only a single model)</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li><p>As <span class="math inline">\(\lambda\)</span> increases, flexibility of models decreases (bias increases, variance decreases)</p>
+<ul>
+<li><p>When <span class="math inline">\(\lambda = 0\)</span>, it’s just linear regression</p></li>
+<li><p>When <span class="math inline">\(\lambda \rightarrow \infty\)</span>, the coefficient estimates approach 0</p></li>
+<li><p>For <span class="math inline">\(\lambda\)</span> in between, we are balancing two ideas: fitting a linear model and shrinking the coefficients</p></li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="ridge-regression-textbook-example" class="slide level2">
+<h2>Ridge regression: textbook example</h2>
+<ul>
+<li><p>Notice how the magnitude of the coefficients for the 4 highlighted variables trend as <span class="math inline">\(\lambda \rightarrow \infty\)</span></p></li>
+<li><p>The coefficients <strong>shrink towards zero</strong>, but never actually reach it</p></li>
+</ul>
+
+<img data-src="../images/ridge-toy.png" class="quarto-figure quarto-figure-center r-stretch" style="width:20.0%"></section></section>
+<section>
+<section id="lasso-sparsity" class="title-slide slide level1 center">
+<h1>Lasso &amp; sparsity</h1>
+
+</section>
+<section id="moving-from-ridge-to-lasso" class="slide level2">
+<h2>Moving from ridge to lasso</h2>
+<ul>
+<li>Ridge never sets coefficients to exactly zero (i.e., always keeps all variables)</li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Therefore ridge regression cannot perform variable selection</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>But we may believe there is a <strong>sparse</strong> solution (i.e., a model involving only a subset of the variables)</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Entering the lasso (least absolute shrinkage and selection operator)</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Compared to ridge, one big advantage of lasso/sparsity: it performs variable selection in the linear model, so we can understand which relevant features the model relies on for prediction</li>
+</ul>
+</div>
+</section>
+<section id="linear-regression-vs-ridge-vs-lasso" class="slide level2">
+<h2>Linear regression vs ridge vs lasso</h2>
+<ul>
+<li><strong>Linear regression</strong> (least squares) estimates coefficients by minimizing</li>
+</ul>
+<p><span class="math display">\[\text{RSS} = \sum_{i=1}^n \big(Y_i - \beta_0 -  \sum_{j=1}^p \beta_j X_{ij}\big)^2\]</span></p>
+<div class="fragment">
+<ul>
+<li><strong>Ridge regression</strong> minimizes</li>
+</ul>
+<p><span class="math display">\[\sum_{i=1}^n \big(Y_i - \beta_0 -  \sum_{j=1}^p \beta_j X_{ij}\big)^2 + \lambda \sum_{j=1}^p \beta_j^2 = \text{RSS} + \lambda \sum_{j=1}^p \beta_j^2\]</span></p>
+</div>
+<div class="fragment">
+<ul>
+<li><strong>Lasso regression</strong> enables variable selection by minimizing</li>
+</ul>
+<p><span class="math display">\[\sum_{i=1}^n \big(Y_i - \beta_0 -  \sum_{j=1}^p \beta_j X_{ij}\big)^2 + \lambda \sum_{j=1}^p\vert  \beta_j \vert = \text{RSS} + \lambda \sum_{j=1}^p \vert \beta_j \vert\]</span></p>
+</div>
+</section>
+<section id="the-lasso-more-details" class="slide level2">
+<h2>The lasso: more details</h2>
+<ul>
+<li>Recall that the lasso minimizes</li>
+</ul>
+<p><span class="math display">\[\sum_{i=1}^n \big(Y_i - \beta_0 -  \sum_{j=1}^p \beta_j X_{ij}\big)^2 + \lambda \sum_{j=1}^p\vert  \beta_j \vert = \text{RSS} + \lambda \sum_{j=1}^p \vert \beta_j \vert\]</span></p>
+<div class="fragment">
+<ul>
+<li><p>Lasso uses an <span class="math inline">\(\ell_1\)</span> penalty (hence also known as <span class="math inline">\(\ell_1\)</span> regularization)</p>
+<ul>
+<li>The <span class="math inline">\(\ell_1\)</span> norm of a coefficient vector <span class="math inline">\(\beta\)</span> is given by <span class="math inline">\(\displaystyle \Vert \beta \Vert_1 = \sum_{j=1}^p \vert \beta_j \vert\)</span></li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>The only difference between lasso and ridge is that ridge uses a (squared) <span class="math inline">\(\ell_2\)</span> penalty <span class="math inline">\(\Vert \beta \Vert_2^2\)</span>, while lasso uses an <span class="math inline">\(\vert \ell_1 \vert\)</span> penalty</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Importantly, although these two problems look relatively similar, their solutions behave very differently</li>
+</ul>
+</div>
+</section>
+<section id="the-lasso-more-details-1" class="slide level2">
+<h2>The lasso: more details</h2>
+<ul>
+<li>Recall that the lasso minimizes</li>
+</ul>
+<p><span class="math display">\[\sum_{i=1}^n \big(Y_i - \beta_0 -  \sum_{j=1}^p \beta_j X_{ij}\big)^2 + \lambda \sum_{j=1}^p\vert  \beta_j \vert = \text{RSS} + \lambda \sum_{j=1}^p \vert \beta_j \vert\]</span></p>
+<div class="fragment">
+<ul>
+<li>Here, <span class="math inline">\(\lambda \ge 0\)</span> is a <strong>tuning parameter</strong>, which controls the strength of the penalty (like ridge)</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Use cross-validation to <strong>tune</strong> <span class="math inline">\(\lambda\)</span> (for a fixed value of <span class="math inline">\(\lambda\)</span>, lasso regression fits only a single model)</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li><p>As <span class="math inline">\(\lambda\)</span> increases, flexibility of models decreases (bias increases, variance decreases)</p>
+<ul>
+<li><p>When <span class="math inline">\(\lambda = 0\)</span>, it’s just linear regression</p></li>
+<li><p>When <span class="math inline">\(\lambda \rightarrow \infty\)</span>, the coefficient estimates approach 0</p></li>
+<li><p>For <span class="math inline">\(\lambda\)</span> in between, we are balancing two ideas: fitting a linear model and shrinking the coefficients</p></li>
+<li><p>But the nature of the <span class="math inline">\(\ell_1\)</span> penalty allows some coefficients to be shrunken to zero exactly</p></li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Lasso can handle the <span class="math inline">\(p &gt; n\)</span> case, i.e.&nbsp;more variables than observations</li>
+</ul>
+</div>
 </section>
 <section id="shrinkage-methods-lasso-regression" class="slide level2">
 <h2>Shrinkage methods: lasso regression</h2>
-<p>Ridge regression <strong>keeps all variables</strong>, but we may believe there is a <strong>sparse</strong> solution</p>
-<div class="fragment">
-<p><strong>Lasso</strong> (“Least Absolute Shrinkage and Selection Operator”) enables variable selection with <span class="math inline">\(\lambda\)</span> by minimizing:</p>
-<p><span class="math display">\[\sum_i^n \big(Y_i - \beta_0 -  \sum_j^p \beta_j X_{ij}\big)^2 + \lambda \sum_j^p\vert  \beta_j \vert = \text{RSS} + \lambda \sum_j^p \vert \beta_j \vert\]</span></p>
 <ul>
-<li>Lasso uses an <span class="math inline">\(\ell_1\)</span> (“ell 1”) penalty</li>
+<li><p>Lasso regression <strong>performs variable selection</strong> yielding <strong>sparse</strong> models (i.e.&nbsp;models that involve only a subset of the variables)</p></li>
+<li><p>We get different models with different number of predictors at different values of <span class="math inline">\(\lambda\)</span></p></li>
+<li><p>The coefficients shrink towards and <strong>eventually equal zero</strong></p></li>
 </ul>
-</div>
-<div class="fragment">
-<ul>
-<li><p>as <span class="math inline">\(\lambda\)</span> increases, flexibility of models decreases</p>
-<ul>
-<li><strong>increases bias, but decreases variance</strong></li>
-</ul></li>
-</ul>
-</div>
-<div class="fragment">
-<ul>
-<li>Can handle the <span class="math inline">\(p &gt; n\)</span> case, i.e.&nbsp;more variables than observations!</li>
-</ul>
-</div>
-</section>
-<section id="shrinkage-methods-lasso-regression-1" class="slide level2">
-<h2>Shrinkage methods: lasso regression</h2>
-<p>Lasso regression <strong>performs variable selection</strong> yielding <strong>sparse</strong> models (i.e.&nbsp;models that involve only a subset of the variables)</p>
 
-<img data-src="http://www.stat.cmu.edu/~pfreeman/Lasso.png" class="quarto-figure quarto-figure-center r-stretch" style="width:40.0%"><p>The coefficient shrinks towards and <strong>eventually equals zero</strong></p>
-</section>
-<section id="be-lasso" class="slide level2">
-<h2>Be lasso</h2>
-<center>
-<p><img data-src="../images/lasso-costume.jpeg" width="500"></p>
-</center>
-</section>
+<img data-src="../images/lasso-toy.png" class="quarto-figure quarto-figure-center r-stretch" style="width:20.0%"></section>
 <section id="lasso-and-ridge-as-optimization-problems" class="slide level2">
 <h2>Lasso and ridge as optimization problems</h2>
 <p>Why does the lasso, unlike ridge, result in coefficient estimates that are exactly 0?</p>
@@ -333,30 +462,91 @@
 \underset{\beta}{\text{minimize}} \sum_{i=1}^n \left(Y_i - \beta_0 - \sum_{j=1}^p\beta_j X_{ij} \right)^2 \quad \text{subject to} \quad \sum_{j=1}^p \beta_j ^2 \le s
 \]</span></p>
 </section>
-<section id="lasso-and-ridge-in-picture" class="slide level2">
-<h2>Lasso and ridge in picture</h2>
+<section id="lasso-and-ridge-in-pictures" class="slide level2">
+<h2>Lasso and ridge in pictures</h2>
 <center>
 <p><img data-src="../images/lasso-ridge.png" width="820"></p>
 </center>
 </section>
+<section id="lasso-and-ridge-in-pictures-explained" class="slide level2">
+<h2>Lasso and ridge in pictures, explained</h2>
+<ul>
+<li><p>Consider the case of <span class="math inline">\(p=2\)</span> (2 predictors, hence 2 coefficients <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span> to be estimated)</p></li>
+<li><p>The residual sum of squares has elliptical contours, centered at the unregularized least squares estimate <span class="math inline">\(\hat \beta\)</span></p></li>
+<li><p>The constraint region for lasso (left) is the diamond <span class="math inline">\(\vert \beta_1 \vert + \vert \beta_2 \vert \le s\)</span></p></li>
+<li><p>The constraint region for ridge (right) is the square <span class="math inline">\(\beta_1 ^ 2 + \beta_2 ^ 2 \le s\)</span></p></li>
+<li><p>Both methods aim to find the first point where the elliptical contours hit the constraint region</p></li>
+<li><p>Unlike the disk, the diamond has corners; if the solution occurs at a corner, then it has one <span class="math inline">\(\beta_j\)</span> equal to zero</p></li>
+<li><p>When <span class="math inline">\(p&gt;2\)</span>, the diamond becomes a rhomboid (with many corners, flat edges, faces, etc.), allowing more opportunities for the estimated coefficients to be zero</p></li>
+</ul>
+</section></section>
+<section>
+<section id="elastic-net" class="title-slide slide level1 center">
+<h1>Elastic net</h1>
+
+</section>
 <section id="best-of-both-worlds-elastic-net" class="slide level2">
 <h2>Best of both worlds: elastic net</h2>
-<p><span class="math display">\[\sum_{i}^{n}\left(Y_{i}-\beta_{0}-\sum_{j=1}^{p} \beta_{j} X_{i j}\right)^{2}+\lambda\left(\frac{1-\alpha}{2}\|\beta\|_{2}^{2}+\alpha\|\beta\|_{1} \right)\]</span></p>
 <ul>
-<li><p><span class="math inline">\(\Vert \beta \Vert_1\)</span>: <span class="math inline">\(\ell_1\)</span> norm: <span class="math inline">\(\Vert \beta \Vert_1 = \sum_{j=1}^p \vert \beta_j \vert\)</span></p></li>
-<li><p><span class="math inline">\(\Vert \beta \Vert_2\)</span>: <span class="math inline">\(\ell_2\)</span> (Euclidean) norm: <span class="math inline">\(\Vert \beta \Vert_2 = \sqrt{\sum_{j=1}^p \beta_j^2}\)</span></p></li>
+<li>Motivation: when developing models, there are often strong correlations among the features</li>
 </ul>
 <div class="fragment">
 <ul>
-<li><p>Ridge penalty: <span class="math inline">\(\lambda \cdot (1 - \alpha) / 2\)</span></p></li>
-<li><p>Lasso penalty: <span class="math inline">\(\lambda \cdot \alpha\)</span></p></li>
-<li><p><span class="math inline">\(\alpha\)</span> controls the <strong>mixing</strong> between the two types, ranges from 0 to 1</p>
+<li>The lasso penalty is somewhat indifferent to the choice among a set of strong but correlated features</li>
+</ul>
+</div>
+<div class="fragment">
 <ul>
-<li><span class="math inline">\(\alpha = 1\)</span> returns lasso, <span class="math inline">\(\alpha = 0\)</span> return ridge</li>
+<li>The ridge penalty tends to shrink the coefficients of correlated features toward each other</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li><p>The elastic net penalty is a compromise, aiming to</p>
+<ul>
+<li><p>encourages highly correlated features to be average</p></li>
+<li><p>encourages a sparse solution in the coefficients of these averaged features</p></li>
 </ul></li>
-<li><p><span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\alpha\)</span> are <strong>tuning parameters</strong></p></li>
-<li><p>Choose appropriate values based on out-of-sample performance/cross-validation</p></li>
-<li><p>Use <code>cv.glmnet()</code> function in <code>glmnet</code> to perform cross-validation</p></li>
+</ul>
+</div>
+</section>
+<section id="ridge-vs-lasso-vs-elastic-net" class="slide level2">
+<h2>Ridge vs lasso vs elastic net</h2>
+<ul>
+<li><strong>Ridge</strong> minimizes</li>
+</ul>
+<p><span class="math display">\[\sum_{i=1}^n \big(Y_i - \beta_0 -  \sum_{j=1}^p \beta_j X_{ij}\big)^2 + \lambda \sum_{j=1}^p \beta_j^2 = \text{RSS} + \lambda \sum_{j=1}^p \beta_j^2\]</span></p>
+<div class="fragment">
+<ul>
+<li><strong>Lasso</strong> minimizes</li>
+</ul>
+<p><span class="math display">\[\sum_{i=1}^n \big(Y_i - \beta_0 -  \sum_{j=1}^p \beta_j X_{ij}\big)^2 + \lambda \sum_{j=1}^p\vert  \beta_j \vert = \text{RSS} + \lambda \sum_{j=1}^p \vert \beta_j \vert\]</span></p>
+</div>
+<div class="fragment">
+<ul>
+<li><strong>Elastic net</strong> compromises between ridge and lasso</li>
+</ul>
+<p><span class="math display">\[\sum_{i=1}^{n}\left(Y_{i}-\beta_{0}-\sum_{j=1}^{p} \beta_{j} X_{i j}\right)^{2}+\lambda\left(\frac{1-\alpha}{2}\|\beta\|_{2}^{2}+\alpha\|\beta\|_{1} \right)\]</span></p>
+</div>
+</section>
+<section id="elastic-net-more-details" class="slide level2">
+<h2>Elastic net: more details</h2>
+<ul>
+<li><strong>Elastic net</strong> minimizes</li>
+</ul>
+<p><span class="math display">\[\sum_{i=1}^{n}\left(Y_{i}-\beta_{0}-\sum_{j=1}^{p} \beta_{j} X_{i j}\right)^{2}+\lambda\left(\frac{1-\alpha}{2}\|\beta\|_{2}^{2}+\alpha\|\beta\|_{1} \right)\]</span></p>
+<div class="fragment">
+<ul>
+<li><p>Penalty terms: <span class="math inline">\(\lambda \cdot (1 - \alpha) / 2\)</span> (ridge) and <span class="math inline">\(\lambda \cdot \alpha\)</span> (lasso)</p>
+<ul>
+<li><p><span class="math inline">\(\alpha\)</span> controls the <strong>mixing</strong> between the two types, ranges from 0 to 1</p></li>
+<li><p><span class="math inline">\(\alpha = 1\)</span> returns lasso, <span class="math inline">\(\alpha = 0\)</span> return ridge</p></li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li><span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\alpha\)</span> are <strong>tuning parameters</strong>; use cross-validation to tune</li>
 </ul>
 </div>
 </section>
@@ -365,16 +555,19 @@
 <ul>
 <li><p>In linear regression, the (least squares) coefficient estimates are scale equivariant</p>
 <ul>
-<li><p>multiplying <span class="math inline">\(X_j\)</span> by a constant c simply leads to a scaling of the least squares coefficient estimates by a factor of <span class="math inline">\(1/c\)</span></p></li>
+<li><p>Multiplying <span class="math inline">\(X_j\)</span> by a constant c simply leads to a scaling of the least squares coefficient estimates by a factor of <span class="math inline">\(1/c\)</span></p></li>
 <li><p>i.e., regardless of how the <span class="math inline">\(j\)</span>th predictor is scaled, <span class="math inline">\(X_j \hat \beta_j\)</span> will remain the same</p></li>
 </ul></li>
-<li><p>For either ridge, lasso, or elastic net: <strong>you should standardize your data</strong></p>
-<ul>
-<li>The coefficient estimates can change substantially when multiplying a given predictor by a constant, due to the sum of squared coefficients term in the penalty</li>
-</ul></li>
-<li><p>Common convention: for each predictor column, subtract off the mean, and divide by the standard deviation <span class="math inline">\(\qquad \displaystyle \tilde{x}_{ij} = \frac{x_{ij} - \bar{x}_j}{s_{x,j}}\)</span></p></li>
-<li><p><a href="https://glmnet.stanford.edu/articles/glmnet.html"><code>glmnet</code></a> package does this by default and reports coefficients on the original scale</p></li>
 </ul>
+<div class="fragment">
+<ul>
+<li><p>For ridge, lasso, and elastic net: <strong>standardize the predictors</strong></p>
+<ul>
+<li><p>The coefficient estimates can change substantially when multiplying a given predictor by a constant, due to the sum of squared coefficients term in the penalty</p></li>
+<li><p>For each predictor column, subtract off the mean, and divide by the standard deviation <span class="math display">\[\tilde{x}_{ij} = \frac{x_{ij} - \bar{x}_j}{s_{x,j}}\]</span></p></li>
+</ul></li>
+</ul>
+</div>
 </section></section>
 <section>
 <section id="examples" class="title-slide slide level1 center">
@@ -453,14 +646,14 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="16-regularization_files/figure-revealjs/unnamed-chunk-8-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="14-regularization_files/figure-revealjs/unnamed-chunk-8-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
 </div>
 </div></div>
 </section>
-<section id="ridge-regression" class="slide level2">
+<section id="ridge-regression-1" class="slide level2">
 <h2>Ridge regression</h2>
 <p>Perform ridge regression using <code>glmnet</code> with <code>alpha = 0</code></p>
 <p>By default, predictors are standardized and models are fitted across a range of <span class="math inline">\(\lambda\)</span> values</p>
@@ -469,17 +662,17 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <span id="cb6-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(prostate_ridge, <span class="at">xvar =</span> <span class="st">"lambda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="16-regularization_files/figure-revealjs/init-ridge-ex-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1152"></section>
-<section id="ridge-regression-1" class="slide level2">
+<img data-src="14-regularization_files/figure-revealjs/init-ridge-ex-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1152"></section>
+<section id="ridge-regression-2" class="slide level2">
 <h2>Ridge regression</h2>
-<p>Use cross-validation to select <span class="math inline">\(\lambda\)</span> with <code>cv.glmnet()</code> which uses 10-folds by default</p>
+<p>Use cross-validation to select <span class="math inline">\(\lambda\)</span> with <code>cv.glmnet()</code> which uses 10 folds by default</p>
 <p>Specify ridge regression with <code>alpha = 0</code></p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a>prostate_ridge_cv <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(model_x, model_y, <span class="at">alpha =</span> <span class="dv">0</span>)</span>
 <span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(prostate_ridge_cv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="16-regularization_files/figure-revealjs/unnamed-chunk-9-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1152"></section>
+<img data-src="14-regularization_files/figure-revealjs/unnamed-chunk-9-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1152"></section>
 <section id="tidy-ridge-regression" class="slide level2">
 <h2>Tidy ridge regression</h2>
 <div class="columns">
@@ -503,7 +696,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="16-regularization_files/figure-revealjs/unnamed-chunk-10-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="14-regularization_files/figure-revealjs/unnamed-chunk-10-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -531,7 +724,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="16-regularization_files/figure-revealjs/unnamed-chunk-11-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="14-regularization_files/figure-revealjs/unnamed-chunk-11-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -566,7 +759,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="16-regularization_files/figure-revealjs/unnamed-chunk-12-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="14-regularization_files/figure-revealjs/unnamed-chunk-12-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -595,7 +788,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="16-regularization_files/figure-revealjs/unnamed-chunk-13-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="14-regularization_files/figure-revealjs/unnamed-chunk-13-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -623,7 +816,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="16-regularization_files/figure-revealjs/unnamed-chunk-14-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="14-regularization_files/figure-revealjs/unnamed-chunk-14-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -660,7 +853,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="16-regularization_files/figure-revealjs/unnamed-chunk-15-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="14-regularization_files/figure-revealjs/unnamed-chunk-15-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -713,7 +906,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="16-regularization_files/figure-revealjs/unnamed-chunk-19-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="14-regularization_files/figure-revealjs/unnamed-chunk-19-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -724,14 +917,14 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <h2>Comparison of models based on holdout performance</h2>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">101</span>)</span>
-<span id="cb19-2"><a aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb19-2"><a aria-hidden="true" tabindex="-1"></a>N_FOLDS <span class="ot">&lt;-</span> <span class="dv">5</span></span>
 <span id="cb19-3"><a aria-hidden="true" tabindex="-1"></a>prostate <span class="ot">&lt;-</span> prostate <span class="sc">|&gt;</span></span>
-<span id="cb19-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">test_fold =</span> <span class="fu">sample</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="at">length.out =</span> <span class="fu">n</span>())))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">test_fold =</span> <span class="fu">sample</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>N_FOLDS, <span class="at">length.out =</span> <span class="fu">n</span>())))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-hidden="true" tabindex="-1"></a>get_test_pred <span class="ot">&lt;-</span> <span class="cf">function</span>(k) {</span>
-<span id="cb20-2"><a aria-hidden="true" tabindex="-1"></a>  test_data <span class="ot">&lt;-</span> prostate <span class="sc">|&gt;</span> <span class="fu">filter</span>(test_fold <span class="sc">==</span> k)                     <span class="co"># get test and training data</span></span>
-<span id="cb20-3"><a aria-hidden="true" tabindex="-1"></a>  train_data <span class="ot">&lt;-</span> prostate <span class="sc">|&gt;</span> <span class="fu">filter</span>(test_fold <span class="sc">!=</span> k)</span>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-hidden="true" tabindex="-1"></a>get_test_pred <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb20-2"><a aria-hidden="true" tabindex="-1"></a>  test_data <span class="ot">&lt;-</span> prostate <span class="sc">|&gt;</span> <span class="fu">filter</span>(test_fold <span class="sc">==</span> x)                     <span class="co"># get test and training data</span></span>
+<span id="cb20-3"><a aria-hidden="true" tabindex="-1"></a>  train_data <span class="ot">&lt;-</span> prostate <span class="sc">|&gt;</span> <span class="fu">filter</span>(test_fold <span class="sc">!=</span> x)</span>
 <span id="cb20-4"><a aria-hidden="true" tabindex="-1"></a>  test_x <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">select</span>(test_data, <span class="sc">-</span>lpsa))                       <span class="co"># get test and training matrices</span></span>
 <span id="cb20-5"><a aria-hidden="true" tabindex="-1"></a>  train_x <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">select</span>(train_data, <span class="sc">-</span>lpsa))</span>
 <span id="cb20-6"><a aria-hidden="true" tabindex="-1"></a>  </span>
@@ -745,11 +938,11 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <span id="cb20-14"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">lasso_pred =</span> <span class="fu">as.numeric</span>(<span class="fu">predict</span>(lasso_fit, <span class="at">newx =</span> test_x)),</span>
 <span id="cb20-15"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">enet_pred =</span> <span class="fu">as.numeric</span>(<span class="fu">predict</span>(enet_fit, <span class="at">newx =</span> test_x)),</span>
 <span id="cb20-16"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">test_actual =</span> test_data<span class="sc">$</span>lpsa,</span>
-<span id="cb20-17"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">test_fold =</span> k)</span>
+<span id="cb20-17"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">test_fold =</span> x)</span>
 <span id="cb20-18"><a aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-hidden="true" tabindex="-1"></a>test_pred_all <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span>k, get_test_pred) <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-hidden="true" tabindex="-1"></a>test_pred_all <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span>N_FOLDS, get_test_pred) <span class="sc">|&gt;</span> </span>
 <span id="cb21-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -774,13 +967,13 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <span id="cb22-13"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> mean_se, <span class="at">geom =</span> <span class="st">"errorbar"</span>, </span>
 <span id="cb22-14"><a aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">width =</span> <span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Linear regression actually performs “better” than regularization, but within intervals</p>
+<p>Linear regression actually slightly outperforms regularization here, but within intervals</p>
 </div><div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="16-regularization_files/figure-revealjs/unnamed-chunk-23-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="14-regularization_files/figure-revealjs/unnamed-chunk-23-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
