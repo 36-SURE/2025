@@ -1502,7 +1502,7 @@
     "href": "lectures/14-regularization.html#shortcomings-of-linear-regression",
     "title": "Supervised learning: regularization",
     "section": "Shortcomings of linear regression",
-    "text": "Shortcomings of linear regression\n\nPredictability\n\nRecall that we can decompose estimation (prediction) error into squared bias and variance\nLinear regression: high bias, low variance\n\n\n\n\nVariable selection\n\nWith a large number of predictors, it can be helpful to identify a smaller subset of important variables and eliminate uninformative ones\nLinear regression “freely” assigns a coefficient to each predictor variable\nCan we have a model fitting procedure that make only a subset of the coefficients large, and others small (or even better, zero)?"
+    "text": "Shortcomings of linear regression\n\nPredictability\n\nRecall that we can decompose estimation (prediction) error into squared bias and variance\nLinear regression: high bias, low variance\n\n\n\n\nVariable selection\n\nWith a large number of predictors, it can be helpful to identify a subset of relevant features and eliminate uninformative ones\nLinear regression “freely” assigns a coefficient to each predictor variable\nCan we have a model fitting procedure that make only a subset of the coefficients large, and others small (or even better, zero)?"
   },
   {
     "objectID": "lectures/14-regularization.html#the-big-picture",
