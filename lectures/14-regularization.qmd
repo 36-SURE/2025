@@ -41,7 +41,7 @@ set.seed(101)
   
 * Variable selection
 
-  * With a large number of predictors, it can be helpful to identify a smaller subset of important variables and eliminate uninformative ones
+  * With a large number of predictors, it can be helpful to identify a  subset of relevant features and eliminate uninformative ones
   
   * Linear regression “freely” assigns a coefficient to each predictor variable
   
