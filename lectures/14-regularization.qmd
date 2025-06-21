@@ -436,6 +436,51 @@ prostate_lm |>
 :::
 :::
 
+## Coefficient plot (w/ uncertainty)
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+```{r, eval = FALSE}
+prostate_lm |> 
+  tidy(conf.int = TRUE) |> 
+  filter(term != "(Intercept)") |> 
+  ggplot(aes(x = estimate, y = term))  +
+  geom_point(size = 4) +
+  geom_errorbar(aes(xmin = conf.low, 
+                    xmax = conf.high, 
+                    width = 0.2)) +
+  geom_vline(xintercept = 0, 
+             linetype = "dashed", 
+             color = "red")
+```
+
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r, echo = FALSE}
+prostate_lm |> 
+  tidy(conf.int = TRUE) |> 
+  filter(term != "(Intercept)") |> 
+  ggplot(aes(x = estimate, y = term))  +
+  geom_point(size = 4) +
+  geom_errorbar(aes(xmin = conf.low, 
+                    xmax = conf.high, 
+                    width = 0.2)) +
+  geom_vline(xintercept = 0, 
+             linetype = "dashed", 
+             color = "red")
+```
+
+:::
+:::
+
+
+:::aside
+Other names: dot-and-whisker plot or forest plot or blobbogram
+:::
+
 ## Ridge regression
 
 Perform ridge regression using `glmnet` with `alpha = 0`
@@ -529,7 +574,7 @@ tidy_ridge_cv |>
 
 Coefficients using the __one-standard-error rule__
 
-(select the model with estimated test error within one standard error of the minimum test error)
+(select the model with estimated test error within 1 SE of the minimum test error)
 
 
 ```{r ridge-coef-ex, eval = FALSE}
