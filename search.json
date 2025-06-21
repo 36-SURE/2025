@@ -1645,6 +1645,13 @@
     "text": "Vanilla linear regression model\n\n\n\nWhat do the initial regression coefficients look like?\nUse broom to tidy model output for plotting\n\n\nprostate_lm &lt;- lm(lpsa ~ ., data = prostate)\nlibrary(broom)\nprostate_lm |&gt; \n  tidy() |&gt; \n  mutate(term = fct_reorder(term, estimate)) |&gt; \n  ggplot(aes(x = estimate, y = term, \n             fill = estimate &gt; 0)) +\n  geom_col(color = \"white\", show.legend = FALSE) +\n  scale_fill_manual(values = c(\"darkred\", \"darkblue\"))"
   },
   {
+    "objectID": "lectures/14-regularization.html#coefficient-plot-w-uncertainty",
+    "href": "lectures/14-regularization.html#coefficient-plot-w-uncertainty",
+    "title": "Supervised learning: regularization",
+    "section": "Coefficient plot (w/ uncertainty)",
+    "text": "Coefficient plot (w/ uncertainty)\n\n\n\nprostate_lm |&gt; \n  tidy(conf.int = TRUE) |&gt; \n  filter(term != \"(Intercept)\") |&gt; \n  ggplot(aes(x = estimate, y = term))  +\n  geom_point(size = 4) +\n  geom_errorbar(aes(xmin = conf.low, \n                    xmax = conf.high, \n                    width = 0.2)) +\n  geom_vline(xintercept = 0, \n             linetype = \"dashed\", \n             color = \"red\")\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOther names: dot-and-whisker plot or forest plot or blobbogram"
+  },
+  {
     "objectID": "lectures/14-regularization.html#ridge-regression-1",
     "href": "lectures/14-regularization.html#ridge-regression-1",
     "title": "Supervised learning: regularization",
@@ -1677,7 +1684,7 @@
     "href": "lectures/14-regularization.html#ridge-regression-coefficients",
     "title": "Supervised learning: regularization",
     "section": "Ridge regression coefficients",
-    "text": "Ridge regression coefficients\n\n\nCoefficients using the one-standard-error rule\n(select the model with estimated test error within one standard error of the minimum test error)\n\n# ridge_final &lt;- glmnet(\n#   model_x, model_y, alpha = 0,\n#   lambda = prostate_ridge_cv$lambda.1se,\n# )\n# library(vip)\n# ridge_final |&gt; \n#   vip()\n\ntidy_ridge_coef |&gt;\n  filter(lambda == prostate_ridge_cv$lambda.1se) |&gt;\n  mutate(term = fct_reorder(term, estimate)) |&gt;\n  ggplot(aes(x = estimate, y = term, \n             fill = estimate &gt; 0)) +\n  geom_col(color = \"white\", show.legend = FALSE) +\n  scale_fill_manual(values = c(\"darkred\", \"darkblue\"))"
+    "text": "Ridge regression coefficients\n\n\nCoefficients using the one-standard-error rule\n(select the model with estimated test error within 1 SE of the minimum test error)\n\n# ridge_final &lt;- glmnet(\n#   model_x, model_y, alpha = 0,\n#   lambda = prostate_ridge_cv$lambda.1se,\n# )\n# library(vip)\n# ridge_final |&gt; \n#   vip()\n\ntidy_ridge_coef |&gt;\n  filter(lambda == prostate_ridge_cv$lambda.1se) |&gt;\n  mutate(term = fct_reorder(term, estimate)) |&gt;\n  ggplot(aes(x = estimate, y = term, \n             fill = estimate &gt; 0)) +\n  geom_col(color = \"white\", show.legend = FALSE) +\n  scale_fill_manual(values = c(\"darkred\", \"darkblue\"))"
   },
   {
     "objectID": "lectures/14-regularization.html#lasso-regression-example",
