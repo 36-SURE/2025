@@ -1600,7 +1600,7 @@
     "href": "lectures/14-regularization.html#best-of-both-worlds-elastic-net",
     "title": "Supervised learning: regularization",
     "section": "Best of both worlds: elastic net",
-    "text": "Best of both worlds: elastic net\n\nMotivation: when developing models, there are often strong correlations among the features\n\n\n\nThe lasso penalty is somewhat indifferent to the choice among a set of strong but correlated features\n\n\n\n\nThe ridge penalty tends to shrink the coefficients of correlated features toward each other\n\n\n\n\nThe elastic net penalty is a compromise, aiming to\n\nencourages highly correlated features to be average\nencourages a sparse solution in the coefficients of these averaged features"
+    "text": "Best of both worlds: elastic net\n\nMotivation: when developing models, there are often strong correlations among the features\n\n\n\nThe lasso penalty is somewhat indifferent to the choice among a set of strong but correlated features\n\n\n\n\nThe ridge penalty tends to shrink the coefficients of correlated features toward each other\n\n\n\n\nThe elastic net penalty is a compromise, aiming to\n\nencourages highly correlated features to be average\nencourages a sparse solution in the coefficients of these averaged features\n\n\n\n\n\nFrom the original paper’s abtract:\n\n\n… the elastic net encourages a grouping effect, where strongly correlated predictors tend to be in or out of the model together."
   },
   {
     "objectID": "lectures/14-regularization.html#ridge-vs-lasso-vs-elastic-net",
