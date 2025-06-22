@@ -4400,7 +4400,7 @@
     "href": "lectures/13-datatable.html#piping-statements-together",
     "title": "Data wrangling with R’s data.table package",
     "section": "Piping statements together",
-    "text": "Piping statements together\nWhat if we wanted to take our dataset with the hw_level columns and filter for students with a “low” level of homework?\n\nWe could save the dataset with hw_level and use that.\nWe could also pipe statements together."
+    "text": "Piping statements together\nWhat if we wanted to pair multiple of the six main verbs together? For example, filter pets_dt to remove the cats and then arrange by hours_hw?\n\nWe could save the filtered dataset to no_cats_dt and then order that.\nWe could also pipe statements together!"
   },
   {
     "objectID": "lectures/13-datatable.html#three-equivalent-ways-to-pipe",
