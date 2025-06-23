@@ -2258,14 +2258,14 @@
     "href": "lectures.html",
     "title": "Lectures",
     "section": "",
-    "text": "Date\nTitle\nMaterials\n\n\n\n\nLecture 0\nJune 2\nWelcome to SURE 2025\nslides\n\n\nLecture 1\nJune 3\nExploring data: into the tidyverse\nslides\n\n\nLecture 2\nJune 4\nData visualization: the grammar of graphics and ggplot2\nslides\n\n\nLecture 3\nJune 5\nData visualization: categorical data\nslides\n\n\nLecture 4\nJune 6\nData visualization: quantitative data\nslides\n\n\nLecture 5\nJune 9\nUnsupervised learning: principal component analysis\nslides\n\n\nLecture 6\nJune 10\nUnsupervised learning: \\(k\\)-means clustering\nslides\n\n\nLecture 7\nJune 11\nUnsupervised learning: hierarchical clustering\nslides\n\n\nLecture 8\nJune 12\nData visualization: density estimation\nslides\n\n\nLecture 9\nJune 13\nPresentations\nslides\n\n\nLecture 10\nJune 16\nSimulation\nslides\n\n\nLecture 11\nJune 17\nSupervised learning: linear regression\nslides\n\n\nLecture 12\nJune 20\nSupervised learning: model building\nslides\n\n\nLecture 13\nJune 23\nData wrangling with R’s data.table package\nslides"
+    "text": "Date\nTitle\nMaterials\n\n\n\n\nLecture 0\nJune 2\nWelcome to SURE 2025\nslides\n\n\nLecture 1\nJune 3\nExploring data: into the tidyverse\nslides\n\n\nLecture 2\nJune 4\nData visualization: the grammar of graphics and ggplot2\nslides\n\n\nLecture 3\nJune 5\nData visualization: categorical data\nslides\n\n\nLecture 4\nJune 6\nData visualization: quantitative data\nslides\n\n\nLecture 5\nJune 9\nUnsupervised learning: principal component analysis\nslides\n\n\nLecture 6\nJune 10\nUnsupervised learning: \\(k\\)-means clustering\nslides\n\n\nLecture 7\nJune 11\nUnsupervised learning: hierarchical clustering\nslides\n\n\nLecture 8\nJune 12\nData visualization: density estimation\nslides\n\n\nLecture 9\nJune 13\nPresentations\nslides\n\n\nLecture 10\nJune 16\nSimulation\nslides\n\n\nLecture 11\nJune 17\nSupervised learning: linear regression\nslides\n\n\nLecture 12\nJune 20\nSupervised learning: model building\nslides\n\n\nLecture 13\nJune 23\nData wrangling with R’s data.table package\nslides\n\n\nLecture 14\nJune 24\nSupervised learning: regularization\nslides"
   },
   {
     "objectID": "lectures.html#contents",
     "href": "lectures.html#contents",
     "title": "Lectures",
     "section": "",
-    "text": "Date\nTitle\nMaterials\n\n\n\n\nLecture 0\nJune 2\nWelcome to SURE 2025\nslides\n\n\nLecture 1\nJune 3\nExploring data: into the tidyverse\nslides\n\n\nLecture 2\nJune 4\nData visualization: the grammar of graphics and ggplot2\nslides\n\n\nLecture 3\nJune 5\nData visualization: categorical data\nslides\n\n\nLecture 4\nJune 6\nData visualization: quantitative data\nslides\n\n\nLecture 5\nJune 9\nUnsupervised learning: principal component analysis\nslides\n\n\nLecture 6\nJune 10\nUnsupervised learning: \\(k\\)-means clustering\nslides\n\n\nLecture 7\nJune 11\nUnsupervised learning: hierarchical clustering\nslides\n\n\nLecture 8\nJune 12\nData visualization: density estimation\nslides\n\n\nLecture 9\nJune 13\nPresentations\nslides\n\n\nLecture 10\nJune 16\nSimulation\nslides\n\n\nLecture 11\nJune 17\nSupervised learning: linear regression\nslides\n\n\nLecture 12\nJune 20\nSupervised learning: model building\nslides\n\n\nLecture 13\nJune 23\nData wrangling with R’s data.table package\nslides"
+    "text": "Date\nTitle\nMaterials\n\n\n\n\nLecture 0\nJune 2\nWelcome to SURE 2025\nslides\n\n\nLecture 1\nJune 3\nExploring data: into the tidyverse\nslides\n\n\nLecture 2\nJune 4\nData visualization: the grammar of graphics and ggplot2\nslides\n\n\nLecture 3\nJune 5\nData visualization: categorical data\nslides\n\n\nLecture 4\nJune 6\nData visualization: quantitative data\nslides\n\n\nLecture 5\nJune 9\nUnsupervised learning: principal component analysis\nslides\n\n\nLecture 6\nJune 10\nUnsupervised learning: \\(k\\)-means clustering\nslides\n\n\nLecture 7\nJune 11\nUnsupervised learning: hierarchical clustering\nslides\n\n\nLecture 8\nJune 12\nData visualization: density estimation\nslides\n\n\nLecture 9\nJune 13\nPresentations\nslides\n\n\nLecture 10\nJune 16\nSimulation\nslides\n\n\nLecture 11\nJune 17\nSupervised learning: linear regression\nslides\n\n\nLecture 12\nJune 20\nSupervised learning: model building\nslides\n\n\nLecture 13\nJune 23\nData wrangling with R’s data.table package\nslides\n\n\nLecture 14\nJune 24\nSupervised learning: regularization\nslides"
   },
   {
     "objectID": "health/labs/05-datatable.html",
@@ -3084,7 +3084,7 @@
     "href": "lectures/17-nonparametric.html#generalized-additive-models-gams",
     "title": "Supervised learning: nonparametric regression",
     "section": "Generalized additive models (GAMs)",
-    "text": "Generalized additive models (GAMs)\nResources\n\nBook: Generalized Additive Models by Simon Wood\nmgcv workshop\nFree GAM Course"
+    "text": "Generalized additive models (GAMs)\nResources\n\nBook: Generalized Additive Models by Simon Wood\nGAM resources GitHub repository\nmgcv workshop\nFree GAM Course"
   },
   {
     "objectID": "lectures/17-nonparametric.html#generalized-additive-models-gams-1",
