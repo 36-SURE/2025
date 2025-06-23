@@ -117,6 +117,8 @@ Resources
 
 * [Book](https://web.archive.org/web/20250101081917/https://reseau-mexico.fr/sites/reseau-mexico.fr/files/igam.pdf): Generalized Additive Models by Simon Wood
 
+* [GAM resources](https://github.com/noamross/gam-resources) GitHub repository
+
 * [`mgcv` workshop](https://noamross.github.io/mgcv-esa-workshop/)
 
 * [Free GAM Course](https://noamross.github.io/gams-in-r-course/)
