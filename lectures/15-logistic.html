@@ -256,6 +256,7 @@
 <ul>
 <li>tests for coefficients</li>
 <li>indicator variables</li>
+<li>interactions</li>
 <li>model building procedure</li>
 <li>regularization</li>
 </ul></li>
@@ -476,7 +477,7 @@ p(x) =  \frac{e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}{1 + e^{\beta_0 +
 </div>
 <div class="fragment">
 <ul>
-<li>Eponentiate the coefficient estimates (log-odds) to back-transform and get the odds</li>
+<li>Exponentiate the coefficient estimates (log-odds) to back-transform and get the odds</li>
 </ul>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(pima_logit, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -530,77 +531,39 @@ p(x) =  \frac{e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}{1 + e^{\beta_0 +
 
 </div>
 <img data-src="15-logistic_files/figure-revealjs/unnamed-chunk-7-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
-<section id="effects-plot" class="slide level2">
-<h2>Effects plot</h2>
-<ul>
-<li><p>Nonlinear relationship between blood pressure and probability of diabetes</p></li>
-<li><p>The gap between women who were or were not previously pregnant is different across the range</p></li>
-</ul>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggeffects)</span>
-<span id="cb9-2"><a aria-hidden="true" tabindex="-1"></a>pima_logit <span class="sc">|&gt;</span> </span>
-<span id="cb9-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggeffect</span>(<span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"bp"</span>, <span class="st">"pregnancy"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb9-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="15-logistic_files/figure-revealjs/unnamed-chunk-8-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
 <section id="deviance" class="slide level2">
 <h2><a href="https://en.wikipedia.org/wiki/Deviance_(statistics)">Deviance</a></h2>
-<p>For model of interest <span class="math inline">\(\mathcal{M}\)</span> the total deviance is</p>
+<ul>
+<li><p>Recall that in linear regression, we have the residual sum of squares (RSS)—an RSS of 0 means the model predicts perfectly</p></li>
+<li><p>In logistic regression, the RSS is less meaningful; instead we define the <strong>deviance</strong> as a measure of <strong>goodness-of-fit</strong>s</p></li>
+<li><p>Generalization of RSS in linear regression to any distribution family</p></li>
+</ul>
+</section>
+<section id="deviance-1" class="slide level2">
+<h2><a href="https://en.wikipedia.org/wiki/Deviance_(statistics)">Deviance</a></h2>
+<ul>
+<li>For model of interest <span class="math inline">\(\mathcal{M}\)</span> the total deviance is</li>
+</ul>
 <p><span class="math display">\[D_{\mathcal{M}}= -2 \log \frac{\mathcal{L}_{\mathcal{M}}}{\mathcal{L}_{\mathcal{S}}} = 2\left(\log  \mathcal{L}_{\mathcal{S}}-\log  \mathcal{L}_{\mathcal{M}}\right)\]</span></p>
 <ul>
 <li><span class="math inline">\(\mathcal{L}_{\mathcal{M}}\)</span> is the likelihood for model <span class="math inline">\(\mathcal{M}\)</span></li>
 </ul>
 <div class="fragment">
 <ul>
-<li><p><span class="math inline">\(\mathcal{L}_{\mathcal{S}}\)</span> is the likelihood for the <strong>saturated</strong> model, with <span class="math inline">\(n\)</span> parameters</p>
-<ul>
-<li>i.e.&nbsp;the most complex model possible, with separate parameter for each observation and provides a perfect fit to the data</li>
-</ul></li>
+<li><span class="math inline">\(\mathcal{L}_{\mathcal{S}}\)</span> is the likelihood for the <strong>saturated</strong> model (i.e., the most complex model possible, providing a perfect fit to the data)</li>
 </ul>
 </div>
 <div class="fragment">
-<p><strong>Deviance is a measure of goodness-of-fit</strong>: the smaller the deviance, the better the fit</p>
 <ul>
-<li>Generalization of RSS in linear regression to any distribution family</li>
+<li><strong>Deviance is a measure of goodness-of-fit</strong>: the smaller the deviance, the better the fit</li>
 </ul>
 <p>For more, see <a href="https://bookdown.org/egarpor/PM-UC3M/glm-deviance.html">here</a></p>
-</div>
-</section>
-<section id="deviance-residuals" class="slide level2">
-<h2>Deviance residuals</h2>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a>pima_logit <span class="sc">|&gt;</span> </span>
-<span id="cb10-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">residuals</span>(<span class="at">type =</span> <span class="st">"deviance"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb10-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
--1.5293 -0.9156 -0.7463 -0.0990  1.3205  1.9326 </code></pre>
-</div>
-</div>
-<ul>
-<li>Remember Pearson residual…?</li>
-</ul>
-<div class="fragment">
-<ul>
-<li>A deviance residual is an alternative residual for logistic regression based on the discrepancy between the observed values and those estimated using the likelihood <span class="math display">\[d_i = \mbox{sign}(y_i-\hat{p}_i) \sqrt{-2[y_i \log \hat{p}_i + (1-y_i) \log (1 - \hat{p}_i)]}\]</span> where <span class="math inline">\(y_i\)</span> is the <span class="math inline">\(i\)</span>-th observed response and <span class="math inline">\(\hat p_i\)</span> is the estimated probability of success</li>
-</ul>
-</div>
-<div class="fragment">
-<ul>
-<li>Note: The use of the sign of the difference ensures that the deviance residuals are positive/negative when the observation is larger/smaller than predicted</li>
-</ul>
-</div>
-<div class="fragment">
-<ul>
-<li>The sum of the individual deviance residuals is the total deviance</li>
-</ul>
 </div>
 </section>
 <section id="model-summaries" class="slide level2">
 <h2>Model summaries</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(pima_logit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(pima_logit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 8
   null.deviance df.null logLik   AIC   BIC deviance df.residual  nobs
@@ -622,7 +585,7 @@ p(x) =  \frac{e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}{1 + e^{\beta_0 +
 <li><p>To get predicted probabilities, specify <code>type = "response</code></p></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a>pima_pred_prob <span class="ot">&lt;-</span> <span class="fu">predict</span>(pima_logit, <span class="at">type =</span> <span class="st">"response"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a>pima_pred_prob <span class="ot">&lt;-</span> <span class="fu">predict</span>(pima_logit, <span class="at">type =</span> <span class="st">"response"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li><p>How do we predict the class (diabetes or not)?</p></li>
@@ -632,54 +595,147 @@ p(x) =  \frac{e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}{1 + e^{\beta_0 +
 </ul></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-hidden="true" tabindex="-1"></a>pima_pred_class <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(pima_pred_prob <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"Yes"</span>, <span class="st">"No"</span>)</span>
-<span id="cb15-2"><a aria-hidden="true" tabindex="-1"></a>pima_pred_binary <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(pima_pred_prob <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a>pima_pred_class <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(pima_pred_prob <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"Yes"</span>, <span class="st">"No"</span>)</span>
+<span id="cb12-2"><a aria-hidden="true" tabindex="-1"></a>pima_pred_binary <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(pima_pred_prob <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="model-assessment" class="slide level2">
-<h2>Model assessment</h2>
+<section id="classification-model-assessment" class="slide level2">
+<h2>Classification model assessment</h2>
 <ul>
-<li>Confusion matrix</li>
+<li>Accuracy and misclassification rate</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="st">"Predicted"</span> <span class="ot">=</span> pima_pred_class, <span class="st">"Observed"</span> <span class="ot">=</span> pima<span class="sc">$</span>type)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(pima_pred_class <span class="sc">==</span> pima<span class="sc">$</span>type)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         Observed
-Predicted  No Yes
-      No  125  60
-      Yes   7   8</code></pre>
+<pre><code>[1] 0.665</code></pre>
 </div>
-</div>
-<div class="fragment">
-<ul>
-<li>In-sample misclassification rate</li>
-</ul>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(pima_pred_class <span class="sc">!=</span> pima<span class="sc">$</span>type)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(pima_pred_class <span class="sc">!=</span> pima<span class="sc">$</span>type)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.335</code></pre>
 </div>
 </div>
-</div>
-<div class="fragment">
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Brier_score">Brier score</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Brier_score">Brier score</a> (similar to MSE for regression)</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>((pima_pred_binary <span class="sc">-</span> pima_pred_prob)<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>((pima_pred_binary <span class="sc">-</span> pima_pred_prob)<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1140525</code></pre>
 </div>
 </div>
+<ul>
+<li>Confusion matrix</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="st">"Predicted"</span> <span class="ot">=</span> <span class="fu">factor</span>(pima_pred_class, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>)), </span>
+<span id="cb19-2"><a aria-hidden="true" tabindex="-1"></a>      <span class="st">"Observed"</span> <span class="ot">=</span> <span class="fu">factor</span>(pima<span class="sc">$</span>type, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Observed
+Predicted Yes  No
+      Yes   8   7
+      No   60 125</code></pre>
 </div>
+</div>
+</section>
+<section id="confusion-matrix" class="slide level2">
+<h2>Confusion matrix</h2>
+<center>
+<img data-src="../images/confusion.png">
+</center>
+<ul>
+<li><p><strong>Accuracy</strong>: How often is the classifier correct? <span class="math inline">\((\text{TP} + \text{TN}) \ / \ {\text{total}}\)</span></p></li>
+<li><p><strong>Precision</strong>: How often is it right for predicted positives? <span class="math inline">\(\text{TP} \ / \  (\text{TP} + \text{FP})\)</span></p></li>
+<li><p><strong><a href="https://en.wikipedia.org/wiki/Sensitivity_and_specificity">Sensitivity</a></strong> (or true positive rate (TPR) or power): How often does it detect positives? <span class="math inline">\(\text{TP} \ / \  (\text{TP} + \text{FN})\)</span></p></li>
+<li><p><strong>Specificity</strong> (or true negative rate (TNR), or 1 - false positive rate (FPR)): How often does it detect negatives? <span class="math inline">\(\text{TN}  \ / \ (\text{TN} + \text{FP})\)</span></p></li>
+</ul>
+</section>
+<section id="receiver-operating-characteristic-roc-curve" class="slide level2">
+<h2>Receiver operating characteristic (ROC) curve</h2>
+<ul>
+<li>Question: How do we balance between high power and low false positive rate?</li>
+</ul>
+<div class="fragment">
+<ul>
+<li>In general, we can obtain predicted class for each observation by comparing the predicted probability to some cutoff <span class="math inline">\(c\)</span> (typically, <span class="math inline">\(c=0.5\)</span>) <span class="math display">\[\hat{Y} =\left\{\begin{array}{ll} 1, &amp; \hat{p}(x)&gt;c \\ 0, &amp; \hat{p}(x) \leq c \end{array}\right.\]</span></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>ROC curve: check all possible values for the cutoff <span class="math inline">\(c\)</span>, plot the power against false positive rate</li>
+</ul>
+</div>
+</section>
+<section id="receiver-operating-characteristic-roc-curve-1" class="slide level2">
+<h2>Receiver operating characteristic (ROC) curve</h2>
+<ul>
+<li>Want to maximize the <strong>area under the curve (AUC)</strong></li>
+</ul>
+
+<img data-src="https://bradleyboehmke.github.io/HOML/02-modeling-process_files/figure-html/modeling-process-roc-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:60.0%"></section>
+<section id="calculating-auc-plotting-an-roc-curve" class="slide level2">
+<h2>Calculating AUC &amp; plotting an ROC curve</h2>
+<div class="columns">
+<div class="column" style="text-align: left;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span>
+<span id="cb21-2"><a aria-hidden="true" tabindex="-1"></a>pima_roc <span class="ot">&lt;-</span> pima <span class="sc">|&gt;</span> </span>
+<span id="cb21-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred_prob =</span> <span class="fu">predict</span>(pima_logit, </span>
+<span id="cb21-4"><a aria-hidden="true" tabindex="-1"></a>                             <span class="at">type =</span> <span class="st">"response"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb21-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc</span>(type, pred_prob)</span>
+<span id="cb21-6"><a aria-hidden="true" tabindex="-1"></a><span class="co"># str(pima_roc)</span></span>
+<span id="cb21-7"><a aria-hidden="true" tabindex="-1"></a>pima_roc<span class="sc">$</span>auc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Area under the curve: 0.6428</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">threshold =</span> pima_roc<span class="sc">$</span>thresholds,</span>
+<span id="cb23-2"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">specificity =</span> pima_roc<span class="sc">$</span>specificities,</span>
+<span id="cb23-3"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">sensitivity =</span> pima_roc<span class="sc">$</span>sensitivities) <span class="sc">|&gt;</span> </span>
+<span id="cb23-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span> <span class="sc">-</span> specificity, <span class="at">y =</span> sensitivity)) <span class="sc">+</span></span>
+<span id="cb23-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>() <span class="sc">+</span></span>
+<span id="cb23-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">0</span>, </span>
+<span id="cb23-7"><a aria-hidden="true" tabindex="-1"></a>              <span class="at">linetype =</span> <span class="st">"dashed"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="text-align: left;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="15-logistic_files/figure-revealjs/unnamed-chunk-14-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
 </section>
 <section id="calibration" class="slide level2">
 <h2>Calibration</h2>
-<p>If we have a model that tells us the probability of rain in a given time period (i.e.&nbsp;a week) is 50%, it had better rain on half of the days, or the model is just wrong about the probability of rain</p>
+<ul>
+<li>Classification models go beyond providing binary predictions and instead produce predicted probabilities for each class</li>
+</ul>
 <div class="fragment">
 <ul>
-<li><p>A classifier is calibrated if in the given time period, the percentage of days it actually rained when the forecast predicted <span class="math inline">\(x \%\)</span> percent chance of rain is <span class="math inline">\(x \%\)</span></p></li>
-<li><p>In short, for a model to be calibrated, the actual probabilities should match the predicted probabilities</p></li>
+<li>It might be desirable to assess the quality of the predicted probabilities instead of just the accuracy of the crude predicted class labels</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>From The Signal and the Noise (by Nate Silver):</li>
+</ul>
+<blockquote>
+<p>One of the most important tests of a forecast — I would argue that it is the single most important one — is called calibration. Out of all the times you said there was a 40 percent chance of rain, how often did rain actually occur? If, over the long run, it really did rain about 40 percent of the time, that means your forecasts were well calibrated. If it wound up raining just 20 percent of the time instead, or 60 percent of the time, they weren’t.</p>
+</blockquote>
+</div>
+</section>
+<section id="calibration-1" class="slide level2">
+<h2>Calibration</h2>
+<ul>
+<li>For a model to be calibrated, the actual probabilities should match the predicted probabilities</li>
+</ul>
+<div class="fragment">
+<ul>
+<li>For example, if we’ve got a model which tells us that the probability of rain on a certain class of days is 50%, it had better rain on half of those days in reality, or there model is just wrong about the probability of rain</li>
 </ul>
 </div>
 <div class="fragment">
@@ -702,14 +758,14 @@ Predicted  No Yes
 <div class="column" style="text-align: left;">
 <p>Plot the observed outcome against the fitted probability, and apply a smoother</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-hidden="true" tabindex="-1"></a>pima <span class="sc">|&gt;</span> </span>
-<span id="cb22-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred =</span> <span class="fu">predict</span>(pima_logit, <span class="at">type =</span> <span class="st">"response"</span>),</span>
-<span id="cb22-3"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">obs =</span> <span class="fu">ifelse</span>(type <span class="sc">==</span> <span class="st">"Yes"</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb22-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(pred, obs)) <span class="sc">+</span></span>
-<span id="cb22-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb22-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb22-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">0</span>, </span>
-<span id="cb22-8"><a aria-hidden="true" tabindex="-1"></a>              <span class="at">linetype =</span> <span class="st">"dashed"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a aria-hidden="true" tabindex="-1"></a>pima <span class="sc">|&gt;</span> </span>
+<span id="cb24-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred =</span> <span class="fu">predict</span>(pima_logit, <span class="at">type =</span> <span class="st">"response"</span>),</span>
+<span id="cb24-3"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">obs =</span> <span class="fu">ifelse</span>(type <span class="sc">==</span> <span class="st">"Yes"</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb24-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(pred, obs)) <span class="sc">+</span></span>
+<span id="cb24-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb24-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb24-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">0</span>, </span>
+<span id="cb24-8"><a aria-hidden="true" tabindex="-1"></a>              <span class="at">linetype =</span> <span class="st">"dashed"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Looks good for the most part</p>
 <ul>
@@ -721,7 +777,7 @@ Predicted  No Yes
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="15-logistic_files/figure-revealjs/unnamed-chunk-14-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="15-logistic_files/figure-revealjs/unnamed-chunk-16-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -733,29 +789,29 @@ Predicted  No Yes
 <div class="columns">
 <div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a aria-hidden="true" tabindex="-1"></a>pima <span class="sc">|&gt;</span> </span>
-<span id="cb23-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb23-3"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">pred_prob =</span> <span class="fu">predict</span>(pima_logit, <span class="at">type =</span> <span class="st">"response"</span>),</span>
-<span id="cb23-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">bin_pred_prob =</span> <span class="fu">cut</span>(pred_prob, <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, .<span class="dv">1</span>))</span>
-<span id="cb23-5"><a aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb23-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(bin_pred_prob) <span class="sc">|&gt;</span> </span>
-<span id="cb23-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>(),</span>
-<span id="cb23-8"><a aria-hidden="true" tabindex="-1"></a>            <span class="at">bin_actual_prob =</span> <span class="fu">mean</span>(type <span class="sc">==</span> <span class="st">"Yes"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb23-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mid_point =</span> <span class="fu">seq</span>(<span class="fl">0.15</span>, <span class="fl">0.65</span>, <span class="fl">0.1</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb23-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> mid_point, <span class="at">y =</span> bin_actual_prob)) <span class="sc">+</span></span>
-<span id="cb23-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> n)) <span class="sc">+</span></span>
-<span id="cb23-12"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb23-13"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">0</span>, </span>
-<span id="cb23-14"><a aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb23-15"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># expand_limits(x = c(0, 1), y = c(0, 1)) +</span></span>
-<span id="cb23-16"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a aria-hidden="true" tabindex="-1"></a>pima <span class="sc">|&gt;</span> </span>
+<span id="cb25-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb25-3"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">pred_prob =</span> <span class="fu">predict</span>(pima_logit, <span class="at">type =</span> <span class="st">"response"</span>),</span>
+<span id="cb25-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">bin_pred_prob =</span> <span class="fu">cut</span>(pred_prob, <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, .<span class="dv">1</span>))</span>
+<span id="cb25-5"><a aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb25-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(bin_pred_prob) <span class="sc">|&gt;</span> </span>
+<span id="cb25-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb25-8"><a aria-hidden="true" tabindex="-1"></a>            <span class="at">bin_actual_prob =</span> <span class="fu">mean</span>(type <span class="sc">==</span> <span class="st">"Yes"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb25-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mid_point =</span> <span class="fu">seq</span>(<span class="fl">0.15</span>, <span class="fl">0.65</span>, <span class="fl">0.1</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb25-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> mid_point, <span class="at">y =</span> bin_actual_prob)) <span class="sc">+</span></span>
+<span id="cb25-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> n)) <span class="sc">+</span></span>
+<span id="cb25-12"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb25-13"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">0</span>, </span>
+<span id="cb25-14"><a aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb25-15"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># expand_limits(x = c(0, 1), y = c(0, 1)) +</span></span>
+<span id="cb25-16"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="15-logistic_files/figure-revealjs/unnamed-chunk-16-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="15-logistic_files/figure-revealjs/unnamed-chunk-18-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
