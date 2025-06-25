@@ -214,7 +214,7 @@
     "href": "lectures/15-logistic.html#calibration-1",
     "title": "Supervised learning: logistic regression",
     "section": "Calibration",
-    "text": "Calibration\n\nFor a model to be calibrated, the actual probabilities should match the predicted probabilities\n\n\n\nFor example, if we’ve got a model which tells us that the probability of rain on a certain class of days is 50%, it had better rain on half of those days in reality, or there model is just wrong about the probability of rain\n\n\n\n\nCalibration should be used together with other model evaluation and diagnostic tools\n\n\n\n\nA model is well-calibrated does not mean it is good at making predictions (example: a constant classifier)\n\n\n\nSee also: Hosmer-Lemeshow test"
+    "text": "Calibration\n\nFor a model to be calibrated, the predicted probabilities should match the actual probabilities (actual likelihood of an event occurring)\n\n\n\nFor example, if we’ve got a model which tells us that the probability of rain on a certain class of days is 50%, it had better rain on half of those days in reality, or there model is just wrong about the probability of rain\n\n\n\n\nCalibration should be used together with other model evaluation and diagnostic tools\n\n\n\n\nA model is well-calibrated does not mean it is good at making predictions (example: a constant classifier)\n\n\n\nSee also: Hosmer-Lemeshow test"
   },
   {
     "objectID": "lectures/15-logistic.html#calibration-plot-smoothing",
