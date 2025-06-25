@@ -509,7 +509,7 @@ tibble(threshold = pima_roc$thresholds,
 
 ## Calibration
 
-* For a model to be calibrated, the actual probabilities should match the predicted probabilities
+* For a model to be calibrated, the predicted probabilities should match the actual probabilities (actual likelihood of an event occurring)
 
 . . .
 
