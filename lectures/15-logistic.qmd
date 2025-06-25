@@ -65,6 +65,7 @@ library(tidyverse)
 
   *   tests for coefficients
   *   indicator variables
+  *   interactions
   *   model building procedure
   *   regularization
   
@@ -295,7 +296,7 @@ tidy(pima_logit)
 
 . . .
 
-- Eponentiate the coefficient estimates (log-odds) to back-transform and get the odds
+- Exponentiate the coefficient estimates (log-odds) to back-transform and get the odds
 
 ```{r}
 tidy(pima_logit, conf.int = TRUE, exponentiate = TRUE)
@@ -328,62 +329,33 @@ pima |>
   geom_point(aes(y = i_type), alpha = 0.3, color = "darkorange", size = 4)
 ```
 
-## Effects plot
+## [Deviance](https://en.wikipedia.org/wiki/Deviance_(statistics))
 
-* Nonlinear relationship between blood pressure and probability of diabetes
+* Recall that in linear regression, we have the residual sum of squares (RSS)---an RSS of 0 means the model predicts perfectly
 
-* The gap between women who were or were not previously pregnant is different across the range
+* In logistic regression, the RSS is less meaningful; instead we define the **deviance** as a measure of **goodness-of-fit**s
 
-```{r}
-library(ggeffects)
-pima_logit |> 
-  ggeffect(terms = c("bp", "pregnancy")) |>
-  plot()
-```
+* Generalization of RSS in linear regression to any distribution family
+
 
 ## [Deviance](https://en.wikipedia.org/wiki/Deviance_(statistics))
 
-For model of interest $\mathcal{M}$ the total deviance is
+* For model of interest $\mathcal{M}$ the total deviance is
 
 $$D_{\mathcal{M}}= -2 \log \frac{\mathcal{L}_{\mathcal{M}}}{\mathcal{L}_{\mathcal{S}}} = 2\left(\log  \mathcal{L}_{\mathcal{S}}-\log  \mathcal{L}_{\mathcal{M}}\right)$$
 
-- $\mathcal{L}_{\mathcal{M}}$ is the likelihood for model $\mathcal{M}$
+* $\mathcal{L}_{\mathcal{M}}$ is the likelihood for model $\mathcal{M}$
 
 . . .
 
-- $\mathcal{L}_{\mathcal{S}}$ is the likelihood for the __saturated__ model, with $n$ parameters 
-
-  -   i.e. the most complex model possible, with separate parameter for each observation and provides a perfect fit to the data
+* $\mathcal{L}_{\mathcal{S}}$ is the likelihood for the __saturated__ model (i.e., the most complex model possible, providing a perfect fit to the data)
 
 . . .
 
-__Deviance is a measure of goodness-of-fit__: the smaller the deviance, the better the fit
-
-- Generalization of RSS in linear regression to any distribution family
+* __Deviance is a measure of goodness-of-fit__: the smaller the deviance, the better the fit
 
 For more, see [here](https://bookdown.org/egarpor/PM-UC3M/glm-deviance.html)
 
-## Deviance residuals
-
-```{r}
-pima_logit |> 
-  residuals(type = "deviance") |> 
-  summary()
-```
-
-* Remember Pearson residual...?
-
-. . .
-
-* A deviance residual is an alternative residual for logistic regression based on the discrepancy between the observed values and those estimated using the likelihood $$d_i = \mbox{sign}(y_i-\hat{p}_i) \sqrt{-2[y_i \log \hat{p}_i + (1-y_i) \log (1 - \hat{p}_i)]}$$ where $y_i$ is the $i$-th observed response and $\hat p_i$ is the estimated probability of success
-
-. . .
-
-* Note: The use of the sign of the difference ensures that the deviance residuals are positive/negative when the observation is larger/smaller than predicted
-
-. . .
-
-* The sum of the individual deviance residuals is the total deviance
 
 ## Model summaries
 
@@ -420,39 +392,128 @@ pima_pred_class <- ifelse(pima_pred_prob > 0.5, "Yes", "No")
 pima_pred_binary <- ifelse(pima_pred_prob > 0.5, 1, 0)
 ```
 
-## Model assessment
+## Classification model assessment
 
-* Confusion matrix
-
-```{r confuse}
-table("Predicted" = pima_pred_class, "Observed" = pima$type)
-```
-
-. . .
-
-* In-sample misclassification rate
+* Accuracy and misclassification rate
 
 ```{r mcr}
+mean(pima_pred_class == pima$type)
 mean(pima_pred_class != pima$type)
 ```
 
-. . .
-
-* [Brier score](https://en.wikipedia.org/wiki/Brier_score)
+* [Brier score](https://en.wikipedia.org/wiki/Brier_score) (similar to MSE for regression)
 
 ```{r brier}
 mean((pima_pred_binary - pima_pred_prob)^2)
 ```
 
-## Calibration
+* Confusion matrix
 
-If we have a model that tells us the probability of rain in a given time period (i.e. a week) is 50%, it had better rain on half of the days, or the model is just wrong about the probability of rain
+```{r confuse}
+table("Predicted" = factor(pima_pred_class, levels = c("Yes", "No")), 
+      "Observed" = factor(pima$type, levels = c("Yes", "No")))
+```
+
+## Confusion matrix
+
+<center>
+![](../images/confusion.png)
+</center>
+
+* **Accuracy**: How often is the classifier correct? $(\text{TP} + \text{TN}) \ / \ {\text{total}}$
+
+* **Precision**: How often is it right for predicted positives? $\text{TP} \ / \  (\text{TP} + \text{FP})$
+
+* **[Sensitivity](https://en.wikipedia.org/wiki/Sensitivity_and_specificity)** (or true positive rate (TPR) or power): How often does it detect positives? $\text{TP} \ / \  (\text{TP} + \text{FN})$
+
+* **Specificity** (or true negative rate (TNR), or 1 - false positive rate (FPR)): How often does it detect negatives? $\text{TN}  \ / \ (\text{TN} + \text{FP})$
+
+## Receiver operating characteristic (ROC) curve
+
+* Question: How do we balance between high power and low false positive rate?
 
 . . .
 
-* A classifier is calibrated if in the given time period, the percentage of days it actually rained when the forecast predicted $x \%$ percent chance of rain is $x \%$
+* In general, we can obtain predicted class for each observation by comparing the predicted probability to some cutoff $c$ (typically, $c=0.5$) $$\hat{Y} =\left\{\begin{array}{ll} 1, & \hat{p}(x)>c \\ 0, & \hat{p}(x) \leq c \end{array}\right.$$
 
-* In short, for a model to be calibrated, the actual probabilities should match the predicted probabilities
+. . .
+
+* ROC curve: check all possible values for the cutoff $c$, plot the power against false positive rate
+
+## Receiver operating characteristic (ROC) curve
+
+* Want to maximize the __area under the curve (AUC)__
+
+```{r out.width='60%', echo = FALSE, fig.align='center'}
+knitr::include_graphics("https://bradleyboehmke.github.io/HOML/02-modeling-process_files/figure-html/modeling-process-roc-1.png")
+```
+
+## Calculating AUC & plotting an ROC curve
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+library(pROC)
+pima_roc <- pima |> 
+  mutate(pred_prob = predict(pima_logit, 
+                             type = "response")) |> 
+  roc(type, pred_prob)
+# str(pima_roc)
+pima_roc$auc
+```
+
+```{r}
+#| eval: false
+tibble(threshold = pima_roc$thresholds,
+       specificity = pima_roc$specificities,
+       sensitivity = pima_roc$sensitivities) |> 
+  ggplot(aes(x = 1 - specificity, y = sensitivity)) +
+  geom_path() +
+  geom_abline(slope = 1, intercept = 0, 
+              linetype = "dashed")
+```
+
+
+:::
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| echo: false
+tibble(threshold = pima_roc$thresholds,
+       specificity = pima_roc$specificities,
+       sensitivity = pima_roc$sensitivities) |> 
+  ggplot(aes(x = 1 - specificity, y = sensitivity)) +
+  geom_path() +
+  geom_abline(slope = 1, intercept = 0, 
+              linetype = "dashed")
+```
+
+:::
+:::
+
+## Calibration
+
+* Classification models go beyond providing binary predictions and instead produce predicted probabilities for each class
+
+. . .
+
+* It might be desirable to assess the quality of the predicted probabilities instead of just the accuracy of the crude predicted class labels
+
+. . .
+
+* From The Signal and the Noise (by Nate Silver):
+
+> One of the most important tests of a forecast — I would argue that it is the single most important one — is called calibration. Out of all the times you said there was a 40 percent chance of rain, how often did rain actually occur? If, over the long run, it really did rain about 40 percent of the time, that means your forecasts were well calibrated. If it wound up raining just 20 percent of the time instead, or 60 percent of the time, they weren’t.
+
+## Calibration
+
+* For a model to be calibrated, the actual probabilities should match the predicted probabilities
+
+. . .
+
+* For example, if we’ve got a model which tells us that the probability of rain on a certain class of days is 50%, it had better rain on half of those days in reality, or there model is just wrong about the probability of rain
 
 . . .
 
