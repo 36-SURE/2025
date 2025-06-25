@@ -22,6 +22,8 @@ title: "Lectures"
 | Lecture 13 | June 23 | Data wrangling with R's data.table package                | [slides](lectures/13-datatable.qmd)      |
 | Lecture 14 | June 24 | Supervised learning: regularization                       | [slides](lectures/14-regularization.qmd) |
 | Lecture 15 | June 25 | Supervised learning: logistic regression                  | [slides](lectures/15-logistic.qmd)       |
+| Lecture 16 | June 26 | Supervised learning: generalized linear models            | [slides](lectures/16-glm.qmd)            |
+
 
 <!--
 
@@ -29,7 +31,7 @@ PLAN, for now
 subject to change
 
 
-| Lecture 16 | June 26 | Supervised learning: generalized linear models            | [slides](lectures/16-glm.qmd)            |
+
 
 
 | Lecture 17 | XXXXXXX | Unsupervised learning: Gaussian mixture models            | [slides](lectures/17-mixture.qmd)        |

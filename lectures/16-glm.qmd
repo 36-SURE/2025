@@ -32,7 +32,11 @@ knitr::opts_chunk$set(
 
 * When the response is continuous, we can use linear regression 
 
+. . .
+
 * When the response is binary categorical, we can use logistic regression
+
+. . .
 
 * Which model do we use if the response contains discrete counts?
 
@@ -70,7 +74,11 @@ See also: [Exponential family](https://en.wikipedia.org/wiki/Exponential_family)
 
 1. $Y \sim N(\mu, \sigma ^2)$
 
+. . .
+
 2. Linear predictor: $\beta_0 + \beta_1 X_1 + \dots + \beta_p X_p$
+
+. . .
 
 3. Identity link function: $g(\mu) = \mu$
 
@@ -78,9 +86,15 @@ See also: [Exponential family](https://en.wikipedia.org/wiki/Exponential_family)
 
 1. $Y \sim \text{Binomial}(n,p)$
 
+. . .
+
 2. Linear predictor: $\beta_0 + \beta_1 X_1 + \dots + \beta_p X_p$
 
+. . .
+
 3. Logit link function: $\displaystyle g(p) = \log\left(\frac{p}{1-p}\right)$
+
+. . .
 
 (Recall: We cannot just simply model $p = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p$ since the binary response can only take on values of either 0 or 1)
 
@@ -88,9 +102,15 @@ See also: [Exponential family](https://en.wikipedia.org/wiki/Exponential_family)
 
 1. $Y \sim \text{Poisson}(\lambda)$
 
+. . .
+
 2. Linear predictor: $\beta_0 + \beta_1 X_1 + \dots + \beta_p X_p$
 
+. . .
+
 3. Log link function: $\displaystyle g(\lambda) = \log (\lambda)$
+
+. . .
 
 (We cannot just simply model $\lambda = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p$ since the counts can only take on non-negative integers)
 
@@ -131,7 +151,7 @@ __The normal distribution doesn't hold here__
 
 . . .
 
-- distribution of independent event occurences in an interval, e.g. soccer goals in a match
+- distribution of independent event occurrences in an interval, e.g. soccer goals in a match
 
 - $\lambda$ is the average number of the events in an interval
 
@@ -181,9 +201,11 @@ Given $Y$ with values limited to being either 0 or positive integers, with no up
 
 ## More distributions
 
-[Gamma distribution](https://en.wikipedia.org/wiki/Gamma_distribution) (application: modeling TODO INSERT THIS)
+[Gamma distribution](https://en.wikipedia.org/wiki/Gamma_distribution)
 
-+ $Y \mid x$ continuous, but bounded between 0 and $\infty$
+* $Y \mid x$ continuous, but bounded between 0 and $\infty$
+
+* Application: modeling continuous, positive, and (right) skewed response
 
 ```{r out.width='50%', echo = FALSE, fig.align='center'}
 knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Gamma_distribution_pdf.svg/650px-Gamma_distribution_pdf.svg.png")
@@ -191,9 +213,11 @@ knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/thumb/e/
 
 ## More distributions
 
-[Beta distribution](https://en.wikipedia.org/wiki/Beta_distribution)  (application: modeling TODO INSERT THIS)
+[Beta distribution](https://en.wikipedia.org/wiki/Beta_distribution)
 
-+ $Y \mid x$ continuous, but bounded between 0 and 1
+* $Y \mid x$ continuous, but bounded between 0 and 1
+
+* Application: modeling proportions (see [here](https://www.andrewheiss.com/blog/2021/11/08/beta-regression-guide) for an example)
 
 ```{r out.width='50%', echo = FALSE, fig.align='center'}
 knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Beta_distribution_pdf.svg/650px-Beta_distribution_pdf.svg.png")
@@ -201,7 +225,7 @@ knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/thumb/f/
 
 ## Modeling count data
 
-Goals scored across men’s soccer matches in the five biggest European leagues during the 2023-2024 season, via the [worldfootballR](https://jaseziv.github.io/worldfootballR) package
+Goals scored across men’s soccer matches in the five biggest European leagues during the 2024-25 season, via the [worldfootballR](https://jaseziv.github.io/worldfootballR) package
 
 ```{r}
 library(tidyverse)
@@ -276,7 +300,6 @@ The expected number of goals changes (is multiplied) by a factor of 1.13 (95% CI
 ## Model residuals and goodness-of-fit measures 
 
 *   Pearson residuals: $\displaystyle r_i = \frac{y_i-\hat{\lambda}_i}{\sqrt{\hat{\lambda}_i}}$
-
 
 *   Deviance residuals: $\displaystyle d_i = \textrm{sign}(y_i-\hat{\lambda}_i) \sqrt{2 \left[y_i \log\left(\frac{y_i}{\hat{\lambda}_i}\right) -(y_i - \hat{\lambda}_i) \right]}$
 
