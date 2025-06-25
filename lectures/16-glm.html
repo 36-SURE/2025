@@ -214,10 +214,18 @@
 <section id="recap" class="slide level2">
 <h2>Recap</h2>
 <ul>
-<li><p>When the response is continuous, we can use linear regression</p></li>
-<li><p>When the response is binary categorical, we can use logistic regression</p></li>
-<li><p>Which model do we use if the response contains discrete counts?</p></li>
+<li>When the response is continuous, we can use linear regression</li>
 </ul>
+<div class="fragment">
+<ul>
+<li>When the response is binary categorical, we can use logistic regression</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Which model do we use if the response contains discrete counts?</li>
+</ul>
+</div>
 </section>
 <section id="generalized-linear-models-glms" class="slide level2">
 <h2>Generalized linear models (GLMs)</h2>
@@ -248,28 +256,56 @@
 <section id="linear-regression" class="slide level2">
 <h2>Linear regression</h2>
 <ol type="1">
-<li><p><span class="math inline">\(Y \sim N(\mu, \sigma ^2)\)</span></p></li>
-<li><p>Linear predictor: <span class="math inline">\(\beta_0 + \beta_1 X_1 + \dots + \beta_p X_p\)</span></p></li>
-<li><p>Identity link function: <span class="math inline">\(g(\mu) = \mu\)</span></p></li>
+<li><span class="math inline">\(Y \sim N(\mu, \sigma ^2)\)</span></li>
 </ol>
+<div class="fragment">
+<ol start="2" type="1">
+<li>Linear predictor: <span class="math inline">\(\beta_0 + \beta_1 X_1 + \dots + \beta_p X_p\)</span></li>
+</ol>
+</div>
+<div class="fragment">
+<ol start="3" type="1">
+<li>Identity link function: <span class="math inline">\(g(\mu) = \mu\)</span></li>
+</ol>
+</div>
 </section>
 <section id="logistic-regression" class="slide level2">
 <h2>Logistic regression</h2>
 <ol type="1">
-<li><p><span class="math inline">\(Y \sim \text{Binomial}(n,p)\)</span></p></li>
-<li><p>Linear predictor: <span class="math inline">\(\beta_0 + \beta_1 X_1 + \dots + \beta_p X_p\)</span></p></li>
-<li><p>Logit link function: <span class="math inline">\(\displaystyle g(p) = \log\left(\frac{p}{1-p}\right)\)</span></p></li>
+<li><span class="math inline">\(Y \sim \text{Binomial}(n,p)\)</span></li>
 </ol>
+<div class="fragment">
+<ol start="2" type="1">
+<li>Linear predictor: <span class="math inline">\(\beta_0 + \beta_1 X_1 + \dots + \beta_p X_p\)</span></li>
+</ol>
+</div>
+<div class="fragment">
+<ol start="3" type="1">
+<li>Logit link function: <span class="math inline">\(\displaystyle g(p) = \log\left(\frac{p}{1-p}\right)\)</span></li>
+</ol>
+</div>
+<div class="fragment">
 <p>(Recall: We cannot just simply model <span class="math inline">\(p = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p\)</span> since the binary response can only take on values of either 0 or 1)</p>
+</div>
 </section>
 <section id="poisson-regression" class="slide level2">
 <h2>Poisson regression</h2>
 <ol type="1">
-<li><p><span class="math inline">\(Y \sim \text{Poisson}(\lambda)\)</span></p></li>
-<li><p>Linear predictor: <span class="math inline">\(\beta_0 + \beta_1 X_1 + \dots + \beta_p X_p\)</span></p></li>
-<li><p>Log link function: <span class="math inline">\(\displaystyle g(\lambda) = \log (\lambda)\)</span></p></li>
+<li><span class="math inline">\(Y \sim \text{Poisson}(\lambda)\)</span></li>
 </ol>
+<div class="fragment">
+<ol start="2" type="1">
+<li>Linear predictor: <span class="math inline">\(\beta_0 + \beta_1 X_1 + \dots + \beta_p X_p\)</span></li>
+</ol>
+</div>
+<div class="fragment">
+<ol start="3" type="1">
+<li>Log link function: <span class="math inline">\(\displaystyle g(\lambda) = \log (\lambda)\)</span></li>
+</ol>
+</div>
+<div class="fragment">
 <p>(We cannot just simply model <span class="math inline">\(\lambda = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p\)</span> since the counts can only take on non-negative integers)</p>
+</div>
 </section>
 <section id="generalization-example" class="slide level2">
 <h2>Generalization example</h2>
@@ -309,7 +345,7 @@
 </div>
 <div class="fragment">
 <ul>
-<li><p>distribution of independent event occurences in an interval, e.g.&nbsp;soccer goals in a match</p></li>
+<li><p>distribution of independent event occurrences in an interval, e.g.&nbsp;soccer goals in a match</p></li>
 <li><p><span class="math inline">\(\lambda\)</span> is the average number of the events in an interval</p></li>
 </ul>
 </div>
@@ -351,23 +387,25 @@
 </section>
 <section id="more-distributions" class="slide level2">
 <h2>More distributions</h2>
-<p><a href="https://en.wikipedia.org/wiki/Gamma_distribution">Gamma distribution</a> (application: modeling TODO INSERT THIS)</p>
+<p><a href="https://en.wikipedia.org/wiki/Gamma_distribution">Gamma distribution</a></p>
 <ul>
-<li><span class="math inline">\(Y \mid x\)</span> continuous, but bounded between 0 and <span class="math inline">\(\infty\)</span></li>
+<li><p><span class="math inline">\(Y \mid x\)</span> continuous, but bounded between 0 and <span class="math inline">\(\infty\)</span></p></li>
+<li><p>Application: modeling continuous, positive, and (right) skewed response</p></li>
 </ul>
 
 <img data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Gamma_distribution_pdf.svg/650px-Gamma_distribution_pdf.svg.png" class="quarto-figure quarto-figure-center r-stretch" style="width:50.0%"></section>
 <section id="more-distributions-1" class="slide level2">
 <h2>More distributions</h2>
-<p><a href="https://en.wikipedia.org/wiki/Beta_distribution">Beta distribution</a> (application: modeling TODO INSERT THIS)</p>
+<p><a href="https://en.wikipedia.org/wiki/Beta_distribution">Beta distribution</a></p>
 <ul>
-<li><span class="math inline">\(Y \mid x\)</span> continuous, but bounded between 0 and 1</li>
+<li><p><span class="math inline">\(Y \mid x\)</span> continuous, but bounded between 0 and 1</p></li>
+<li><p>Application: modeling proportions (see <a href="https://www.andrewheiss.com/blog/2021/11/08/beta-regression-guide">here</a> for an example)</p></li>
 </ul>
 
 <img data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Beta_distribution_pdf.svg/650px-Beta_distribution_pdf.svg.png" class="quarto-figure quarto-figure-center r-stretch" style="width:50.0%"></section>
 <section id="modeling-count-data" class="slide level2">
 <h2>Modeling count data</h2>
-<p>Goals scored across men’s soccer matches in the five biggest European leagues during the 2023-2024 season, via the <a href="https://jaseziv.github.io/worldfootballR">worldfootballR</a> package</p>
+<p>Goals scored across men’s soccer matches in the five biggest European leagues during the 2024-25 season, via the <a href="https://jaseziv.github.io/worldfootballR">worldfootballR</a> package</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_light</span>())</span>
