@@ -393,12 +393,14 @@ summary(goals_zip)
 
 ## Model comparison: Poisson vs ZIP
 
+* 5-fold cross-validation: assigning matches to folds (given the structure of the data---each match has 2 rows)
+
 ```{r}
 set.seed(2008)
-n_folds <- 5
+N_FOLDS <- 5
 goals_folds <- goals |> 
   distinct(match_id) |>
-  mutate(match_fold = sample(rep(1:n_folds, length.out = n())))
+  mutate(match_fold = sample(rep(1:N_FOLDS, length.out = n())))
 
 # goals_folds |> count(match_fold)
 
@@ -409,58 +411,41 @@ goals <- goals |>
 ## Cross-validation
 
 ```{r}
-poisson_cv <- function(k) {
-
-  train_goals <- goals |> 
-    filter(match_fold != k)
-  test_goals <- goals |> 
-    filter(match_fold == k)
-
-  poisson_fit <- glm(n_goals ~ league + is_home, family = "poisson", data = train_goals)
-  poisson_test_preds <- predict(poisson_fit, newdata = test_goals, type = "response")
+goals_cv <- function(x) {
+  goals_train <- goals |> filter(match_fold != x)
+  goals_test <- goals |> filter(match_fold == x)
   
-  # return a table with RMSE and fold id
-  poisson_out <- tibble(rmse = sqrt(mean((test_goals$n_goals - poisson_test_preds) ^ 2)), 
-                        match_fold = k)
-  return(poisson_out)
+  poisson_fit <- glm(n_goals ~ league + is_home, family = "poisson", data = goals_train)
+  zip_fit <- zeroinfl(n_goals ~ league + is_home, data = goals_train)
+  
+  goals_out <- tibble(
+    poisson_pred = predict(poisson_fit, newdata = goals_test, type = "response"),
+    zip_pred = predict(zip_fit, newdata = goals_test),
+    test_actual = goals_test$n_goals,
+    test_fold = x
+  )
+  return(goals_out)  
 }
 
-poisson_cv_results <- map(1:n_folds, poisson_cv) |> 
-  list_rbind()
+goals_preds <- map(1:N_FOLDS, goals_cv) |> 
+  bind_rows()
 ```
 
-## Cross-validation
-
-```{r}
-zip_cv <- function(k) {
-
-  train_goals <- goals |> 
-    filter(match_fold != k)
-  test_goals <- goals |> 
-    filter(match_fold == k)
-  
-  zip_fit <- zeroinfl(n_goals ~ league + is_home, data = train_goals)
-  zip_test_preds <- predict(zip_fit, newdata = test_goals)
-  
-  zip_out <- tibble(rmse = sqrt(mean((test_goals$n_goals - zip_test_preds)^2)),
-                    match_fold = k)
-  return(zip_out)
-}
-
-zip_cv_results <- map(1:n_folds, zip_cv) |> 
-  list_rbind()
-```
 
 ## Out-of-sample comparison
 
 Which model would you select?
 
 ```{r}
-poisson_cv_results |> 
-  summarize(avg_rmse = mean(rmse))
-
-zip_cv_results |> 
-  summarize(avg_rmse = mean(rmse))
+goals_preds |> 
+  pivot_longer(cols = poisson_pred:zip_pred, 
+               names_to = "model", 
+               values_to = "test_pred") |> 
+  group_by(model, test_fold) |>
+  summarize(rmse = sqrt(mean((test_actual - test_pred)^2))) |> 
+  group_by(model) |> 
+  summarize(cv_rmse = mean(rmse),
+            se_rmse = sd(rmse) / sqrt(N_FOLDS))
 ```
 
 . . .
