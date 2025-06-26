@@ -1474,28 +1474,21 @@
     "href": "lectures/16-glm.html#model-comparison-poisson-vs-zip",
     "title": "Supervised learning: generalized linear models",
     "section": "Model comparison: Poisson vs ZIP",
-    "text": "Model comparison: Poisson vs ZIP\n\nset.seed(2008)\nn_folds &lt;- 5\ngoals_folds &lt;- goals |&gt; \n  distinct(match_id) |&gt;\n  mutate(match_fold = sample(rep(1:n_folds, length.out = n())))\n\n# goals_folds |&gt; count(match_fold)\n\ngoals &lt;- goals |&gt; \n  left_join(goals_folds, by = \"match_id\")"
+    "text": "Model comparison: Poisson vs ZIP\n\n5-fold cross-validation: assigning matches to folds (given the structure of the data—each match has 2 rows)\n\n\nset.seed(2008)\nN_FOLDS &lt;- 5\ngoals_folds &lt;- goals |&gt; \n  distinct(match_id) |&gt;\n  mutate(match_fold = sample(rep(1:N_FOLDS, length.out = n())))\n\n# goals_folds |&gt; count(match_fold)\n\ngoals &lt;- goals |&gt; \n  left_join(goals_folds, by = \"match_id\")"
   },
   {
     "objectID": "lectures/16-glm.html#cross-validation",
     "href": "lectures/16-glm.html#cross-validation",
     "title": "Supervised learning: generalized linear models",
     "section": "Cross-validation",
-    "text": "Cross-validation\n\npoisson_cv &lt;- function(k) {\n\n  train_goals &lt;- goals |&gt; \n    filter(match_fold != k)\n  test_goals &lt;- goals |&gt; \n    filter(match_fold == k)\n\n  poisson_fit &lt;- glm(n_goals ~ league + is_home, family = \"poisson\", data = train_goals)\n  poisson_test_preds &lt;- predict(poisson_fit, newdata = test_goals, type = \"response\")\n  \n  # return a table with RMSE and fold id\n  poisson_out &lt;- tibble(rmse = sqrt(mean((test_goals$n_goals - poisson_test_preds) ^ 2)), \n                        match_fold = k)\n  return(poisson_out)\n}\n\npoisson_cv_results &lt;- map(1:n_folds, poisson_cv) |&gt; \n  list_rbind()"
-  },
-  {
-    "objectID": "lectures/16-glm.html#cross-validation-1",
-    "href": "lectures/16-glm.html#cross-validation-1",
-    "title": "Supervised learning: generalized linear models",
-    "section": "Cross-validation",
-    "text": "Cross-validation\n\nzip_cv &lt;- function(k) {\n\n  train_goals &lt;- goals |&gt; \n    filter(match_fold != k)\n  test_goals &lt;- goals |&gt; \n    filter(match_fold == k)\n  \n  zip_fit &lt;- zeroinfl(n_goals ~ league + is_home, data = train_goals)\n  zip_test_preds &lt;- predict(zip_fit, newdata = test_goals)\n  \n  zip_out &lt;- tibble(rmse = sqrt(mean((test_goals$n_goals - zip_test_preds)^2)),\n                    match_fold = k)\n  return(zip_out)\n}\n\nzip_cv_results &lt;- map(1:n_folds, zip_cv) |&gt; \n  list_rbind()"
+    "text": "Cross-validation\n\ngoals_cv &lt;- function(x) {\n  goals_train &lt;- goals |&gt; filter(match_fold != x)\n  goals_test &lt;- goals |&gt; filter(match_fold == x)\n  \n  poisson_fit &lt;- glm(n_goals ~ league + is_home, family = \"poisson\", data = goals_train)\n  zip_fit &lt;- zeroinfl(n_goals ~ league + is_home, data = goals_train)\n  \n  goals_out &lt;- tibble(\n    poisson_pred = predict(poisson_fit, newdata = goals_test, type = \"response\"),\n    zip_pred = predict(zip_fit, newdata = goals_test),\n    test_actual = goals_test$n_goals,\n    test_fold = x\n  )\n  return(goals_out)  \n}\n\ngoals_preds &lt;- map(1:N_FOLDS, goals_cv) |&gt; \n  bind_rows()"
   },
   {
     "objectID": "lectures/16-glm.html#out-of-sample-comparison",
     "href": "lectures/16-glm.html#out-of-sample-comparison",
     "title": "Supervised learning: generalized linear models",
     "section": "Out-of-sample comparison",
-    "text": "Out-of-sample comparison\nWhich model would you select?\n\npoisson_cv_results |&gt; \n  summarize(avg_rmse = mean(rmse))\n\n# A tibble: 1 × 1\n  avg_rmse\n     &lt;dbl&gt;\n1     1.23\n\nzip_cv_results |&gt; \n  summarize(avg_rmse = mean(rmse))\n\n# A tibble: 1 × 1\n  avg_rmse\n     &lt;dbl&gt;\n1     1.23\n\n\n\nRemember: Occam’s razor"
+    "text": "Out-of-sample comparison\nWhich model would you select?\n\ngoals_preds |&gt; \n  pivot_longer(cols = poisson_pred:zip_pred, \n               names_to = \"model\", \n               values_to = \"test_pred\") |&gt; \n  group_by(model, test_fold) |&gt;\n  summarize(rmse = sqrt(mean((test_actual - test_pred)^2))) |&gt; \n  group_by(model) |&gt; \n  summarize(cv_rmse = mean(rmse),\n            se_rmse = sd(rmse) / sqrt(N_FOLDS))\n\n# A tibble: 2 × 3\n  model        cv_rmse se_rmse\n  &lt;chr&gt;          &lt;dbl&gt;   &lt;dbl&gt;\n1 poisson_pred    1.23  0.0107\n2 zip_pred        1.23  0.0107\n\n\n\nRemember: Occam’s razor"
   },
   {
     "objectID": "lectures/16-glm.html#resources",
