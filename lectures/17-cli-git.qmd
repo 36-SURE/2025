@@ -1,0 +1,199 @@
+---
+title: "The command line<br>and `git`"
+author: "<br>SURE 2025<br><br>Department of Statistics & Data Science<br>Carnegie Mellon University"
+footer:  "[36-SURE.github.io/2025](https://36-sure.github.io/2025)"
+format:
+  revealjs:
+    theme: theme.scss
+    chalkboard: true
+    smaller: true
+    slide-number: c/t
+    code-line-numbers: false
+    linestretch: 1.25
+    html-math-method:
+      method: mathjax
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  fig.height = 9
+)
+library(tidyverse)
+ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
+```
+
+# The command line
+
+## Why command line?
+
+* It's simply a text-based way to communicate with your computer
+
+* Offers direct control over your computer
+
+* Enables complex tasks and automation that are not easily achievable through graphical interfaces
+
+## Basic commands
+
+* `pwd`: print working directory
+
+* `ls`: list files/folders (in your current directory)
+
+* `cd`: change directory (e.g. `cd ..` goes up one level)
+
+* `mkdir`: make directory (i.e. create a new folder)
+
+* `touch`: create an empty file (often used for quick testing)
+
+* `cp`: copy a file/folder to a specific location
+
+* `mv`: move (cut) a file/folder
+
+* `rm`: remove a file/folder
+
+# We'll do it live!
+
+# Version control
+
+## About
+
+* Version control records changes to files over time (snapshots)
+
+* Why? So we can recall specific versions later
+
+* Rather than doing this...
+
+<center>
+![](../images/saving.jpg){width=600}
+</center>
+
+## The struggle
+
+<center>
+![](../images/final.png){width=440}
+</center>
+
+## Why version control?
+
+* Collaboration
+      
+* Reverting
+      
+* Tracking changes/history
+
+## Git
+
+* Git is a *distributed* version control system
+
+* This means that everyone working on a project has a complete copy of the project's history on their own computer
+
+* Distributed nature of Git: if one's computer crashes, the project history is safe because everyone else has a copy
+
+## Git vs GitHub
+
+Git and GitHub are NOT the same (just like `R` and `RStudio`...)
+
+* Git: the tool itself, does the actual work
+
+* GitHub: website that hosts Git repositories, built around Git (think of it as a place to store and share your Git projects)
+
+* Alternatives to GitHub: GitLab, Bitbucket (but GitHub is by far the most popular)
+
+# Basic Git workflow
+
+## Initializing a repository
+
+We can create or turn an existing directory/folder into a Git repository
+    
+To turn a folder into a git repository, open your terminal, navigate to the desired folder (using `cd`) and then type:
+
+```bash
+git init
+```
+
+We can `clone` a git repository (using a web url)
+    
+```bash
+git clone <repo-url>
+```
+
+## Staging changes
+
+* Before saving a version/commit, you need to tell Git which changes you want to include. This is called staging.
+
+```bash
+git add <file>  # e.g., git add new_file.txt
+```
+
+* If we replace `<file>` by `.`, then everything that was changed will be staged
+
+* To see what's been staged
+
+```bash
+git status
+```
+
+## Committing changes and viewing history
+
+* A commit saves your staged changes
+
+```bash
+git commit -m "Insert commit message"
+```
+  
+* Commit messages should be meaningful and descriptive
+
+* To see the history of commits (messages, author, date)
+
+```bash
+git log
+```
+
+## The `.gitignore` file
+
+* `.gitignore` is a text file that tells Git which files/folders to ignore
+
+* Prevent them from being accidentally added to your repository and keeps your commit history clean
+
+* Ignore unnecessary files (e.g. large files, derivative files, system-specific files) that clutter your repository
+
+* Example `.gitignore`
+
+```
+**/*.DS_Store
+**/*.pdf
+data/
+```
+
+
+## push & pull
+
+* push: upload your changes to a remote repository (like on GitHub)
+  
+```bash
+git push
+```
+
+* pull: dowload changes from a remote repository to your local computer
+  
+```bash
+git pull
+```
+  
+* `git pull` before you start editing a file to avoid conflicts
+
+
+## Resources
+
+* [Git documentation](https://git-scm.com/doc)
+  
+* [Happy Git and GitHub for the useR](https://happygitwithr.com/)
+
+* [Git practice](https://gitexercises.fracz.com/)
+
+# We'll do it live!
