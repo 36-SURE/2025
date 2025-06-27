@@ -171,7 +171,7 @@ data/
 ```
 
 
-## push & pull
+## push, pull, and branch
 
 * push: upload your changes to a remote repository (like on GitHub)
   
@@ -186,6 +186,8 @@ git pull
 ```
   
 * `git pull` before you start editing a file to avoid conflicts
+
+* Branches: see [here](https://happygitwithr.com/git-branches)
 
 
 ## Resources
