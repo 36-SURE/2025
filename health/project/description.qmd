@@ -110,11 +110,13 @@ Your second checkpoint presentation should be structured as follows.
 
 ## Analysis
 
-Your analysis should focus on both:
+Your analysis should focus on:
 
 **Exploratory data analysis:** Create visualizations to explore the underlying structure of the data and gain insights about distributions and relationships between variables. These should be ideally based on reasoned hypotheses.
 
 **Statistical modeling:** Demonstrate the use of statistical and machine learning modeling techniques. This may involve justifications for your choice of model (e.g., comparison with model specifications such as using different predictors, or with other methods), and then any relevant interpretation of the model with regards to your project’s topic. Depending on your project, the model(s) you rely on may be used for either an inference (i.e., interpreting coefficients) or prediction task. The model you choose just needs to be motivated by your question of interest.
+
+**Recommendations**: Make recommendations to UHG/Optum on specific targeted programs that can address the question of interest. Use evidence found in your analysis to back up your recommendations. This should be aimed at a non-technical reader.
 
 ## Data
 
