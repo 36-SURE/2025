@@ -595,7 +595,7 @@
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="17-nonparametric_files/figure-revealjs/unnamed-chunk-8-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="19-nonparametric_files/figure-revealjs/unnamed-chunk-8-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -631,7 +631,7 @@
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="17-nonparametric_files/figure-revealjs/unnamed-chunk-10-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="19-nonparametric_files/figure-revealjs/unnamed-chunk-10-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -705,7 +705,7 @@
 <span id="cb10-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">draw</span>(hr_gam)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="17-nonparametric_files/figure-revealjs/unnamed-chunk-14-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1440"></section>
+<img data-src="19-nonparametric_files/figure-revealjs/unnamed-chunk-14-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1440"></section>
 <section id="convert-to-probability-scale" class="slide level2">
 <h2>Convert to probability scale</h2>
 <p>Centered on average value of 0.5 because it’s the partial effect without the intercept</p>
@@ -713,7 +713,7 @@
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">draw</span>(hr_gam, <span class="at">fun =</span> plogis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="17-nonparametric_files/figure-revealjs/unnamed-chunk-15-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1440"></section>
+<img data-src="19-nonparametric_files/figure-revealjs/unnamed-chunk-15-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1440"></section>
 <section id="include-intercept-in-plot" class="slide level2">
 <h2>Include intercept in plot</h2>
 <p>Intercept reflects relatively rare occurence of HRs</p>
@@ -721,14 +721,14 @@
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">draw</span>(hr_gam, <span class="at">fun =</span> plogis, <span class="at">constant =</span> <span class="fu">coef</span>(hr_gam)[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="17-nonparametric_files/figure-revealjs/unnamed-chunk-16-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
+<img data-src="19-nonparametric_files/figure-revealjs/unnamed-chunk-16-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
 <section id="model-diagnostics" class="slide level2">
 <h2>Model diagnostics</h2>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">appraise</span>(hr_gam)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="17-nonparametric_files/figure-revealjs/unnamed-chunk-17-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1152"></section>
+<img data-src="19-nonparametric_files/figure-revealjs/unnamed-chunk-17-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1152"></section>
 <section id="model-checking" class="slide level2">
 <h2>Model checking</h2>
 <p>Check whether more basis functions are needed with <code>gam.check()</code> based on an approximate test</p>
@@ -754,7 +754,7 @@ s(launch_angle) 9.00 3.92    0.99   0.590
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
-<img data-src="17-nonparametric_files/figure-revealjs/unnamed-chunk-18-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
+<img data-src="19-nonparametric_files/figure-revealjs/unnamed-chunk-18-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
 <section id="evaluate-prediction-accuracy" class="slide level2">
 <h2>Evaluate prediction accuracy</h2>
 <ul>
@@ -837,7 +837,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span id="cb26-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour_filled</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="17-nonparametric_files/figure-revealjs/unnamed-chunk-25-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1440"></section>
+<img data-src="19-nonparametric_files/figure-revealjs/unnamed-chunk-25-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1440"></section>
 <section id="continuous-interactions-as-a-smooth-surface-1" class="slide level2">
 <h2>Continuous interactions as a smooth surface</h2>
 <p>Plot the predicted heatmap (response on the probability scale)</p>
@@ -849,7 +849,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span id="cb27-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour_filled</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="17-nonparametric_files/figure-revealjs/unnamed-chunk-26-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1440"></section>
+<img data-src="19-nonparametric_files/figure-revealjs/unnamed-chunk-26-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1440"></section>
 <section id="evaluate-predictions" class="slide level2">
 <h2>Evaluate predictions</h2>
 <ul>
