@@ -1607,7 +1607,7 @@
     "href": "lectures/19-nonparametric.html#smoothing-splines-1",
     "title": "Supervised learning: nonparametric regression",
     "section": "Smoothing splines",
-    "text": "Smoothing splines\nThe most commonly considered case: cubic smoothing splines\n\\[\\text{minimize }\\sum_{i=1}^n (y_i - s(x_i))^2 + \\lambda \\int s''(x)^2dx\\]\n\nFirst term: RSS, tries to make \\(s(x)\\) fit the data at each \\(x_i\\)\n\n\n\nSecond term: roughness penalty, controls how wiggly \\(s(x)\\) is via tuning parameter \\(\\lambda \\ge 0\\)\n\n\n\nBalances the accuracy of the fit and the flexibility of the function\n\n\n\n\nThe smaller \\(\\lambda\\), the more wiggly the function\n\n\n\n\nAs \\(\\lambda \\rightarrow \\infty\\), \\(s(x)\\) becomes linear"
+    "text": "Smoothing splines\n\nThe most commonly considered case: cubic smoothing splines\n\n\\[\\text{minimize }\\sum_{i=1}^n (y_i - s(x_i))^2 + \\lambda \\int s''(x)^2dx\\]\n\n\nFirst term: RSS, tries to make \\(s(x)\\) fit the data at each \\(x_i\\)\n\n\n\n\nSecond term: roughness penalty, controls how wiggly \\(s(x)\\) is via tuning parameter \\(\\lambda \\ge 0\\)\n\nBalances the accuracy of the fit and the flexibility of the function\nThe smaller \\(\\lambda\\), the more wiggly the function\nAs \\(\\lambda \\rightarrow \\infty\\), \\(s(x)\\) becomes linear"
   },
   {
     "objectID": "lectures/19-nonparametric.html#smoothing-splines-2",
@@ -1621,7 +1621,7 @@
     "href": "lectures/19-nonparametric.html#predicting-mlb-hr-probability",
     "title": "Supervised learning: nonparametric regression",
     "section": "Predicting MLB HR probability",
-    "text": "Predicting MLB HR probability\n\nData available via the pybaseball library in python\nStatcast data include pitch-level information, pulled from baseballsavant.com\nExample data collected for the entire month of May 2024\n\n\nlibrary(tidyverse)\nsavant &lt;- read_csv(\"https://raw.githubusercontent.com/36-SURE/2024/main/data/savant.csv\")\nbatted_balls &lt;- savant |&gt; \n  filter(type == \"X\") |&gt; \n  mutate(is_hr = as.numeric(events == \"home_run\")) |&gt; \n  filter(!is.na(launch_angle), !is.na(launch_speed), !is.na(is_hr))\n# head(batted_balls)"
+    "text": "Predicting MLB HR probability\n\nData available via the pybaseball library in python\nStatcast data include pitch-level information, pulled from baseballsavant.com\nExample data collected for the entire month of May 2024\n\n\nlibrary(tidyverse)\nsavant &lt;- read_csv(\"https://raw.githubusercontent.com/36-SURE/2025/main/data/savant.csv\")\nbatted_balls &lt;- savant |&gt; \n  filter(type == \"X\") |&gt; \n  mutate(is_hr = as.numeric(events == \"home_run\")) |&gt; \n  filter(!is.na(launch_angle), !is.na(launch_speed), !is.na(is_hr))\n# glimpse(batted_balls)"
   },
   {
     "objectID": "lectures/19-nonparametric.html#predicting-hrs-with-launch-angle-and-exit-velocity",
@@ -1649,7 +1649,7 @@
     "href": "lectures/19-nonparametric.html#view-model-summary",
     "title": "Supervised learning: nonparametric regression",
     "section": "View model summary",
-    "text": "View model summary\n\nmgcv performs hypothesis tests for the smooth terms — these are roughly the equivalent of an \\(F\\)-test for dropping each term\nEffective degrees of freedom (edf): basically the number of free parameters required to represent the function\nIn a smoothing spline, different choices of \\(\\lambda\\) correspond to different values of the edf, representing different amounts of smoothness\n\n\n# summary(hr_gam)\nlibrary(broom)\n# glance(hr_gam)\ntidy(hr_gam)\n\n# A tibble: 2 × 5\n  term              edf ref.df statistic p.value\n  &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;\n1 s(launch_speed)  1.00   1.00      388.       0\n2 s(launch_angle)  3.92   4.24      251.       0\n\ntidy(hr_gam, parametric = TRUE)\n\n# A tibble: 1 × 5\n  term        estimate std.error statistic p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;\n1 (Intercept)    -34.8      11.8     -2.94 0.00329"
+    "text": "View model summary\n\nmgcv performs hypothesis tests for the smooth terms — these are roughly the equivalent of an \\(F\\)-test for dropping each term\nEffective degrees of freedom (edf): basically the number of free parameters required to represent the function\nIn a smoothing spline, different choices of \\(\\lambda\\) correspond to different values of the edf, representing different amounts of smoothness\n\n\n# summary(hr_gam)\nlibrary(broom)\n# glance(hr_gam)\ntidy(hr_gam)\n\n# A tibble: 2 × 5\n  term              edf ref.df statistic p.value\n  &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;\n1 s(launch_speed)  1.00   1.00      387.       0\n2 s(launch_angle)  3.46   3.78      246.       0\n\ntidy(hr_gam, parametric = TRUE)\n\n# A tibble: 1 × 5\n  term        estimate std.error statistic p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;\n1 (Intercept)    -33.6      11.5     -2.91 0.00362"
   },
   {
     "objectID": "lectures/19-nonparametric.html#visualize-partial-response-functions",
@@ -1670,7 +1670,7 @@
     "href": "lectures/19-nonparametric.html#include-intercept-in-plot",
     "title": "Supervised learning: nonparametric regression",
     "section": "Include intercept in plot",
-    "text": "Include intercept in plot\nIntercept reflects relatively rare occurence of HRs\n\ndraw(hr_gam, fun = plogis, constant = coef(hr_gam)[1])"
+    "text": "Include intercept in plot\nIntercept reflects relatively rare occurrence of HRs\n\ndraw(hr_gam, fun = plogis, constant = coef(hr_gam)[1])"
   },
   {
     "objectID": "lectures/19-nonparametric.html#model-diagnostics",
@@ -1684,21 +1684,21 @@
     "href": "lectures/19-nonparametric.html#model-checking",
     "title": "Supervised learning: nonparametric regression",
     "section": "Model checking",
-    "text": "Model checking\nCheck whether more basis functions are needed with gam.check() based on an approximate test\n\ngam.check(hr_gam)\n\n\n\nMethod: REML   Optimizer: outer newton\nfull convergence after 9 iterations.\nGradient range [-1.611342e-05,4.419326e-06]\n(score 627.7034 & scale 1).\nHessian positive definite, eigenvalue range [1.611218e-05,1.116216].\nModel rank =  19 / 19 \n\nBasis dimension (k) checking results. Low p-value (k-index&lt;1) may\nindicate that k is too low, especially if edf is close to k'.\n\n                  k'  edf k-index p-value  \ns(launch_speed) 9.00 1.00    0.97   0.095 .\ns(launch_angle) 9.00 3.92    0.99   0.590  \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
+    "text": "Model checking\nCheck whether more basis functions are needed with gam.check() based on an approximate test\n\ngam.check(hr_gam)\n\n\n\nMethod: REML   Optimizer: outer newton\nfull convergence after 9 iterations.\nGradient range [-0.0001346768,-2.115798e-06]\n(score 665.5912 & scale 1).\nHessian positive definite, eigenvalue range [0.0001346484,0.641613].\nModel rank =  19 / 19 \n\nBasis dimension (k) checking results. Low p-value (k-index&lt;1) may\nindicate that k is too low, especially if edf is close to k'.\n\n                  k'  edf k-index p-value\ns(launch_speed) 9.00 1.00    1.01    0.93\ns(launch_angle) 9.00 3.46    1.02    0.96"
   },
   {
     "objectID": "lectures/19-nonparametric.html#evaluate-prediction-accuracy",
     "href": "lectures/19-nonparametric.html#evaluate-prediction-accuracy",
     "title": "Supervised learning: nonparametric regression",
     "section": "Evaluate prediction accuracy",
-    "text": "Evaluate prediction accuracy\n\nIn-sample performance (training set)\n\n\nhr_gam |&gt; \n  augment(type.predict = \"response\") |&gt; \n  mutate(newdata = train, pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.974\n\n\n\nOut-of-sample performance (test set)\n\n\nhr_gam |&gt; \n  augment(newdata = test, type.predict = \"response\") |&gt; \n  mutate(pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.974"
+    "text": "Evaluate prediction accuracy\n\nIn-sample performance (training set)\n\n\nhr_gam |&gt; \n  augment(type.predict = \"response\") |&gt; \n  mutate(newdata = train, pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.972\n\n\n\nOut-of-sample performance (test set)\n\n\nhr_gam |&gt; \n  augment(newdata = test, type.predict = \"response\") |&gt; \n  mutate(pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.974"
   },
   {
     "objectID": "lectures/19-nonparametric.html#comparison-with-a-glm",
     "href": "lectures/19-nonparametric.html#comparison-with-a-glm",
     "title": "Supervised learning: nonparametric regression",
     "section": "Comparison with a GLM",
-    "text": "Comparison with a GLM\n\nVery few situations in reality where GLMs (with a linear predictor) perform better than an additive model using smooth functions\nEspecially since smooth functions can just capture linear models\n\n\n# note the warning\nhr_logit &lt;- glm(is_hr ~ launch_speed + launch_angle, family = binomial, data = train)\n\n\nhr_logit |&gt; \n  augment(newdata = train, type.predict = \"response\") |&gt; \n  mutate(pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.958\n\n\n\nhr_logit |&gt; \n  augment(newdata = test, type.predict = \"response\") |&gt; \n  mutate(pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.960"
+    "text": "Comparison with a GLM\n\nVery few situations in reality where GLMs (with a linear predictor) perform better than an additive model using smooth functions\nEspecially since smooth functions can just capture linear models\n\n\n# note the warning\nhr_logit &lt;- glm(is_hr ~ launch_speed + launch_angle, family = binomial, data = train)\n\n\nhr_logit |&gt; \n  augment(newdata = train, type.predict = \"response\") |&gt; \n  mutate(pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.959\n\n\n\nhr_logit |&gt; \n  augment(newdata = test, type.predict = \"response\") |&gt; \n  mutate(pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.959"
   },
   {
     "objectID": "lectures/19-nonparametric.html#continuous-interactions-as-a-smooth-surface",
@@ -1719,28 +1719,21 @@
     "href": "lectures/19-nonparametric.html#evaluate-predictions",
     "title": "Supervised learning: nonparametric regression",
     "section": "Evaluate predictions",
-    "text": "Evaluate predictions\n\nThis has one smoothing parameter for the 2D smooth\nBut prediction accuracy does not improve\n\n\nhr_gam_mult |&gt; \n  augment(newdata = train, type.predict = \"response\") |&gt; \n  mutate(pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.974\n\nhr_gam_mult |&gt; \n  augment(newdata = test, type.predict = \"response\") |&gt; \n  mutate(pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.974"
+    "text": "Evaluate predictions\n\nThis has one smoothing parameter for the 2D smooth\nBut prediction accuracy does not improve\n\n\nhr_gam_mult |&gt; \n  augment(newdata = train, type.predict = \"response\") |&gt; \n  mutate(pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.972\n\nhr_gam_mult |&gt; \n  augment(newdata = test, type.predict = \"response\") |&gt; \n  mutate(pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.974"
   },
   {
     "objectID": "lectures/19-nonparametric.html#separate-interactions-from-individual-terms-with-tensor-smooths",
     "href": "lectures/19-nonparametric.html#separate-interactions-from-individual-terms-with-tensor-smooths",
     "title": "Supervised learning: nonparametric regression",
     "section": "Separate interactions from individual terms with tensor smooths",
-    "text": "Separate interactions from individual terms with tensor smooths\n\nDecompose the smooth into main effects and an interaction with ti()\nAnother option: te(), representing a tensor product smooth\n\nMore complicated model but yet does not improve prediction accuracy\n\nhr_gam_tensor &lt;- gam(is_hr ~ s(launch_speed) + s(launch_angle) + ti(launch_speed, launch_angle),\n                     family = binomial,\n                     data = train)\n\n\n\n\nhr_gam_tensor |&gt; \n  augment(newdata = train, type.predict = \"response\") |&gt; \n  mutate(pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.974\n\n\n\n\nhr_gam_tensor |&gt; \n  augment(newdata = test, type.predict = \"response\") |&gt; \n  mutate(pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.974"
-  },
-  {
-    "objectID": "lectures/19-nonparametric.html#resources",
-    "href": "lectures/19-nonparametric.html#resources",
-    "title": "Supervised learning: nonparametric regression",
-    "section": "Resources",
-    "text": "Resources\n\n\n140 char vrsn1 GAMs are just GLMs2 GAMs fit wiggly terms3 use + s(foo) not foo in frmla4 use method = \"REML\"5 gam.check()\n\n— 🇺🇦 Dr Gavin Simpson 😷🇪🇺🇩🇰 (@ucfagls) March 16, 2017\n\n\n\nBook: Generalized Additive Models\nGAMs in R by Noam Ross\nmgcv course\nGAM: The Predictive Modeling Silver Bullet\nChapters 7 & 8 of Advanced Data Analysis from an Elementary Point of View by Cosma Shalizi"
+    "text": "Separate interactions from individual terms with tensor smooths\n\nDecompose the smooth into main effects and an interaction with ti()\nAnother option: te(), representing a tensor product smooth\n\nMore complicated model but yet does not improve prediction accuracy\n\nhr_gam_tensor &lt;- gam(is_hr ~ s(launch_speed) + s(launch_angle) + ti(launch_speed, launch_angle),\n                     family = binomial,\n                     data = train)\n\n\n\n\nhr_gam_tensor |&gt; \n  augment(newdata = train, type.predict = \"response\") |&gt; \n  mutate(pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.972\n\n\n\n\nhr_gam_tensor |&gt; \n  augment(newdata = test, type.predict = \"response\") |&gt; \n  mutate(pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.974"
   },
   {
     "objectID": "lectures/19-nonparametric.html#appendix-code-to-build-dataset",
     "href": "lectures/19-nonparametric.html#appendix-code-to-build-dataset",
     "title": "Supervised learning: nonparametric regression",
     "section": "Appendix: code to build dataset",
-    "text": "Appendix: code to build dataset\n\n# pip install pybaseball\n# dictionary: https://baseballsavant.mlb.com/csv-docs\nimport pandas as pd\nfrom pybaseball import statcast\nsavant = statcast(start_dt='2024-05-01', end_dt='2024-05-31')\nsavant.to_csv('savant.csv', index=False)"
+    "text": "Appendix: code to build dataset\n\n# pip install pybaseball\n# dictionary: https://baseballsavant.mlb.com/csv-docs\nimport pandas as pd\nfrom pybaseball import statcast\nsavant = statcast(start_dt='2025-05-01', end_dt='2025-05-31')\nsavant.to_csv('savant.csv', index=False)"
   },
   {
     "objectID": "lectures/14-regularization.html#shortcomings-of-linear-regression",
