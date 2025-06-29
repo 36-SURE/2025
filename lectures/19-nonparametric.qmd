@@ -269,31 +269,23 @@ $$\longrightarrow \text{model fit} = \text{likelihood} - \lambda \cdot \text{wig
 
 ## Smoothing splines
 
-The most commonly considered case: cubic smoothing splines
+* The most commonly considered case: cubic smoothing splines
 
 $$\text{minimize }\sum_{i=1}^n (y_i - s(x_i))^2 + \lambda \int s''(x)^2dx$$
 
 . . .
 
-First term: RSS, tries to make $s(x)$ fit the data at each $x_i$
+* First term: RSS, tries to make $s(x)$ fit the data at each $x_i$
 
 . . .
 
-<br>
+* Second term: roughness penalty, controls how wiggly $s(x)$ is via tuning parameter $\lambda \ge 0$
 
-Second term: roughness penalty, controls how wiggly $s(x)$ is via tuning parameter $\lambda \ge 0$
+  * Balances the accuracy of the fit and the flexibility of the function
 
-. . .
-
-*   Balances the accuracy of the fit and the flexibility of the function
-
-. . .
-
-*   The smaller $\lambda$, the more wiggly the function
-
-. . .
+  * The smaller $\lambda$, the more wiggly the function
     
-*   As $\lambda \rightarrow \infty$, $s(x)$ becomes linear
+  * As $\lambda \rightarrow \infty$, $s(x)$ becomes linear
 
 ## Smoothing splines
 
@@ -356,12 +348,12 @@ knitr::include_graphics("https://github.com/noamross/gams-in-r-course/blob/maste
 
 ```{r}
 library(tidyverse)
-savant <- read_csv("https://raw.githubusercontent.com/36-SURE/2024/main/data/savant.csv")
+savant <- read_csv("https://raw.githubusercontent.com/36-SURE/2025/main/data/savant.csv")
 batted_balls <- savant |> 
   filter(type == "X") |> 
   mutate(is_hr = as.numeric(events == "home_run")) |> 
   filter(!is.na(launch_angle), !is.na(launch_speed), !is.na(is_hr))
-# head(batted_balls)
+# glimpse(batted_balls)
 ```
 
 ## Predicting HRs with launch angle and exit velocity
@@ -522,7 +514,7 @@ draw(hr_gam, fun = plogis)
 
 ## Include intercept in plot
 
-Intercept reflects relatively rare occurence of HRs
+Intercept reflects relatively rare occurrence of HRs
 
 ```{r}
 draw(hr_gam, fun = plogis, constant = coef(hr_gam)[1])
@@ -676,20 +668,6 @@ hr_gam_tensor |>
 :::
 :::
 
-## Resources
-
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">140 char vrsn<br><br>1 GAMs are just GLMs<br>2 GAMs fit wiggly terms<br>3 use + s(foo) not foo in frmla<br>4 use method = &quot;REML&quot;<br>5 gam.check()</p>&mdash; 🇺🇦 Dr Gavin Simpson 😷🇪🇺🇩🇰 (@ucfagls) <a href="https://twitter.com/ucfagls/status/842444686513991680?ref_src=twsrc%5Etfw">March 16, 2017</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-- Book: [Generalized Additive Models](https://reseau-mexico.fr/sites/reseau-mexico.fr/files/igam.pdf)
-
-- [GAMs in R by Noam Ross](https://noamross.github.io/gams-in-r-course/)
-
-- [`mgcv` course](https://eric-pedersen.github.io/mgcv-esa-workshop/)
-
-- [GAM: The Predictive Modeling Silver Bullet](https://multithreaded.stitchfix.com/blog/2015/07/30/gam/)
-
-- Chapters 7 & 8 of [Advanced Data Analysis from an Elementary Point of View by Cosma Shalizi](https://www.stat.cmu.edu/~cshalizi/ADAfaEPoV/ADAfaEPoV.pdf)
-
 ## Appendix: code to build dataset
 
 ```{python}
@@ -698,6 +676,6 @@ hr_gam_tensor |>
 # dictionary: https://baseballsavant.mlb.com/csv-docs
 import pandas as pd
 from pybaseball import statcast
-savant = statcast(start_dt='2024-05-01', end_dt='2024-05-31')
+savant = statcast(start_dt='2025-05-01', end_dt='2025-05-31')
 savant.to_csv('savant.csv', index=False)
 ```
