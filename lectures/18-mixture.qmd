@@ -218,17 +218,21 @@ $$f(x) = \sum_{k=1}^K \tau_k f_k(x; \theta_k)$$
 
 ## Model fitting and selection
 
-* The estimation procedure uses an EM algorithm where it searches for the "best fit" to the data
+* Model fitting is done using an Expectation-Maximization (EM) algorithm
 
 . . .
 
-* Since we have a statistical model, we can choose the number of components/clusters $K$ and the covariance constraint using the Bayesian Information Criterion (BIC) $$\text{BIC} = 2\log L(x \mid \theta) - m\log n \,,$$ where
+* Since this is a statistical model, we can choose the number of components/clusters $K$ and covariance constraint using the Bayesian Information Criterion (BIC) $$\text{BIC} = 2\log L(x \mid \theta) - m\log n \,,$$ where
 
   * $L(x \mid \theta)$: likelihood of the considered model
 
   * $m$: number of parameters (e.g. VVV has the most parameters)
   
   * $n$: number of observations
+
+. . .
+
+* The BICs are calculated for all candidate models (different combinations of $K$ and covariance constraints), and we select one final model that gives the optimum BIC value
 
 :::aside
 The above $\text{BIC}$ is really the $- \text{BIC}$ of what you typically see, this sign flip is just for ease
