@@ -490,16 +490,21 @@
 <section id="model-fitting-and-selection" class="slide level2">
 <h2>Model fitting and selection</h2>
 <ul>
-<li>The estimation procedure uses an EM algorithm where it searches for the “best fit” to the data</li>
+<li>Model fitting is done using an Expectation-Maximization (EM) algorithm</li>
 </ul>
 <div class="fragment">
 <ul>
-<li><p>Since we have a statistical model, we can choose the number of components/clusters <span class="math inline">\(K\)</span> and the covariance constraint using the Bayesian Information Criterion (BIC) <span class="math display">\[\text{BIC} = 2\log L(x \mid \theta) - m\log n \,,\]</span> where</p>
+<li><p>Since this is a statistical model, we can choose the number of components/clusters <span class="math inline">\(K\)</span> and covariance constraint using the Bayesian Information Criterion (BIC) <span class="math display">\[\text{BIC} = 2\log L(x \mid \theta) - m\log n \,,\]</span> where</p>
 <ul>
 <li><p><span class="math inline">\(L(x \mid \theta)\)</span>: likelihood of the considered model</p></li>
 <li><p><span class="math inline">\(m\)</span>: number of parameters (e.g.&nbsp;VVV has the most parameters)</p></li>
 <li><p><span class="math inline">\(n\)</span>: number of observations</p></li>
 </ul></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>The BICs are calculated for all candidate models (different combinations of <span class="math inline">\(K\)</span> and covariance constraints), and we select one final model that gives the optimum BIC value</li>
 </ul>
 
 </div>
