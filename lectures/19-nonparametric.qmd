@@ -123,6 +123,8 @@ Resources
 
 * [Free GAM Course](https://noamross.github.io/gams-in-r-course/)
 
+* [Chapters 7 and 8](https://www.stat.cmu.edu/~cshalizi/ADAfaEPoV/ADAfaEPoV.pdf)
+
 ## Generalized additive models (GAMs)
 
 *   Previously: generalized linear models (GLMs) (e.g., linear regression, logistic regression, Poisson regression)
@@ -183,11 +185,11 @@ knitr::include_graphics("https://multithreaded.stitchfix.com/assets/images/blog/
 
 . . .
 
-*   A disadvantage of GAMs and other smoothing methods, compared with GLMs, is the loss of simple interpretability
+*   A disadvantage of GAMs/smoothing methods is the loss of interpretability
 
     *   How do we interpret the effect of a predictor on the response?
     
-    *   How do we obtain confidence intervals for those effects?
+    *   How do we perform inferences for those effects?
     
 ## Generalized additive models (GAMs)
 
@@ -196,6 +198,46 @@ knitr::include_graphics("https://multithreaded.stitchfix.com/assets/images/blog/
 ![](/images/gam.png){width="750"}
 
 </center>
+
+## Toy example
+
+```{r}
+#| echo: false
+mtcars |> 
+  mutate(across(c(hp, mpg), scale)) |> 
+  ggplot(aes(hp, mpg)) +
+  geom_point(size = 4) +
+  geom_smooth(method = "lm", se = FALSE, color = NA) +
+  coord_fixed() +
+  labs(x = NULL, y = NULL)
+```
+
+## Toy example: linear regression fit
+
+```{r}
+#| echo: false
+mtcars |> 
+  mutate(across(c(hp, mpg), scale)) |> 
+  ggplot(aes(hp, mpg)) +
+  geom_point(size = 4) +
+  geom_smooth(method = "lm", se = FALSE, color = "darkorange") +
+  coord_fixed() +
+  labs(x = NULL, y = NULL)
+```
+
+## Toy example: GAM fit
+
+```{r}
+#| echo: false
+mtcars |> 
+  mutate(across(c(hp, mpg), scale)) |> 
+  ggplot(aes(hp, mpg)) +
+  geom_point(size = 4) +
+  geom_smooth(method = "lm", se = FALSE, color = "darkorange") +
+  geom_smooth(method = "gam", se = FALSE, color = "darkblue") +
+  coord_fixed() +
+  labs(x = NULL, y = NULL)
+```
     
 ## Splines
 
@@ -495,38 +537,13 @@ tidy(hr_gam, parametric = TRUE)
 
 ## Visualize partial response functions
 
-Display the partial effect of each term in the model $\longrightarrow$ add up to the overall prediction
+Display the partial effect of each term in the model and how they add up to the overall prediction
 
 ```{r}
 #| fig-width: 15
 library(gratia)
 draw(hr_gam)
 ```
-
-## Convert to probability scale
-
-Centered on average value of 0.5 because it's the partial effect without the intercept
-
-```{r}
-#| fig-width: 15
-draw(hr_gam, fun = plogis)
-```
-
-## Include intercept in plot
-
-Intercept reflects relatively rare occurrence of HRs
-
-```{r}
-draw(hr_gam, fun = plogis, constant = coef(hr_gam)[1])
-```
-
-## Model diagnostics
-
-```{r}
-#| fig-width: 12
-appraise(hr_gam)
-```
-
 
 ## Model checking
 
@@ -563,7 +580,6 @@ hr_gam |>
 *   Especially since smooth functions can just capture linear models
 
 ```{r}
-# note the warning
 hr_logit <- glm(is_hr ~ launch_speed + launch_angle, family = binomial, data = train)
 ```
 
