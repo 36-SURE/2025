@@ -1537,7 +1537,7 @@
     "href": "lectures/19-nonparametric.html#moving-beyond-linearity",
     "title": "Supervised learning: nonparametric regression",
     "section": "Moving beyond linearity",
-    "text": "Moving beyond linearity\n\nThe truth is (almost) never linear\n\n\n\nBut often the linearity assumption is good enough\n\n\n\n\nWhat if it’s not linear?\n\nsplines\nlocal regression\ngeneralized additive models\n\n\n\n\n\nThe above methods can offer a lot of flexibility, without losing the ease and interpretability of linear models"
+    "text": "Moving beyond linearity\n\nThe truth is (almost) never linear\n\n\n\nBut often the linearity assumption is good enough\n\n\n\n\nWhat if it’s not linear?\n\nsplines\nlocal regression\ngeneralized additive models\nwavelets\n\n\n\n\n\nThe above methods can offer a lot of flexibility, without losing the ease and interpretability of linear models"
   },
   {
     "objectID": "lectures/19-nonparametric.html#generalized-additive-models-gams",
@@ -1575,11 +1575,11 @@
     "text": "Generalized additive models (GAMs)"
   },
   {
-    "objectID": "lectures/19-nonparametric.html#toy-example",
-    "href": "lectures/19-nonparametric.html#toy-example",
+    "objectID": "lectures/19-nonparametric.html#toy-example-is-this-linear",
+    "href": "lectures/19-nonparametric.html#toy-example-is-this-linear",
     "title": "Supervised learning: nonparametric regression",
-    "section": "Toy example",
-    "text": "Toy example"
+    "section": "Toy example: is this linear?",
+    "text": "Toy example: is this linear?"
   },
   {
     "objectID": "lectures/19-nonparametric.html#toy-example-linear-regression-fit",
@@ -1600,21 +1600,14 @@
     "href": "lectures/19-nonparametric.html#splines",
     "title": "Supervised learning: nonparametric regression",
     "section": "Splines",
-    "text": "Splines\n\nA common way to smooth and learn nonlinear functions is to use splines\n\n\n\nSplines can be used to approximate other, more complex functions\n\n\n\n\nSplines are functions that are constructed from simpler basis functions (usually polynomials)\n\n\n\n\nEach basis function \\(b_k\\) has coefficient \\(\\beta_k\\). Spline is just the sum \\(\\displaystyle s(x) = \\sum_{k=1}^K \\beta_k b_k(x)\\)"
+    "text": "Splines\n\nA common way to smooth and learn nonlinear functions is to use splines\n\n\n\nSplines can be used to approximate other, more complex functions\n\n\n\n\nSplines are functions that are constructed from simpler basis functions (usually polynomials), and the set of basis functions is a basis\n\n\n\n\nEach basis function \\(b_k\\) has coefficient \\(\\beta_k\\). Spline is just the sum of the weighted basis functions\n\n\\[\\displaystyle s(x) = \\sum_{k=1}^K \\beta_k b_k(x)\\]"
   },
   {
-    "objectID": "lectures/19-nonparametric.html#splines-1",
-    "href": "lectures/19-nonparametric.html#splines-1",
+    "objectID": "lectures/19-nonparametric.html#weight-basis-functions-to-obtain-spline",
+    "href": "lectures/19-nonparametric.html#weight-basis-functions-to-obtain-spline",
     "title": "Supervised learning: nonparametric regression",
-    "section": "Splines",
-    "text": "Splines\n\nWe often write linear models in matrix notation: \\(\\boldsymbol {X\\beta}\\)\n\n\\(\\boldsymbol X\\): design matrix containing values of predictors\n\\(\\boldsymbol \\beta\\): parameters (model coefficients) we need to estimate\n\n\n\n\nFor a GAM it’s very similar\n\n\\(\\boldsymbol X\\): has columns for each basis function, evaluated at each observation"
-  },
-  {
-    "objectID": "lectures/19-nonparametric.html#splines-2",
-    "href": "lectures/19-nonparametric.html#splines-2",
-    "title": "Supervised learning: nonparametric regression",
-    "section": "Splines",
-    "text": "Splines\n\nA \\(k^{\\text{th}}\\)-order spline is a piecewise polynomial function of degree \\(k\\) that is continuous and has continuous derivatives of orders \\(1, \\dots, k − 1\\) at its knot points\n\n\n\nThere are knots (boundary points for functions) placed at every point\n\n\n\n\n\n\nThis requires us to choose the knots (fixed points between which the function is polynomial)\n\n\n\n\nWe can eliminate the need to choose knots by using a smoothing spline"
+    "section": "Weight basis functions to obtain spline",
+    "text": "Weight basis functions to obtain spline"
   },
   {
     "objectID": "lectures/19-nonparametric.html#smoothing-splines",
@@ -1636,6 +1629,13 @@
     "title": "Supervised learning: nonparametric regression",
     "section": "Smoothing splines",
     "text": "Smoothing splines\nGoal: Estimate the smoothing spline \\(\\hat{s}(x)\\) that balances the tradeoff between the model fit and wiggliness\n\nRemember: Goldilocks principle"
+  },
+  {
+    "objectID": "lectures/19-nonparametric.html#gam-recap",
+    "href": "lectures/19-nonparametric.html#gam-recap",
+    "title": "Supervised learning: nonparametric regression",
+    "section": "GAM recap",
+    "text": "GAM recap\n\nA framework to model flexible nonlinear relationships\nUse little functions (basis functions) to make big functions (smooths)\nUse a penalty to trade off model fit and wiggliness\nNeed to make sure the smooths are wiggly enough"
   },
   {
     "objectID": "lectures/19-nonparametric.html#predicting-mlb-hr-probability",
@@ -1663,14 +1663,14 @@
     "href": "lectures/19-nonparametric.html#fitting-gams-with-mgcv",
     "title": "Supervised learning: nonparametric regression",
     "section": "Fitting GAMs with mgcv",
-    "text": "Fitting GAMs with mgcv\n\nSet up training data\n\n\nset.seed(123)\ntrain &lt;- batted_balls |&gt; \n  slice_sample(prop = 0.5)\ntest &lt;- batted_balls |&gt; \n  anti_join(train)\n\n\n\nModeling the log-odds of a home run using non-linear functions of launch_speed and launch_angle \\[\n\\log \\left( \\frac{p_{\\texttt{is_hr}}}{1 - p_\\texttt{is_hr}} \\right) = \\beta_0 + s_1 (\\texttt{launch_speed}) + s_2 (\\texttt{launch_angle})\\] where \\(p_\\texttt{is_hr}\\) is the probability of a home run\n\n\n\n\nFit the model with smoothing spline functions s()\n\n\nlibrary(mgcv)\nhr_gam &lt;- gam(is_hr ~ s(launch_speed) + s(launch_angle),\n              family = binomial,\n              method = \"REML\", # more stable solution than default\n              data = train)"
+    "text": "Fitting GAMs with mgcv\n\nModeling the log-odds of a home run using non-linear functions of launch_speed and launch_angle \\[\n\\log \\left( \\frac{p_{\\texttt{is_hr}}}{1 - p_\\texttt{is_hr}} \\right) = \\beta_0 + s_1 (\\texttt{launch_speed}) + s_2 (\\texttt{launch_angle})\\] where \\(p_\\texttt{is_hr}\\) is the probability of a home run\n\n\n\nFit the model with smoothing spline functions s()\n\n\nlibrary(mgcv)\nhr_gam &lt;- gam(is_hr ~ s(launch_speed) + s(launch_angle),\n              family = binomial,\n              method = \"REML\", # more stable solution than default\n              data = batted_balls)"
   },
   {
     "objectID": "lectures/19-nonparametric.html#view-model-summary",
     "href": "lectures/19-nonparametric.html#view-model-summary",
     "title": "Supervised learning: nonparametric regression",
     "section": "View model summary",
-    "text": "View model summary\n\nmgcv performs hypothesis tests for the smooth terms — these are roughly the equivalent of an \\(F\\)-test for dropping each term\nEffective degrees of freedom (edf): basically the number of free parameters required to represent the function\nIn a smoothing spline, different choices of \\(\\lambda\\) correspond to different values of the edf, representing different amounts of smoothness\n\n\n# summary(hr_gam)\nlibrary(broom)\n# glance(hr_gam)\ntidy(hr_gam)\n\n# A tibble: 2 × 5\n  term              edf ref.df statistic p.value\n  &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;\n1 s(launch_speed)  1.00   1.00      387.       0\n2 s(launch_angle)  3.46   3.78      246.       0\n\ntidy(hr_gam, parametric = TRUE)\n\n# A tibble: 1 × 5\n  term        estimate std.error statistic p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;\n1 (Intercept)    -33.6      11.5     -2.91 0.00362"
+    "text": "View model summary\n\nmgcv performs hypothesis tests for the smooth terms — these are roughly the equivalent of an \\(F\\)-test for dropping each term\nEffective degrees of freedom (edf): basically the number of free parameters required to represent the function\nIn a smoothing spline, different choices of \\(\\lambda\\) correspond to different values of the edf, representing different amounts of smoothness\n\n\n# summary(hr_gam)\nlibrary(broom)\n# glance(hr_gam)\ntidy(hr_gam)\n\n# A tibble: 2 × 5\n  term              edf ref.df statistic p.value\n  &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;\n1 s(launch_speed)  1.00   1.00      804.       0\n2 s(launch_angle)  3.73   3.98      468.       0\n\ntidy(hr_gam, parametric = TRUE)\n\n# A tibble: 1 × 5\n  term        estimate std.error statistic p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;\n1 (Intercept)    -38.3      12.3     -3.11 0.00189"
   },
   {
     "objectID": "lectures/19-nonparametric.html#visualize-partial-response-functions",
@@ -1680,53 +1680,25 @@
     "text": "Visualize partial response functions\nDisplay the partial effect of each term in the model and how they add up to the overall prediction\n\nlibrary(gratia)\ndraw(hr_gam)"
   },
   {
-    "objectID": "lectures/19-nonparametric.html#model-checking",
-    "href": "lectures/19-nonparametric.html#model-checking",
+    "objectID": "lectures/19-nonparametric.html#model-comparison-gam-vs-glm-logistic-regression",
+    "href": "lectures/19-nonparametric.html#model-comparison-gam-vs-glm-logistic-regression",
     "title": "Supervised learning: nonparametric regression",
-    "section": "Model checking",
-    "text": "Model checking\nCheck whether more basis functions are needed with gam.check() based on an approximate test\n\ngam.check(hr_gam)\n\n\n\nMethod: REML   Optimizer: outer newton\nfull convergence after 9 iterations.\nGradient range [-0.0001346768,-2.115798e-06]\n(score 665.5912 & scale 1).\nHessian positive definite, eigenvalue range [0.0001346484,0.641613].\nModel rank =  19 / 19 \n\nBasis dimension (k) checking results. Low p-value (k-index&lt;1) may\nindicate that k is too low, especially if edf is close to k'.\n\n                  k'  edf k-index p-value\ns(launch_speed) 9.00 1.00    0.98    0.10\ns(launch_angle) 9.00 3.46    1.02    0.92"
+    "section": "Model comparison: GAM vs GLM (logistic regression)",
+    "text": "Model comparison: GAM vs GLM (logistic regression)\n\n10-fold cross-validation: assigning games to folds\n\n\nset.seed(25)\nN_FOLDS &lt;- 10\ngames_folds &lt;- batted_balls |&gt; \n  distinct(game_date, home_team, away_team) |&gt;\n  mutate(fold = sample(rep(1:N_FOLDS, length.out = n())))\n\nbatted_balls &lt;- batted_balls |&gt; \n  left_join(games_folds, by = join_by(game_date, home_team, away_team))"
   },
   {
-    "objectID": "lectures/19-nonparametric.html#evaluate-prediction-accuracy",
-    "href": "lectures/19-nonparametric.html#evaluate-prediction-accuracy",
+    "objectID": "lectures/19-nonparametric.html#cross-validation",
+    "href": "lectures/19-nonparametric.html#cross-validation",
     "title": "Supervised learning: nonparametric regression",
-    "section": "Evaluate prediction accuracy",
-    "text": "Evaluate prediction accuracy\n\nIn-sample performance (training set)\n\n\nhr_gam |&gt; \n  augment(type.predict = \"response\") |&gt; \n  mutate(newdata = train, pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.972\n\n\n\nOut-of-sample performance (test set)\n\n\nhr_gam |&gt; \n  augment(newdata = test, type.predict = \"response\") |&gt; \n  mutate(pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.974"
+    "section": "Cross-validation",
+    "text": "Cross-validation\n\nhr_cv &lt;- function(x) {\n  hr_train &lt;- batted_balls |&gt; filter(fold != x)\n  hr_test &lt;- batted_balls |&gt; filter(fold == x)\n  \n  gam_fit &lt;- gam(is_hr ~ s(launch_speed) + s(launch_angle),\n                 family = binomial,\n                 method = \"REML\",\n                 data = hr_train)\n  logit_fit &lt;- glm(is_hr ~ launch_speed + launch_angle, \n                   family = binomial, data = hr_train)\n  \n  hr_out &lt;- tibble(\n    gam_pred = predict(gam_fit, newdata = hr_test, type = \"response\"),\n    logit_pred = predict(logit_fit, newdata = hr_test, type = \"response\"),\n    test_actual = hr_test$is_hr,\n    test_fold = x\n  )\n  return(hr_out)  \n}\n\nhr_preds &lt;- map(1:N_FOLDS, hr_cv) |&gt; \n  list_rbind()"
   },
   {
-    "objectID": "lectures/19-nonparametric.html#comparison-with-a-glm",
-    "href": "lectures/19-nonparametric.html#comparison-with-a-glm",
+    "objectID": "lectures/19-nonparametric.html#out-of-sample-comparison",
+    "href": "lectures/19-nonparametric.html#out-of-sample-comparison",
     "title": "Supervised learning: nonparametric regression",
-    "section": "Comparison with a GLM",
-    "text": "Comparison with a GLM\n\nVery few situations in reality where GLMs (with a linear predictor) perform better than an additive model using smooth functions\nEspecially since smooth functions can just capture linear models\n\n\nhr_logit &lt;- glm(is_hr ~ launch_speed + launch_angle, family = binomial, data = train)\n\n\nhr_logit |&gt; \n  augment(newdata = train, type.predict = \"response\") |&gt; \n  mutate(pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.959\n\n\n\nhr_logit |&gt; \n  augment(newdata = test, type.predict = \"response\") |&gt; \n  mutate(pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.959"
-  },
-  {
-    "objectID": "lectures/19-nonparametric.html#continuous-interactions-as-a-smooth-surface",
-    "href": "lectures/19-nonparametric.html#continuous-interactions-as-a-smooth-surface",
-    "title": "Supervised learning: nonparametric regression",
-    "section": "Continuous interactions as a smooth surface",
-    "text": "Continuous interactions as a smooth surface\n\nhr_gam_mult &lt;- gam(is_hr ~ s(launch_speed, launch_angle), family = binomial, data = train)\n\nPlot the predicted heatmap (response on the log-odds scale)\n\n# draw(hr_gam_mult)\nhr_gam_mult |&gt; \n  smooth_estimates() |&gt; \n  ggplot(aes(launch_speed, launch_angle, z = .estimate)) +\n  geom_contour_filled()"
-  },
-  {
-    "objectID": "lectures/19-nonparametric.html#continuous-interactions-as-a-smooth-surface-1",
-    "href": "lectures/19-nonparametric.html#continuous-interactions-as-a-smooth-surface-1",
-    "title": "Supervised learning: nonparametric regression",
-    "section": "Continuous interactions as a smooth surface",
-    "text": "Continuous interactions as a smooth surface\nPlot the predicted heatmap (response on the probability scale)\n\nhr_gam_mult |&gt; \n  smooth_estimates() |&gt; \n  mutate(prob = plogis(.estimate)) |&gt; \n  ggplot(aes(launch_speed, launch_angle, z = prob)) +\n  geom_contour_filled()"
-  },
-  {
-    "objectID": "lectures/19-nonparametric.html#evaluate-predictions",
-    "href": "lectures/19-nonparametric.html#evaluate-predictions",
-    "title": "Supervised learning: nonparametric regression",
-    "section": "Evaluate predictions",
-    "text": "Evaluate predictions\n\nThis has one smoothing parameter for the 2D smooth\nBut prediction accuracy does not improve\n\n\nhr_gam_mult |&gt; \n  augment(newdata = train, type.predict = \"response\") |&gt; \n  mutate(pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.972\n\nhr_gam_mult |&gt; \n  augment(newdata = test, type.predict = \"response\") |&gt; \n  mutate(pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.974"
-  },
-  {
-    "objectID": "lectures/19-nonparametric.html#separate-interactions-from-individual-terms-with-tensor-smooths",
-    "href": "lectures/19-nonparametric.html#separate-interactions-from-individual-terms-with-tensor-smooths",
-    "title": "Supervised learning: nonparametric regression",
-    "section": "Separate interactions from individual terms with tensor smooths",
-    "text": "Separate interactions from individual terms with tensor smooths\n\nDecompose the smooth into main effects and an interaction with ti()\nAnother option: te(), representing a tensor product smooth\n\nMore complicated model but yet does not improve prediction accuracy\n\nhr_gam_tensor &lt;- gam(is_hr ~ s(launch_speed) + s(launch_angle) + ti(launch_speed, launch_angle),\n                     family = binomial,\n                     data = train)\n\n\n\n\nhr_gam_tensor |&gt; \n  augment(newdata = train, type.predict = \"response\") |&gt; \n  mutate(pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.972\n\n\n\n\nhr_gam_tensor |&gt; \n  augment(newdata = test, type.predict = \"response\") |&gt; \n  mutate(pred_class = round(.fitted)) |&gt; \n  summarize(correct = mean(is_hr == pred_class))\n\n# A tibble: 1 × 1\n  correct\n    &lt;dbl&gt;\n1   0.974"
+    "section": "Out-of-sample comparison",
+    "text": "Out-of-sample comparison\n\nVery few situations in reality where GLMs (with a linear predictor) perform better than an additive model using smooth functions\nEspecially since smooth functions can just capture linear models\n\n\nhr_preds |&gt; \n  pivot_longer(cols = gam_pred:logit_pred, \n               names_to = \"model\", \n               values_to = \"test_pred\") |&gt; \n  mutate(test_pred_class = round(test_pred)) |&gt; \n  group_by(model, test_fold) |&gt;\n  summarize(accuracy = mean(test_pred_class == test_actual)) |&gt; \n  group_by(model) |&gt; \n  summarize(cv_accuracy = mean(accuracy),\n            se_accuracy = sd(accuracy) / sqrt(N_FOLDS))\n\n# A tibble: 2 × 3\n  model      cv_accuracy se_accuracy\n  &lt;chr&gt;            &lt;dbl&gt;       &lt;dbl&gt;\n1 gam_pred         0.973     0.00105\n2 logit_pred       0.959     0.00148"
   },
   {
     "objectID": "lectures/19-nonparametric.html#appendix-code-to-build-dataset",
