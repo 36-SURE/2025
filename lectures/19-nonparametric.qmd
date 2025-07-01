@@ -264,6 +264,24 @@ $$\displaystyle s(x) = \sum_{k=1}^K \beta_k b_k(x)$$
 ![](../images/basis-functions.gif)
 
 
+## Why not just a polynomial fit?
+
+$$y_i \sim \mathcal{N}(\mu_i, \sigma^2)$$
+$$\mu_i = \beta_0 + \beta_1 x_{i} + \beta_2 x^2_{1i} + \cdots + \beta_j x^j_{i}$$
+
+. . .
+
+* In the polynomial models we use a polynomial basis expansion of $x$
+
+  * $x^0 = 1$ (constant term), $x, x^2, x^3, x^4, \dots$ 
+  
+. . .  
+
+* We can keep on adding ever more powers of $x$ to the model (hmm...)
+
+. . .
+
+* [Runge phenomenon](https://en.wikipedia.org/wiki/Runge%27s_phenomenon): oscillations at the edges of an interval---using higher-order polynomials doesn't always improve accuracy
 
 ## Smoothing splines
 
@@ -318,6 +336,8 @@ knitr::include_graphics("https://github.com/noamross/gams-in-r-course/blob/maste
 * A framework to model flexible nonlinear relationships
 
 * Use little functions (basis functions) to make big functions (smooths)
+
+* The predictor matrix has columns for each basis function, evaluated at each observation
 
 * Use a penalty to trade off model fit and wiggliness
 
