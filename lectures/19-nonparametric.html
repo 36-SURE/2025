@@ -451,6 +451,28 @@
 <h2>Weight basis functions to obtain spline</h2>
 
 <img data-src="../images/basis-functions.gif" class="r-stretch"></section>
+<section id="why-not-just-a-polynomial-fit" class="slide level2">
+<h2>Why not just a polynomial fit?</h2>
+<p><span class="math display">\[y_i \sim \mathcal{N}(\mu_i, \sigma^2)\]</span> <span class="math display">\[\mu_i = \beta_0 + \beta_1 x_{i} + \beta_2 x^2_{1i} + \cdots + \beta_j x^j_{i}\]</span></p>
+<div class="fragment">
+<ul>
+<li><p>In the polynomial models we use a polynomial basis expansion of <span class="math inline">\(x\)</span></p>
+<ul>
+<li><span class="math inline">\(x^0 = 1\)</span> (constant term), <span class="math inline">\(x, x^2, x^3, x^4, \dots\)</span></li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>We can keep on adding ever more powers of <span class="math inline">\(x\)</span> to the model (hmm…)</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Runge%27s_phenomenon">Runge phenomenon</a>: oscillations at the edges of an interval—using higher-order polynomials doesn’t always improve accuracy</li>
+</ul>
+</div>
+</section>
 <section id="smoothing-splines" class="slide level2">
 <h2>Smoothing splines</h2>
 <p>Use <strong>smooth function</strong> <span class="math inline">\(s(x)\)</span> to predict <span class="math inline">\(y\)</span>, control smoothness directly by minimizing the <strong>spline objective function</strong></p>
@@ -507,6 +529,7 @@
 <ul>
 <li><p>A framework to model flexible nonlinear relationships</p></li>
 <li><p>Use little functions (basis functions) to make big functions (smooths)</p></li>
+<li><p>The predictor matrix has columns for each basis function, evaluated at each observation</p></li>
 <li><p>Use a penalty to trade off model fit and wiggliness</p></li>
 <li><p>Need to make sure the smooths are wiggly enough</p></li>
 </ul>

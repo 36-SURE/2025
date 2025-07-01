@@ -1610,6 +1610,13 @@
     "text": "Weight basis functions to obtain spline"
   },
   {
+    "objectID": "lectures/19-nonparametric.html#why-not-just-a-polynomial-fit",
+    "href": "lectures/19-nonparametric.html#why-not-just-a-polynomial-fit",
+    "title": "Supervised learning: nonparametric regression",
+    "section": "Why not just a polynomial fit?",
+    "text": "Why not just a polynomial fit?\n\\[y_i \\sim \\mathcal{N}(\\mu_i, \\sigma^2)\\] \\[\\mu_i = \\beta_0 + \\beta_1 x_{i} + \\beta_2 x^2_{1i} + \\cdots + \\beta_j x^j_{i}\\]\n\n\nIn the polynomial models we use a polynomial basis expansion of \\(x\\)\n\n\\(x^0 = 1\\) (constant term), \\(x, x^2, x^3, x^4, \\dots\\)\n\n\n\n\n\nWe can keep on adding ever more powers of \\(x\\) to the model (hmm…)\n\n\n\n\nRunge phenomenon: oscillations at the edges of an interval—using higher-order polynomials doesn’t always improve accuracy"
+  },
+  {
     "objectID": "lectures/19-nonparametric.html#smoothing-splines",
     "href": "lectures/19-nonparametric.html#smoothing-splines",
     "title": "Supervised learning: nonparametric regression",
@@ -1635,7 +1642,7 @@
     "href": "lectures/19-nonparametric.html#gam-recap",
     "title": "Supervised learning: nonparametric regression",
     "section": "GAM recap",
-    "text": "GAM recap\n\nA framework to model flexible nonlinear relationships\nUse little functions (basis functions) to make big functions (smooths)\nUse a penalty to trade off model fit and wiggliness\nNeed to make sure the smooths are wiggly enough"
+    "text": "GAM recap\n\nA framework to model flexible nonlinear relationships\nUse little functions (basis functions) to make big functions (smooths)\nThe predictor matrix has columns for each basis function, evaluated at each observation\nUse a penalty to trade off model fit and wiggliness\nNeed to make sure the smooths are wiggly enough"
   },
   {
     "objectID": "lectures/19-nonparametric.html#predicting-mlb-hr-probability",
