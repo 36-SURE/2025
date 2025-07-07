@@ -646,20 +646,94 @@ $ is_throw_left   &lt;dbl&gt; 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
 </div>
 </div></div>
 </section>
+<section id="bonus-treemaps-for-visualizing-categorical-data" class="slide level2">
+<h2>Bonus: treemaps for visualizing categorical data</h2>
+<ul>
+<li><p>Note: this has nothing to do with the lecture content</p></li>
+<li><p>But is a cool way to visualize categorical data, as an alternative to mosaic plots</p></li>
+<li><p>Treemaps do not require the same categorical levels across subgroups</p></li>
+</ul>
+<div class="columns">
+<div class="column" style="text-align: left;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(treemapify)</span>
+<span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(species, island) <span class="sc">|&gt;</span></span>
+<span id="cb7-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">area =</span> n, <span class="at">subgroup =</span> island, <span class="at">label =</span> species,</span>
+<span id="cb7-5"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> <span class="fu">interaction</span>(species, island))) <span class="sc">+</span></span>
+<span id="cb7-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># draw species borders and fill colors</span></span>
+<span id="cb7-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_treemap</span>() <span class="sc">+</span></span>
+<span id="cb7-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># draw island borders</span></span>
+<span id="cb7-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_treemap_subgroup_border</span>() <span class="sc">+</span></span>
+<span id="cb7-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># print island text</span></span>
+<span id="cb7-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_treemap_subgroup_text</span>(</span>
+<span id="cb7-12"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">place =</span> <span class="st">"center"</span>, <span class="at">grow =</span> <span class="cn">TRUE</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>, </span>
+<span id="cb7-13"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">fontface =</span> <span class="st">"italic"</span>, <span class="at">min.size =</span> <span class="dv">0</span></span>
+<span id="cb7-14"><a aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb7-15"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># print species text</span></span>
+<span id="cb7-16"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_treemap_text</span>(<span class="at">color =</span> <span class="st">"white"</span>, <span class="at">place =</span> <span class="st">"topleft"</span>, </span>
+<span id="cb7-17"><a aria-hidden="true" tabindex="-1"></a>                    <span class="at">reflow =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb7-18"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="st">"none"</span>, <span class="at">fill =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="text-align: left;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="20-trees_files/figure-revealjs/unnamed-chunk-19-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="bonus-waffle-charts" class="slide level2">
+<h2>Bonus: <a href="https://github.com/hrbrmstr/waffle">waffle charts</a></h2>
+<ul>
+<li>Again, not related to the lecture content, but another cool way to visualize categorical data</li>
+</ul>
+<div class="columns">
+<div class="column" style="text-align: left;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(waffle)</span>
+<span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(species) <span class="sc">|&gt;</span></span>
+<span id="cb8-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">fill =</span> species, <span class="at">values =</span> n)) <span class="sc">+</span></span>
+<span id="cb8-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_waffle</span>(<span class="at">size =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"white"</span>,</span>
+<span id="cb8-6"><a aria-hidden="true" tabindex="-1"></a>              <span class="at">make_proportional =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb8-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb8-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Penguins by species"</span>,</span>
+<span id="cb8-9"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">fill =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb8-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
+<span id="cb8-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb8-12"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="text-align: left;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="20-trees_files/figure-revealjs/unnamed-chunk-21-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
 <section id="appendix-code-to-build-dataset" class="slide level2">
 <h2>Appendix: code to build dataset</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a>savant <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/36-SURE/2025/main/data/savant.csv"</span>)</span>
-<span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a>batted_balls <span class="ot">&lt;-</span> savant <span class="sc">|&gt;</span> </span>
-<span id="cb7-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(type <span class="sc">==</span> <span class="st">"X"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb7-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">is_hr =</span> <span class="fu">as.numeric</span>(events <span class="sc">==</span> <span class="st">"home_run"</span>),</span>
-<span id="cb7-5"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">is_stand_left =</span> <span class="fu">as.numeric</span>(stand <span class="sc">==</span> <span class="st">"L"</span>),</span>
-<span id="cb7-6"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">is_throw_left =</span> <span class="fu">as.numeric</span>(p_throws <span class="sc">==</span> <span class="st">"L"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb7-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(launch_angle), <span class="sc">!</span><span class="fu">is.na</span>(launch_speed), <span class="sc">!</span><span class="fu">is.na</span>(is_hr)) <span class="sc">|&gt;</span> </span>
-<span id="cb7-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(is_hr, launch_angle, launch_speed, bat_speed, swing_length, </span>
-<span id="cb7-9"><a aria-hidden="true" tabindex="-1"></a>         attack_angle, swing_path_tilt, plate_x, plate_z, </span>
-<span id="cb7-10"><a aria-hidden="true" tabindex="-1"></a>         inning, balls, strikes, is_stand_left, is_throw_left) <span class="sc">|&gt;</span> </span>
-<span id="cb7-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a>savant <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/36-SURE/2025/main/data/savant.csv"</span>)</span>
+<span id="cb9-2"><a aria-hidden="true" tabindex="-1"></a>batted_balls <span class="ot">&lt;-</span> savant <span class="sc">|&gt;</span> </span>
+<span id="cb9-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(type <span class="sc">==</span> <span class="st">"X"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">is_hr =</span> <span class="fu">as.numeric</span>(events <span class="sc">==</span> <span class="st">"home_run"</span>),</span>
+<span id="cb9-5"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">is_stand_left =</span> <span class="fu">as.numeric</span>(stand <span class="sc">==</span> <span class="st">"L"</span>),</span>
+<span id="cb9-6"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">is_throw_left =</span> <span class="fu">as.numeric</span>(p_throws <span class="sc">==</span> <span class="st">"L"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(launch_angle), <span class="sc">!</span><span class="fu">is.na</span>(launch_speed), <span class="sc">!</span><span class="fu">is.na</span>(is_hr)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(is_hr, launch_angle, launch_speed, bat_speed, swing_length, </span>
+<span id="cb9-9"><a aria-hidden="true" tabindex="-1"></a>         attack_angle, swing_path_tilt, plate_x, plate_z, </span>
+<span id="cb9-10"><a aria-hidden="true" tabindex="-1"></a>         inning, balls, strikes, is_stand_left, is_throw_left) <span class="sc">|&gt;</span> </span>
+<span id="cb9-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

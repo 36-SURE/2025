@@ -427,6 +427,20 @@
     "text": "More visualization with parttree\n\nFor illustration purpose only, since this only works for models with one or two predictors\n\n\n\n\nlibrary(parttree)\nhr_simple_tree &lt;- rpart(\n  is_hr ~ launch_speed + launch_angle,\n  data = batted_balls\n)\n\nhr_simple_tree |&gt; \n  parttree() |&gt; \n  plot(palette = \"classic\", \n       alpha = 0.5, \n       pch = 19,\n       border = NA)"
   },
   {
+    "objectID": "lectures/20-trees.html#bonus-treemaps-for-visualizing-categorical-data",
+    "href": "lectures/20-trees.html#bonus-treemaps-for-visualizing-categorical-data",
+    "title": "Supervised learning: decision trees",
+    "section": "Bonus: treemaps for visualizing categorical data",
+    "text": "Bonus: treemaps for visualizing categorical data\n\nNote: this has nothing to do with the lecture content\nBut is a cool way to visualize categorical data, as an alternative to mosaic plots\nTreemaps do not require the same categorical levels across subgroups\n\n\n\n\nlibrary(treemapify)\npenguins |&gt;\n  count(species, island) |&gt;\n  ggplot(aes(area = n, subgroup = island, label = species,\n             fill = interaction(species, island))) +\n  # draw species borders and fill colors\n  geom_treemap() +\n  # draw island borders\n  geom_treemap_subgroup_border() +\n  # print island text\n  geom_treemap_subgroup_text(\n    place = \"center\", grow = TRUE, alpha = 0.5, \n    color = \"black\", fontface = \"italic\", min.size = 0\n  )+\n  # print species text\n  geom_treemap_text(color = \"white\", place = \"topleft\", \n                    reflow = TRUE) +\n  guides(color = \"none\", fill = \"none\")"
+  },
+  {
+    "objectID": "lectures/20-trees.html#bonus-waffle-charts",
+    "href": "lectures/20-trees.html#bonus-waffle-charts",
+    "title": "Supervised learning: decision trees",
+    "section": "Bonus: waffle charts",
+    "text": "Bonus: waffle charts\n\nAgain, not related to the lecture content, but another cool way to visualize categorical data\n\n\n\n\nlibrary(waffle)\npenguins |&gt;\n  count(species) |&gt;\n  ggplot(mapping = aes(fill = species, values = n)) +\n  geom_waffle(size = 1, color = \"white\",\n              make_proportional = TRUE) +\n  scale_fill_viridis_d(end = 0.8) +\n  labs(title = \"Penguins by species\",\n       x = NULL, y = NULL, fill = NULL) +\n  coord_equal() +\n  theme_void() +\n  theme(legend.position = \"top\")"
+  },
+  {
     "objectID": "lectures/20-trees.html#appendix-code-to-build-dataset",
     "href": "lectures/20-trees.html#appendix-code-to-build-dataset",
     "title": "Supervised learning: decision trees",
