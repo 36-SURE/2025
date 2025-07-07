@@ -515,6 +515,121 @@ hr_simple_tree |>
 
 :::
 
+## Bonus: treemaps for visualizing categorical data
+
+* Note: this has nothing to do with the lecture content
+
+* But is a cool way to visualize categorical data, as an alternative to mosaic plots
+
+* Treemaps do not require the same categorical levels across subgroups
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+
+```{r}
+#| eval: false
+library(treemapify)
+penguins |>
+  count(species, island) |>
+  ggplot(aes(area = n, subgroup = island, label = species,
+             fill = interaction(species, island))) +
+  # draw species borders and fill colors
+  geom_treemap() +
+  # draw island borders
+  geom_treemap_subgroup_border() +
+  # print island text
+  geom_treemap_subgroup_text(
+    place = "center", grow = TRUE, alpha = 0.5, 
+    color = "black", fontface = "italic", min.size = 0
+  )+
+  # print species text
+  geom_treemap_text(color = "white", place = "topleft", 
+                    reflow = TRUE) +
+  guides(color = "none", fill = "none")
+```
+
+
+:::
+
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| echo: false
+#| fig-height: 8
+library(treemapify)
+penguins |>
+  count(species, island) |>
+  ggplot(aes(area = n, subgroup = island, label = species,
+             fill = interaction(species, island))) +
+  # draw species borders and fill colors
+  geom_treemap() +
+  # draw island borders
+  geom_treemap_subgroup_border() +
+  # print island text
+  geom_treemap_subgroup_text(
+    place = "center", grow = TRUE, alpha = 0.5, 
+    color = "black", fontface = "italic", min.size = 0
+  ) +
+  # print species text
+  geom_treemap_text(color = "white", place = "topleft", 
+                    reflow = TRUE) +
+  guides(color = "none", fill = "none")
+```
+
+:::
+
+:::
+
+## Bonus: [waffle charts](https://github.com/hrbrmstr/waffle)
+
+* Again, not related to the lecture content, but another cool way to visualize categorical data
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| eval: false
+library(waffle)
+penguins |>
+  count(species) |>
+  ggplot(mapping = aes(fill = species, values = n)) +
+  geom_waffle(size = 1, color = "white",
+              make_proportional = TRUE) +
+  scale_fill_viridis_d(end = 0.8) +
+  labs(title = "Penguins by species",
+       x = NULL, y = NULL, fill = NULL) +
+  coord_equal() +
+  theme_void() +
+  theme(legend.position = "top")
+```
+
+:::
+
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| echo: false
+#| fig-height: 6
+library(waffle)
+penguins |>
+  count(species) |>
+  ggplot(mapping = aes(fill = species, values = n)) +
+  geom_waffle(size = 1, color = "white",
+              make_proportional = TRUE) +
+  scale_fill_viridis_d(end = 0.8) +
+  labs(title = "Penguins by species",
+       x = NULL, y = NULL, fill = NULL) +
+  coord_equal() +
+  theme_void() +
+  theme(legend.position = "top")
+```
+
+:::
+:::
+
 ## Appendix: code to build dataset
 
 ```{r}
