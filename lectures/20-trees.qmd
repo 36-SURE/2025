@@ -39,9 +39,9 @@ ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
 
 * A single decision tree is simple and useful for interpretation
 
-    *   Main idea: stratify/segment the predictor space into a number of simple regions
+    *   Main idea: partition/segment the predictor space into a number of simple regions
   
-    *   The set of splitting rules used to segment the predictor space can be summarized in a tree
+    *   The set of splitting rules used to partition the predictor space can be summarized in a tree
     
 . . .
 
@@ -55,7 +55,7 @@ ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
 
 * Combining a large number of trees can result in great improvements in prediction accuracy, at the expense of some loss interpretation
 
-## Regression trees: How do we stratify?
+## Regression trees: How do we partition?
 
 Toy example: baseball salary
 
@@ -94,6 +94,8 @@ rpart.plot::rpart.plot(dt_model$fit, roundint = FALSE)
 * The number on the _top_ of the **nodes** indicates the predicted Salary, for example before doing _any_ splitting, the average Salary for the whole dataset is 536 thousand dollars.
 
 * This tree has **two internal nodes** and **three termninal nodes**
+
+* This is probably an oversimplification, but it is very easy to interpret
 
 ## Plotting a regression trees
 
@@ -169,27 +171,6 @@ Hitters |>
 * View the trees from _upside down_, the **leaves** are at the bottom
 
 * The splits are called **internal nodes**
-
-
-## Interpretation of results
-
-* `Years` is the most important factor in determining `Salary`
-
-  *   Players with less experience earn lower salaries
-  
-. . .  
-
-* Given that a player is less experienced, the number of `Hits` seems to play little role in the `Salary`
-
-. . .
-
-* Among players who have been in the major leagues for 4.5 years or more, the number of `Hits` made in the previous year **does** affect `Salary`
-
-  *   Players with more `Hits` tend to have higher salaries
-  
-. . .  
-
-* This is probably an oversimplification, but it is very easy to interpret
 
 ## Decision tree: a more complex example
 
