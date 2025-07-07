@@ -1,0 +1,451 @@
+---
+title: "Supervised learning: decision trees"
+author: "<br>SURE 2025<br><br>Department of Statistics & Data Science<br>Carnegie Mellon University"
+footer:  "[36-SURE.github.io/2025](https://36-sure.github.io/2025)"
+format:
+  revealjs:
+    theme: theme.scss
+    chalkboard: true
+    smaller: true
+    slide-number: c/t
+    code-line-numbers: false
+    linestretch: 1.25
+    html-math-method:
+      method: mathjax
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+---
+
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  fig.height = 9
+)
+library(tidyverse)
+ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
+```
+
+# Background
+
+## Tree-based methods
+
+* Can be applied to both regression and classification problems
+
+. . .
+
+* A single decision tree is simple and useful for interpretation
+
+    *   Main idea: stratify/segment the predictor space into a number of simple regions
+  
+    *   The set of splitting rules used to segment the predictor space can be summarized in a tree
+    
+. . .
+
+* But decision trees generally do not have the same level of predictive performance as other methods
+
+. . .
+
+* Bagging, random forests, and boosting: grow multiple trees which are then combined to yield a single consensus prediction
+
+. . .
+
+* Combining a large number of trees can result in great improvements in prediction accuracy, at the expense of some loss interpretation
+
+## Regression trees: How do we stratify?
+
+Toy example: baseball salary
+
+```{r, echo = FALSE}
+library(tidyverse)
+library(ISLR)
+library(tidymodels)
+Hitters |>
+  filter(!is.na(Salary)) |>
+  ggplot(aes(x = Years, y = Hits, color = Salary)) +
+  geom_point(size = 3.5) + 
+  scale_color_gradient2(low = "darkblue", high = "darkgreen", midpoint = 900)
+```
+
+## Regression trees
+
+Fit a **regression tree** to predict the salary of a baseball player using
+
+* Number of years they played in the major leagues
+
+* Number of hits they made in the previous year
+
+```{r, echo = FALSE, fig.height = 4}
+dt_model <- decision_tree(tree_depth = 2, mode = "regression") |>
+  set_engine("rpart") |> 
+  fit(Salary ~ Years + Hits, data = Hitters)
+rpart.plot::rpart.plot(dt_model$fit, roundint = FALSE)
+```
+
+## Regression trees
+
+* At each **node** the label (e.g., $X_j < t_k$ ) indicates that the _left_ branch that comes from that split. The _right_ branch is the opposite, e.g. $X_j \geq t_k$.
+
+* The first **internal node** indicates that those to the left have less than 4.5 years in the major league, on the right have $\geq$ 4.5 years.
+
+* The number on the _top_ of the **nodes** indicates the predicted Salary, for example before doing _any_ splitting, the average Salary for the whole dataset is 536 thousand dollars.
+
+* This tree has **two internal nodes** and **three termninal nodes**
+
+## Plotting a regression trees
+
+```{r, echo = FALSE, fig.height = 4}
+dt_model <- decision_tree(tree_depth = 2, mode = "regression") |>
+  set_engine("rpart") |> 
+  fit(Salary ~ Years + Hits, data = Hitters)
+rpart.plot::rpart.plot(dt_model$fit, roundint = FALSE)
+```
+
+## Regression trees: partitioning the feature space
+
+```{r, echo = FALSE}
+Hitters |>
+  filter(!is.na(Salary)) |>
+  mutate(color = case_when(
+    Years < 4.5 ~ 1,
+    Hits < 118 ~ 2,
+    TRUE ~ 3
+  )) |>
+  ggplot(aes(x = Years, y = Hits, color = factor(color))) +
+  geom_point(size = 3.5) + 
+  theme(legend.position = "none") +
+  geom_vline(xintercept = 4.5) + 
+  annotate("segment", x = 4.5, xend = Inf, y = 118, yend = 118, color = "black") +
+  ggthemes::scale_color_colorblind()
+```
+
+## Regression trees: partitioning the feature space
+
+```{r, echo = FALSE}
+Hitters |>
+  filter(!is.na(Salary)) |>
+  mutate(color = case_when(
+    Years < 4.5 ~ 1,
+    Hits < 118 ~ 2,
+    TRUE ~ 3
+  )) |>
+  ggplot(aes(x = Years, y = Hits, color = factor(color))) +
+  geom_point(size = 3.5) + 
+  theme(legend.position = "none") +
+  geom_vline(xintercept = 4.5) + 
+  annotate("segment", x = 4.5, xend = Inf, y = 118, yend = 118, color = "black") +
+  geom_text(label = "(1)", aes(x = 3, y = 200), color = "red", size = 10) +
+  ggthemes::scale_color_colorblind()
+```
+
+## Regression trees: partitioning the feature space
+
+```{r, echo = FALSE}
+Hitters |>
+  filter(!is.na(Salary)) |>
+  mutate(color = case_when(
+    Years < 4.5 ~ 1,
+    Hits < 118 ~ 2,
+    TRUE ~ 3
+  )) |>
+  ggplot(aes(x = Years, y = Hits, color = factor(color))) +
+  geom_point(size = 3.5) + 
+  theme(legend.position = "none") +
+  geom_vline(xintercept = 4.5) + 
+  annotate("segment", x = 4.5, xend = Inf, y = 118, yend = 118, color = "black") +
+  geom_text(label = "(1)", aes(x = 3, y = 200), color = "red", size = 10) + 
+  geom_text(label = "(2)", aes(x = 15, y = 15), color = "red", size = 10) + 
+  geom_text(label = "(3)", aes(x = 15, y = 200), color = "red", size = 10) +
+  ggthemes::scale_color_colorblind()
+```
+
+## Terminology
+
+* The final regions (1), (2) and (3) are called **terminal nodes**
+
+* View the trees from _upside down_, the **leaves** are at the bottom
+
+* The splits are called **internal nodes**
+
+
+## Interpretation of results
+
+* `Years` is the most important factor in determining `Salary`
+
+  *   Players with less experience earn lower salaries
+  
+. . .  
+
+* Given that a player is less experienced, the number of `Hits` seems to play little role in the `Salary`
+
+. . .
+
+* Among players who have been in the major leagues for 4.5 years or more, the number of `Hits` made in the previous year **does** affect `Salary`
+
+  *   Players with more `Hits` tend to have higher salaries
+  
+. . .  
+
+* This is probably an oversimplification, but it is very easy to interpret
+
+## Decision tree: a more complex example
+
+```{r, echo = FALSE, fig.height = 4}
+dt_model <- decision_tree(tree_depth = 3, mode = "regression") |>
+  set_engine("rpart") |> 
+  fit(Salary ~ Years + Hits, data = Hitters)
+rpart.plot::rpart.plot(dt_model$fit, roundint = FALSE)
+```
+
+## Decision tree structure
+
+```{r out.width='100%', echo = FALSE, fig.align='center'}
+knitr::include_graphics("https://bradleyboehmke.github.io/HOML/images/decision-tree-terminology.png")
+```
+
+## Decision tree structure
+
+Predict the response value for an observation by __following its path along the tree__
+
+(See previous baseball salary example)
+
+. . .
+
+- Decision trees are __very easy to explain__ to non-statisticians.
+
+- Easy to visualize and thus easy to interpret __without assuming a parametric form__
+
+
+## Tree-building process: the big picture
+
+*   Divide the predictor space (training data) into distinct and non-overlapping regions
+
+    *   The regions are found __recursively using recursive binary splitting__  (i.e. asking a series of yes/no questions about the predictors)
+
+    *   Stop splitting the tree once a __stopping criteria__ has been reached (e.g. maximum depth allowed)
+
+. . .
+
+*   For a given region, make the same prediction for all observations in that region
+
+    *   Regression tree: __the average of the response values__ in the node
+
+    *   Classification tree: __the most popular class__ in the node
+
+. . .
+
+* Most popular algorithm: Classification and Regression Tree (CART)
+
+## Tree-building process: more details
+
+*   Divide the predictor space into high-dimensional rectangles (or boxes) - for simplicity and ease of interpretation
+
+. . .
+
+*   Goal: find regions $R_1, \dots, R_J$ that minimize the RSS
+
+$$
+\sum_{j=1}^J \sum_{i \in R_j} (y_i - \hat y_{R_j})^2
+$$
+
+
+where $\hat y_{R_j}$ is the mean response for the training observations within the $j$th region (at the terminal node)
+
+. . .
+
+* So observations within each region are similar (basically having the same predicted response), and observations across regions are different
+
+. . .
+
+*   Challenge: it is computationally infeasible to consider every possible partition of the feature space into $J$ regions
+
+## Tree-building process: more details
+
+Solution: recursive binary splitting (a top-down, greedy approach)
+
+. . .
+
+*   top-down 
+
+    *   begin at the top of
+the tree
+
+    *   then successively split the predictor space
+    
+    *   each split is indicated via two new branches further down
+on the tree
+
+. . .
+
+*   greedy
+
+    *   at each step of the tree-building process, the best split is made at that particular step
+    
+    *   rather than looking ahead and picking a split that will lead to a better tree in some future step
+    
+## Tree-building process: more details
+
+*   First, select predictor $X_j$ and cutpoint $s$ such that
+
+    *   splitting the predictor space into the regions $\{X \mid X_j < s\}$ and $\{X \mid X_j \ge s\}$ will yield the greatest possible reduction in RSS
+    
+. . .
+
+*   Next, repeat the process
+
+    *   looking for the best predictor and best cutpoint in order to split the data further
+    
+    *   so as to minimize the RSS within each of the resulting regions
+    
+    *   BUT...split one of the two previously identified region (instead of the entire predictor space)
+    
+. . .    
+    
+*   Continue the process until a stopping criterion is reached (i.e. how complex should the tree be?)
+
+    *   maximum tree depth
+    
+    *   minimum node size
+    
+## Pruning a tree
+
+*   The process described above may produce good training performance but poor test set performance (i.e. overfitting)
+
+*   A smaller tree with fewer splits (i.e. fewer regions $R_1, \dots, R_J$): low variance, high bias
+
+*   A larger tree with more splits: high variance, low bias
+
+. . .
+
+*   Solution: tree pruning
+
+    *   Grow a very large complicated tree
+    
+    *   Then prune back to an optimal subtree
+    
+. . .    
+    
+*   Tuning parameter: cost complexity parameter $\alpha$
+
+    *   Minimize $$\text{RSS} + \alpha \vert T \vert$$ where $\vert T \vert$ is the number of terminal nodes of the tree $T$
+    
+    *   Controls a trade-off between the subtree’s complexity and its fit to the training data
+    
+    *   How do we select the optimal value?
+    
+## Summary: regression tree algorithm
+
+1. Use recursive binary splitting to grow a large tree on the training data, stopping only when each terminal node has fewer than some minimum number of observations
+
+. . .
+
+2. Apply cost complexity pruning to the large tree in order to obtain a sequence of best subtrees, as a function of $\alpha$
+
+. . .
+
+3. Use $K$-fold cross-validation to choose $\alpha$
+
+. . .
+
+4. Return the subtree from Step 2 that corresponds to the optimal chosen value of $\alpha$
+
+## Classification trees
+
+*   What if the response is categorical?
+
+. . .
+
+*   Predict that each observation belongs to the most commonly occurring class in the region to which it belongs
+
+. . .
+
+*   Just like regression trees, use recursive binary splitting to grow a classification tree
+
+. . .
+
+*   But we need a different criterion for making the binary splits other than RSS
+
+## Classification trees
+
+*   Instead of RSS, use the Gini index $$G = \sum_{k=1}^K \hat p_{jk} (1 - \hat p_{jk})$$ where $\hat p_{jk}$ is proportion of observations in the $j$th region that are from the $k$th class
+
+. . .
+
+*   A measure of total variance across the $K$ classes
+
+. . .
+    
+*   A measure of node purity (or node impurity)
+    
+    *  small value: a node contains mostly observations from a single class
+    
+. . .
+
+* Alternative measure: cross-entropy 
+
+$$G = - \sum_{k=1}^K \hat p_{jk} \log\hat p_{jk} $$
+
+# Examples
+
+## Predicting MLB home run probability
+
+```{r}
+library(tidyverse)
+theme_set(theme_light())
+batted_balls <- read_csv("https://raw.githubusercontent.com/36-SURE/2025/main/data/batted_balls.csv")
+glimpse(batted_balls)
+```
+
+```{r}
+#| echo: false
+ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
+```
+
+## Model training with `caret`
+
+```{r}
+library(caret)
+set.seed(10)
+hr_tree <- train(as.factor(is_hr) ~ ., method = "rpart", tuneLength = 20,
+                 trControl = trainControl(method = "cv", number = 10),
+                 data = batted_balls)
+# str(hr_tree)
+ggplot(hr_tree)
+```
+
+## Display the final tree model
+
+```{r, fig.height = 4, fig.width=5}
+library(rpart.plot)
+hr_tree |> 
+  pluck("finalModel") |> 
+  rpart.plot()
+```
+
+## Variable importance
+
+```{r}
+library(vip)
+hr_tree |> 
+  vip()
+```
+
+## Appendix: code to build dataset
+
+```{r}
+savant <- read_csv("https://raw.githubusercontent.com/36-SURE/2025/main/data/savant.csv")
+batted_balls <- savant |> 
+  filter(type == "X") |> 
+  mutate(is_hr = as.numeric(events == "home_run"),
+         is_stand_left = as.numeric(stand == "L"),
+         is_throw_left = as.numeric(p_throws == "L")) |> 
+  filter(!is.na(launch_angle), !is.na(launch_speed), !is.na(is_hr)) |> 
+  select(is_hr, launch_angle, launch_speed, bat_speed, swing_length, 
+         attack_angle, swing_path_tilt, plate_x, plate_z, 
+         inning, balls, strikes, is_stand_left, is_throw_left) |> 
+  drop_na()
+```
+
