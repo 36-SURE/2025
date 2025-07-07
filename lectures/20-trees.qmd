@@ -395,7 +395,8 @@ $$G = - \sum_{k=1}^K \hat p_{jk} \log\hat p_{jk} $$
 ```{r}
 library(tidyverse)
 theme_set(theme_light())
-batted_balls <- read_csv("https://raw.githubusercontent.com/36-SURE/2025/main/data/batted_balls.csv")
+batted_balls <- read_csv("https://raw.githubusercontent.com/36-SURE/2025/main/data/batted_balls.csv") |> 
+  mutate(is_hr = as.factor(is_hr))
 glimpse(batted_balls)
 ```
 
@@ -409,16 +410,16 @@ ggplot2::theme_set(ggplot2::theme_light(base_size = 20))
 ```{r}
 library(caret)
 set.seed(10)
-hr_tree <- train(as.factor(is_hr) ~ ., method = "rpart", tuneLength = 20,
+hr_tree <- train(is_hr ~ ., method = "rpart", tuneLength = 20,
                  trControl = trainControl(method = "cv", number = 10),
                  data = batted_balls)
 # str(hr_tree)
 ggplot(hr_tree)
 ```
 
-## Display the final tree model
+## Display the final tree model with [`rpart.plot`](http://www.milbo.org/doc/prp.pdf)
 
-```{r, fig.height = 4, fig.width=5}
+```{r, fig.height = 3, fig.width=6}
 library(rpart.plot)
 hr_tree |> 
   pluck("finalModel") |> 
@@ -427,11 +428,92 @@ hr_tree |>
 
 ## Variable importance
 
+* Recall that in a binary decision tree, at each node, a single predictor is used to partition the data into two homogeneous groups. 
+
+* The chosen predictor is the one that maximizes some measure of improvement (e.g. RSS, Gini index)
+
+* The relative importance of predictor $X^*$ is the sum of the squared improvements over all internal nodes of the tree for which $X$ was chosen as the partitioning variable
+
+## Variable importance with `vip`
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
 ```{r}
+#| eval: false
 library(vip)
 hr_tree |> 
   vip()
 ```
+
+:::
+
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| echo: false
+#| fig-height: 9
+library(vip)
+hr_tree |> 
+  vip()
+```
+
+:::
+
+:::
+
+
+
+
+## More visualization with [`parttree`](https://github.com/grantmcdermott/parttree)
+
+* For illustration purpose only, since this only works for models with one or two predictors
+
+::: columns
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| eval: false
+library(parttree)
+hr_simple_tree <- rpart(
+  is_hr ~ launch_speed + launch_angle,
+  data = batted_balls
+)
+
+hr_simple_tree |> 
+  parttree() |> 
+  plot(palette = "classic", 
+       alpha = 0.5, 
+       pch = 19,
+       border = NA)
+```
+
+:::
+
+
+::: {.column width="50%" style="text-align: left;"}
+
+```{r}
+#| echo: false
+#| fig-height: 9
+library(parttree)
+hr_simple_tree <- rpart(
+  is_hr ~ launch_speed + launch_angle,
+  data = batted_balls
+)
+
+hr_simple_tree |> 
+  parttree() |> 
+  plot(palette = "classic", 
+       alpha = 0.5, 
+       pch = 19,
+       border = NA)
+```
+
+:::
+
+:::
 
 ## Appendix: code to build dataset
 
