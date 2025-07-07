@@ -538,12 +538,13 @@
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_light</span>())</span>
-<span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a>batted_balls <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/36-SURE/2025/main/data/batted_balls.csv"</span>)</span>
-<span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(batted_balls)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a>batted_balls <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/36-SURE/2025/main/data/batted_balls.csv"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">is_hr =</span> <span class="fu">as.factor</span>(is_hr))</span>
+<span id="cb1-5"><a aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(batted_balls)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 20,188
 Columns: 14
-$ is_hr           &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+$ is_hr           &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
 $ launch_angle    &lt;dbl&gt; 33, -20, 36, 4, 20, 28, 27, 12, 8, -25, 16, 50, 68, 7,…
 $ launch_speed    &lt;dbl&gt; 91.3, 71.4, 103.4, 100.8, 102.3, 90.4, 90.4, 76.9, 101…
 $ bat_speed       &lt;dbl&gt; 76.3, 79.2, 72.3, 72.2, 67.8, 79.1, 74.7, 70.4, 74.3, …
@@ -565,7 +566,7 @@ $ is_throw_left   &lt;dbl&gt; 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
 <span id="cb3-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10</span>)</span>
-<span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a>hr_tree <span class="ot">&lt;-</span> <span class="fu">train</span>(<span class="fu">as.factor</span>(is_hr) <span class="sc">~</span> ., <span class="at">method =</span> <span class="st">"rpart"</span>, <span class="at">tuneLength =</span> <span class="dv">20</span>,</span>
+<span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a>hr_tree <span class="ot">&lt;-</span> <span class="fu">train</span>(is_hr <span class="sc">~</span> ., <span class="at">method =</span> <span class="st">"rpart"</span>, <span class="at">tuneLength =</span> <span class="dv">20</span>,</span>
 <span id="cb3-4"><a aria-hidden="true" tabindex="-1"></a>                 <span class="at">trControl =</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number =</span> <span class="dv">10</span>),</span>
 <span id="cb3-5"><a aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> batted_balls)</span>
 <span id="cb3-6"><a aria-hidden="true" tabindex="-1"></a><span class="co"># str(hr_tree)</span></span>
@@ -573,8 +574,8 @@ $ is_throw_left   &lt;dbl&gt; 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
 
 </div>
 <img data-src="20-trees_files/figure-revealjs/unnamed-chunk-12-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
-<section id="display-the-final-tree-model" class="slide level2">
-<h2>Display the final tree model</h2>
+<section id="display-the-final-tree-model-with-rpart.plot" class="slide level2">
+<h2>Display the final tree model with <a href="http://www.milbo.org/doc/prp.pdf"><code>rpart.plot</code></a></h2>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart.plot)</span>
 <span id="cb4-2"><a aria-hidden="true" tabindex="-1"></a>hr_tree <span class="sc">|&gt;</span> </span>
@@ -582,30 +583,83 @@ $ is_throw_left   &lt;dbl&gt; 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
 <span id="cb4-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">rpart.plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="20-trees_files/figure-revealjs/unnamed-chunk-13-1.png" class="quarto-figure quarto-figure-center r-stretch" width="480"></section>
+<img data-src="20-trees_files/figure-revealjs/unnamed-chunk-13-1.png" class="quarto-figure quarto-figure-center r-stretch" width="576"></section>
 <section id="variable-importance" class="slide level2">
 <h2>Variable importance</h2>
+<ul>
+<li><p>Recall that in a binary decision tree, at each node, a single predictor is used to partition the data into two homogeneous groups.</p></li>
+<li><p>The chosen predictor is the one that maximizes some measure of improvement (e.g.&nbsp;RSS, Gini index)</p></li>
+<li><p>The relative importance of predictor <span class="math inline">\(X^*\)</span> is the sum of the squared improvements over all internal nodes of the tree for which <span class="math inline">\(X\)</span> was chosen as the partitioning variable</p></li>
+</ul>
+</section>
+<section id="variable-importance-with-vip" class="slide level2">
+<h2>Variable importance with <code>vip</code></h2>
+<div class="columns">
+<div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vip)</span>
 <span id="cb5-2"><a aria-hidden="true" tabindex="-1"></a>hr_tree <span class="sc">|&gt;</span> </span>
 <span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">vip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
 </div>
-<img data-src="20-trees_files/figure-revealjs/unnamed-chunk-14-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
+</div><div class="column" style="text-align: left;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="20-trees_files/figure-revealjs/unnamed-chunk-15-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="more-visualization-with-parttree" class="slide level2">
+<h2>More visualization with <a href="https://github.com/grantmcdermott/parttree"><code>parttree</code></a></h2>
+<ul>
+<li>For illustration purpose only, since this only works for models with one or two predictors</li>
+</ul>
+<div class="columns">
+<div class="column" style="text-align: left;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parttree)</span>
+<span id="cb6-2"><a aria-hidden="true" tabindex="-1"></a>hr_simple_tree <span class="ot">&lt;-</span> <span class="fu">rpart</span>(</span>
+<span id="cb6-3"><a aria-hidden="true" tabindex="-1"></a>  is_hr <span class="sc">~</span> launch_speed <span class="sc">+</span> launch_angle,</span>
+<span id="cb6-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> batted_balls</span>
+<span id="cb6-5"><a aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-6"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a aria-hidden="true" tabindex="-1"></a>hr_simple_tree <span class="sc">|&gt;</span> </span>
+<span id="cb6-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">parttree</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb6-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="at">palette =</span> <span class="st">"classic"</span>, </span>
+<span id="cb6-10"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">alpha =</span> <span class="fl">0.5</span>, </span>
+<span id="cb6-11"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb6-12"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">border =</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="text-align: left;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="20-trees_files/figure-revealjs/unnamed-chunk-17-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
 <section id="appendix-code-to-build-dataset" class="slide level2">
 <h2>Appendix: code to build dataset</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a>savant <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/36-SURE/2025/main/data/savant.csv"</span>)</span>
-<span id="cb6-2"><a aria-hidden="true" tabindex="-1"></a>batted_balls <span class="ot">&lt;-</span> savant <span class="sc">|&gt;</span> </span>
-<span id="cb6-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(type <span class="sc">==</span> <span class="st">"X"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb6-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">is_hr =</span> <span class="fu">as.numeric</span>(events <span class="sc">==</span> <span class="st">"home_run"</span>),</span>
-<span id="cb6-5"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">is_stand_left =</span> <span class="fu">as.numeric</span>(stand <span class="sc">==</span> <span class="st">"L"</span>),</span>
-<span id="cb6-6"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">is_throw_left =</span> <span class="fu">as.numeric</span>(p_throws <span class="sc">==</span> <span class="st">"L"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb6-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(launch_angle), <span class="sc">!</span><span class="fu">is.na</span>(launch_speed), <span class="sc">!</span><span class="fu">is.na</span>(is_hr)) <span class="sc">|&gt;</span> </span>
-<span id="cb6-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(is_hr, launch_angle, launch_speed, bat_speed, swing_length, </span>
-<span id="cb6-9"><a aria-hidden="true" tabindex="-1"></a>         attack_angle, swing_path_tilt, plate_x, plate_z, </span>
-<span id="cb6-10"><a aria-hidden="true" tabindex="-1"></a>         inning, balls, strikes, is_stand_left, is_throw_left) <span class="sc">|&gt;</span> </span>
-<span id="cb6-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a>savant <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/36-SURE/2025/main/data/savant.csv"</span>)</span>
+<span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a>batted_balls <span class="ot">&lt;-</span> savant <span class="sc">|&gt;</span> </span>
+<span id="cb7-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(type <span class="sc">==</span> <span class="st">"X"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">is_hr =</span> <span class="fu">as.numeric</span>(events <span class="sc">==</span> <span class="st">"home_run"</span>),</span>
+<span id="cb7-5"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">is_stand_left =</span> <span class="fu">as.numeric</span>(stand <span class="sc">==</span> <span class="st">"L"</span>),</span>
+<span id="cb7-6"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">is_throw_left =</span> <span class="fu">as.numeric</span>(p_throws <span class="sc">==</span> <span class="st">"L"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(launch_angle), <span class="sc">!</span><span class="fu">is.na</span>(launch_speed), <span class="sc">!</span><span class="fu">is.na</span>(is_hr)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(is_hr, launch_angle, launch_speed, bat_speed, swing_length, </span>
+<span id="cb7-9"><a aria-hidden="true" tabindex="-1"></a>         attack_angle, swing_path_tilt, plate_x, plate_z, </span>
+<span id="cb7-10"><a aria-hidden="true" tabindex="-1"></a>         inning, balls, strikes, is_stand_left, is_throw_left) <span class="sc">|&gt;</span> </span>
+<span id="cb7-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

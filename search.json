@@ -389,28 +389,42 @@
     "href": "lectures/20-trees.html#predicting-mlb-home-run-probability",
     "title": "Supervised learning: decision trees",
     "section": "Predicting MLB home run probability",
-    "text": "Predicting MLB home run probability\n\nlibrary(tidyverse)\ntheme_set(theme_light())\nbatted_balls &lt;- read_csv(\"https://raw.githubusercontent.com/36-SURE/2025/main/data/batted_balls.csv\")\nglimpse(batted_balls)\n\nRows: 20,188\nColumns: 14\n$ is_hr           &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ launch_angle    &lt;dbl&gt; 33, -20, 36, 4, 20, 28, 27, 12, 8, -25, 16, 50, 68, 7,…\n$ launch_speed    &lt;dbl&gt; 91.3, 71.4, 103.4, 100.8, 102.3, 90.4, 90.4, 76.9, 101…\n$ bat_speed       &lt;dbl&gt; 76.3, 79.2, 72.3, 72.2, 67.8, 79.1, 74.7, 70.4, 74.3, …\n$ swing_length    &lt;dbl&gt; 8.2, 8.0, 6.4, 8.4, 5.9, 7.7, 8.2, 6.6, 7.0, 6.7, 6.6,…\n$ attack_angle    &lt;dbl&gt; 0.1394548, 22.2024920, 11.7628706, 3.3512694, -4.21284…\n$ swing_path_tilt &lt;dbl&gt; 40.20981, 30.55564, 29.29605, 29.01934, 26.56705, 33.4…\n$ plate_x         &lt;dbl&gt; -0.45, 0.26, -0.04, -0.65, -0.40, -0.25, -0.23, -0.94,…\n$ plate_z         &lt;dbl&gt; 1.98, 2.02, 2.75, 1.81, 2.78, 2.08, 1.58, 2.14, 2.70, …\n$ inning          &lt;dbl&gt; 9, 9, 9, 8, 8, 8, 8, 7, 7, 6, 6, 6, 5, 5, 5, 5, 5, 5, …\n$ balls           &lt;dbl&gt; 0, 1, 3, 2, 0, 1, 1, 2, 3, 0, 0, 2, 0, 2, 0, 1, 0, 0, …\n$ strikes         &lt;dbl&gt; 2, 2, 2, 1, 0, 2, 2, 2, 2, 0, 0, 2, 0, 2, 0, 1, 1, 1, …\n$ is_stand_left   &lt;dbl&gt; 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, …\n$ is_throw_left   &lt;dbl&gt; 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, …"
+    "text": "Predicting MLB home run probability\n\nlibrary(tidyverse)\ntheme_set(theme_light())\nbatted_balls &lt;- read_csv(\"https://raw.githubusercontent.com/36-SURE/2025/main/data/batted_balls.csv\") |&gt; \n  mutate(is_hr = as.factor(is_hr))\nglimpse(batted_balls)\n\nRows: 20,188\nColumns: 14\n$ is_hr           &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ launch_angle    &lt;dbl&gt; 33, -20, 36, 4, 20, 28, 27, 12, 8, -25, 16, 50, 68, 7,…\n$ launch_speed    &lt;dbl&gt; 91.3, 71.4, 103.4, 100.8, 102.3, 90.4, 90.4, 76.9, 101…\n$ bat_speed       &lt;dbl&gt; 76.3, 79.2, 72.3, 72.2, 67.8, 79.1, 74.7, 70.4, 74.3, …\n$ swing_length    &lt;dbl&gt; 8.2, 8.0, 6.4, 8.4, 5.9, 7.7, 8.2, 6.6, 7.0, 6.7, 6.6,…\n$ attack_angle    &lt;dbl&gt; 0.1394548, 22.2024920, 11.7628706, 3.3512694, -4.21284…\n$ swing_path_tilt &lt;dbl&gt; 40.20981, 30.55564, 29.29605, 29.01934, 26.56705, 33.4…\n$ plate_x         &lt;dbl&gt; -0.45, 0.26, -0.04, -0.65, -0.40, -0.25, -0.23, -0.94,…\n$ plate_z         &lt;dbl&gt; 1.98, 2.02, 2.75, 1.81, 2.78, 2.08, 1.58, 2.14, 2.70, …\n$ inning          &lt;dbl&gt; 9, 9, 9, 8, 8, 8, 8, 7, 7, 6, 6, 6, 5, 5, 5, 5, 5, 5, …\n$ balls           &lt;dbl&gt; 0, 1, 3, 2, 0, 1, 1, 2, 3, 0, 0, 2, 0, 2, 0, 1, 0, 0, …\n$ strikes         &lt;dbl&gt; 2, 2, 2, 1, 0, 2, 2, 2, 2, 0, 0, 2, 0, 2, 0, 1, 1, 1, …\n$ is_stand_left   &lt;dbl&gt; 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, …\n$ is_throw_left   &lt;dbl&gt; 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, …"
   },
   {
     "objectID": "lectures/20-trees.html#model-training-with-caret",
     "href": "lectures/20-trees.html#model-training-with-caret",
     "title": "Supervised learning: decision trees",
     "section": "Model training with caret",
-    "text": "Model training with caret\n\nlibrary(caret)\nset.seed(10)\nhr_tree &lt;- train(as.factor(is_hr) ~ ., method = \"rpart\", tuneLength = 20,\n                 trControl = trainControl(method = \"cv\", number = 10),\n                 data = batted_balls)\n# str(hr_tree)\nggplot(hr_tree)"
+    "text": "Model training with caret\n\nlibrary(caret)\nset.seed(10)\nhr_tree &lt;- train(is_hr ~ ., method = \"rpart\", tuneLength = 20,\n                 trControl = trainControl(method = \"cv\", number = 10),\n                 data = batted_balls)\n# str(hr_tree)\nggplot(hr_tree)"
   },
   {
-    "objectID": "lectures/20-trees.html#display-the-final-tree-model",
-    "href": "lectures/20-trees.html#display-the-final-tree-model",
+    "objectID": "lectures/20-trees.html#display-the-final-tree-model-with-rpart.plot",
+    "href": "lectures/20-trees.html#display-the-final-tree-model-with-rpart.plot",
     "title": "Supervised learning: decision trees",
-    "section": "Display the final tree model",
-    "text": "Display the final tree model\n\nlibrary(rpart.plot)\nhr_tree |&gt; \n  pluck(\"finalModel\") |&gt; \n  rpart.plot()"
+    "section": "Display the final tree model with rpart.plot",
+    "text": "Display the final tree model with rpart.plot\n\nlibrary(rpart.plot)\nhr_tree |&gt; \n  pluck(\"finalModel\") |&gt; \n  rpart.plot()"
   },
   {
     "objectID": "lectures/20-trees.html#variable-importance",
     "href": "lectures/20-trees.html#variable-importance",
     "title": "Supervised learning: decision trees",
     "section": "Variable importance",
-    "text": "Variable importance\n\nlibrary(vip)\nhr_tree |&gt; \n  vip()"
+    "text": "Variable importance\n\nRecall that in a binary decision tree, at each node, a single predictor is used to partition the data into two homogeneous groups.\nThe chosen predictor is the one that maximizes some measure of improvement (e.g. RSS, Gini index)\nThe relative importance of predictor \\(X^*\\) is the sum of the squared improvements over all internal nodes of the tree for which \\(X\\) was chosen as the partitioning variable"
+  },
+  {
+    "objectID": "lectures/20-trees.html#variable-importance-with-vip",
+    "href": "lectures/20-trees.html#variable-importance-with-vip",
+    "title": "Supervised learning: decision trees",
+    "section": "Variable importance with vip",
+    "text": "Variable importance with vip\n\n\n\nlibrary(vip)\nhr_tree |&gt; \n  vip()"
+  },
+  {
+    "objectID": "lectures/20-trees.html#more-visualization-with-parttree",
+    "href": "lectures/20-trees.html#more-visualization-with-parttree",
+    "title": "Supervised learning: decision trees",
+    "section": "More visualization with parttree",
+    "text": "More visualization with parttree\n\nFor illustration purpose only, since this only works for models with one or two predictors\n\n\n\n\nlibrary(parttree)\nhr_simple_tree &lt;- rpart(\n  is_hr ~ launch_speed + launch_angle,\n  data = batted_balls\n)\n\nhr_simple_tree |&gt; \n  parttree() |&gt; \n  plot(palette = \"classic\", \n       alpha = 0.5, \n       pch = 19,\n       border = NA)"
   },
   {
     "objectID": "lectures/20-trees.html#appendix-code-to-build-dataset",
