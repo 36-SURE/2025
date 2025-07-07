@@ -220,8 +220,8 @@
 <ul>
 <li><p>A single decision tree is simple and useful for interpretation</p>
 <ul>
-<li><p>Main idea: stratify/segment the predictor space into a number of simple regions</p></li>
-<li><p>The set of splitting rules used to segment the predictor space can be summarized in a tree</p></li>
+<li><p>Main idea: partition/segment the predictor space into a number of simple regions</p></li>
+<li><p>The set of splitting rules used to partition the predictor space can be summarized in a tree</p></li>
 </ul></li>
 </ul>
 </div>
@@ -241,8 +241,8 @@
 </ul>
 </div>
 </section>
-<section id="regression-trees-how-do-we-stratify" class="slide level2">
-<h2>Regression trees: How do we stratify?</h2>
+<section id="regression-trees-how-do-we-partition" class="slide level2">
+<h2>Regression trees: How do we partition?</h2>
 <p>Toy example: baseball salary</p>
 
 <img data-src="20-trees_files/figure-revealjs/unnamed-chunk-2-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
@@ -262,6 +262,7 @@
 <li><p>The first <strong>internal node</strong> indicates that those to the left have less than 4.5 years in the major league, on the right have <span class="math inline">\(\geq\)</span> 4.5 years.</p></li>
 <li><p>The number on the <em>top</em> of the <strong>nodes</strong> indicates the predicted Salary, for example before doing <em>any</em> splitting, the average Salary for the whole dataset is 536 thousand dollars.</p></li>
 <li><p>This tree has <strong>two internal nodes</strong> and <strong>three termninal nodes</strong></p></li>
+<li><p>This is probably an oversimplification, but it is very easy to interpret</p></li>
 </ul>
 </section>
 <section id="plotting-a-regression-trees" class="slide level2">
@@ -287,33 +288,6 @@
 <li><p>View the trees from <em>upside down</em>, the <strong>leaves</strong> are at the bottom</p></li>
 <li><p>The splits are called <strong>internal nodes</strong></p></li>
 </ul>
-</section>
-<section id="interpretation-of-results" class="slide level2">
-<h2>Interpretation of results</h2>
-<ul>
-<li><p><code>Years</code> is the most important factor in determining <code>Salary</code></p>
-<ul>
-<li>Players with less experience earn lower salaries</li>
-</ul></li>
-</ul>
-<div class="fragment">
-<ul>
-<li>Given that a player is less experienced, the number of <code>Hits</code> seems to play little role in the <code>Salary</code></li>
-</ul>
-</div>
-<div class="fragment">
-<ul>
-<li><p>Among players who have been in the major leagues for 4.5 years or more, the number of <code>Hits</code> made in the previous year <strong>does</strong> affect <code>Salary</code></p>
-<ul>
-<li>Players with more <code>Hits</code> tend to have higher salaries</li>
-</ul></li>
-</ul>
-</div>
-<div class="fragment">
-<ul>
-<li>This is probably an oversimplification, but it is very easy to interpret</li>
-</ul>
-</div>
 </section>
 <section id="decision-tree-a-more-complex-example" class="slide level2">
 <h2>Decision tree: a more complex example</h2>

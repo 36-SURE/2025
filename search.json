@@ -242,14 +242,14 @@
     "href": "lectures/20-trees.html#tree-based-methods",
     "title": "Supervised learning: decision trees",
     "section": "Tree-based methods",
-    "text": "Tree-based methods\n\nCan be applied to both regression and classification problems\n\n\n\nA single decision tree is simple and useful for interpretation\n\nMain idea: stratify/segment the predictor space into a number of simple regions\nThe set of splitting rules used to segment the predictor space can be summarized in a tree\n\n\n\n\n\nBut decision trees generally do not have the same level of predictive performance as other methods\n\n\n\n\nBagging, random forests, and boosting: grow multiple trees which are then combined to yield a single consensus prediction\n\n\n\n\nCombining a large number of trees can result in great improvements in prediction accuracy, at the expense of some loss interpretation"
+    "text": "Tree-based methods\n\nCan be applied to both regression and classification problems\n\n\n\nA single decision tree is simple and useful for interpretation\n\nMain idea: partition/segment the predictor space into a number of simple regions\nThe set of splitting rules used to partition the predictor space can be summarized in a tree\n\n\n\n\n\nBut decision trees generally do not have the same level of predictive performance as other methods\n\n\n\n\nBagging, random forests, and boosting: grow multiple trees which are then combined to yield a single consensus prediction\n\n\n\n\nCombining a large number of trees can result in great improvements in prediction accuracy, at the expense of some loss interpretation"
   },
   {
-    "objectID": "lectures/20-trees.html#regression-trees-how-do-we-stratify",
-    "href": "lectures/20-trees.html#regression-trees-how-do-we-stratify",
+    "objectID": "lectures/20-trees.html#regression-trees-how-do-we-partition",
+    "href": "lectures/20-trees.html#regression-trees-how-do-we-partition",
     "title": "Supervised learning: decision trees",
-    "section": "Regression trees: How do we stratify?",
-    "text": "Regression trees: How do we stratify?\nToy example: baseball salary"
+    "section": "Regression trees: How do we partition?",
+    "text": "Regression trees: How do we partition?\nToy example: baseball salary"
   },
   {
     "objectID": "lectures/20-trees.html#regression-trees",
@@ -263,7 +263,7 @@
     "href": "lectures/20-trees.html#regression-trees-1",
     "title": "Supervised learning: decision trees",
     "section": "Regression trees",
-    "text": "Regression trees\n\nAt each node the label (e.g., \\(X_j &lt; t_k\\) ) indicates that the left branch that comes from that split. The right branch is the opposite, e.g. \\(X_j \\geq t_k\\).\nThe first internal node indicates that those to the left have less than 4.5 years in the major league, on the right have \\(\\geq\\) 4.5 years.\nThe number on the top of the nodes indicates the predicted Salary, for example before doing any splitting, the average Salary for the whole dataset is 536 thousand dollars.\nThis tree has two internal nodes and three termninal nodes"
+    "text": "Regression trees\n\nAt each node the label (e.g., \\(X_j &lt; t_k\\) ) indicates that the left branch that comes from that split. The right branch is the opposite, e.g. \\(X_j \\geq t_k\\).\nThe first internal node indicates that those to the left have less than 4.5 years in the major league, on the right have \\(\\geq\\) 4.5 years.\nThe number on the top of the nodes indicates the predicted Salary, for example before doing any splitting, the average Salary for the whole dataset is 536 thousand dollars.\nThis tree has two internal nodes and three termninal nodes\nThis is probably an oversimplification, but it is very easy to interpret"
   },
   {
     "objectID": "lectures/20-trees.html#plotting-a-regression-trees",
@@ -299,13 +299,6 @@
     "title": "Supervised learning: decision trees",
     "section": "Terminology",
     "text": "Terminology\n\nThe final regions (1), (2) and (3) are called terminal nodes\nView the trees from upside down, the leaves are at the bottom\nThe splits are called internal nodes"
-  },
-  {
-    "objectID": "lectures/20-trees.html#interpretation-of-results",
-    "href": "lectures/20-trees.html#interpretation-of-results",
-    "title": "Supervised learning: decision trees",
-    "section": "Interpretation of results",
-    "text": "Interpretation of results\n\nYears is the most important factor in determining Salary\n\nPlayers with less experience earn lower salaries\n\n\n\n\nGiven that a player is less experienced, the number of Hits seems to play little role in the Salary\n\n\n\n\nAmong players who have been in the major leagues for 4.5 years or more, the number of Hits made in the previous year does affect Salary\n\nPlayers with more Hits tend to have higher salaries\n\n\n\n\n\nThis is probably an oversimplification, but it is very easy to interpret"
   },
   {
     "objectID": "lectures/20-trees.html#decision-tree-a-more-complex-example",
