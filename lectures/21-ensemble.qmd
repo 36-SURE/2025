@@ -486,14 +486,25 @@ knitr::include_graphics("https://bradleyboehmke.github.io/HOML/10-gradient-boost
 
 ## Gradient descent
 
-* Given a loss function $\ell(\theta, D)$ for $n$ data points $D_i$
+* Let $\theta$ denote the vector of all parameters
+
+. . .
+
+* Let $\ell(\theta, D)$ denote the loss function for $n$ data points $D_i$
+
+. . .
+
+* Main idea: Start with an initial guess for $\theta$, then iterate until the loss function fails to decrease
+
+. . .
 
 * Tuning parameter: learning rate $\eta$
+
+. . .
 
 * Intuition: move a small step downhill based on the gradient at current position 
 
 $$\theta_t \leftarrow \theta_{t-1} - \eta \nabla_\theta \ell(\theta, D) \vert _{\theta = \theta_{t-1}}$$
-
 
 ## Tune the learning rate in gradient descent
 
@@ -600,26 +611,37 @@ xg_tune <- train(x = x_train,
                  method = "xgbTree")
 ```
 
-## Model evaluation
+## Final model fit and variable importance
+
+::: columns
+
+::: {.column width="60%" style="text-align: left;"}
 
 ```{r}
 # fit final model  data
-xg_fit <- xgboost(data = x_train,
-                  label = batted_balls$is_hr,
-                  objective = "binary:logistic",
-                  nrounds = xg_tune$bestTune$nrounds,
-                  params = as.list(select(xg_tune$bestTune, -nrounds)),
-                  verbose = 0)
+xg_fit <- xgboost(
+  data = x_train,
+  label = batted_balls$is_hr,
+  objective = "binary:logistic",
+  nrounds = xg_tune$bestTune$nrounds,
+  params = as.list(select(xg_tune$bestTune, -nrounds)),
+  verbose = 0
+)
 ```
 
-## Variable importance
+:::
+
+::: {.column width="40%" style="text-align: left;"}
 
 ```{r}
+#| fig-height: 8
 library(vip)
 xg_fit |> 
   vip()
 ```
 
+:::
+:::
 
 ## See also
 
