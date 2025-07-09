@@ -1,0 +1,23 @@
+---
+title: "Building a website with Quarto"
+format: html
+---
+
+
+# Resources
+
+* About page: <https://quarto.org/docs/websites/website-about.html>
+
+* Navigation bar: <https://quarto.org/docs/websites/website-navigation.html>
+
+* Icons: <https://icons.getbootstrap.com>
+
+* Quarto HTML themes: <https://quarto.org/docs/output-formats/html-themes.html>
+
+* Listings (for displaying projects/blogs/etc.): <https://quarto.org/docs/websites/website-listings.html>
+
+* Publishing: <https://quarto.org/docs/publishing/github-pages.html>
+
+* Theme customization file: Download [here](https://www.dropbox.com/scl/fi/k6vjzkiighxjf9i0574je/custom.scss?rlkey=byjp26c61wx0eerwnk0k5lb23&e=1&st=t8j3ytsi&dl=1)
+
+* Markdown basics: <https://quarto.org/docs/authoring/markdown-basics.html>

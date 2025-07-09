@@ -28,10 +28,10 @@ title: "Lectures"
 | Lecture 19 | July 1  | Supervised learning: nonparametric regression             | [slides](lectures/19-nonparametric.qmd)  |
 | Lecture 20 | July 7  | Supervised learning: decision trees                       | [slides](lectures/20-trees.qmd)          |
 | Lecture 21 | July 8  | Supervised learning: bagging and boosting                 | [slides](lectures/21-ensemble.qmd)       |
+| Lecture 22 | July 9  | Building a website with Quarto                            | [slides](lectures/22-website.qmd)        |
+
 
 <!--
-
-
 
 | Lecture 21 | XXXXXXX | Supervised learning: multinomial classification           | [slides](lectures/21-multinomial.qmd)    |
 
