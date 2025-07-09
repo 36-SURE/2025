@@ -3497,7 +3497,7 @@
     "href": "lectures/22-website.html",
     "title": "Building a website with Quarto",
     "section": "",
-    "text": "Resources\n\nAbout page: https://quarto.org/docs/websites/website-about.html\nNavigation bar: https://quarto.org/docs/websites/website-navigation.html\nIcons: https://icons.getbootstrap.com\nQuarto HTML themes: https://quarto.org/docs/output-formats/html-themes.html\nListings (for displaying projects/blogs/etc.): https://quarto.org/docs/websites/website-listings.html\nPublishing: https://quarto.org/docs/publishing/github-pages.html\nTheme customization file: Download here\nMarkdown basics: https://quarto.org/docs/authoring/markdown-basics.html"
+    "text": "Resources\n\nRepository name: &lt;your_github_username&gt;.github.io\nAbout page: https://quarto.org/docs/websites/website-about.html\nNavigation bar: https://quarto.org/docs/websites/website-navigation.html\nIcons: https://icons.getbootstrap.com\nQuarto HTML themes: https://quarto.org/docs/output-formats/html-themes.html\nListings (for displaying projects/blogs/etc.): https://quarto.org/docs/websites/website-listings.html\nPublishing: https://quarto.org/docs/publishing/github-pages.html\nTheme customization file: Download here\nMarkdown basics: https://quarto.org/docs/authoring/markdown-basics.html"
   },
   {
     "objectID": "lectures/16-glm.html#recap",
