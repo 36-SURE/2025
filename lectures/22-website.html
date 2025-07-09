@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Lectures – SURE 2025</title>
+<title>Building a website with Quarto – SURE 2025</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,23 +23,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-b96a39e19e16bbd575ad4b6557d7551c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-b96a39e19e16bbd575ad4b6557d7551c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -68,37 +68,8 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed fullcontent quarto-light">
@@ -108,7 +79,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">SURE 2025</span>
     </a>
   </div>
@@ -119,29 +90,29 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./lectures.html" aria-current="page"> 
+    <a class="nav-link" href="../lectures.html"> 
 <span class="menu-text">Lectures</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./health.html"> 
+    <a class="nav-link" href="../health.html"> 
 <span class="menu-text">Health</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./sports.html"> 
+    <a class="nav-link" href="../sports.html"> 
 <span class="menu-text">Sports</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./r-setup.html"> 
+    <a class="nav-link" href="../r-setup.html"> 
 <span class="menu-text">R and RStudio Setup</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./git-setup.html"> 
+    <a class="nav-link" href="../git-setup.html"> 
 <span class="menu-text">Git and GitHub Setup</span></a>
   </li>  
 </ul>
@@ -161,7 +132,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Lectures</h1>
+<h1 class="title">Building a website with Quarto</h1>
 </div>
 
 
@@ -178,163 +149,18 @@ window.Quarto = {
 </header>
 
 
-<section id="contents" class="level2">
-<h2 class="anchored" data-anchor-id="contents">Contents</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th></th>
-<th>Date</th>
-<th>Title</th>
-<th>Materials</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Lecture 0</td>
-<td>June 2</td>
-<td>Welcome to SURE 2025</td>
-<td><a href="./lectures/00-welcome.html">slides</a></td>
-</tr>
-<tr class="even">
-<td>Lecture 1</td>
-<td>June 3</td>
-<td>Exploring data: into the <code>tidyverse</code></td>
-<td><a href="./lectures/01-explore.html">slides</a></td>
-</tr>
-<tr class="odd">
-<td>Lecture 2</td>
-<td>June 4</td>
-<td>Data visualization: the grammar of graphics and <code>ggplot2</code></td>
-<td><a href="./lectures/02-graphics.html">slides</a></td>
-</tr>
-<tr class="even">
-<td>Lecture 3</td>
-<td>June 5</td>
-<td>Data visualization: categorical data</td>
-<td><a href="./lectures/03-categorical.html">slides</a></td>
-</tr>
-<tr class="odd">
-<td>Lecture 4</td>
-<td>June 6</td>
-<td>Data visualization: quantitative data</td>
-<td><a href="./lectures/04-quantitative.html">slides</a></td>
-</tr>
-<tr class="even">
-<td>Lecture 5</td>
-<td>June 9</td>
-<td>Unsupervised learning: principal component analysis</td>
-<td><a href="./lectures/05-pca.html">slides</a></td>
-</tr>
-<tr class="odd">
-<td>Lecture 6</td>
-<td>June 10</td>
-<td>Unsupervised learning: <span class="math inline">\(k\)</span>-means clustering</td>
-<td><a href="./lectures/06-kmeans.html">slides</a></td>
-</tr>
-<tr class="even">
-<td>Lecture 7</td>
-<td>June 11</td>
-<td>Unsupervised learning: hierarchical clustering</td>
-<td><a href="./lectures/07-hierarchical.html">slides</a></td>
-</tr>
-<tr class="odd">
-<td>Lecture 8</td>
-<td>June 12</td>
-<td>Data visualization: density estimation</td>
-<td><a href="./lectures/08-density.html">slides</a></td>
-</tr>
-<tr class="even">
-<td>Lecture 9</td>
-<td>June 13</td>
-<td>Presentations</td>
-<td><a href="./lectures/09-presentation.html">slides</a></td>
-</tr>
-<tr class="odd">
-<td>Lecture 10</td>
-<td>June 16</td>
-<td>Simulation</td>
-<td><a href="./lectures/10-simulation.html">slides</a></td>
-</tr>
-<tr class="even">
-<td>Lecture 11</td>
-<td>June 17</td>
-<td>Supervised learning: linear regression</td>
-<td><a href="./lectures/11-linear.html">slides</a></td>
-</tr>
-<tr class="odd">
-<td>Lecture 12</td>
-<td>June 20</td>
-<td>Supervised learning: model building</td>
-<td><a href="./lectures/12-building.html">slides</a></td>
-</tr>
-<tr class="even">
-<td>Lecture 13</td>
-<td>June 23</td>
-<td>Data wrangling with R’s <code>data.table</code> package</td>
-<td><a href="./lectures/13-datatable.html">slides</a></td>
-</tr>
-<tr class="odd">
-<td>Lecture 14</td>
-<td>June 24</td>
-<td>Supervised learning: regularization</td>
-<td><a href="./lectures/14-regularization.html">slides</a></td>
-</tr>
-<tr class="even">
-<td>Lecture 15</td>
-<td>June 25</td>
-<td>Supervised learning: logistic regression</td>
-<td><a href="./lectures/15-logistic.html">slides</a></td>
-</tr>
-<tr class="odd">
-<td>Lecture 16</td>
-<td>June 26</td>
-<td>Supervised learning: generalized linear models</td>
-<td><a href="./lectures/16-glm.html">slides</a></td>
-</tr>
-<tr class="even">
-<td>Lecture 17</td>
-<td>June 27</td>
-<td>The command line and <code>git</code></td>
-<td><a href="./lectures/17-cli-git.html">slides</a></td>
-</tr>
-<tr class="odd">
-<td>Lecture 18</td>
-<td>June 30</td>
-<td>Unsupervised learning: Gaussian mixture models</td>
-<td><a href="./lectures/18-mixture.html">slides</a></td>
-</tr>
-<tr class="even">
-<td>Lecture 19</td>
-<td>July 1</td>
-<td>Supervised learning: nonparametric regression</td>
-<td><a href="./lectures/19-nonparametric.html">slides</a></td>
-</tr>
-<tr class="odd">
-<td>Lecture 20</td>
-<td>July 7</td>
-<td>Supervised learning: decision trees</td>
-<td><a href="./lectures/20-trees.html">slides</a></td>
-</tr>
-<tr class="even">
-<td>Lecture 21</td>
-<td>July 8</td>
-<td>Supervised learning: bagging and boosting</td>
-<td><a href="./lectures/21-ensemble.html">slides</a></td>
-</tr>
-<tr class="odd">
-<td>Lecture 22</td>
-<td>July 9</td>
-<td>Building a website with Quarto</td>
-<td><a href="./lectures/22-website.html">slides</a></td>
-</tr>
-</tbody>
-</table>
-<!--
-
-| Lecture 21 | XXXXXXX | Supervised learning: multinomial classification           | [slides](lectures/21-multinomial.qmd)    |
-
--->
+<section id="resources" class="level1">
+<h1>Resources</h1>
+<ul>
+<li><p>About page: <a href="https://quarto.org/docs/websites/website-about.html" class="uri">https://quarto.org/docs/websites/website-about.html</a></p></li>
+<li><p>Navigation bar: <a href="https://quarto.org/docs/websites/website-navigation.html" class="uri">https://quarto.org/docs/websites/website-navigation.html</a></p></li>
+<li><p>Icons: <a href="https://icons.getbootstrap.com" class="uri">https://icons.getbootstrap.com</a></p></li>
+<li><p>Quarto HTML themes: <a href="https://quarto.org/docs/output-formats/html-themes.html" class="uri">https://quarto.org/docs/output-formats/html-themes.html</a></p></li>
+<li><p>Listings (for displaying projects/blogs/etc.): <a href="https://quarto.org/docs/websites/website-listings.html" class="uri">https://quarto.org/docs/websites/website-listings.html</a></p></li>
+<li><p>Publishing: <a href="https://quarto.org/docs/publishing/github-pages.html" class="uri">https://quarto.org/docs/publishing/github-pages.html</a></p></li>
+<li><p>Theme customization file: Download <a href="https://www.dropbox.com/scl/fi/k6vjzkiighxjf9i0574je/custom.scss?rlkey=byjp26c61wx0eerwnk0k5lb23&amp;e=1&amp;st=t8j3ytsi&amp;dl=1">here</a></p></li>
+<li><p>Markdown basics: <a href="https://quarto.org/docs/authoring/markdown-basics.html" class="uri">https://quarto.org/docs/authoring/markdown-basics.html</a></p></li>
+</ul>
 
 
 </section>
