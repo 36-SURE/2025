@@ -6,6 +6,8 @@ format: html
 
 # Resources
 
+* Repository name: `<your_github_username>.github.io`
+
 * About page: <https://quarto.org/docs/websites/website-about.html>
 
 * Navigation bar: <https://quarto.org/docs/websites/website-navigation.html>
