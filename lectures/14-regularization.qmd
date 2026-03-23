@@ -791,10 +791,10 @@ prostate <- prostate |>
 get_test_pred <- function(x) {
   test_data <- prostate |> filter(test_fold == x)                     # get test and training data
   train_data <- prostate |> filter(test_fold != x)
-  test_x <- as.matrix(select(test_data, -lpsa))                       # get test and training matrices
-  train_x <- as.matrix(select(train_data, -lpsa))
+  test_x <- as.matrix(select(test_data, -lpsa, -test_fold))           # get test and training matrices
+  train_x <- as.matrix(select(train_data, -lpsa, -test_fold))
   
-  lm_fit <- lm(lpsa ~ ., data = train_data)                           # fit models to training data
+  lm_fit <- lm(lpsa ~ ., data = select(train_data, -test_fold))       # fit models to training data
   ridge_fit <- cv.glmnet(train_x, train_data$lpsa, alpha = 0)
   lasso_fit <- cv.glmnet(train_x, train_data$lpsa, alpha = 1)
   enet_fit <- cv.glmnet(train_x, train_data$lpsa, alpha = 0.5)
