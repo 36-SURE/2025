@@ -6,8 +6,8 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.32">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.36">
 
   <meta name="author" content=" SURE 2025 Department of Statistics &amp; Data Science Carnegie Mellon University">
   <title>SURE 2025 – Supervised learning: regularization</title>
@@ -17,6 +17,9 @@
   <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -95,7 +98,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-97331e35b7c4b061e26f0e6fc4589e47.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-3a0271f90fa8dcc8f0dcc7e20e26ec7f.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -586,11 +589,11 @@
 <h2>Data: prostate cancer</h2>
 <p>Examine the level of a prostate specific antigen and a number of clinical measures in men who were about to receive a radical prostatectomy</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_light</span>())</span>
 <span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a><span class="co"># more info: https://rdrr.io/cran/ElemStatLearn/man/prostate.html</span></span>
 <span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a>prostate <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"https://hastie.su.domains/ElemStatLearn/datasets/prostate.data"</span>)</span>
-<span id="cb1-5"><a aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(prostate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(prostate)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 97
 Columns: 11
@@ -612,13 +615,13 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <h2>Introduction to <code>glmnet</code></h2>
 <p>Fit ridge, lasso, and elastic net models with <code>glmnet</code></p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
 <span id="cb3-2"><a aria-hidden="true" tabindex="-1"></a>prostate <span class="ot">&lt;-</span> prostate <span class="sc">|&gt;</span> </span>
-<span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(lcavol<span class="sc">:</span>lpsa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(lcavol<span class="sc">:</span>lpsa)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Create predictor matrix and response vector</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># predictors</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># predictors</span></span>
 <span id="cb4-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># model_x &lt;- model.matrix(lpsa ~ ., prostate)</span></span>
 <span id="cb4-3"><a aria-hidden="true" tabindex="-1"></a>model_x <span class="ot">&lt;-</span> prostate <span class="sc">|&gt;</span> </span>
 <span id="cb4-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(lcavol<span class="sc">:</span>pgg45) <span class="sc">|&gt;</span> </span>
@@ -627,7 +630,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <span id="cb4-7"><a aria-hidden="true" tabindex="-1"></a><span class="co"># response</span></span>
 <span id="cb4-8"><a aria-hidden="true" tabindex="-1"></a><span class="co"># model_y &lt;- prostate$lpsa</span></span>
 <span id="cb4-9"><a aria-hidden="true" tabindex="-1"></a>model_y <span class="ot">&lt;-</span> prostate <span class="sc">|&gt;</span> </span>
-<span id="cb4-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(lpsa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(lpsa)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="vanilla-linear-regression-model" class="slide level2">
@@ -639,7 +642,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <li><p>Use <a href="https://broom.tidymodels.org/reference/tidy.cv.glmnet.html"><code>broom</code></a> to tidy model output for plotting</p></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a>prostate_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(lpsa <span class="sc">~</span> ., <span class="at">data =</span> prostate)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a>prostate_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(lpsa <span class="sc">~</span> ., <span class="at">data =</span> prostate)</span>
 <span id="cb5-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
 <span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a>prostate_lm <span class="sc">|&gt;</span> </span>
 <span id="cb5-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">|&gt;</span> </span>
@@ -647,7 +650,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <span id="cb5-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> estimate, <span class="at">y =</span> term, </span>
 <span id="cb5-7"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> estimate <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
 <span id="cb5-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">color =</span> <span class="st">"white"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb5-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"darkred"</span>, <span class="st">"darkblue"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"darkred"</span>, <span class="st">"darkblue"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
@@ -666,7 +669,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <div class="columns">
 <div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a>prostate_lm <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a>prostate_lm <span class="sc">|&gt;</span> </span>
 <span id="cb6-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>(<span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb6-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term <span class="sc">!=</span> <span class="st">"(Intercept)"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb6-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> estimate, <span class="at">y =</span> term))  <span class="sc">+</span></span>
@@ -676,7 +679,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <span id="cb6-8"><a aria-hidden="true" tabindex="-1"></a>                    <span class="at">width =</span> <span class="fl">0.2</span>)) <span class="sc">+</span></span>
 <span id="cb6-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, </span>
 <span id="cb6-10"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>, </span>
-<span id="cb6-11"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-11"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"red"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
@@ -698,8 +701,8 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <p>Perform ridge regression using <code>glmnet</code> with <code>alpha = 0</code></p>
 <p>By default, predictors are standardized and models are fitted across a range of <span class="math inline">\(\lambda\)</span> values</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a>prostate_ridge <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(model_x, model_y, <span class="at">alpha =</span> <span class="dv">0</span>)</span>
-<span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(prostate_ridge, <span class="at">xvar =</span> <span class="st">"lambda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a>prostate_ridge <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(model_x, model_y, <span class="at">alpha =</span> <span class="dv">0</span>)</span>
+<span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(prostate_ridge, <span class="at">xvar =</span> <span class="st">"lambda"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="14-regularization_files/figure-revealjs/init-ridge-ex-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1152"></section>
@@ -708,8 +711,8 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <p>Use cross-validation to select <span class="math inline">\(\lambda\)</span> with <code>cv.glmnet()</code> which uses 10 folds by default</p>
 <p>Specify ridge regression with <code>alpha = 0</code></p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a>prostate_ridge_cv <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(model_x, model_y, <span class="at">alpha =</span> <span class="dv">0</span>)</span>
-<span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(prostate_ridge_cv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a>prostate_ridge_cv <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(model_x, model_y, <span class="at">alpha =</span> <span class="dv">0</span>)</span>
+<span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(prostate_ridge_cv)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="14-regularization_files/figure-revealjs/unnamed-chunk-11-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1152"></section>
@@ -718,7 +721,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <div class="columns">
 <div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># str(prostate_ridge_cv)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># str(prostate_ridge_cv)</span></span>
 <span id="cb9-2"><a aria-hidden="true" tabindex="-1"></a>tidy_ridge_coef <span class="ot">&lt;-</span> <span class="fu">tidy</span>(prostate_ridge_cv<span class="sc">$</span>glmnet.fit)</span>
 <span id="cb9-3"><a aria-hidden="true" tabindex="-1"></a>tidy_ridge_coef <span class="sc">|&gt;</span> </span>
 <span id="cb9-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> lambda, <span class="at">y =</span> estimate, <span class="at">group =</span> term)) <span class="sc">+</span></span>
@@ -726,7 +729,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <span id="cb9-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
 <span id="cb9-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> prostate_ridge_cv<span class="sc">$</span>lambda.min) <span class="sc">+</span></span>
 <span id="cb9-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> prostate_ridge_cv<span class="sc">$</span>lambda<span class="fl">.1</span>se, </span>
-<span id="cb9-9"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-9"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Could easily add color with legend for variables…</li>
@@ -748,7 +751,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <div class="columns">
 <div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a>tidy_ridge_cv <span class="ot">&lt;-</span> <span class="fu">tidy</span>(prostate_ridge_cv)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a>tidy_ridge_cv <span class="ot">&lt;-</span> <span class="fu">tidy</span>(prostate_ridge_cv)</span>
 <span id="cb10-2"><a aria-hidden="true" tabindex="-1"></a>tidy_ridge_cv <span class="sc">|&gt;</span> </span>
 <span id="cb10-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> lambda, <span class="at">y =</span> estimate)) <span class="sc">+</span></span>
 <span id="cb10-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
@@ -757,7 +760,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <span id="cb10-7"><a aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
 <span id="cb10-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> prostate_ridge_cv<span class="sc">$</span>lambda.min) <span class="sc">+</span></span>
 <span id="cb10-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> prostate_ridge_cv<span class="sc">$</span>lambda<span class="fl">.1</span>se,</span>
-<span id="cb10-10"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-10"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
@@ -778,7 +781,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <p>Coefficients using the <strong>one-standard-error rule</strong></p>
 <p>(select the model with estimated test error within 1 SE of the minimum test error)</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># ridge_final &lt;- glmnet(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># ridge_final &lt;- glmnet(</span></span>
 <span id="cb11-2"><a aria-hidden="true" tabindex="-1"></a><span class="co">#   model_x, model_y, alpha = 0,</span></span>
 <span id="cb11-3"><a aria-hidden="true" tabindex="-1"></a><span class="co">#   lambda = prostate_ridge_cv$lambda.1se,</span></span>
 <span id="cb11-4"><a aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span>
@@ -792,7 +795,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <span id="cb11-12"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> estimate, <span class="at">y =</span> term, </span>
 <span id="cb11-13"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> estimate <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
 <span id="cb11-14"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">color =</span> <span class="st">"white"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb11-15"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"darkred"</span>, <span class="st">"darkblue"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-15"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"darkred"</span>, <span class="st">"darkblue"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
@@ -812,7 +815,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <div class="column" style="text-align: left;">
 <p>Similar syntax to ridge but specify <code>alpha = 1</code>:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a>prostate_lasso_cv <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(model_x, model_y, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a>prostate_lasso_cv <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(model_x, model_y, </span>
 <span id="cb12-2"><a aria-hidden="true" tabindex="-1"></a>                               <span class="at">alpha =</span> <span class="dv">1</span>)</span>
 <span id="cb12-3"><a aria-hidden="true" tabindex="-1"></a>tidy_lasso_coef <span class="ot">&lt;-</span> <span class="fu">tidy</span>(prostate_lasso_cv<span class="sc">$</span>glmnet.fit)</span>
 <span id="cb12-4"><a aria-hidden="true" tabindex="-1"></a>tidy_lasso_coef <span class="sc">|&gt;</span> </span>
@@ -821,7 +824,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <span id="cb12-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
 <span id="cb12-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> prostate_lasso_cv<span class="sc">$</span>lambda.min) <span class="sc">+</span></span>
 <span id="cb12-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> prostate_lasso_cv<span class="sc">$</span>lambda<span class="fl">.1</span>se, </span>
-<span id="cb12-10"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-10"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
@@ -841,14 +844,14 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <div class="column" style="text-align: left;">
 <p>Number of non-zero predictors by <span class="math inline">\(\lambda\)</span></p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a>tidy_lasso_cv <span class="ot">&lt;-</span> <span class="fu">tidy</span>(prostate_lasso_cv)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a>tidy_lasso_cv <span class="ot">&lt;-</span> <span class="fu">tidy</span>(prostate_lasso_cv)</span>
 <span id="cb13-2"><a aria-hidden="true" tabindex="-1"></a>tidy_lasso_cv <span class="sc">|&gt;</span></span>
 <span id="cb13-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> lambda, <span class="at">y =</span> nzero)) <span class="sc">+</span></span>
 <span id="cb13-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
 <span id="cb13-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> prostate_lasso_cv<span class="sc">$</span>lambda.min) <span class="sc">+</span></span>
 <span id="cb13-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> prostate_lasso_cv<span class="sc">$</span>lambda<span class="fl">.1</span>se, </span>
 <span id="cb13-7"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb13-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Reduction in variables using <strong>one-standard-error rule</strong></p>
 </div><div class="column" style="text-align: left;">
@@ -869,7 +872,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <div class="column" style="text-align: left;">
 <p>Coefficients using the <strong>one-standard-error rule</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># this will only print out non-zero coefficient estimates</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># this will only print out non-zero coefficient estimates</span></span>
 <span id="cb14-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># tidy_lasso_coef |&gt;</span></span>
 <span id="cb14-3"><a aria-hidden="true" tabindex="-1"></a><span class="co">#   filter(lambda == prostate_lasso_cv$lambda.1se)</span></span>
 <span id="cb14-4"><a aria-hidden="true" tabindex="-1"></a></span>
@@ -886,7 +889,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <span id="cb14-15"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> Importance <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
 <span id="cb14-16"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">color =</span> <span class="st">"white"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
 <span id="cb14-17"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"darkred"</span>, <span class="st">"darkblue"</span>)) <span class="sc">+</span></span>
-<span id="cb14-18"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"estimate"</span>, <span class="at">y =</span> <span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-18"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"estimate"</span>, <span class="at">y =</span> <span class="cn">NULL</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
@@ -904,19 +907,19 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <h2>Elastic net example</h2>
 <p>Need to tune both <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\alpha\)</span> - can do so manually with our own folds</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
-<span id="cb15-2"><a aria-hidden="true" tabindex="-1"></a>fold_id <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">length.out =</span> <span class="fu">nrow</span>(model_x)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb15-2"><a aria-hidden="true" tabindex="-1"></a>fold_id <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">length.out =</span> <span class="fu">nrow</span>(model_x)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then use cross-validation with these folds for different candidate <code>alpha</code> values:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-hidden="true" tabindex="-1"></a>cv_enet_25 <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(model_x, model_y, <span class="at">foldid =</span> fold_id, <span class="at">alpha =</span> <span class="fl">0.25</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-hidden="true" tabindex="-1"></a>cv_enet_25 <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(model_x, model_y, <span class="at">foldid =</span> fold_id, <span class="at">alpha =</span> <span class="fl">0.25</span>)</span>
 <span id="cb16-2"><a aria-hidden="true" tabindex="-1"></a>cv_enet_50 <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(model_x, model_y, <span class="at">foldid =</span> fold_id, <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
 <span id="cb16-3"><a aria-hidden="true" tabindex="-1"></a>cv_ridge <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(model_x, model_y, <span class="at">foldid =</span> fold_id, <span class="at">alpha =</span> <span class="dv">0</span>)</span>
-<span id="cb16-4"><a aria-hidden="true" tabindex="-1"></a>cv_lasso <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(model_x, model_y, <span class="at">foldid =</span> fold_id, <span class="at">alpha =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-4"><a aria-hidden="true" tabindex="-1"></a>cv_lasso <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(model_x, model_y, <span class="at">foldid =</span> fold_id, <span class="at">alpha =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Can see which one had the lowest CV error among its candidate <span class="math inline">\(\lambda\)</span> values:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(<span class="fu">c</span>(<span class="fu">min</span>(cv_enet_25<span class="sc">$</span>cvm), <span class="fu">min</span>(cv_enet_50<span class="sc">$</span>cvm), <span class="fu">min</span>(cv_ridge<span class="sc">$</span>cvm), <span class="fu">min</span>(cv_lasso<span class="sc">$</span>cvm)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(<span class="fu">c</span>(<span class="fu">min</span>(cv_enet_25<span class="sc">$</span>cvm), <span class="fu">min</span>(cv_enet_50<span class="sc">$</span>cvm), <span class="fu">min</span>(cv_ridge<span class="sc">$</span>cvm), <span class="fu">min</span>(cv_lasso<span class="sc">$</span>cvm)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3</code></pre>
 </div>
@@ -928,7 +931,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <div class="column" style="text-align: left;">
 <p>Can view same type of summary</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-hidden="true" tabindex="-1"></a>cv_enet_50 <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-hidden="true" tabindex="-1"></a>cv_enet_50 <span class="sc">|&gt;</span> </span>
 <span id="cb19-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">|&gt;</span> </span>
 <span id="cb19-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> lambda, <span class="at">y =</span> nzero)) <span class="sc">+</span></span>
 <span id="cb19-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
@@ -936,7 +939,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <span id="cb19-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> cv_enet_50<span class="sc">$</span>lambda<span class="fl">.1</span>se, </span>
 <span id="cb19-7"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>, </span>
 <span id="cb19-8"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb19-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>More relaxed than lasso for variable entry</li>
@@ -956,19 +959,19 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <section id="comparison-of-models-based-on-holdout-performance" class="slide level2">
 <h2>Comparison of models based on holdout performance</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">101</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">101</span>)</span>
 <span id="cb20-2"><a aria-hidden="true" tabindex="-1"></a>N_FOLDS <span class="ot">&lt;-</span> <span class="dv">5</span></span>
 <span id="cb20-3"><a aria-hidden="true" tabindex="-1"></a>prostate <span class="ot">&lt;-</span> prostate <span class="sc">|&gt;</span></span>
-<span id="cb20-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">test_fold =</span> <span class="fu">sample</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>N_FOLDS, <span class="at">length.out =</span> <span class="fu">n</span>())))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">test_fold =</span> <span class="fu">sample</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>N_FOLDS, <span class="at">length.out =</span> <span class="fu">n</span>())))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-hidden="true" tabindex="-1"></a>get_test_pred <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-hidden="true" tabindex="-1"></a>get_test_pred <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
 <span id="cb21-2"><a aria-hidden="true" tabindex="-1"></a>  test_data <span class="ot">&lt;-</span> prostate <span class="sc">|&gt;</span> <span class="fu">filter</span>(test_fold <span class="sc">==</span> x)                     <span class="co"># get test and training data</span></span>
 <span id="cb21-3"><a aria-hidden="true" tabindex="-1"></a>  train_data <span class="ot">&lt;-</span> prostate <span class="sc">|&gt;</span> <span class="fu">filter</span>(test_fold <span class="sc">!=</span> x)</span>
-<span id="cb21-4"><a aria-hidden="true" tabindex="-1"></a>  test_x <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">select</span>(test_data, <span class="sc">-</span>lpsa))                       <span class="co"># get test and training matrices</span></span>
-<span id="cb21-5"><a aria-hidden="true" tabindex="-1"></a>  train_x <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">select</span>(train_data, <span class="sc">-</span>lpsa))</span>
+<span id="cb21-4"><a aria-hidden="true" tabindex="-1"></a>  test_x <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">select</span>(test_data, <span class="sc">-</span>lpsa, <span class="sc">-</span>test_fold))           <span class="co"># get test and training matrices</span></span>
+<span id="cb21-5"><a aria-hidden="true" tabindex="-1"></a>  train_x <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">select</span>(train_data, <span class="sc">-</span>lpsa, <span class="sc">-</span>test_fold))</span>
 <span id="cb21-6"><a aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb21-7"><a aria-hidden="true" tabindex="-1"></a>  lm_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(lpsa <span class="sc">~</span> ., <span class="at">data =</span> train_data)                           <span class="co"># fit models to training data</span></span>
+<span id="cb21-7"><a aria-hidden="true" tabindex="-1"></a>  lm_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(lpsa <span class="sc">~</span> ., <span class="at">data =</span> <span class="fu">select</span>(train_data, <span class="sc">-</span>test_fold))       <span class="co"># fit models to training data</span></span>
 <span id="cb21-8"><a aria-hidden="true" tabindex="-1"></a>  ridge_fit <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(train_x, train_data<span class="sc">$</span>lpsa, <span class="at">alpha =</span> <span class="dv">0</span>)</span>
 <span id="cb21-9"><a aria-hidden="true" tabindex="-1"></a>  lasso_fit <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(train_x, train_data<span class="sc">$</span>lpsa, <span class="at">alpha =</span> <span class="dv">1</span>)</span>
 <span id="cb21-10"><a aria-hidden="true" tabindex="-1"></a>  enet_fit <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(train_x, train_data<span class="sc">$</span>lpsa, <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
@@ -979,11 +982,11 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <span id="cb21-15"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">enet_pred =</span> <span class="fu">as.numeric</span>(<span class="fu">predict</span>(enet_fit, <span class="at">newx =</span> test_x)),</span>
 <span id="cb21-16"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">test_actual =</span> test_data<span class="sc">$</span>lpsa,</span>
 <span id="cb21-17"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">test_fold =</span> x)</span>
-<span id="cb21-18"><a aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-18"><a aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-hidden="true" tabindex="-1"></a>test_pred_all <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span>N_FOLDS, get_test_pred) <span class="sc">|&gt;</span> </span>
-<span id="cb22-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-hidden="true" tabindex="-1"></a>test_pred_all <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span>N_FOLDS, get_test_pred) <span class="sc">|&gt;</span> </span>
+<span id="cb22-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="comparison-of-models-based-on-holdout-performance-1" class="slide level2">
@@ -992,7 +995,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <div class="column" style="text-align: left;">
 <p>Compute RMSE across folds with standard error intervals</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a aria-hidden="true" tabindex="-1"></a>test_pred_all <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a aria-hidden="true" tabindex="-1"></a>test_pred_all <span class="sc">|&gt;</span></span>
 <span id="cb23-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(lm_pred<span class="sc">:</span>enet_pred, </span>
 <span id="cb23-3"><a aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"type"</span>, </span>
 <span id="cb23-4"><a aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"test_pred"</span>) <span class="sc">|&gt;</span></span>
@@ -1005,7 +1008,7 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
 <span id="cb23-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">"point"</span>, </span>
 <span id="cb23-12"><a aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span> </span>
 <span id="cb23-13"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> mean_se, <span class="at">geom =</span> <span class="st">"errorbar"</span>, </span>
-<span id="cb23-14"><a aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">width =</span> <span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-14"><a aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">width =</span> <span class="fl">0.2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Linear regression actually slightly outperforms regularization here, but within intervals</p>
 </div><div class="column" style="text-align: left;">
@@ -1325,13 +1328,14 @@ $ train   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FA
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

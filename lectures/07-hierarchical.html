@@ -6,8 +6,8 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.32">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.36">
 
   <meta name="author" content=" SURE 2025 Department of Statistics &amp; Data Science Carnegie Mellon University">
   <title>SURE 2025 – Unsupervised learning: hierarchical clustering</title>
@@ -17,6 +17,9 @@
   <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -95,7 +98,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-97331e35b7c4b061e26f0e6fc4589e47.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-3a0271f90fa8dcc8f0dcc7e20e26ec7f.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -231,10 +234,10 @@
 <section id="data-nba-player-statistics-per-100-possessions-2024-25-regular-season" class="slide level2">
 <h2>Data: NBA player statistics per 100 possessions (2024-25 regular season)</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_light</span>())</span>
 <span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a>nba_players <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/36-SURE/2025/main/data/nba_players.csv"</span>)</span>
-<span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(nba_players)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(nba_players)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 457
 Columns: 33
@@ -288,9 +291,9 @@ $ awards       &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N
 </div><div class="column" style="text-align: left;">
 <p><br></p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a>nba_players <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a>nba_players <span class="sc">|&gt;</span> </span>
 <span id="cb3-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x3pa, <span class="at">y =</span> trb)) <span class="sc">+</span></span>
-<span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -306,7 +309,7 @@ $ awards       &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N
 <div class="columns">
 <div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a>nba_players <span class="ot">&lt;-</span> nba_players <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a>nba_players <span class="ot">&lt;-</span> nba_players <span class="sc">|&gt;</span> </span>
 <span id="cb4-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb4-3"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">std_x3pa =</span> <span class="fu">as.numeric</span>(<span class="fu">scale</span>(x3pa)),</span>
 <span id="cb4-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">std_trb =</span> <span class="fu">as.numeric</span>(<span class="fu">scale</span>(trb))</span>
@@ -315,7 +318,7 @@ $ awards       &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N
 <span id="cb4-7"><a aria-hidden="true" tabindex="-1"></a>nba_players <span class="sc">|&gt;</span> </span>
 <span id="cb4-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> std_x3pa, <span class="at">y =</span> std_trb)) <span class="sc">+</span></span>
 <span id="cb4-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
-<span id="cb4-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
@@ -335,19 +338,19 @@ $ awards       &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N
 <li>Compute pairwise Euclidean distance</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a>players_dist <span class="ot">&lt;-</span> nba_players <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a>players_dist <span class="ot">&lt;-</span> nba_players <span class="sc">|&gt;</span> </span>
 <span id="cb5-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(std_x3pa, std_trb) <span class="sc">|&gt;</span> </span>
-<span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">dist</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">dist</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><p>Returns an object of <code>dist</code> class… but not a <code>matrix</code></p></li>
 <li><p>Convert to a matrix, then set the row and column names:</p></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a>players_dist_matrix <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(players_dist)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a>players_dist_matrix <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(players_dist)</span>
 <span id="cb6-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(players_dist_matrix) <span class="ot">&lt;-</span> nba_players<span class="sc">$</span>player</span>
 <span id="cb6-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(players_dist_matrix) <span class="ot">&lt;-</span> nba_players<span class="sc">$</span>player</span>
-<span id="cb6-4"><a aria-hidden="true" tabindex="-1"></a>players_dist_matrix[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-4"><a aria-hidden="true" tabindex="-1"></a>players_dist_matrix[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             A.J. Green A.J. Lawson AJ Johnson Aaron Gordon
 A.J. Green    0.0000000   0.8626792  1.0457677    1.5086463
@@ -517,15 +520,15 @@ Aaron Gordon  1.5086463   1.1393048  0.9839163    0.0000000</code></pre>
 <li><p>Use <code>complete</code> linkage by default</p></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a>nba_complete <span class="ot">&lt;-</span> players_dist <span class="sc">|&gt;</span> </span>
-<span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">hclust</span>(<span class="at">method =</span> <span class="st">"complete"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a>nba_complete <span class="ot">&lt;-</span> players_dist <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">hclust</span>(<span class="at">method =</span> <span class="st">"complete"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><p>Use <code>cutree()</code> to return cluster labels</p></li>
 <li><p>Returns compact clusters (similar to <span class="math inline">\(k\)</span>-means)</p></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a>nba_players <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a>nba_players <span class="sc">|&gt;</span> </span>
 <span id="cb9-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb9-3"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">cluster =</span> <span class="fu">as.factor</span>(<span class="fu">cutree</span>(nba_complete, <span class="at">k =</span> <span class="dv">3</span>))</span>
 <span id="cb9-4"><a aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
@@ -533,7 +536,7 @@ Aaron Gordon  1.5086463   1.1393048  0.9839163    0.0000000</code></pre>
 <span id="cb9-6"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> cluster)) <span class="sc">+</span></span>
 <span id="cb9-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span> </span>
 <span id="cb9-8"><a aria-hidden="true" tabindex="-1"></a>  ggthemes<span class="sc">::</span><span class="fu">scale_color_colorblind</span>() <span class="sc">+</span></span>
-<span id="cb9-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
@@ -553,7 +556,7 @@ Aaron Gordon  1.5086463   1.1393048  0.9839163    0.0000000</code></pre>
 <div class="column" style="text-align: left;">
 <p>Use the <a href="https://cran.r-project.org/web/packages/ggdendro/index.html"><code>ggdendro</code></a> package (instead of <code>plot()</code>)</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggdendro)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggdendro)</span>
 <span id="cb10-2"><a aria-hidden="true" tabindex="-1"></a>nba_complete <span class="sc">|&gt;</span> </span>
 <span id="cb10-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggdendrogram</span>(<span class="at">labels =</span> <span class="cn">FALSE</span>, </span>
 <span id="cb10-4"><a aria-hidden="true" tabindex="-1"></a>               <span class="at">leaf_labels =</span> <span class="cn">FALSE</span>,</span>
@@ -561,7 +564,7 @@ Aaron Gordon  1.5086463   1.1393048  0.9839163    0.0000000</code></pre>
 <span id="cb10-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Dissimilarity between clusters"</span>) <span class="sc">+</span></span>
 <span id="cb10-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(), </span>
 <span id="cb10-8"><a aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb10-9"><a aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-9"><a aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><p>Each <strong>leaf</strong> is one observation</p></li>
@@ -760,7 +763,7 @@ Aaron Gordon  1.5086463   1.1393048  0.9839163    0.0000000</code></pre>
 <li><p>(What’s the way to visually compare these two variables?)</p></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="st">"Cluster"</span> <span class="ot">=</span> <span class="fu">cutree</span>(nba_complete, <span class="at">k =</span> <span class="dv">3</span>), <span class="st">"Position"</span> <span class="ot">=</span> nba_players<span class="sc">$</span>pos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="st">"Cluster"</span> <span class="ot">=</span> <span class="fu">cutree</span>(nba_complete, <span class="at">k =</span> <span class="dv">3</span>), <span class="st">"Position"</span> <span class="ot">=</span> nba_players<span class="sc">$</span>pos)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       Position
 Cluster   C  PF  PG  SF  SG
@@ -781,31 +784,31 @@ Cluster   C  PF  PG  SF  SG
 <li>It’s easy to <strong>include more variables</strong> - just change the distance matrix</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a>nba_players_features <span class="ot">&lt;-</span> nba_players <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a>nba_players_features <span class="ot">&lt;-</span> nba_players <span class="sc">|&gt;</span> </span>
 <span id="cb13-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(x3pa, x2pa, fta, trb, ast, stl, blk, tov)</span>
 <span id="cb13-3"><a aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb13-4"><a aria-hidden="true" tabindex="-1"></a>player_dist_mult_features <span class="ot">&lt;-</span> nba_players_features <span class="sc">|&gt;</span> </span>
-<span id="cb13-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">dist</span>(<span class="at">method =</span> <span class="st">"euclidean"</span>) <span class="co"># can try out other methods</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">dist</span>(<span class="at">method =</span> <span class="st">"euclidean"</span>) <span class="co"># can try out other methods</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Then perform hierarchical clustering as before</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a>nba_players_hc_complete <span class="ot">&lt;-</span> player_dist_mult_features <span class="sc">|&gt;</span> </span>
-<span id="cb14-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">hclust</span>(<span class="at">method =</span> <span class="st">"complete"</span>) <span class="co"># can try out other methods</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a>nba_players_hc_complete <span class="ot">&lt;-</span> player_dist_mult_features <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">hclust</span>(<span class="at">method =</span> <span class="st">"complete"</span>) <span class="co"># can try out other methods</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Visualize with dendrogram</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-hidden="true" tabindex="-1"></a>nba_players_hc_complete <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-hidden="true" tabindex="-1"></a>nba_players_hc_complete <span class="sc">|&gt;</span> </span>
 <span id="cb15-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggdendrogram</span>(<span class="at">labels =</span> <span class="cn">FALSE</span>, </span>
 <span id="cb15-3"><a aria-hidden="true" tabindex="-1"></a>               <span class="at">leaf_labels =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb15-4"><a aria-hidden="true" tabindex="-1"></a>               <span class="at">theme_dendro =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
 <span id="cb15-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Dissimilarity between clusters"</span>) <span class="sc">+</span></span>
 <span id="cb15-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(), </span>
 <span id="cb15-7"><a aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb15-8"><a aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-8"><a aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
@@ -828,7 +831,7 @@ Cluster   C  PF  PG  SF  SG
 <div class="columns">
 <div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
 <span id="cb16-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(</span>
 <span id="cb16-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">data =</span> nba_players_features,</span>
 <span id="cb16-4"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">cluster =</span> <span class="fu">cutree</span>(nba_players_hc_complete, <span class="at">k =</span> <span class="dv">3</span>)),</span>
@@ -836,7 +839,7 @@ Cluster   C  PF  PG  SF  SG
 <span id="cb16-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">ellipse =</span> <span class="cn">FALSE</span></span>
 <span id="cb16-7"><a aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
 <span id="cb16-8"><a aria-hidden="true" tabindex="-1"></a>  ggthemes<span class="sc">::</span><span class="fu">scale_color_colorblind</span>() <span class="sc">+</span></span>
-<span id="cb16-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
@@ -859,7 +862,7 @@ Cluster   C  PF  PG  SF  SG
 <div class="columns">
 <div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-hidden="true" tabindex="-1"></a>nba_players_features <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-hidden="true" tabindex="-1"></a>nba_players_features <span class="sc">|&gt;</span> </span>
 <span id="cb17-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">fviz_nbclust</span>(<span class="at">FUN =</span> hcut, <span class="at">method =</span> <span class="st">"wss"</span>)</span>
 <span id="cb17-3"><a aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-4"><a aria-hidden="true" tabindex="-1"></a><span class="co"># silhouette</span></span>
@@ -871,7 +874,7 @@ Cluster   C  PF  PG  SF  SG
 <span id="cb17-10"><a aria-hidden="true" tabindex="-1"></a><span class="co"># nba_hc_gap_stat &lt;- nba_players_features |&gt; </span></span>
 <span id="cb17-11"><a aria-hidden="true" tabindex="-1"></a><span class="co">#   clusGap(FUN = hcut, nstart = 30, K.max = 10, B = 50)</span></span>
 <span id="cb17-12"><a aria-hidden="true" tabindex="-1"></a><span class="co"># nba_hc_gap_stat |&gt; </span></span>
-<span id="cb17-13"><a aria-hidden="true" tabindex="-1"></a><span class="co">#   fviz_gap_stat()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-13"><a aria-hidden="true" tabindex="-1"></a><span class="co">#   fviz_gap_stat()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
@@ -910,7 +913,7 @@ Cluster   C  PF  PG  SF  SG
 <section id="code-to-build-dataset" class="slide level2">
 <h2>Code to build dataset</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb18-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
 <span id="cb18-3"><a aria-hidden="true" tabindex="-1"></a>nba_url <span class="ot">&lt;-</span> <span class="st">"https://www.basketball-reference.com/leagues/NBA_2025_per_poss.html"</span></span>
 <span id="cb18-4"><a aria-hidden="true" tabindex="-1"></a>nba_players <span class="ot">&lt;-</span> nba_url <span class="sc">|&gt;</span> </span>
@@ -921,7 +924,7 @@ Cluster   C  PF  PG  SF  SG
 <span id="cb18-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(player) <span class="sc">|&gt;</span> </span>
 <span id="cb18-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(g) <span class="sc">|&gt;</span> </span>
 <span id="cb18-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb18-12"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(mp <span class="sc">&gt;=</span> <span class="dv">200</span>) <span class="co"># keep players with at least 200 minutes played</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-12"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(mp <span class="sc">&gt;=</span> <span class="dv">200</span>) <span class="co"># keep players with at least 200 minutes played</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 
@@ -1229,13 +1232,14 @@ Cluster   C  PF  PG  SF  SG
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

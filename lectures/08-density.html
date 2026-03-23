@@ -6,8 +6,8 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.32">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.36">
 
   <meta name="author" content=" SURE 2025 Department of Statistics &amp; Data Science Carnegie Mellon University">
   <title>SURE 2025 – Data visualization: density estimation</title>
@@ -17,6 +17,9 @@
   <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -95,7 +98,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-97331e35b7c4b061e26f0e6fc4589e47.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-3a0271f90fa8dcc8f0dcc7e20e26ec7f.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -215,10 +218,10 @@
 <h2>Data: Caitlin Clark’s shots</h2>
 <p>Shot attempts by the <a href="https://en.wikipedia.org/wiki/Caitlin_Clark">Caitlin Clark</a> in the 2024 WNBA season using <a href="https://wehoop.sportsdataverse.org/"><code>wehoop</code></a></p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_light</span>())</span>
 <span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/36-SURE/2025/main/data/clark_shots.csv"</span>)</span>
-<span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(clark_shots)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(clark_shots)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 658
 Columns: 6
@@ -255,9 +258,9 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <section id="revisiting-histograms-1" class="slide level2">
 <h2>Revisiting <a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">histograms</a></h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
 <span id="cb3-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> shot_distance)) <span class="sc">+</span></span>
-<span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="columns">
 <div class="column" style="text-align: left;">
@@ -289,9 +292,9 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <div class="column" style="text-align: left;">
 <p><strong>Small</strong> <code>binwidth</code> <span class="math inline">\(\rightarrow\)</span> undersmooth/spiky</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
 <span id="cb4-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> shot_distance)) <span class="sc">+</span></span>
-<span id="cb4-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -303,9 +306,9 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 </div><div class="column" style="text-align: left;">
 <p><strong>Large</strong> <code>binwidth</code> <span class="math inline">\(\rightarrow\)</span> oversmooth/flat</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
 <span id="cb5-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> shot_distance)) <span class="sc">+</span></span>
-<span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -349,9 +352,9 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <li>starting at -0.5 to 0.5, 0.5 to 1.5, …</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
 <span id="cb6-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> shot_distance)) <span class="sc">+</span></span>
-<span id="cb6-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -366,10 +369,10 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <li>Use <code>closed = "left"</code></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
 <span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> shot_distance)) <span class="sc">+</span></span>
 <span id="cb7-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">center =</span> <span class="fl">0.5</span>, </span>
-<span id="cb7-4"><a aria-hidden="true" tabindex="-1"></a>                 <span class="at">closed =</span> <span class="st">"left"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-4"><a aria-hidden="true" tabindex="-1"></a>                 <span class="at">closed =</span> <span class="st">"left"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -461,10 +464,10 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <li>We make <strong>kernel density estimates</strong> with <a href="https://ggplot2.tidyverse.org/reference/geom_density.html"><code>geom_density()</code></a></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
 <span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> shot_distance)) <span class="sc">+</span> </span>
 <span id="cb8-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span></span>
-<span id="cb8-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rug</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rug</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><strong>Pros</strong>:
@@ -497,10 +500,10 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <div class="columns">
 <div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
 <span id="cb9-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> shot_distance)) <span class="sc">+</span> </span>
 <span id="cb9-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">adjust =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb9-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rug</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rug</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -511,10 +514,10 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
 <span id="cb10-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> shot_distance)) <span class="sc">+</span> </span>
 <span id="cb10-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">adjust =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb10-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rug</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rug</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -562,7 +565,7 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <h2>Code interlude: arranging multiple figures</h2>
 <p>Use the <a href="https://wilkelab.org/cowplot/index.html"><code>cowplot</code></a> package to easily arrange your plots (see also <a href="https://patchwork.data-imaginist.com/"><code>patchwork</code></a>)</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cowplot)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cowplot)</span>
 <span id="cb11-2"><a aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a aria-hidden="true" tabindex="-1"></a>clark_shot_dens <span class="ot">&lt;-</span> clark_shots <span class="sc">|&gt;</span></span>
 <span id="cb11-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> shot_distance)) <span class="sc">+</span> </span>
@@ -582,7 +585,7 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <span id="cb11-18"><a aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-19"><a aria-hidden="true" tabindex="-1"></a><span class="co"># library(patchwork)</span></span>
 <span id="cb11-20"><a aria-hidden="true" tabindex="-1"></a><span class="co"># clark_shot_dens + clark_shot_ecdf</span></span>
-<span id="cb11-21"><a aria-hidden="true" tabindex="-1"></a><span class="fu">plot_grid</span>(clark_shot_dens, clark_shot_ecdf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-21"><a aria-hidden="true" tabindex="-1"></a><span class="fu">plot_grid</span>(clark_shot_dens, clark_shot_ecdf)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="use-density-curves-and-ecdfs-together-1" class="slide level2">
@@ -592,7 +595,7 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <section id="another-code-interlude-collect-the-legends-with-patchwork" class="slide level2">
 <h2>Another code interlude: <a href="https://patchwork.data-imaginist.com/articles/guides/layout.html#controlling-guides">collect the legends</a> with <code>patchwork</code></h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a>clark_shot_dens_made <span class="ot">&lt;-</span> clark_shots <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a>clark_shot_dens_made <span class="ot">&lt;-</span> clark_shots <span class="sc">|&gt;</span></span>
 <span id="cb12-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> shot_distance, </span>
 <span id="cb12-3"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> scoring_play)) <span class="sc">+</span> </span>
 <span id="cb12-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span></span>
@@ -609,7 +612,7 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <span id="cb12-15"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Proportion of shot attempts"</span>)</span>
 <span id="cb12-16"><a aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-17"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb12-18"><a aria-hidden="true" tabindex="-1"></a>clark_shot_dens_made <span class="sc">+</span> clark_shot_ecdf_made <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">guides =</span> <span class="st">"collect"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-18"><a aria-hidden="true" tabindex="-1"></a>clark_shot_dens_made <span class="sc">+</span> clark_shot_ecdf_made <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">guides =</span> <span class="st">"collect"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="ridgeline-plots" class="slide level2">
@@ -620,10 +623,10 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <li>Check out the <a href="https://cran.r-project.org/web/packages/ggridges/vignettes/introduction.html"><code>ggridges</code></a> package for a variety of customization options</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggridges)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggridges)</span>
 <span id="cb13-2"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
 <span id="cb13-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> shot_distance, <span class="at">y =</span> shot_type)) <span class="sc">+</span> </span>
-<span id="cb13-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges</span>(<span class="at">rel_min_height =</span> <span class="fl">0.01</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges</span>(<span class="at">rel_min_height =</span> <span class="fl">0.01</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><p>Useful to display conditional distributions across many levels</p></li>
@@ -671,9 +674,9 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <div class="columns">
 <div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
 <span id="cb14-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> shot_x, <span class="at">y =</span> shot_y)) <span class="sc">+</span></span>
-<span id="cb14-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Adjust transparency with <code>alpha</code> for overlapping points</li>
@@ -698,13 +701,13 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <li>Use <a href="https://ggplot2.tidyverse.org/reference/geom_density_2d.html"><code>geom_density2d()</code></a> to display contour lines</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
 <span id="cb15-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(shot_y <span class="sc">&lt;</span> <span class="dv">35</span>) <span class="sc">|&gt;</span> <span class="co"># remove outliers</span></span>
 <span id="cb15-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> shot_x, <span class="at">y =</span> shot_y)) <span class="sc">+</span> </span>
 <span id="cb15-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span> </span>
 <span id="cb15-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density2d</span>() <span class="sc">+</span></span>
 <span id="cb15-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
-<span id="cb15-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><p>Extend KDE for joint density estimates in 2D (see <a href="https://www.stat.cmu.edu/~cshalizi/ADAfaEPoV/">section 14.4.2 for details</a>)</p></li>
@@ -731,13 +734,13 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <li>We make 2D KDE <strong>contour</strong> plots using <a href="https://ggplot2.tidyverse.org/reference/geom_density_2d.html"><code>geom_density2d()</code></a></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
 <span id="cb16-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(shot_y <span class="sc">&lt;</span> <span class="dv">35</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb16-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> shot_x, <span class="at">y =</span> shot_y)) <span class="sc">+</span> </span>
 <span id="cb16-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span> </span>
 <span id="cb16-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density2d</span>(<span class="at">adjust =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
 <span id="cb16-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
-<span id="cb16-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Can use <code>adjust</code> to modify the multivariate bandwidth</li>
@@ -764,7 +767,7 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <li><p>Default color scale is awful. Always change it.</p></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
 <span id="cb17-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(shot_y <span class="sc">&lt;</span> <span class="dv">35</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb17-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> shot_x, <span class="at">y =</span> shot_y)) <span class="sc">+</span> </span>
 <span id="cb17-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_density2d</span>(<span class="fu">aes</span>(<span class="at">fill =</span> <span class="fu">after_stat</span>(level)),</span>
@@ -772,7 +775,7 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <span id="cb17-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">"midnightblue"</span>, </span>
 <span id="cb17-7"><a aria-hidden="true" tabindex="-1"></a>                      <span class="at">high =</span> <span class="st">"gold"</span>) <span class="sc">+</span></span>
 <span id="cb17-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
-<span id="cb17-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Multivariate density estimation can be difficult</strong></p>
 </div><div class="column" style="text-align: left;">
@@ -795,7 +798,7 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <li>Divide the space into a grid and color the grid according to high/low values</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
 <span id="cb18-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(shot_y <span class="sc">&lt;</span> <span class="dv">35</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb18-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> shot_x, <span class="at">y =</span> shot_y)) <span class="sc">+</span> </span>
 <span id="cb18-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_density2d</span>(<span class="fu">aes</span>(<span class="at">fill =</span> <span class="fu">after_stat</span>(density)),</span>
@@ -805,7 +808,7 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <span id="cb18-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">"midnightblue"</span>, </span>
 <span id="cb18-9"><a aria-hidden="true" tabindex="-1"></a>                      <span class="at">high =</span> <span class="st">"gold"</span>) <span class="sc">+</span></span>
 <span id="cb18-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
-<span id="cb18-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
@@ -829,14 +832,14 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <li><p>2D version of histogram</p></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
 <span id="cb19-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(shot_y <span class="sc">&lt;</span> <span class="dv">35</span>) <span class="sc">|&gt;</span></span>
 <span id="cb19-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> shot_x, <span class="at">y =</span> shot_y)) <span class="sc">+</span> </span>
 <span id="cb19-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hex</span>(<span class="at">binwidth =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
 <span id="cb19-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">"midnightblue"</span>, </span>
 <span id="cb19-6"><a aria-hidden="true" tabindex="-1"></a>                      <span class="at">high =</span> <span class="st">"gold"</span>) <span class="sc">+</span> </span>
 <span id="cb19-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
-<span id="cb19-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Can specify <code>binwidth</code> in both directions</li>
@@ -862,7 +865,7 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <div class="columns">
 <div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="sc">|&gt;</span></span>
 <span id="cb20-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(shot_y <span class="sc">&lt;</span> <span class="dv">35</span>) <span class="sc">|&gt;</span></span>
 <span id="cb20-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> shot_x, <span class="at">y =</span> shot_y, </span>
 <span id="cb20-4"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">z =</span> scoring_play, <span class="at">group =</span> <span class="sc">-</span><span class="dv">1</span>)) <span class="sc">+</span></span>
@@ -871,7 +874,7 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <span id="cb20-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">"midnightblue"</span>, </span>
 <span id="cb20-8"><a aria-hidden="true" tabindex="-1"></a>                      <span class="at">high =</span> <span class="st">"gold"</span>) <span class="sc">+</span> </span>
 <span id="cb20-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
-<span id="cb20-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
@@ -888,18 +891,18 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <section id="appendix-making-shot-charts-and-drawing-courts-with-sportyr" class="slide level2">
 <h2>Appendix: Making shot charts and drawing courts with <a href="https://sportyr.sportsdataverse.org/"><code>sportyR</code></a></h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sportyR)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sportyR)</span>
 <span id="cb21-2"><a aria-hidden="true" tabindex="-1"></a>wnba_court <span class="ot">&lt;-</span> <span class="fu">geom_basketball</span>(<span class="st">"wnba"</span>, <span class="at">display_range =</span> <span class="st">"offense"</span>, <span class="at">rotation =</span> <span class="dv">270</span>, <span class="at">x_trans =</span> <span class="sc">-</span><span class="fl">41.5</span>)</span>
 <span id="cb21-3"><a aria-hidden="true" tabindex="-1"></a>wnba_court <span class="sc">+</span></span>
 <span id="cb21-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hex</span>(<span class="at">data =</span> clark_shots, <span class="fu">aes</span>(<span class="at">x =</span> shot_x, <span class="at">y =</span> shot_y), <span class="at">binwidth =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)) <span class="sc">+</span> </span>
-<span id="cb21-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">"midnightblue"</span>, <span class="at">high =</span> <span class="st">"gold"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">"midnightblue"</span>, <span class="at">high =</span> <span class="st">"gold"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="08-density_files/figure-revealjs/unnamed-chunk-21-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
 <section id="appendix-code-to-build-dataset" class="slide level2">
 <h2>Appendix: Code to build dataset</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("wehoop")</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("wehoop")</span></span>
 <span id="cb22-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wehoop)</span>
 <span id="cb22-3"><a aria-hidden="true" tabindex="-1"></a>wnba_pbp <span class="ot">&lt;-</span> <span class="fu">load_wnba_pbp</span>(<span class="dv">2024</span>)</span>
 <span id="cb22-4"><a aria-hidden="true" tabindex="-1"></a>clark_shots <span class="ot">&lt;-</span> wnba_pbp <span class="sc">|&gt;</span> </span>
@@ -915,7 +918,7 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
 <span id="cb22-14"><a aria-hidden="true" tabindex="-1"></a>    scoring_play,</span>
 <span id="cb22-15"><a aria-hidden="true" tabindex="-1"></a>    score_value,</span>
 <span id="cb22-16"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">.keep =</span> <span class="st">"none"</span></span>
-<span id="cb22-17"><a aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-17"><a aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 
@@ -1223,13 +1226,14 @@ $ shot_type     &lt;chr&gt; "Running Pullup Jump Shot", "Pullup Jump Shot", "Ste
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

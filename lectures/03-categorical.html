@@ -6,8 +6,8 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.32">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.36">
 
   <meta name="author" content=" SURE 2025 Department of Statistics &amp; Data Science Carnegie Mellon University">
   <title>SURE 2025 – Data visualization: categorical data</title>
@@ -17,6 +17,9 @@
   <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -95,7 +98,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-97331e35b7c4b061e26f0e6fc4589e47.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-3a0271f90fa8dcc8f0dcc7e20e26ec7f.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -219,12 +222,12 @@
 <li><p>What does each row represent here?</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_light</span>()) <span class="co"># setting the ggplot theme</span></span>
 <span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmosaic) <span class="co"># make sure to install it first</span></span>
 <span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="ot">&lt;-</span> fly <span class="sc">|&gt;</span> </span>
 <span id="cb1-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(do_you_recline), <span class="sc">!</span><span class="fu">is.na</span>(rude_to_recline))</span>
-<span id="cb1-6"><a aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(flying_etiquette)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-6"><a aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(flying_etiquette)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "id"                             "flight_freq"                   
  [3] "do_you_recline"                 "height"                        
@@ -266,11 +269,11 @@
 <li><p>See the <a href="https://forcats.tidyverse.org/"><code>forcats</code></a> package (automatically loaded with <code>tidyverse</code>)</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(flying_etiquette<span class="sc">$</span>do_you_recline)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(flying_etiquette<span class="sc">$</span>do_you_recline)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "factor"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(flying_etiquette<span class="sc">$</span>do_you_recline)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(flying_etiquette<span class="sc">$</span>do_you_recline)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "never"               "once in a while"     "about half the time"
 [4] "usually"             "always"             </code></pre>
@@ -287,7 +290,7 @@
 <p>How often do these respondents recline?</p>
 <p>Frequency tables (counts)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(flying_etiquette<span class="sc">$</span>do_you_recline)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(flying_etiquette<span class="sc">$</span>do_you_recline)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
               never     once in a while about half the time             usually 
@@ -295,12 +298,12 @@
              always 
                 136 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># flying_etiquette |&gt; </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># flying_etiquette |&gt; </span></span>
 <span id="cb9-2"><a aria-hidden="true" tabindex="-1"></a><span class="co">#   group_by(do_you_recline) |&gt;</span></span>
 <span id="cb9-3"><a aria-hidden="true" tabindex="-1"></a><span class="co">#   summarize(n = n(), .groups = "drop")</span></span>
 <span id="cb9-4"><a aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-5"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
-<span id="cb9-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(do_you_recline)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(do_you_recline)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 2
   do_you_recline          n
@@ -317,7 +320,7 @@
 <h2>Summarizing 1D categorical data</h2>
 <p>Proportion table</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(flying_etiquette<span class="sc">$</span>do_you_recline))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(flying_etiquette<span class="sc">$</span>do_you_recline))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
               never     once in a while about half the time             usually 
@@ -325,9 +328,9 @@
              always 
           0.1592506 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
 <span id="cb13-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(do_you_recline) <span class="sc">|&gt;</span> </span>
-<span id="cb13-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prop =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prop =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 3
   do_you_recline          n  prop
@@ -350,9 +353,9 @@
 <li><p>Counts of each category are displayed on the y-axis</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
 <span id="cb15-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> do_you_recline)) <span class="sc">+</span></span>
-<span id="cb15-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell">
@@ -385,10 +388,10 @@
 <li><p>then use <code>geom_col()</code></p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span></span>
 <span id="cb16-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(do_you_recline, <span class="at">name =</span> <span class="st">"count"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb16-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> do_you_recline, <span class="at">y =</span> count)) <span class="sc">+</span></span>
-<span id="cb16-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell">
@@ -409,16 +412,16 @@
 <p>Flip your bar chart axes!</p>
 <p>Just simply replace <code>x</code> with <code>y</code> (Quang prefers this way)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span></span>
 <span id="cb17-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> do_you_recline)) <span class="sc">+</span></span>
-<span id="cb17-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Or use <code>coord_flip()</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
 <span id="cb18-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> do_you_recline)) <span class="sc">+</span></span>
 <span id="cb18-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
-<span id="cb18-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell">
@@ -447,11 +450,11 @@
 </ul>
 </div><div class="column" style="text-align: left;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
 <span id="cb19-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(do_you_recline) <span class="sc">|&gt;</span> </span>
 <span id="cb19-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prop =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n)) <span class="sc">|&gt;</span> </span>
 <span id="cb19-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> prop, <span class="at">y =</span> do_you_recline)) <span class="sc">+</span></span>
-<span id="cb19-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()   <span class="co"># + geom_label(aes(label = n), hjust = 1)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()   <span class="co"># + geom_label(aes(label = n), hjust = 1)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure>
@@ -487,7 +490,7 @@
 <div class="column" style="text-align: left;">
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
 <span id="cb20-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(do_you_recline) <span class="sc">|&gt;</span> </span>
 <span id="cb20-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prop =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n),</span>
 <span id="cb20-4"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">se =</span> <span class="fu">sqrt</span>(prop <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> prop) <span class="sc">/</span> <span class="fu">sum</span>(n)),</span>
@@ -498,7 +501,7 @@
 <span id="cb20-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> lower, <span class="at">xmax =</span> upper), </span>
 <span id="cb20-10"><a aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">"blue"</span>, </span>
 <span id="cb20-11"><a aria-hidden="true" tabindex="-1"></a>                <span class="at">width =</span> <span class="fl">0.2</span>, </span>
-<span id="cb20-12"><a aria-hidden="true" tabindex="-1"></a>                <span class="at">linewidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-12"><a aria-hidden="true" tabindex="-1"></a>                <span class="at">linewidth =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell">
@@ -519,7 +522,7 @@
 <p>Order the bars by proportion</p>
 <p>(Let’s also flip the axes)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
 <span id="cb21-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(do_you_recline) <span class="sc">|&gt;</span> </span>
 <span id="cb21-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb21-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">prop =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n),</span>
@@ -533,7 +536,7 @@
 <span id="cb21-12"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> lower, <span class="at">xmax =</span> upper), </span>
 <span id="cb21-13"><a aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">"blue"</span>, </span>
 <span id="cb21-14"><a aria-hidden="true" tabindex="-1"></a>                <span class="at">width =</span> <span class="fl">0.2</span>, </span>
-<span id="cb21-15"><a aria-hidden="true" tabindex="-1"></a>                <span class="at">linewidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-15"><a aria-hidden="true" tabindex="-1"></a>                <span class="at">linewidth =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell">
@@ -568,7 +571,7 @@
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(<span class="fu">table</span>(flying_etiquette<span class="sc">$</span>do_you_recline))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(<span class="fu">table</span>(flying_etiquette<span class="sc">$</span>do_you_recline))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Chi-squared test for given probabilities
@@ -605,7 +608,7 @@ X-squared = 66.644, df = 4, p-value = 1.159e-13</code></pre>
 </ul>
 <p>How many levels does each variable have?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(flying_etiquette<span class="sc">$</span>do_you_recline)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(flying_etiquette<span class="sc">$</span>do_you_recline)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
               never     once in a while about half the time             usually 
@@ -613,7 +616,7 @@ X-squared = 66.644, df = 4, p-value = 1.159e-13</code></pre>
              always 
                 136 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(flying_etiquette<span class="sc">$</span>rude_to_recline)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(flying_etiquette<span class="sc">$</span>rude_to_recline)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
       no somewhat      yes 
@@ -625,8 +628,8 @@ X-squared = 66.644, df = 4, p-value = 1.159e-13</code></pre>
 <h2>Summarizing 2D categorical data</h2>
 <p>Two-way table (or contingency table, cross tabulation, crosstab)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="st">"Recline?"</span> <span class="ot">=</span> flying_etiquette<span class="sc">$</span>do_you_recline, </span>
-<span id="cb28-2"><a aria-hidden="true" tabindex="-1"></a>      <span class="st">"Rude to reline?"</span> <span class="ot">=</span> flying_etiquette<span class="sc">$</span>rude_to_recline)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="st">"Recline?"</span> <span class="ot">=</span> flying_etiquette<span class="sc">$</span>do_you_recline, </span>
+<span id="cb28-2"><a aria-hidden="true" tabindex="-1"></a>      <span class="st">"Rude to reline?"</span> <span class="ot">=</span> flying_etiquette<span class="sc">$</span>rude_to_recline)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                     Rude to reline?
 Recline?               no somewhat yes
@@ -636,7 +639,7 @@ Recline?               no somewhat yes
   usually             145       27   3
   always              124        9   3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">xtabs</span>(<span class="sc">~</span> do_you_recline <span class="sc">+</span> rude_to_recline, <span class="at">data =</span> flying_etiquette)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">xtabs</span>(<span class="sc">~</span> do_you_recline <span class="sc">+</span> rude_to_recline, <span class="at">data =</span> flying_etiquette)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                     rude_to_recline
 do_you_recline         no somewhat yes
@@ -659,7 +662,7 @@ do_you_recline         no somewhat yes
 </ul>
 <p>Similar to 1D bar charts, start with counting every combination of 2 variables (using <code>count()</code> or <code>group_by()</code> and <code>summarize()</code>), then plot with <code>geom_col()</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># flying_etiquette |&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># flying_etiquette |&gt;</span></span>
 <span id="cb32-2"><a aria-hidden="true" tabindex="-1"></a><span class="co">#   ggplot(aes(x = rude_to_recline,</span></span>
 <span id="cb32-3"><a aria-hidden="true" tabindex="-1"></a><span class="co">#              fill = do_you_recline)) +</span></span>
 <span id="cb32-4"><a aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_bar()</span></span>
@@ -668,7 +671,7 @@ do_you_recline         no somewhat yes
 <span id="cb32-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> rude_to_recline, <span class="at">y =</span> n, </span>
 <span id="cb32-8"><a aria-hidden="true" tabindex="-1"></a>             <span class="co"># filled by the other categorical variable</span></span>
 <span id="cb32-9"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> do_you_recline)) <span class="sc">+</span> </span>
-<span id="cb32-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb32-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell">
@@ -688,11 +691,11 @@ do_you_recline         no somewhat yes
 <div class="column" style="text-align: left;">
 <p>Stacked bar chart (proportion version)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span></span>
 <span id="cb33-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(rude_to_recline, do_you_recline) <span class="sc">|&gt;</span></span>
 <span id="cb33-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> rude_to_recline, <span class="at">y =</span> n, </span>
 <span id="cb33-4"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> do_you_recline)) <span class="sc">+</span></span>
-<span id="cb33-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"fill"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"fill"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell">
@@ -716,11 +719,11 @@ do_you_recline         no somewhat yes
 <li>e.g., <span class="math inline">\(P(\)</span> <code>do_you_recline</code> <span class="math inline">\(=\)</span> <code>always</code> <span class="math inline">\(\mid\)</span> <code>rude_to_recline</code> <span class="math inline">\(=\)</span> <code>somewhat</code> <span class="math inline">\()\)</span></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span></span>
 <span id="cb34-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(rude_to_recline, do_you_recline) <span class="sc">|&gt;</span></span>
 <span id="cb34-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> rude_to_recline, <span class="at">y =</span> n, </span>
 <span id="cb34-4"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> do_you_recline)) <span class="sc">+</span> </span>
-<span id="cb34-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell">
@@ -756,9 +759,9 @@ do_you_recline         no somewhat yes
 </ul>
 </div><div class="column" style="text-align: left;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
 <span id="cb35-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(do_you_recline, rude_to_recline) <span class="sc">|&gt;</span> </span>
-<span id="cb35-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb35-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">table</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                     rude_to_recline
 do_you_recline         no somewhat yes
@@ -768,10 +771,10 @@ do_you_recline         no somewhat yes
   usually             145       27   3
   always              124        9   3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
 <span id="cb37-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(do_you_recline, rude_to_recline) <span class="sc">|&gt;</span> </span>
 <span id="cb37-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">table</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb37-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop.table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb37-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop.table</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                     rude_to_recline
 do_you_recline                 no    somewhat         yes
@@ -788,10 +791,10 @@ do_you_recline                 no    somewhat         yes
 <h2>Joint, marginal, and conditional probabilities</h2>
 <p>Two-way proportion table (the <code>tidyverse</code> way) with <code>pivot_wider</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span></span>
 <span id="cb39-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(rude_to_recline, do_you_recline) <span class="sc">|&gt;</span></span>
 <span id="cb39-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">joint =</span> <span class="fu">n</span>() <span class="sc">/</span> <span class="fu">nrow</span>(flying_etiquette)) <span class="sc">|&gt;</span></span>
-<span id="cb39-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> rude_to_recline, <span class="at">values_from =</span> joint, <span class="at">values_fill =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb39-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> rude_to_recline, <span class="at">values_from =</span> joint, <span class="at">values_fill =</span> <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 4
   do_you_recline          no somewhat     yes
@@ -813,7 +816,7 @@ do_you_recline                 no    somewhat         yes
 <li><p>Annotate tiles with labels of percentages using <code>geom_text()</code> and the <code>scales</code> package (a very neat package)</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span></span>
 <span id="cb41-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(rude_to_recline, do_you_recline) <span class="sc">|&gt;</span></span>
 <span id="cb41-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
 <span id="cb41-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">freq =</span> <span class="fu">n</span>(), </span>
@@ -822,7 +825,7 @@ do_you_recline                 no    somewhat         yes
 <span id="cb41-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> rude_to_recline, <span class="at">y =</span> do_you_recline)) <span class="sc">+</span></span>
 <span id="cb41-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill =</span> freq), <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
 <span id="cb41-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> scales<span class="sc">::</span><span class="fu">percent</span>(joint))) <span class="sc">+</span></span>
-<span id="cb41-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb41-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell">
@@ -853,10 +856,10 @@ do_you_recline                 no    somewhat         yes
 </ul>
 </div><div class="column" style="text-align: left;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
 <span id="cb42-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(rude_to_recline, do_you_recline) <span class="sc">|&gt;</span> </span>
 <span id="cb42-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">table</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb42-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mosaicplot</span>(<span class="at">main =</span> <span class="st">"Relationship between reclining frequency and opinion on rudeness"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb42-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mosaicplot</span>(<span class="at">main =</span> <span class="st">"Relationship between reclining frequency and opinion on rudeness"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure>
@@ -871,9 +874,9 @@ do_you_recline                 no    somewhat         yes
 <h2>Visualizing independence</h2>
 <p>Mosaic plot with <code>ggmosaic</code> package</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
 <span id="cb43-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb43-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_mosaic</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">product</span>(do_you_recline, rude_to_recline), <span class="at">fill =</span> do_you_recline))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb43-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_mosaic</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">product</span>(do_you_recline, rude_to_recline), <span class="at">fill =</span> do_you_recline))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="03-categorical_files/figure-revealjs/unnamed-chunk-33-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
@@ -888,11 +891,11 @@ do_you_recline                 no    somewhat         yes
 <li><p>Test statistic: <span class="math inline">\(\displaystyle \chi^2 = \sum_i^{k_1} \sum_j^{k_2} \frac{(O_{ij} - E_{ij})^2}{E_{ij}}\)</span></p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># chisq.test(table(flying_etiquette$rude_to_recline, flying_etiquette$do_you_recline))</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># chisq.test(table(flying_etiquette$rude_to_recline, flying_etiquette$do_you_recline))</span></span>
 <span id="cb44-2"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
 <span id="cb44-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(rude_to_recline, do_you_recline) <span class="sc">|&gt;</span> </span>
 <span id="cb44-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">table</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb44-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">chisq.test</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb44-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">chisq.test</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Pearson's Chi-squared test
@@ -919,20 +922,20 @@ X-squared = 316.73, df = 8, p-value &lt; 2.2e-16</code></pre>
 <p>Mosaic plots with boxes color-coded by Pearson residuals</p>
 <p>Tells us which combinations of 2 categorical variables (cells) are much higher/lower than expected</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
 <span id="cb46-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(rude_to_recline, do_you_recline) <span class="sc">|&gt;</span> </span>
 <span id="cb46-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">table</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb46-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mosaicplot</span>(<span class="at">main =</span> <span class="st">"Relationship between reclining frequency and opinion on rudeness"</span>, <span class="at">shade =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb46-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mosaicplot</span>(<span class="at">main =</span> <span class="st">"Relationship between reclining frequency and opinion on rudeness"</span>, <span class="at">shade =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="03-categorical_files/figure-revealjs/unnamed-chunk-35-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
 <section id="beyond-2d-facets" class="slide level2">
 <h2>Beyond 2D: facets!</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">%&gt;%</span></span>
 <span id="cb47-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> rude_to_recline, <span class="at">fill =</span> do_you_recline)) <span class="sc">+</span> </span>
 <span id="cb47-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
-<span id="cb47-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> flight_freq)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb47-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> flight_freq)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="03-categorical_files/figure-revealjs/unnamed-chunk-36-1.png" width="1152" class="r-stretch"></section></section>
@@ -945,9 +948,9 @@ X-squared = 316.73, df = 8, p-value &lt; 2.2e-16</code></pre>
 <h2>The <code>janitor</code> package</h2>
 <p>The most popular <code>janitor</code> function is <code>clean_names()</code>… for cleaning column names</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># before</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># before</span></span>
 <span id="cb48-2"><a aria-hidden="true" tabindex="-1"></a>iris <span class="sc">|&gt;</span> </span>
-<span id="cb48-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb48-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 1          5.1         3.5          1.4         0.2  setosa
@@ -957,11 +960,11 @@ X-squared = 316.73, df = 8, p-value &lt; 2.2e-16</code></pre>
 5          5.0         3.6          1.4         0.2  setosa
 6          5.4         3.9          1.7         0.4  setosa</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># after</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># after</span></span>
 <span id="cb50-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
 <span id="cb50-3"><a aria-hidden="true" tabindex="-1"></a>iris <span class="sc">|&gt;</span> </span>
 <span id="cb50-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb50-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb50-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  sepal_length sepal_width petal_length petal_width species
 1          5.1         3.5          1.4         0.2  setosa
@@ -980,8 +983,8 @@ X-squared = 316.73, df = 8, p-value &lt; 2.2e-16</code></pre>
 <div class="column" style="text-align: left;">
 <p><code>tabyl</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
-<span id="cb52-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(do_you_recline)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
+<span id="cb52-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(do_you_recline)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      do_you_recline   n   percent
                never 170 0.1990632
@@ -994,11 +997,11 @@ X-squared = 316.73, df = 8, p-value &lt; 2.2e-16</code></pre>
 </div><div class="column" style="text-align: left;">
 <p><code>adorn_*()</code> functions</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a aria-hidden="true" tabindex="-1"></a>flying_etiquette <span class="sc">|&gt;</span> </span>
 <span id="cb54-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(do_you_recline, rude_to_recline) <span class="sc">|&gt;</span> </span>
 <span id="cb54-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_percentages</span>(<span class="st">"row"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb54-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_pct_formatting</span>(<span class="at">digits =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb54-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_ns</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb54-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_ns</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      do_you_recline           no     somewhat         yes
                never 20.59%  (35) 47.65%  (81) 31.76% (54)
@@ -1324,13 +1327,14 @@ X-squared = 316.73, df = 8, p-value &lt; 2.2e-16</code></pre>
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

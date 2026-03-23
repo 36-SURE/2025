@@ -6,8 +6,8 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.32">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.36">
 
   <meta name="author" content=" Sara Colando &amp; Erin Franke Department of Statistics &amp; Data Science Carnegie Mellon University">
   <title>SURE 2025 – Data wrangling with R’s data.table package</title>
@@ -17,6 +17,9 @@
   <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -95,7 +98,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-97331e35b7c4b061e26f0e6fc4589e47.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-3a0271f90fa8dcc8f0dcc7e20e26ec7f.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -295,7 +298,7 @@
 </ul></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a>pets_dt <span class="ot">&lt;-</span> <span class="fu">rowwiseDT</span>(<span class="at">pet =</span>, <span class="at">n_classes=</span>, <span class="at">hours_hw=</span>, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a>pets_dt <span class="ot">&lt;-</span> <span class="fu">rowwiseDT</span>(<span class="at">pet =</span>, <span class="at">n_classes=</span>, <span class="at">hours_hw=</span>, </span>
 <span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a>                    <span class="st">"cat"</span>, <span class="dv">3</span>, <span class="dv">18</span>, </span>
 <span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a>                    <span class="st">"dog"</span>, <span class="dv">4</span>, <span class="dv">24</span>, </span>
 <span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a>                    <span class="st">"fish"</span>, <span class="dv">2</span>, <span class="dv">10</span>, </span>
@@ -303,7 +306,7 @@
 <span id="cb1-6"><a aria-hidden="true" tabindex="-1"></a>                    <span class="st">"dog"</span>, <span class="dv">1</span>, <span class="dv">8</span>, </span>
 <span id="cb1-7"><a aria-hidden="true" tabindex="-1"></a>                    <span class="st">"cat"</span>, <span class="dv">1</span>, <span class="dv">3</span>, </span>
 <span id="cb1-8"><a aria-hidden="true" tabindex="-1"></a>                    <span class="st">"fish"</span>, <span class="dv">4</span>, <span class="dv">16</span>, </span>
-<span id="cb1-9"><a aria-hidden="true" tabindex="-1"></a>                    <span class="st">"fish"</span>, <span class="dv">1</span>, <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-9"><a aria-hidden="true" tabindex="-1"></a>                    <span class="st">"fish"</span>, <span class="dv">1</span>, <span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
@@ -494,7 +497,7 @@
 <h2><code>fread()</code> and <code>fwrite()</code></h2>
 <p>To (a) read a file into R or (b) save a file to home directory, <code>fread()</code> and <code>fwrite()</code> are efficient and support several file types.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a>pets_dt <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"../data/pets_dt.csv"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a>pets_dt <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"../data/pets_dt.csv"</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Supports:</p>
 <ul>
@@ -509,7 +512,7 @@
 <li><code>nrow</code>: number of rows to read in</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">fread</span>(<span class="st">"../data/pets_dt.csv"</span>, <span class="at">nrow =</span> <span class="dv">3</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">fread</span>(<span class="st">"../data/pets_dt.csv"</span>, <span class="at">nrow =</span> <span class="dv">3</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      pet n_classes hours_hw
    &lt;char&gt;     &lt;int&gt;    &lt;int&gt;
@@ -522,7 +525,7 @@
 <li><code>skip</code>: row number or string match to start reading from</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">fread</span>(<span class="st">"../data/pets_dt.csv"</span>, <span class="at">skip =</span> <span class="st">"fish"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">fread</span>(<span class="st">"../data/pets_dt.csv"</span>, <span class="at">skip =</span> <span class="st">"fish"</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       V1    V2    V3
    &lt;char&gt; &lt;int&gt; &lt;int&gt;
@@ -541,7 +544,7 @@
 <li><code>select</code>: columns to keep</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">fread</span>(<span class="st">"../data/pets_dt.csv"</span>, <span class="at">select =</span> <span class="st">"pet"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">fread</span>(<span class="st">"../data/pets_dt.csv"</span>, <span class="at">select =</span> <span class="st">"pet"</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      pet
    &lt;char&gt;
@@ -559,7 +562,7 @@
 <li><code>drop</code>: columns to remove</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">fread</span>(<span class="st">"../data/pets_dt.csv"</span>, <span class="at">drop =</span> <span class="fu">c</span>(<span class="st">"pet"</span>, <span class="st">"n_classes"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">fread</span>(<span class="st">"../data/pets_dt.csv"</span>, <span class="at">drop =</span> <span class="fu">c</span>(<span class="st">"pet"</span>, <span class="st">"n_classes"</span>)) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   hours_hw
       &lt;int&gt;
@@ -588,12 +591,12 @@
 </ul></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a>pets_dt <span class="ot">&lt;-</span> <span class="fu">rowwiseDT</span>(<span class="at">pet =</span>, <span class="at">n_classes=</span>, <span class="at">hours_hw=</span>, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a>pets_dt <span class="ot">&lt;-</span> <span class="fu">rowwiseDT</span>(<span class="at">pet =</span>, <span class="at">n_classes=</span>, <span class="at">hours_hw=</span>, </span>
 <span id="cb11-2"><a aria-hidden="true" tabindex="-1"></a>                    <span class="st">"cat"</span>, <span class="dv">3</span>, <span class="dv">18</span>, </span>
 <span id="cb11-3"><a aria-hidden="true" tabindex="-1"></a>                    <span class="st">"dog"</span>, <span class="dv">4</span>, <span class="dv">24</span>, </span>
 <span id="cb11-4"><a aria-hidden="true" tabindex="-1"></a>                    <span class="st">"fish"</span>, <span class="dv">2</span>, <span class="dv">10</span>)</span>
 <span id="cb11-5"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-6"><a aria-hidden="true" tabindex="-1"></a><span class="fu">gt</span>(pets_dt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-6"><a aria-hidden="true" tabindex="-1"></a><span class="fu">gt</span>(pets_dt)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="iynwqzvcci" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#iynwqzvcci table {
@@ -1045,7 +1048,7 @@
 }
 </style>
 
-<table class="gt_table caption-top" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top" data-quarto-bootstrap="false">
 <thead>
 <tr class="gt_col_headings header">
 <th id="pet" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">pet</th>
@@ -1080,11 +1083,11 @@
 <h2>Visualizing by a grouping variable</h2>
 <p>Let’s say we are investigating the relationship between <strong>lot area</strong> and <strong>sale price</strong> and we want to see how it varies by driveway pavement.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a>house_prices[, <span class="fu">print</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a>house_prices[, <span class="fu">print</span>(</span>
 <span id="cb12-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(.SD, <span class="fu">aes</span>(<span class="at">x=</span>Lot.Area, <span class="at">y=</span>SalePrice))<span class="sc">+</span></span>
 <span id="cb12-3"><a aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
 <span id="cb12-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_classic</span>()<span class="sc">+</span></span>
-<span id="cb12-5"><a aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="fu">paste</span>(<span class="st">"Paved.Drive:"</span>, Paved.Drive[<span class="dv">1</span>]))), by<span class="ot">=</span>.(Paved.Drive)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-5"><a aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="fu">paste</span>(<span class="st">"Paved.Drive:"</span>, Paved.Drive[<span class="dv">1</span>]))), by<span class="ot">=</span>.(Paved.Drive)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -1100,9 +1103,9 @@
 <h2>Modeling by a grouping variable</h2>
 <p>With <code>data.table</code> we can also create a distinct model for each group. For example, we can fit a linear model for sale price of homes in Iowa (<code>SalePrice</code>) for each neighborhood in the dataset:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a>grouped_models <span class="ot">&lt;-</span> house_prices[, .(<span class="at">mods =</span> <span class="fu">list</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a>grouped_models <span class="ot">&lt;-</span> house_prices[, .(<span class="at">mods =</span> <span class="fu">list</span>(</span>
 <span id="cb13-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(SalePrice <span class="sc">~</span> Lot.Area <span class="sc">+</span> Bedroom.AbvGr <span class="sc">+</span> Full.Bath <span class="sc">+</span> Year.Built<span class="sc">*</span>Yr.Sold, <span class="at">data =</span> .SD))),</span>
-<span id="cb13-3"><a aria-hidden="true" tabindex="-1"></a>  by <span class="ot">=</span> Neighborhood ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-3"><a aria-hidden="true" tabindex="-1"></a>  by <span class="ot">=</span> Neighborhood ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We can then cross-compare the coefficient estimates and p-values for the covariates in our model to see how the differ between neighborhoods:</p>
 <div class="columns">
@@ -1560,7 +1563,7 @@
 }
 </style>
 
-<table class="gt_table caption-top" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top" data-quarto-bootstrap="false">
 <thead>
 <tr class="gt_col_headings header">
 <th id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Characteristic</strong></th>
@@ -2071,7 +2074,7 @@
 }
 </style>
 
-<table class="gt_table caption-top" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top" data-quarto-bootstrap="false">
 <thead>
 <tr class="gt_col_headings header">
 <th id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Characteristic</strong></th>
@@ -2162,13 +2165,13 @@
 <p>Perhaps you have some experience with data wrangling in the <code>tidyverse</code>, but you need the efficiency of <code>data.table</code>.</p>
 <p>The <code>dtplyr</code> allows for <code>data.table</code>-like efficiency while still writing code in tidyverse, with a few small modifications.<sup>1</sup></p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dtplyr)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dtplyr)</span>
 <span id="cb14-2"><a aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a aria-hidden="true" tabindex="-1"></a>house_prices2 <span class="ot">&lt;-</span> <span class="fu">lazy_dt</span>(house_prices) <span class="co"># extra step needed to use dtplyr</span></span>
 <span id="cb14-4"><a aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-5"><a aria-hidden="true" tabindex="-1"></a>house_prices2 <span class="sc">%&gt;%</span></span>
 <span id="cb14-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Lot.Area <span class="sc">&gt;=</span> <span class="dv">10000</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb14-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="co"># extra step needed to use dtplyr</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="co"># extra step needed to use dtplyr</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside><ol class="aside-footnotes"><li id="fn4"><p><a href="https://dtplyr.tidyverse.org">dtplyr reference page</a></p></li></ol></aside></section>
 <section id="so-what-do-we-mean-when-we-say-data.table-is-computationally-efficient" class="slide level2">
@@ -2523,13 +2526,14 @@
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

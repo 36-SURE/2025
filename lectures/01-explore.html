@@ -6,8 +6,8 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.32">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.36">
 
   <title>SURE 2025 – Exploring data: into the tidyverse</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -16,6 +16,9 @@
   <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -94,7 +97,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-97331e35b7c4b061e26f0e6fc4589e47.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-3a0271f90fa8dcc8f0dcc7e20e26ec7f.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -276,24 +279,24 @@
 <li>Import <code>Batting</code> table of historical batting statistics from the <code>Lahman</code></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># load the tidyverse</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># load the tidyverse</span></span>
 <span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Lahman) <span class="co"># load the Lahman package to access its datasets</span></span>
-<span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a>Batting <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(Batting) <span class="co"># initialize the Batting dataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a>Batting <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(Batting) <span class="co"># initialize the Batting dataset</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="fragment">
 <ul>
 <li>Basic info about the <code>Batting</code> dataset</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># number of rows and columns</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># number of rows and columns</span></span>
 <span id="cb2-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># can also do nrow(Batting) and ncol(Batting)</span></span>
-<span id="cb2-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(Batting) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(Batting) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 113799     22</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(Batting)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(Batting)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "tbl_df"     "tbl"        "data.frame"</code></pre>
 </div>
@@ -309,9 +312,9 @@
 <li>View the first 6 (by default) rows with <code>head()</code></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># try just typing Batting into your console, what happens?</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># try just typing Batting into your console, what happens?</span></span>
 <span id="cb6-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># also try glimpse(Batting)</span></span>
-<span id="cb6-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Batting) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Batting) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 22
   playerID  yearID stint teamID lgID      G    AB     R     H   X2B   X3B    HR
@@ -342,7 +345,7 @@
 <li>Summary statistics for quantitative variables with the <code>summary()</code> function</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Batting<span class="sc">$</span>G)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Batting<span class="sc">$</span>G)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
    1.00   12.00   34.00   50.38   78.00  165.00 </code></pre>
@@ -352,9 +355,9 @@
 <li>Counts of categorical variables with the <code>table()</code> function</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># be careful it ignores NA values</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># be careful it ignores NA values</span></span>
 <span id="cb10-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># can do table(Batting$lgID, useNA = "always")</span></span>
-<span id="cb10-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Batting<span class="sc">$</span>lgID)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Batting<span class="sc">$</span>lgID)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
    AA    AL    FL    NA    NL    PL    UA 
@@ -394,7 +397,7 @@
 <h2><code>filter()</code></h2>
 <p>Example: Extract batting stats for 2 leagues AL and NL only</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(Batting, lgID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"AL"</span>, <span class="st">"NL"</span>)) <span class="co"># or filter(Batting, lgID == "AL" | lgID == "NL")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(Batting, lgID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"AL"</span>, <span class="st">"NL"</span>)) <span class="co"># or filter(Batting, lgID == "AL" | lgID == "NL")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 110,214 × 22
    playerID  yearID stint teamID lgID      G    AB     R     H   X2B   X3B    HR
@@ -419,8 +422,8 @@
 <h2><code>filter()</code></h2>
 <p>Example: Extract batting stats for Pirates players in 2022</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># multiple conditions</span></span>
-<span id="cb14-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(Batting, yearID <span class="sc">==</span> <span class="dv">2022</span> <span class="sc">&amp;</span> teamID <span class="sc">==</span> <span class="st">"PIT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># multiple conditions</span></span>
+<span id="cb14-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(Batting, yearID <span class="sc">==</span> <span class="dv">2022</span> <span class="sc">&amp;</span> teamID <span class="sc">==</span> <span class="st">"PIT"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 68 × 22
    playerID  yearID stint teamID lgID      G    AB     R     H   X2B   X3B    HR
@@ -474,11 +477,11 @@
 </ul>
 <p>nay</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(Batting, <span class="at">team =</span> <span class="st">"PIT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(Batting, <span class="at">team =</span> <span class="st">"PIT"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>yay</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(Batting, team <span class="sc">==</span> <span class="st">"PIT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(Batting, team <span class="sc">==</span> <span class="st">"PIT"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <ul>
@@ -486,11 +489,11 @@
 </ul>
 <p>nay</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(Batting, team <span class="sc">==</span> PIT)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(Batting, team <span class="sc">==</span> PIT)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>yay</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(Batting, team <span class="sc">==</span> <span class="st">"PIT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(Batting, team <span class="sc">==</span> <span class="st">"PIT"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div></div>
 </section>
@@ -501,7 +504,7 @@
 <li><p><strong>Just simply specify the column names…</strong></p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(Batting, playerID, yearID, G, AB, R, H, HR, BB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(Batting, playerID, yearID, G, AB, R, H, HR, BB)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 113,799 × 8
    playerID  yearID     G    AB     R     H    HR    BB
@@ -535,7 +538,7 @@
 <h2><code>mutate()</code></h2>
 <p>Example: Get the batting average and strikeout-to-walk ratio for every player</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(Batting, <span class="at">batting_avg =</span> H <span class="sc">/</span> AB, <span class="at">so_bb_ratio =</span> SO <span class="sc">/</span> BB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(Batting, <span class="at">batting_avg =</span> H <span class="sc">/</span> AB, <span class="at">so_bb_ratio =</span> SO <span class="sc">/</span> BB)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 113,799 × 24
    playerID  yearID stint teamID lgID      G    AB     R     H   X2B   X3B    HR
@@ -568,7 +571,7 @@
 <div class="fragment">
 <p>Example: Who holds the single-season home run record?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(Batting, <span class="fu">desc</span>(HR)) <span class="co"># desc() for descending order</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(Batting, <span class="fu">desc</span>(HR)) <span class="co"># desc() for descending order</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 113,799 × 22
    playerID  yearID stint teamID lgID      G    AB     R     H   X2B   X3B    HR
@@ -594,7 +597,7 @@
 <h2><code>arrange()</code></h2>
 <p>Example: arrange by multiple columns — at bats from high to low (first sort), then home runs from low to high (second sort) — variable order matters</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(Batting, <span class="fu">desc</span>(AB), HR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(Batting, <span class="fu">desc</span>(AB), HR)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 113,799 × 22
    playerID  yearID stint teamID lgID      G    AB     R     H   X2B   X3B    HR
@@ -648,14 +651,14 @@
 <li><p>The pipe takes an object (e.g., tibble, data frame, matrix, vector, etc.) on the left and passes it as the first argument of the function on the right</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># the workflow</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># the workflow</span></span>
 <span id="cb28-2"><a aria-hidden="true" tabindex="-1"></a>object <span class="sc">|&gt;</span></span>
 <span id="cb28-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">first_operation</span>(...) <span class="sc">|&gt;</span></span>
 <span id="cb28-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">second_operation</span>(...) <span class="sc">|&gt;</span> </span>
 <span id="cb28-5"><a aria-hidden="true" tabindex="-1"></a>  .</span>
 <span id="cb28-6"><a aria-hidden="true" tabindex="-1"></a>  .</span>
 <span id="cb28-7"><a aria-hidden="true" tabindex="-1"></a>  .</span>
-<span id="cb28-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">last_operation</span>(...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">last_operation</span>(...)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="performing-multiple-operations-1" class="slide level2">
@@ -676,11 +679,11 @@
 <section id="performing-multiple-operations-2" class="slide level2">
 <h2>Performing multiple operations</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a aria-hidden="true" tabindex="-1"></a>Batting <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a aria-hidden="true" tabindex="-1"></a>Batting <span class="sc">|&gt;</span> </span>
 <span id="cb29-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">2022</span>, teamID <span class="sc">==</span> <span class="st">"PIT"</span>, AB <span class="sc">&gt;=</span> <span class="dv">50</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb29-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">batting_avg =</span> H <span class="sc">/</span> AB) <span class="sc">|&gt;</span> </span>
 <span id="cb29-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(batting_avg)) <span class="sc">|&gt;</span> </span>
-<span id="cb29-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(playerID, AB, batting_avg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(playerID, AB, batting_avg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 23 × 3
    playerID     AB batting_avg
@@ -701,8 +704,8 @@
 <div class="fragment">
 <p>Without the pipe, the code looks every ugly with functions nested within functions…</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(<span class="fu">arrange</span>(<span class="fu">mutate</span>(<span class="fu">filter</span>(Batting, yearID <span class="sc">==</span> <span class="dv">2022</span>, teamID <span class="sc">==</span> <span class="st">"PIT"</span>, AB <span class="sc">&gt;=</span> <span class="dv">50</span>), <span class="at">batting_avg =</span> H <span class="sc">/</span> AB), </span>
-<span id="cb31-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">desc</span>(batting_avg)), playerID, AB, batting_avg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(<span class="fu">arrange</span>(<span class="fu">mutate</span>(<span class="fu">filter</span>(Batting, yearID <span class="sc">==</span> <span class="dv">2022</span>, teamID <span class="sc">==</span> <span class="st">"PIT"</span>, AB <span class="sc">&gt;=</span> <span class="dv">50</span>), <span class="at">batting_avg =</span> H <span class="sc">/</span> AB), </span>
+<span id="cb31-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">desc</span>(batting_avg)), playerID, AB, batting_avg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -713,16 +716,16 @@
 <li><p>Useful for computing summaries (e.g., mean, median, max, min, correlation, etc.)</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a aria-hidden="true" tabindex="-1"></a>Batting <span class="sc">|&gt;</span> </span>
-<span id="cb32-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">median_at_bats =</span> <span class="fu">median</span>(AB))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a aria-hidden="true" tabindex="-1"></a>Batting <span class="sc">|&gt;</span> </span>
+<span id="cb32-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">median_at_bats =</span> <span class="fu">median</span>(AB))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
   median_at_bats
            &lt;int&gt;
 1             44</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a aria-hidden="true" tabindex="-1"></a>Batting <span class="sc">|&gt;</span> </span>
-<span id="cb34-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">cor_ab_hr =</span> <span class="fu">cor</span>(AB, HR))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a aria-hidden="true" tabindex="-1"></a>Batting <span class="sc">|&gt;</span> </span>
+<span id="cb34-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">cor_ab_hr =</span> <span class="fu">cor</span>(AB, HR))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
   cor_ab_hr
@@ -746,11 +749,11 @@
 <h2><code>group_by()</code> and <code>summarize()</code></h2>
 <p>Example: How many home runs, strike outs, and walks did each team accumulate in each season from 2015 to 2019?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a aria-hidden="true" tabindex="-1"></a>Batting <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a aria-hidden="true" tabindex="-1"></a>Batting <span class="sc">|&gt;</span> </span>
 <span id="cb36-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(yearID <span class="sc">%in%</span> <span class="dv">2015</span><span class="sc">:</span><span class="dv">2019</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb36-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(teamID) <span class="sc">|&gt;</span> </span>
 <span id="cb36-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total_hr =</span> <span class="fu">sum</span>(HR), <span class="at">total_so =</span> <span class="fu">sum</span>(SO), <span class="at">total_bb =</span> <span class="fu">sum</span>(BB)) <span class="sc">|&gt;</span> </span>
-<span id="cb36-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total_hr))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb36-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total_hr))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 30 × 4
    teamID total_hr total_so total_bb
@@ -780,8 +783,8 @@
 <div class="column" style="text-align: left;">
 <p><code>count()</code> returns the number of observations in each group</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a aria-hidden="true" tabindex="-1"></a>Batting <span class="sc">|&gt;</span> </span>
-<span id="cb38-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(lgID, <span class="at">name =</span> <span class="st">"freq"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a aria-hidden="true" tabindex="-1"></a>Batting <span class="sc">|&gt;</span> </span>
+<span id="cb38-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(lgID, <span class="at">name =</span> <span class="st">"freq"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 7 × 2
   lgID   freq
@@ -796,8 +799,8 @@
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># recall that in base R...</span></span>
-<span id="cb40-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Batting<span class="sc">$</span>lgID)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># recall that in base R...</span></span>
+<span id="cb40-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Batting<span class="sc">$</span>lgID)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
    AA    AL    FL    NA    NL    PL    UA 
@@ -807,11 +810,11 @@
 </div><div class="column" style="text-align: left;">
 <p>This can also be done with <code>group_by()</code> and <code>summarize()</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># note: count is a "shortcut" of this</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># note: count is a "shortcut" of this</span></span>
 <span id="cb42-2"><a aria-hidden="true" tabindex="-1"></a>Batting <span class="sc">|&gt;</span> </span>
 <span id="cb42-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(lgID) <span class="sc">|&gt;</span> </span>
 <span id="cb42-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">freq =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span> </span>
-<span id="cb42-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb42-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 7 × 2
   lgID   freq
@@ -833,8 +836,8 @@
 <li><code>slice()</code>: extract rows (observations) based on the row index</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a aria-hidden="true" tabindex="-1"></a>Batting <span class="sc">|&gt;</span> </span>
-<span id="cb44-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">99</span>, <span class="dv">101</span>, <span class="dv">500</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a aria-hidden="true" tabindex="-1"></a>Batting <span class="sc">|&gt;</span> </span>
+<span id="cb44-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">99</span>, <span class="dv">101</span>, <span class="dv">500</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 22
   playerID  yearID stint teamID lgID      G    AB     R     H   X2B   X3B    HR
@@ -854,9 +857,9 @@
 <li><code>slice_head()</code> / <code>slice_tail()</code>: extract the first / last <code>n</code> rows</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Batting |&gt; slice_tail(n = 5)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Batting |&gt; slice_tail(n = 5)</span></span>
 <span id="cb46-2"><a aria-hidden="true" tabindex="-1"></a>Batting <span class="sc">|&gt;</span> </span>
-<span id="cb46-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb46-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 22
   playerID  yearID stint teamID lgID      G    AB     R     H   X2B   X3B    HR
@@ -877,9 +880,9 @@
 <li><code>slice_min()</code> / <code>slice_max()</code>: extract rows with the smallest or largest values of a variable</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># single-season home run record (top 5)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># single-season home run record (top 5)</span></span>
 <span id="cb48-2"><a aria-hidden="true" tabindex="-1"></a>Batting <span class="sc">|&gt;</span> </span>
-<span id="cb48-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(HR, <span class="at">n =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb48-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(HR, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 22
   playerID  yearID stint teamID lgID      G    AB     R     H   X2B   X3B    HR
@@ -901,13 +904,13 @@
 </ul>
 <p><strong>Useful for performing resampling (e.g., bootstrap, cross-validation, etc.)</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># randomly sample 1000 rows (without replacement, by default)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># randomly sample 1000 rows (without replacement, by default)</span></span>
 <span id="cb50-2"><a aria-hidden="true" tabindex="-1"></a>Batting <span class="sc">|&gt;</span> </span>
 <span id="cb50-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">1000</span>)</span>
 <span id="cb50-4"><a aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb50-5"><a aria-hidden="true" tabindex="-1"></a><span class="co"># randomly sample 70% of the rows, with replacement</span></span>
 <span id="cb50-6"><a aria-hidden="true" tabindex="-1"></a>Batting <span class="sc">|&gt;</span> </span>
-<span id="cb50-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">prop =</span> <span class="fl">0.7</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb50-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">prop =</span> <span class="fl">0.7</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="putting-it-all-together" class="slide level2">
@@ -920,7 +923,7 @@
 </ul>
 <div class="fragment">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a aria-hidden="true" tabindex="-1"></a>yearly_batting <span class="ot">&lt;-</span> Batting <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a aria-hidden="true" tabindex="-1"></a>yearly_batting <span class="ot">&lt;-</span> Batting <span class="sc">|&gt;</span></span>
 <span id="cb51-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(lgID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"AL"</span>, <span class="st">"NL"</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb51-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(yearID) <span class="sc">|&gt;</span></span>
 <span id="cb51-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total_h =</span> <span class="fu">sum</span>(H, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
@@ -928,7 +931,7 @@
 <span id="cb51-6"><a aria-hidden="true" tabindex="-1"></a>            <span class="at">total_so =</span> <span class="fu">sum</span>(SO, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb51-7"><a aria-hidden="true" tabindex="-1"></a>            <span class="at">total_bb =</span> <span class="fu">sum</span>(BB, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb51-8"><a aria-hidden="true" tabindex="-1"></a>            <span class="at">total_ab =</span> <span class="fu">sum</span>(AB, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb51-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">batting_avg =</span> total_h <span class="sc">/</span> total_ab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb51-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">batting_avg =</span> total_h <span class="sc">/</span> total_ab)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -937,8 +940,8 @@
 <p>What are the top three years with the most HRs?</p>
 <div class="fragment">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a aria-hidden="true" tabindex="-1"></a>yearly_batting <span class="sc">|&gt;</span> </span>
-<span id="cb52-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(total_hr, <span class="at">n =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a aria-hidden="true" tabindex="-1"></a>yearly_batting <span class="sc">|&gt;</span> </span>
+<span id="cb52-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(total_hr, <span class="at">n =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 7
   yearID total_h total_hr total_so total_bb total_ab batting_avg
@@ -949,10 +952,10 @@
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># or this </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># or this </span></span>
 <span id="cb54-2"><a aria-hidden="true" tabindex="-1"></a>yearly_batting <span class="sc">|&gt;</span></span>
 <span id="cb54-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total_hr)) <span class="sc">|&gt;</span></span>
-<span id="cb54-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb54-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 7
   yearID total_h total_hr total_so total_bb total_ab batting_avg
@@ -969,10 +972,10 @@
 <p>Which years have the best and worst strikeout to walk ratios?</p>
 <div class="fragment">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a aria-hidden="true" tabindex="-1"></a>yearly_batting <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a aria-hidden="true" tabindex="-1"></a>yearly_batting <span class="sc">|&gt;</span></span>
 <span id="cb56-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">so_bb_ratio =</span> total_so <span class="sc">/</span> total_bb) <span class="sc">|&gt;</span></span>
 <span id="cb56-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(so_bb_ratio) <span class="sc">|&gt;</span></span>
-<span id="cb56-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="fu">n</span>()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb56-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="fu">n</span>()))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 8
   yearID total_h total_hr total_so total_bb total_ab batting_avg so_bb_ratio
@@ -1320,13 +1323,14 @@
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

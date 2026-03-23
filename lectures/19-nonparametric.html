@@ -6,8 +6,8 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.32">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.36">
 
   <meta name="author" content=" SURE 2025 Department of Statistics &amp; Data Science Carnegie Mellon University">
   <title>SURE 2025 – Supervised learning: nonparametric regression</title>
@@ -17,6 +17,9 @@
   <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -95,7 +98,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-97331e35b7c4b061e26f0e6fc4589e47.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-3a0271f90fa8dcc8f0dcc7e20e26ec7f.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -565,13 +568,13 @@
 <li><p>Example data collected for the entire month of May 2024</p></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a>savant <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/36-SURE/2025/main/data/savant.csv"</span>)</span>
 <span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a>batted_balls <span class="ot">&lt;-</span> savant <span class="sc">|&gt;</span> </span>
 <span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(type <span class="sc">==</span> <span class="st">"X"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb1-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">is_hr =</span> <span class="fu">as.numeric</span>(events <span class="sc">==</span> <span class="st">"home_run"</span>)) <span class="sc">|&gt;</span> </span>
 <span id="cb1-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(launch_angle), <span class="sc">!</span><span class="fu">is.na</span>(launch_speed), <span class="sc">!</span><span class="fu">is.na</span>(is_hr))</span>
-<span id="cb1-7"><a aria-hidden="true" tabindex="-1"></a><span class="co"># glimpse(batted_balls)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-7"><a aria-hidden="true" tabindex="-1"></a><span class="co"># glimpse(batted_balls)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="predicting-hrs-with-launch-angle-and-exit-velocity" class="slide level2">
@@ -580,11 +583,11 @@
 <div class="columns">
 <div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a>batted_balls <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a>batted_balls <span class="sc">|&gt;</span> </span>
 <span id="cb2-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> launch_speed, </span>
 <span id="cb2-3"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> launch_angle, </span>
 <span id="cb2-4"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="fu">as.factor</span>(is_hr))) <span class="sc">+</span></span>
-<span id="cb2-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
@@ -604,7 +607,7 @@
 <div class="columns">
 <div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a>batted_balls <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a>batted_balls <span class="sc">|&gt;</span> </span>
 <span id="cb3-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(</span>
 <span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">launch_angle_bucket =</span> <span class="fu">round</span>(launch_angle <span class="sc">*</span> <span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span>) <span class="sc">/</span> <span class="dv">2</span>,</span>
 <span id="cb3-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">launch_speed_bucket =</span> <span class="fu">round</span>(launch_speed <span class="sc">*</span> <span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span>) <span class="sc">/</span> <span class="dv">2</span></span>
@@ -620,7 +623,7 @@
 <span id="cb3-14"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">percent_format</span>(),</span>
 <span id="cb3-15"><a aria-hidden="true" tabindex="-1"></a>                       <span class="at">low =</span> <span class="st">"blue"</span>, </span>
 <span id="cb3-16"><a aria-hidden="true" tabindex="-1"></a>                       <span class="at">high =</span> <span class="st">"red"</span>, </span>
-<span id="cb3-17"><a aria-hidden="true" tabindex="-1"></a>                       <span class="at">midpoint =</span> <span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-17"><a aria-hidden="true" tabindex="-1"></a>                       <span class="at">midpoint =</span> <span class="fl">0.2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="text-align: left;">
 <div class="cell" data-layout-align="center">
@@ -645,11 +648,11 @@
 <li>Fit the model with smoothing spline functions <code>s()</code></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mgcv)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mgcv)</span>
 <span id="cb4-2"><a aria-hidden="true" tabindex="-1"></a>hr_gam <span class="ot">&lt;-</span> <span class="fu">gam</span>(is_hr <span class="sc">~</span> <span class="fu">s</span>(launch_speed) <span class="sc">+</span> <span class="fu">s</span>(launch_angle),</span>
 <span id="cb4-3"><a aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> binomial,</span>
 <span id="cb4-4"><a aria-hidden="true" tabindex="-1"></a>              <span class="at">method =</span> <span class="st">"REML"</span>, <span class="co"># more stable solution than default</span></span>
-<span id="cb4-5"><a aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> batted_balls)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-5"><a aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> batted_balls)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -661,10 +664,10 @@
 <li><p>In a smoothing spline, different choices of <span class="math inline">\(\lambda\)</span> correspond to different values of the edf, representing different amounts of smoothness</p></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># summary(hr_gam)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># summary(hr_gam)</span></span>
 <span id="cb5-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
 <span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a><span class="co"># glance(hr_gam)</span></span>
-<span id="cb5-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(hr_gam)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(hr_gam)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 5
   term              edf ref.df statistic p.value
@@ -672,7 +675,7 @@
 1 s(launch_speed)  1.00   1.00      804.       0
 2 s(launch_angle)  3.73   3.98      468.       0</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(hr_gam, <span class="at">parametric =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(hr_gam, <span class="at">parametric =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 5
   term        estimate std.error statistic p.value
@@ -685,8 +688,8 @@
 <h2>Visualize partial response functions</h2>
 <p>Display the partial effect of each term in the model and how they add up to the overall prediction</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gratia)</span>
-<span id="cb9-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">draw</span>(hr_gam)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gratia)</span>
+<span id="cb9-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">draw</span>(hr_gam)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="19-nonparametric_files/figure-revealjs/unnamed-chunk-15-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1440"></section>
@@ -696,20 +699,20 @@
 <li>10-fold cross-validation: assigning games to folds</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">25</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">25</span>)</span>
 <span id="cb10-2"><a aria-hidden="true" tabindex="-1"></a>N_FOLDS <span class="ot">&lt;-</span> <span class="dv">10</span></span>
 <span id="cb10-3"><a aria-hidden="true" tabindex="-1"></a>games_folds <span class="ot">&lt;-</span> batted_balls <span class="sc">|&gt;</span> </span>
 <span id="cb10-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(game_date, home_team, away_team) <span class="sc">|&gt;</span></span>
 <span id="cb10-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fold =</span> <span class="fu">sample</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>N_FOLDS, <span class="at">length.out =</span> <span class="fu">n</span>())))</span>
 <span id="cb10-6"><a aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-7"><a aria-hidden="true" tabindex="-1"></a>batted_balls <span class="ot">&lt;-</span> batted_balls <span class="sc">|&gt;</span> </span>
-<span id="cb10-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(games_folds, <span class="at">by =</span> <span class="fu">join_by</span>(game_date, home_team, away_team))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(games_folds, <span class="at">by =</span> <span class="fu">join_by</span>(game_date, home_team, away_team))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="cross-validation" class="slide level2">
 <h2>Cross-validation</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a>hr_cv <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a>hr_cv <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
 <span id="cb11-2"><a aria-hidden="true" tabindex="-1"></a>  hr_train <span class="ot">&lt;-</span> batted_balls <span class="sc">|&gt;</span> <span class="fu">filter</span>(fold <span class="sc">!=</span> x)</span>
 <span id="cb11-3"><a aria-hidden="true" tabindex="-1"></a>  hr_test <span class="ot">&lt;-</span> batted_balls <span class="sc">|&gt;</span> <span class="fu">filter</span>(fold <span class="sc">==</span> x)</span>
 <span id="cb11-4"><a aria-hidden="true" tabindex="-1"></a>  </span>
@@ -730,7 +733,7 @@
 <span id="cb11-19"><a aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb11-20"><a aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-21"><a aria-hidden="true" tabindex="-1"></a>hr_preds <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span>N_FOLDS, hr_cv) <span class="sc">|&gt;</span> </span>
-<span id="cb11-22"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">list_rbind</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-22"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">list_rbind</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="out-of-sample-comparison" class="slide level2">
@@ -740,7 +743,7 @@
 <li><p>Especially since smooth functions can just capture linear models</p></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a>hr_preds <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a>hr_preds <span class="sc">|&gt;</span> </span>
 <span id="cb12-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> gam_pred<span class="sc">:</span>logit_pred, </span>
 <span id="cb12-3"><a aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"model"</span>, </span>
 <span id="cb12-4"><a aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"test_pred"</span>) <span class="sc">|&gt;</span> </span>
@@ -749,7 +752,7 @@
 <span id="cb12-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">accuracy =</span> <span class="fu">mean</span>(test_pred_class <span class="sc">==</span> test_actual)) <span class="sc">|&gt;</span> </span>
 <span id="cb12-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(model) <span class="sc">|&gt;</span> </span>
 <span id="cb12-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">cv_accuracy =</span> <span class="fu">mean</span>(accuracy),</span>
-<span id="cb12-10"><a aria-hidden="true" tabindex="-1"></a>            <span class="at">se_accuracy =</span> <span class="fu">sd</span>(accuracy) <span class="sc">/</span> <span class="fu">sqrt</span>(N_FOLDS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-10"><a aria-hidden="true" tabindex="-1"></a>            <span class="at">se_accuracy =</span> <span class="fu">sd</span>(accuracy) <span class="sc">/</span> <span class="fu">sqrt</span>(N_FOLDS))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 3
   model      cv_accuracy se_accuracy
@@ -762,12 +765,12 @@
 <section id="appendix-code-to-build-dataset" class="slide level2">
 <h2>Appendix: code to build dataset</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># pip install pybaseball</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># pip install pybaseball</span></span>
 <span id="cb14-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># dictionary: https://baseballsavant.mlb.com/csv-docs</span></span>
 <span id="cb14-3"><a aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb14-4"><a aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pybaseball <span class="im">import</span> statcast</span>
 <span id="cb14-5"><a aria-hidden="true" tabindex="-1"></a>savant <span class="op">=</span> statcast(start_dt<span class="op">=</span><span class="st">'2025-05-01'</span>, end_dt<span class="op">=</span><span class="st">'2025-05-31'</span>)</span>
-<span id="cb14-6"><a aria-hidden="true" tabindex="-1"></a>savant.to_csv(<span class="st">'savant.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-6"><a aria-hidden="true" tabindex="-1"></a>savant.to_csv(<span class="st">'savant.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 
@@ -1075,13 +1078,14 @@
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy
